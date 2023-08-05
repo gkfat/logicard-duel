@@ -3,6 +3,17 @@
     <!-- Game Init -->
     <template v-if="gameState === enumGameState.Init">
       <DialogComponent :dialogs="dialogs.opening"></DialogComponent>
+      <div class="social mb-3">
+        <a type="button" class="system-btn social-item" @click="openGithub()">
+          <img class="img-fluid" :src="require(`@/assets/images/github.png`)">
+        </a>
+        <a type="button" class="system-btn social-item" @click="openMail()">
+          <img class="img-fluid" :src="require(`@/assets/images/mail.png`)">
+        </a>
+        <div type="button" class="system-btn social-item" @click="openRank()">
+          <img class="img-fluid" :src="require(`@/assets/images/rank.png`)">
+        </div>
+      </div>
       <button type="button" class="w-100 system-btn mb-3" @click="start()">開始冒險</button>
     </template>
 
@@ -87,6 +98,22 @@ const dialogs = {
   opening: DIALOGS[enumDialog.Opening],
   gameStart: DIALOGS[enumDialog.GameStart],
   gameEnd: DIALOGS[enumDialog.GameEnd],
+}
+
+const openGithub = async () => {
+  await Sound.playSound(Audios.click);
+  window.open('https://github.com/gkfat/logicard-duel/', '_blank');
+}
+
+const openMail = async () => {
+  await Sound.playSound(Audios.click);
+  window.open('mailto:gkgkdesign@gmail.com', '_blank');
+}
+
+// 打開排行榜
+const openRank = async () => {
+  await Sound.playSound(Audios.click);
+  store.dispatch(StoreAction.switchRank);
 }
 
 const start = async () => {
@@ -209,6 +236,17 @@ const confirmCharacter = async () => {
   }
 }
 
+.social {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  &-item {
+    width: 60px;
+    height: 60px;
+  }
+}
 .table {
   .text {
     color: var(--darkblue);

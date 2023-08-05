@@ -19,6 +19,7 @@
   font-size: 1.2rem;
   position: relative;
   cursor: pointer;
+  min-height: 50px;
   overflow: hidden;
   // 跳過
   &-skip {

@@ -1,5 +1,5 @@
 <template>
-  <div class="header w-100 container-fluid p-1 d-flex justify-content-center align-center">
+  <div id="header" class="w-100 container-fluid p-1 d-flex justify-content-center align-center">
     <h1 class="h6 m-0">LogiCard Duel</h1>
   </div>
 </template>
@@ -16,7 +16,7 @@ const store = useStore();
 </script>
 
 <style lang="scss" scoped>
-.header {
+#header {
   position: relative;
   background-color: var(--darkblue);
   color: var(--white);
