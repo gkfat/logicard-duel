@@ -1,0 +1,28 @@
+<template>
+  <div class="notfound-page container-fluid d-flex justify-content-center align-items-center">
+    <div class="pt-5">
+      <p class="h3 text-center">你迷路了！</p>
+      <p class="h5 text-center">即將跳轉回首頁...</p>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { useStore } from 'vuex';
+import { StoreAction } from '@/store/storeActions';
+import { useRouter} from 'vue-router';
+import { onMounted } from 'vue';
+
+const store = useStore();
+const router = useRouter();
+onMounted(() => {
+    store.dispatch(StoreAction.switchSpinner, false);
+    setTimeout(() => router.push('/'), 2000);
+  });
+</script>
+
+<style scoped lang="scss">
+.notfound-page {
+  flex-wrap: wrap;
+}
+</style>
