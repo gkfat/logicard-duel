@@ -1,5 +1,5 @@
 {
-  "name": "gkbot-marathon",
+  "name": "logicard-duel",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -31,5 +31,6 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "typescript": "~4.1.5"
-  }
+  },
+  "homepage": "./"
 }
