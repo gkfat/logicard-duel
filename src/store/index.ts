@@ -188,6 +188,7 @@ export default createStore({
     },
     /** 玩家喃喃自語 */
     playerMumble(state, payload: { type: enumMumbleType, delay: number }) {
+      console.log(`[player mumble]`)
       const mumbleList = state.player.Character.MumbleList[payload.type];
       const randomIndex = Util.getRandomInt(0, mumbleList.length);
       if (mumbleList.length > 0 && !state.mumbling.player) {
@@ -208,6 +209,7 @@ export default createStore({
     },
     /** 敵人喃喃自語 */
     enemyMumble(state, payload: { type: enumMumbleType, delay: number }) {
+      console.log(`[enemy mumble]`)
       const mumbleList = state.enemy.Character.MumbleList[payload.type];
       const randomIndex = Util.getRandomInt(0, mumbleList.length);
       if (mumbleList.length > 0 && !state.mumbling.enemy) {

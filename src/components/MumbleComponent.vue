@@ -44,9 +44,6 @@ const store = useStore();
   word-break: break-all;
   z-index: 1;
   color: var(--darkblue);
-  p {
-    line-height: 1.2rem;
-  }
 }
 .arrow {
   position: absolute;
