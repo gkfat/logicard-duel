@@ -1,4 +1,5 @@
 export const StoreAction = {
+    initSounds: 'initSounds',
     changeGameState: 'changeGameState',
     selectCharacter: 'selectCharacter',
     generateEnemy: 'generateEnemy',

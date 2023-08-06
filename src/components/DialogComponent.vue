@@ -1,6 +1,5 @@
 <template>
-  <div class="dialog-text">
-    <p class="system-text">系統提示</p>
+  <div class="dialog-text mb-3">
     <template v-for="(dialog, i) in props.dialogs">
       <p class="m-0" :class="{ 'mb-3' : i !== props.dialogs.length - 1 }">{{ dialog }}</p>
     </template>
@@ -19,9 +18,8 @@ const props = defineProps<{ dialogs: string[] }>();
   padding: 20px 10px;
   position: relative;
   border-radius: 10px;
-  margin: 15px 0;
+  overflow-y: scroll;
   flex-grow: 1;
-  font-size: 1.1rem;
   color: var(--darkblue);
 }
 #shop, #backpack, #rank {

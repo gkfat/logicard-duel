@@ -13,17 +13,19 @@
 import { StoreAction } from '@/store/storeActions';
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
-import { Audios, Sound } from '@/service/sounds';
+import { Sound } from '@/service/sounds';
 
 const store = useStore();
+const sounds = computed(() => store.getters.sounds);
+
 // 打開排行榜
 const openRank = async () => {
-  await Sound.playSound(Audios.click);
+  await Sound.playSound(sounds.value.click);
   store.dispatch(StoreAction.switchRank);
 }
 // 打開背包
 const openBackpack = async () => {
-  await Sound.playSound(Audios.click);
+  await Sound.playSound(sounds.value.click);
   store.dispatch(StoreAction.switchBackpack);
 }
 </script>

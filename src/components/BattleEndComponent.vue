@@ -32,7 +32,7 @@ import CardComponent from './CardComponent.vue';
 import DialogComponent from './DialogComponent.vue';
 import PlayerStatusComponent from './PlayerStatusComponent.vue';
 import Util from '@/service/util';
-import { Audios, Sound } from '@/service/sounds';
+import { Sound } from '@/service/sounds';
 import { DIALOGS, ITEM } from '@/data';
 
 const store = useStore();
@@ -40,6 +40,7 @@ const player = computed(() => store.getters.player as Player);
 const enemy = computed(() => store.getters.enemy as Player);
 const shop = computed(() => store.getters.shop as Item[]);
 const earnCoin = ref(0);
+const sounds = computed(() => store.getters.sounds);
 
 const dialogs = DIALOGS[enumDialog.BattleEnd];
 
@@ -89,7 +90,7 @@ const switchItem = (who: string, item: Item, i: number) => {
 const goRest = async () => {
   const confirmBox = confirm('離開後就無法取回機器人殘骸裡的卡牌了，確定嗎？');
   if (confirmBox) {
-    await Sound.playSound(Audios.click);
+    await Sound.playSound(sounds.value.click);
     store.dispatch(StoreAction.updatePlayer, player.value);
     store.dispatch(StoreAction.changeGameState, enumGameState.Rest);
   }

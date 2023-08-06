@@ -86,13 +86,14 @@ import BattleEndComponent from '@/components/BattleEndComponent.vue';
 import CardComponent from '@/components/CardComponent.vue';
 import DialogComponent from '@/components/DialogComponent.vue';
 import PlayerStatusComponent from '@/components/PlayerStatusComponent.vue';
-import { Audios, Sound } from '@/service/sounds';
+import { Sound } from '@/service/sounds';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import Util from '@/service/util';
 
 const store = useStore();
 const gameState = computed(() => store.getters.gameState as enumGameState);
 const player = computed(() => store.getters.player as Player);
+const sounds = computed(() => store.getters.sounds);
 
 const dialogs = {
   opening: DIALOGS[enumDialog.Opening],
@@ -101,23 +102,23 @@ const dialogs = {
 }
 
 const openGithub = async () => {
-  await Sound.playSound(Audios.click);
+  await Sound.playSound(sounds.value.click);
   window.open('https://github.com/gkfat/logicard-duel/', '_blank');
 }
 
 const openMail = async () => {
-  await Sound.playSound(Audios.click);
+  await Sound.playSound(sounds.value.click);
   window.open('mailto:gkgkdesign@gmail.com', '_blank');
 }
 
 // 打開排行榜
 const openRank = async () => {
-  await Sound.playSound(Audios.click);
+  await Sound.playSound(sounds.value.click);
   store.dispatch(StoreAction.switchRank);
 }
 
 const start = async () => {
-  await Sound.playSound(Audios.click);
+  await Sound.playSound(sounds.value.click);
   await store.dispatch(StoreAction.switchSpinner, true);
   await store.dispatch(StoreAction.changeGameState, enumGameState.ChooseCharacter);
   setTimeout(() => store.dispatch(StoreAction.switchSpinner, false), 300);
@@ -159,20 +160,20 @@ watch(endUpdating, () => {
 watch(gameState, async () => {
   switch (gameState.value) {
     case enumGameState.ChooseCharacter:
-      await Sound.playBGM(Audios.prologue);
+      await Sound.playBGM(sounds.value.prologue);
       break;
     case enumGameState.BattleStart:
-      Sound.stop(Audios.rest);
-      Sound.stop(Audios.prologue);
-      await Sound.playBGM(Audios.battle);
+      Sound.stop(sounds.value.rest);
+      Sound.stop(sounds.value.prologue);
+      await Sound.playBGM(sounds.value.battle);
       break;
     case enumGameState.Rest:
-      Sound.stop(Audios.battle);
-      await Sound.playBGM(Audios.rest);
+      Sound.stop(sounds.value.battle);
+      await Sound.playBGM(sounds.value.rest);
       break;
     case enumGameState.GameEnd:
-      Sound.stop(Audios.battle);
-      await Sound.playBGM(Audios.end);
+      Sound.stop(sounds.value.battle);
+      await Sound.playBGM(sounds.value.end);
       break;
   }
 })
@@ -183,12 +184,12 @@ const dialogEnd = computed(() => dialogIndex.value === gameStartDialogsLength);
 const dialogIndex = ref(0);
 const dialogNext = async () => {
   if (dialogIndex.value < gameStartDialogsLength) {
-    await Sound.playSound(Audios.click);
+    await Sound.playSound(sounds.value.click);
     dialogIndex.value += 1;
   }
 }
 const dialogNextToEnd = async () => {
-  await Sound.playSound(Audios.click);
+  await Sound.playSound(sounds.value.click);
   dialogIndex.value = gameStartDialogsLength;
 }
 
@@ -208,7 +209,7 @@ const mockPlayerList = characterList.map(c => {
 const selectedCharacter = ref(0);
 const selectCharacter = (data: any) => selectedCharacter.value = data.currentSlideIndex;
 const confirmCharacter = async () => {
-  await Sound.playSound(Audios.click);
+  await Sound.playSound(sounds.value.click);
   const character = characterList[selectedCharacter.value];
   // 加入此角色的喃喃自語
   for (const mumble of CHARACTER_MUMBLE_LIST[character.ID]) {

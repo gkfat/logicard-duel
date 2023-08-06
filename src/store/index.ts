@@ -5,7 +5,7 @@ import { Character, enumOperation, Player, enumSheetName, enumGameState, enumMum
 import { CHARACTER_LIST } from '@/data';
 import Util from '@/service/util';
 import api from '@/service/api';
-import { Audios, Sound } from '@/service/sounds';
+import { Sound } from '@/service/sounds';
 
 export default createStore({
   plugins: process.env.NEDE_ENV === 'development' ? [createLogger()] : [],
@@ -32,8 +32,24 @@ export default createStore({
     rankList: [] as string[],
     shop: [] as Item[],
     endUpdating: false,
+    sounds: reactive({} as {
+      click: HTMLAudioElement,
+      pop: HTMLAudioElement,
+      countdown: HTMLAudioElement,
+      placeCard: HTMLAudioElement,
+      coinDrop: HTMLAudioElement,
+      robotHurt: HTMLAudioElement,
+      ouch: HTMLAudioElement,
+      huh: HTMLAudioElement,
+      bell: HTMLAudioElement,
+      battle: HTMLAudioElement,
+      rest: HTMLAudioElement,
+      prologue: HTMLAudioElement,
+      end: HTMLAudioElement,
+    })
   },
   getters: {
+    sounds: (state) => state.sounds,
     gameState: (state) => state.gameState,
     player: (state) => state.player,
     enemy: (state) => state.enemy,
@@ -50,6 +66,10 @@ export default createStore({
     endUpdating: (state) => state.endUpdating,
   },
   actions: {
+    /** 初始化音效 */
+    async initSounds(content) {
+      content.commit(StoreAction.initSounds);
+    },
     /** 改變遊戲狀態 */
     async changeGameState(content, gameState: enumGameState) {
       content.commit(StoreAction.changeGameState, gameState);
@@ -115,6 +135,26 @@ export default createStore({
     }
   },
   mutations: {
+    /** 初始化音效 */
+    initSounds(state) {
+      state.sounds = {
+        /** Sound Effect */
+        click: new Audio(require('@/assets/sounds/click.wav')),
+        pop: new Audio(require('@/assets/sounds/pop.wav')),
+        countdown: new Audio(require('@/assets/sounds/countdown.wav')),
+        placeCard: new Audio(require('@/assets/sounds/placeCard.wav')),
+        coinDrop: new Audio(require('@/assets/sounds/coin.mp3')),
+        robotHurt: new Audio(require('@/assets/sounds/robotHurt.wav')),
+        ouch: new Audio(require('@/assets/sounds/ouch.wav')),
+        huh: new Audio(require('@/assets/sounds/huh.wav')),
+        bell: new Audio(require('@/assets/sounds/bell.wav')),
+        /** BGM */
+        battle: new Audio(require('@/assets/sounds/battle.mp3')),
+        rest: new Audio(require('@/assets/sounds/rest.mp3')),
+        prologue: new Audio(require('@/assets/sounds/prologue.mp3')),
+        end: new Audio(require('@/assets/sounds/end.mp3'))
+      }
+    },
     /** 改變遊戲狀態 */
     changeGameState(state, gameState: enumGameState) {
       state.gameState = gameState;
@@ -153,7 +193,7 @@ export default createStore({
       if (mumbleList.length > 0 && !state.mumbling.player) {
         state.mumbling.player = true;
         setTimeout(async () => {
-          await Sound.playSound(Audios.pop);
+          await Sound.playSound(state.sounds.pop);
           state.mumble.player = mumbleList[randomIndex];
           // 5 秒後關閉
           setTimeout(() => {
@@ -173,7 +213,7 @@ export default createStore({
       if (mumbleList.length > 0 && !state.mumbling.enemy) {
         state.mumbling.enemy = true;
         setTimeout(async () => {
-          await Sound.playSound(Audios.pop);
+          await Sound.playSound(state.sounds.pop);
           state.mumble.enemy = mumbleList[randomIndex];
           // 5 秒後關閉
           setTimeout(() => {

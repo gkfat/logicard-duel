@@ -67,12 +67,13 @@ import { Item, Player, Character, enumGameState, enumItemType, enumRoundState, e
 import CardComponent from './CardComponent.vue';
 import PlayerStatusComponent from './PlayerStatusComponent.vue';
 import Util from '@/service/util';
-import { Audios, Sound } from '@/service/sounds';
+import { Sound } from '@/service/sounds';
 
 const store = useStore();
 const gameState = computed(() => store.getters.gameState as enumGameState);
 const player = computed(() => store.getters.player as Player);
 const enemy = computed(() => store.getters.enemy as Player);
+const sounds = computed(() => store.getters.sounds);
 
 const openCard = ref(false);
 const deal = ref(0);
@@ -147,7 +148,7 @@ const dealCard = async (who: string) => {
     case 'enemy':
       for (let i = 0; i < 3; i++) {
         setTimeout(async () => {
-          await Sound.playSound(Audios.placeCard);
+          await Sound.playSound(sounds.value.placeCard);
           index = Util.getRandomInt(0, table.usedCardList.length - 1);
           item = table.usedCardList[index];
           enemy.value.ItemList.push(item);
@@ -158,7 +159,7 @@ const dealCard = async (who: string) => {
     case 'player':
       for (let i = 0; i < 3; i++) {
         setTimeout(async () => {
-          await Sound.playSound(Audios.placeCard);
+          await Sound.playSound(sounds.value.placeCard);
           index = Util.getRandomInt(0, table.usedCardList.length - 1)
           item = table.usedCardList[index];
           player.value.ItemList.push(item);
@@ -175,7 +176,7 @@ const dealGame = async () => {
   deal.value = -1;
   setTimeout(async () => {
     deal.value = Util.getZeroOrOne();
-    await Sound.playSound(Audios.bell);
+    await Sound.playSound(sounds.value.bell);
   }, 3000);
 }
 
@@ -193,7 +194,7 @@ watch(deal, async () => {
       if (countDownRemainSec.value > 0) {
         countDownRemainSec.value -= 1;
         if (countDownRemainSec.value === 3) {
-          await Sound.playSound(Audios.countdown);
+          await Sound.playSound(sounds.value.countdown);
         }
       } else {
         openCard.value = true; // 開牌
@@ -287,7 +288,7 @@ const placeCardOnTable = async (character: Character, item: Item, i: number) => 
       const findCard = table.playerItems[pos];
       const allowTime = roundState.value === enumRoundState.Counting || roundState.value === enumRoundState.Start;
       if (!findCard && allowTime) {
-        await Sound.playSound(Audios.placeCard);
+        await Sound.playSound(sounds.value.placeCard);
         player.value.ItemList.splice(i, 1);
         table.playerItems[pos] = item;
         store.dispatch(StoreAction.playerMumble, { type: enumMumbleType.PlaceCard, delay: 0 });
@@ -314,7 +315,7 @@ const getCardFromTable = async (character: Character, i: number) => {
       const findCard = table.playerItems[i]!;
       const allowTime = roundState.value === enumRoundState.Counting || roundState.value === enumRoundState.Start;
       if (allowTime) {
-        await Sound.playSound(Audios.placeCard);
+        await Sound.playSound(sounds.value.placeCard);
         player.value.ItemList.push(findCard);
         table.playerItems[i] = null;
         player.value.ItemList.sort((a, b) => a.ID - b.ID);
@@ -415,7 +416,7 @@ const draw = async () => {
     }
     store.dispatch(StoreAction.updatePlayer, { who: 'player', player: player.value });
     setTimeout(async () => {
-      await Sound.playSound(Audios.robotHurt);
+      await Sound.playSound(sounds.value.robotHurt);
       store.dispatch(StoreAction.deduction, { who: 'enemy', point: enemyDeduction });
     }, 1000);
     if (enemy.value.CurrentHealth === 0) {
@@ -425,12 +426,12 @@ const draw = async () => {
     }
   } else if (result === enumBattleResult.PlayerLose) {
     setTimeout(async () => {
-      await Sound.playSound(Audios.ouch);
+      await Sound.playSound(sounds.value.ouch);
       store.dispatch(StoreAction.deduction, { who: 'player', point: playerDeduction });
     }, 1000);
     store.dispatch(StoreAction.enemyMumble, { type: enumMumbleType.Attack, delay: 0 });
   } else {
-    await Sound.playSound(Audios.huh);
+    await Sound.playSound(sounds.value.huh);
   }
 
   roundState.value = enumRoundState.SettleEnd;

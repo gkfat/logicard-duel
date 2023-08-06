@@ -43,13 +43,14 @@ import CardComponent from './CardComponent.vue';
 import IconComponent from './IconComponent.vue';
 import { Item, Player, enumDialog } from '@/types/general';
 import { DIALOGS } from '@/data/index';
-import { Audios, Sound } from '@/service/sounds';
+import { Sound } from '@/service/sounds';
 
 const store = useStore();
 const isShopOpen = computed(() => store.getters.isShopOpen);
 const dialogs = DIALOGS[enumDialog.Shop];
 const player = computed(() => store.getters.player as Player);
 const shop = computed(() => store.getters.shop as Item[]);
+const sounds = computed(() => store.getters.sounds);
 
 const confirmPurchase = async (i: number) => {
   const item = shop.value[i];
@@ -58,7 +59,7 @@ const confirmPurchase = async (i: number) => {
   } else {
     const confirmBox = confirm('確定購買？');
     if (confirmBox) {
-      await Sound.playSound(Audios.coinDrop);
+      await Sound.playSound(sounds.value.coinDrop);
       const updatedShop = [ ...shop.value ];
       updatedShop.splice(i, 1);
       store.dispatch(StoreAction.updateShop, updatedShop);
@@ -73,7 +74,7 @@ const confirmPurchase = async (i: number) => {
 
 // 打開商店
 const closeShop = async () => {
-  await Sound.playSound(Audios.click);
+  await Sound.playSound(sounds.value.click);
   store.dispatch(StoreAction.switchShop);
 }
 

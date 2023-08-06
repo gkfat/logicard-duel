@@ -22,17 +22,18 @@ import PlayerStatusComponent from './PlayerStatusComponent.vue';
 import DialogComponent from './DialogComponent.vue';
 import { DIALOGS } from '@/data/index';
 import { useStore } from 'vuex';
-import { Audios, Sound } from '@/service/sounds';
+import { Sound } from '@/service/sounds';
 import Util from '@/service/util';
 
 const store = useStore();
 const player = computed(() => store.getters.player as Player);
 const box30 = Util.makeLotteryBox(30);
 const recoverCountdown = ref(null as number | null);
+const sounds = computed(() => store.getters.sounds);
 
 const dialogs = DIALOGS[enumDialog.Rest];
 const rest = async () => {
-  await Sound.playSound(Audios.click);
+  await Sound.playSound(sounds.value.click);
   if (!recoverCountdown.value) {
     recoverCountdown.value = setInterval(() => {
       if (Util.lottery(box30)) {
@@ -47,12 +48,12 @@ const rest = async () => {
   }
 }
 const battleStart = async () => {
-  await Sound.playSound(Audios.click);
+  await Sound.playSound(sounds.value.click);
   store.dispatch(StoreAction.changeGameState, enumGameState.BattleStart);
 }
 // 打開商店
 const openShop = async () => {
-  await Sound.playSound(Audios.click);
+  await Sound.playSound(sounds.value.click);
   store.dispatch(StoreAction.switchShop);
 }
 </script>

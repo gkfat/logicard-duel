@@ -23,17 +23,18 @@ import { useStore } from 'vuex';
 import { Player, enumDialog } from '@/types/general';
 import DialogComponent from './DialogComponent.vue';
 import CardComponent from './CardComponent.vue';
-import { Audios, Sound } from '@/service/sounds';
+import { Sound } from '@/service/sounds';
 import { DIALOGS } from '@/data';
 
 const store = useStore();
 const isBackpackOpen = computed(() => store.getters.isBackpackOpen);
 const dialogs = DIALOGS[enumDialog.Backpack];
 const player = computed(() => store.getters.player as Player);
+const sounds = computed(() => store.getters.sounds);
 
 // 關上背包
 const closeBackpack = async () => {
-  await Sound.playSound(Audios.click);
+  await Sound.playSound(sounds.value.click);
   store.dispatch(StoreAction.switchBackpack);
 }
 </script>

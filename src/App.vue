@@ -35,9 +35,12 @@ import Util from './service/util';
 
 const store = useStore();
 const isSpinnerOpen = computed(() => store.getters.isSpinnerOpen);
+const sounds = computed(() => store.getters.sounds);
 
-// 初始化排行榜、商店
+// 初始化排行榜、商店、音樂
 onMounted(async () => {
+  await store.dispatch(StoreAction.initSounds);
+  console.log(sounds.value.click)
   await store.dispatch(StoreAction.fetchData, { sheetName: enumSheetName.Records, operation: enumOperation.Get });
   const shopItems = [];
   const logiCards = ITEM.filter(item => item.ItemType === enumItemType.LogiCard);
