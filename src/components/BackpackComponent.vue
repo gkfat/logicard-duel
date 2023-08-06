@@ -58,6 +58,7 @@ const closeBackpack = async () => {
       background-color: var(--blue);
       border: 6px solid var(--darkblue);
       border-radius: 10px;
+      height: 220px;
       max-width: 50%;
       padding-top: 5px;
       gap: 5px;

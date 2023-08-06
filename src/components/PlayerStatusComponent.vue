@@ -269,8 +269,8 @@ onMounted(() => {
     border: 3px solid var(--green);
     border-radius: 10px;
     background-color: var(--blue);
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     img {
       width: 80%;
       height: 80%;

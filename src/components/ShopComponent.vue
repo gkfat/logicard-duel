@@ -120,6 +120,7 @@ const closeShop = async () => {
       border: 6px solid var(--darkblue);
       border-radius: 10px;
       max-width: 50%;
+      height: 220px;
       padding-top: 5px;
       transition: all 0.3s;
       gap: 5px;

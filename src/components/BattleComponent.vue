@@ -465,8 +465,8 @@ const resetExtraStatus = () => {
 
 <style lang="scss" scoped>
 #battle {
-  height: 100%;
-  gap: 20px;
+  gap: 15px;
+  padding-top: 15px;
   padding-bottom: 160px;
 }
 .enemy, .player {
