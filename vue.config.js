@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: '/logicard-duel/',
+  publicPath: '/',
   css: {
     loaderOptions: {
       sass: {
