@@ -105,7 +105,7 @@ onMounted(() => {
     }
     &:hover {
       filter: brightness(95%);
-      transform: rotate(5deg) translateY(-4px) scale(1.1);
+      box-shadow: 0 0 2px 2px rgba(94, 245, 215, 0.3);
     }
   }
   &-back {
@@ -160,14 +160,6 @@ onMounted(() => {
 #backpack, #shop {
   .item {
     margin: 0;
-  }
-}
-.item-glow {
-  .item {
-    box-shadow: 0 0 2px 2px rgba(94, 245, 215, 0.3);
-  }
-  .item-tech-card {
-    box-shadow: none;
   }
 }
 

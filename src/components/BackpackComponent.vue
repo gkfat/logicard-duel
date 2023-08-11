@@ -2,7 +2,7 @@
   <div id="backpack" class="frame" :class="{ 'frame-show': isBackpackOpen }">
     <DialogComponent :dialogs="dialogs"></DialogComponent>
     <div class="item-list flex-grow-1">
-      <template v-for="item in player.ItemList">
+      <template v-for="item in player.CardList">
         <div class="item">
           <CardComponent :item="item"></CardComponent>
           <div class="item-description">
@@ -23,19 +23,18 @@ import { useStore } from 'vuex';
 import { Player, enumDialog } from '@/types/general';
 import DialogComponent from './DialogComponent.vue';
 import CardComponent from './CardComponent.vue';
-import { Sound } from '@/service/sounds';
+import Sound from '@/service/sounds';
 import { DIALOGS } from '@/data';
 
 const store = useStore();
 const isBackpackOpen = computed(() => store.getters.isBackpackOpen);
 const dialogs = DIALOGS[enumDialog.Backpack];
 const player = computed(() => store.getters.player as Player);
-const sounds = computed(() => store.getters.sounds);
 
 // 關上背包
 const closeBackpack = async () => {
-  await Sound.playSound(sounds.value.click);
-  store.dispatch(StoreAction.switchBackpack);
+  await Sound.playSound(Sound.sounds.click);
+  store.dispatch(StoreAction.switch.switchBackpack);
 }
 </script>
 

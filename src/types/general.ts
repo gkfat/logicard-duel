@@ -62,7 +62,7 @@ export interface Character {
     Attack: number;
     Defense: number;
     ItemLimit: number;
-    InitItemList: Item[];
+    InitCardList: Item[];
     MumbleList: MumbleList;
     Coin: number;
     RewardCoin?: number[]; // 獎勵金幣範圍，機器人才有
@@ -77,6 +77,9 @@ export interface Player {
     ExtraDefense: number;
     Record: Record;
     ItemList: Item[];
+    CardList: Item[];
+    Weapon: Item | null;
+    Armor: Item | null;
     Coin: number;
     CreatedTime: number;
 }
@@ -101,7 +104,9 @@ export enum enumItemType {
     LogiCard,
     Attack,
     Defense,
-    Health
+    Health,
+    Weapon,
+    Armor
 }
 
 

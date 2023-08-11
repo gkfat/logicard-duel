@@ -10,7 +10,6 @@
             <span v-if="recoverCountdown">回血中...</span>
     </button>
     <button type="button" class="system-btn w-100 mb-3" @click="battleStart()">尋找下一個 GKBot</button>
-    <button type="button" class="system-btn w-100" @click="openShop()">去商店瞧瞧</button>
   </div>
 </template>
 
@@ -22,39 +21,33 @@ import PlayerStatusComponent from './PlayerStatusComponent.vue';
 import DialogComponent from './DialogComponent.vue';
 import { DIALOGS } from '@/data/index';
 import { useStore } from 'vuex';
-import { Sound } from '@/service/sounds';
+import Sound from '@/service/sounds';
 import Util from '@/service/util';
 
 const store = useStore();
 const player = computed(() => store.getters.player as Player);
 const box30 = Util.makeLotteryBox(30);
 const recoverCountdown = ref(null as number | null);
-const sounds = computed(() => store.getters.sounds);
 
 const dialogs = DIALOGS[enumDialog.Rest];
 const rest = async () => {
-  await Sound.playSound(sounds.value.click);
+  await Sound.playSound(Sound.sounds.click);
   if (!recoverCountdown.value) {
     recoverCountdown.value = setInterval(() => {
       if (Util.lottery(box30)) {
         clearInterval(recoverCountdown.value!);
-        store.dispatch(StoreAction.changeGameState, enumGameState.BattleStart);
+        store.dispatch(StoreAction.general.changeGameState, enumGameState.BattleStart);
       } else {
         if (player.value.CurrentHealth < player.value.Character.Health) {
-          store.dispatch(StoreAction.heal, { who: 'player', point: 1 });
+          store.dispatch(StoreAction.player.heal, { who: 'player', point: 1 });
         }
       }
     }, 10000);
   }
 }
 const battleStart = async () => {
-  await Sound.playSound(sounds.value.click);
-  store.dispatch(StoreAction.changeGameState, enumGameState.BattleStart);
-}
-// 打開商店
-const openShop = async () => {
-  await Sound.playSound(sounds.value.click);
-  store.dispatch(StoreAction.switchShop);
+  await Sound.playSound(Sound.sounds.click);
+  store.dispatch(StoreAction.general.changeGameState, enumGameState.BattleStart);
 }
 </script>
 

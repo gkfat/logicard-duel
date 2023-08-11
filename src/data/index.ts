@@ -1,7 +1,7 @@
 import { enumDialog, enumMumbleType } from './../types/general';
 import { Character, Item, MumbleList, Player, enumItemType } from "@/types/general"
 
-export const ITEM: Item[] = [
+export const CARDS: Item[] = [
   { ID: 1, Name: 'LogiCard 1', Description: '一張邏輯牌，上面寫著數字 1。', Point: 1, ItemType: enumItemType.LogiCard, Price: 2 },
   { ID: 2, Name: 'LogiCard 2', Description: '一張邏輯牌，上面寫著數字 2。', Point: 2, ItemType: enumItemType.LogiCard, Price: 2 },
   { ID: 3, Name: 'LogiCard 3', Description: '一張邏輯牌，上面寫著數字 3。', Point: 3, ItemType: enumItemType.LogiCard, Price: 2 },
@@ -103,58 +103,54 @@ export const CHARACTER_MUMBLE_LIST:{ [ID: number]: string[] } = {
 export const CHARACTER_LIST: Character[] = [
   {
     Type: 'P', ID: 1, Name: '失業的上班族', Health: 40, Attack: 10, Defense: 3, ItemLimit: 10, Coin: 5,
-    InitItemList: ITEM.filter(item => item.ItemType === enumItemType.LogiCard),
+    InitCardList: [...CARDS.filter(item => item.ID === 8)],
     Avatar: 'man.png',
     MumbleList: HUMAN_MUMBLE_LIST
   },
   {
     Type: 'P', ID: 2, Name: '家裡蹲', Health: 50, Attack: 8, Defense: 5, ItemLimit: 15, Coin: 5,
-    InitItemList: ITEM.filter(item => item.ItemType === enumItemType.LogiCard),
+    InitCardList: [...CARDS.filter(item => item.ID === 8)],
     Avatar: 'fat.png',
     MumbleList: HUMAN_MUMBLE_LIST
   },
   {
     Type: 'P', ID: 3, Name: '藝術家', Health: 30, Attack: 15, Defense: 2, ItemLimit: 10, Coin: 5,
-    InitItemList: ITEM.filter(item => item.ItemType === enumItemType.LogiCard),
+    InitCardList: [...CARDS.filter(item => item.ID === 8)],
     Avatar: 'artist.png',
     MumbleList: HUMAN_MUMBLE_LIST
   },
   {
     Type: 'B', ID: 1, Name: 'GKBot 工作型', Health: 30, Attack: 8, Defense: 1, ItemLimit: 8, Coin: 0, RewardCoin: [10, 15],
     Avatar: 'gkbot-worker.png',
-    InitItemList: [
-      ...ITEM.filter(item => item.ItemType === enumItemType.LogiCard),
-      ...ITEM.filter(item => item.ID === 8)
+    InitCardList: [
+      ...CARDS.filter(item => item.ID === 8)
     ],
     MumbleList: ROBOT_MUMBLE_LIST
   },
   {
     Type: 'B', ID: 2, Name: 'GKBot 表演型', Health: 35, Attack: 12, Defense: 2, ItemLimit: 8, Coin: 0, RewardCoin: [15, 25],
     Avatar: 'gkbot-perform.png',
-    InitItemList: [
-      ...ITEM.filter(item => item.ItemType === enumItemType.LogiCard),
-      ...ITEM.filter(item => item.ID === 10)
+    InitCardList: [
+      ...CARDS.filter(item => item.ID === 10)
     ],
     MumbleList: ROBOT_MUMBLE_LIST
   },
   {
     Type: 'B', ID: 3, Name: 'GKBot 侵略型', Health: 40, Attack: 18, Defense: 2, ItemLimit: 8, Coin: 0, RewardCoin: [30, 50],
     Avatar: 'gkbot-attack.png',
-    InitItemList: [
-      ...ITEM.filter(item => item.ItemType === enumItemType.LogiCard),
-      ...ITEM.filter(item => item.ID === 10),
-      ...ITEM.filter(item => item.ID === 8)
+    InitCardList: [
+      ...CARDS.filter(item => item.ID === 8),
+      ...CARDS.filter(item => item.ID === 10),
     ],
     MumbleList: ROBOT_MUMBLE_LIST
   },
   {
     Type: 'B', ID: 4, Name: 'GKBot 防禦型', Health: 50, Attack: 8, Defense: 5, ItemLimit: 8, Coin: 0, RewardCoin: [30, 50],
     Avatar: 'gkbot-defense.png',
-    InitItemList: [
-      ...ITEM.filter(item => item.ItemType === enumItemType.LogiCard),
-      ...ITEM.filter(item => item.ID === 9),
-      ...ITEM.filter(item => item.ID === 9),
-      ...ITEM.filter(item => item.ID === 10),
+    InitCardList: [
+      ...CARDS.filter(item => item.ID === 9),
+      ...CARDS.filter(item => item.ID === 9),
+      ...CARDS.filter(item => item.ID === 10),
     ],
     MumbleList: ROBOT_MUMBLE_LIST
   }

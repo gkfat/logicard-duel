@@ -77,7 +77,6 @@
               <p v-if="coinChange !== 0" class="coin-change m-0 flow-up">+{{ coinChange }}</p>
             </div>
           </p>
-          <ControllerComponent v-if="gameState === enumGameState.Rest"></ControllerComponent>
         </div>
 
       </div>
@@ -92,7 +91,6 @@ import { Player, Character, enumGameState } from '@/types/general';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import IconComponent from './IconComponent.vue';
-import ControllerComponent from './ControllerComponent.vue';
 import MumbleComponent from './MumbleComponent.vue';
 
 const props = withDefaults(defineProps<{
@@ -269,8 +267,8 @@ onMounted(() => {
     border: 3px solid var(--green);
     border-radius: 10px;
     background-color: var(--blue);
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
     img {
       width: 80%;
       height: 80%;

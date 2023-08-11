@@ -33,7 +33,7 @@
                   <PlayerStatusComponent :player="player"></PlayerStatusComponent>
                   <p class="m-0 mb-1">初始道具：</p>
                   <div class="items-container px-3 d-flex">
-                    <CardComponent v-for="item in player.Character.InitItemList" :sm="true" :item="item"></CardComponent>
+                    <CardComponent v-for="item in player.Character.InitCardList" :sm="true" :item="item"></CardComponent>
                   </div>
               </div>
             </Slide>
@@ -46,16 +46,10 @@
       </template>
     </template>
 
-    <template v-if="gameState >= enumGameState.Rest && gameState < enumGameState.BattleEnd">
-      <RestComponent v-if="gameState === enumGameState.Rest"></RestComponent>
-      <BattleStartComponent v-if="gameState === enumGameState.BattleStart"></BattleStartComponent>
-      <BattleComponent v-if="gameState === enumGameState.Battle"></BattleComponent>
-      <PlayerStatusComponent :is-main="true" :player="player"></PlayerStatusComponent>
-    </template>
-
-    <template v-if="gameState === enumGameState.BattleEnd">
-      <BattleEndComponent></BattleEndComponent>
-    </template>
+    <RestComponent v-if="gameState === enumGameState.Rest"></RestComponent>
+    <BattleStartComponent v-if="gameState === enumGameState.BattleStart"></BattleStartComponent>
+    <BattleComponent v-if="gameState === enumGameState.Battle"></BattleComponent>
+    <BattleEndComponent v-if="gameState === enumGameState.BattleEnd"></BattleEndComponent>
 
     <template v-if="gameState === enumGameState.GameEnd">
       <DialogComponent :dialogs="dialogs.gameEnd"></DialogComponent>
@@ -75,7 +69,6 @@
 <script setup lang="ts">
 import { Ref, reactive, ref, computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
-import api from '@/service/api';
 import { StoreAction } from '@/store/storeActions';
 import { Character, enumOperation, Player, enumSheetName, enumGameState, enumMumbleType, enumDialog } from '@/types/general';
 import { CHARACTER_LIST, CHARACTER_MUMBLE_LIST, DIALOGS } from '@/data/index';
@@ -86,14 +79,13 @@ import BattleEndComponent from '@/components/BattleEndComponent.vue';
 import CardComponent from '@/components/CardComponent.vue';
 import DialogComponent from '@/components/DialogComponent.vue';
 import PlayerStatusComponent from '@/components/PlayerStatusComponent.vue';
-import { Sound } from '@/service/sounds';
+import Sound from '@/service/sounds';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import Util from '@/service/util';
 
 const store = useStore();
 const gameState = computed(() => store.getters.gameState as enumGameState);
 const player = computed(() => store.getters.player as Player);
-const sounds = computed(() => store.getters.sounds);
 
 const dialogs = {
   opening: DIALOGS[enumDialog.Opening],
@@ -102,26 +94,36 @@ const dialogs = {
 }
 
 const openGithub = async () => {
-  await Sound.playSound(sounds.value.click);
+  await Sound.playSound(Sound.sounds.click);
   window.open('https://github.com/gkfat/logicard-duel/', '_blank');
 }
 
 const openMail = async () => {
-  await Sound.playSound(sounds.value.click);
+  await Sound.playSound(Sound.sounds.click);
   window.open('mailto:gkgkdesign@gmail.com', '_blank');
 }
 
 // 打開排行榜
 const openRank = async () => {
-  await Sound.playSound(sounds.value.click);
-  store.dispatch(StoreAction.switchRank);
+  await Sound.playSound(Sound.sounds.click);
+  store.dispatch(StoreAction.switch.switchRank);
 }
 
 const start = async () => {
-  await Sound.playSound(sounds.value.click);
-  await store.dispatch(StoreAction.switchSpinner, true);
-  await store.dispatch(StoreAction.changeGameState, enumGameState.ChooseCharacter);
-  setTimeout(() => store.dispatch(StoreAction.switchSpinner, false), 300);
+  await Sound.playSound(Sound.sounds.click);
+  await store.dispatch(StoreAction.switch.switchSpinner, true);
+  checkCanStart();
+}
+
+const assetsLoadFinish = computed(() => Sound.loadedAssets >= Sound.totalAssets);
+const checkCanStart = async () => {
+  if (assetsLoadFinish.value) {
+    console.log('Assets loaded finished');
+    await store.dispatch(StoreAction.general.changeGameState, enumGameState.ChooseCharacter);
+    store.dispatch(StoreAction.switch.switchSpinner, false);
+  } else {
+    checkCanStart();
+  }
 }
 
 /**
@@ -136,8 +138,8 @@ watch(lastWords, () => {
 })
 const endUpdating = computed(() => store.getters.endUpdating as boolean);
 const restart = async () => {
-  await store.dispatch(StoreAction.switchSpinner, true);
-  await store.dispatch(StoreAction.updateData, {
+  await store.dispatch(StoreAction.switch.switchSpinner, true);
+  await store.dispatch(StoreAction.general.updateData, {
     sheetName: enumSheetName.Records,
     operation: enumOperation.Update,
     data: {
@@ -153,27 +155,27 @@ const restart = async () => {
 }
 watch(endUpdating, () => {
   if (endUpdating.value) {
-    store.dispatch(StoreAction.switchSpinner, false);
+    store.dispatch(StoreAction.switch.switchSpinner, false);
     setTimeout(() => window.location.reload(), 1000);
   }
 })
 watch(gameState, async () => {
   switch (gameState.value) {
     case enumGameState.ChooseCharacter:
-      await Sound.playBGM(sounds.value.prologue);
+      await Sound.playBGM(Sound.sounds.prologue);
       break;
     case enumGameState.BattleStart:
-      Sound.stop(sounds.value.rest);
-      Sound.stop(sounds.value.prologue);
-      await Sound.playBGM(sounds.value.battle);
+      Sound.stop(Sound.sounds.rest);
+      Sound.stop(Sound.sounds.prologue);
+      await Sound.playBGM(Sound.sounds.battle);
       break;
     case enumGameState.Rest:
-      Sound.stop(sounds.value.battle);
-      await Sound.playBGM(sounds.value.rest);
+      Sound.stop(Sound.sounds.battle);
+      await Sound.playBGM(Sound.sounds.rest);
       break;
     case enumGameState.GameEnd:
-      Sound.stop(sounds.value.battle);
-      await Sound.playBGM(sounds.value.end);
+      Sound.stop(Sound.sounds.battle);
+      await Sound.playBGM(Sound.sounds.end);
       break;
   }
 })
@@ -184,12 +186,12 @@ const dialogEnd = computed(() => dialogIndex.value === gameStartDialogsLength);
 const dialogIndex = ref(0);
 const dialogNext = async () => {
   if (dialogIndex.value < gameStartDialogsLength) {
-    await Sound.playSound(sounds.value.click);
+    await Sound.playSound(Sound.sounds.click);
     dialogIndex.value += 1;
   }
 }
 const dialogNextToEnd = async () => {
-  await Sound.playSound(sounds.value.click);
+  await Sound.playSound(Sound.sounds.click);
   dialogIndex.value = gameStartDialogsLength;
 }
 
@@ -209,16 +211,16 @@ const mockPlayerList = characterList.map(c => {
 const selectedCharacter = ref(0);
 const selectCharacter = (data: any) => selectedCharacter.value = data.currentSlideIndex;
 const confirmCharacter = async () => {
-  await Sound.playSound(sounds.value.click);
+  await Sound.playSound(Sound.sounds.click);
   const character = characterList[selectedCharacter.value];
   // 加入此角色的喃喃自語
   for (const mumble of CHARACTER_MUMBLE_LIST[character.ID]) {
     character.MumbleList[enumMumbleType.General].push(mumble);
   }
-  await store.dispatch(StoreAction.selectCharacter, character);
-  await store.dispatch(StoreAction.switchSpinner, true);
-  await store.dispatch(StoreAction.changeGameState, enumGameState.BattleStart);
-  setTimeout(() => store.dispatch(StoreAction.switchSpinner, false), 300);
+  await store.dispatch(StoreAction.player.selectCharacter, character);
+  await store.dispatch(StoreAction.switch.switchSpinner, true);
+  await store.dispatch(StoreAction.general.changeGameState, enumGameState.BattleStart);
+  setTimeout(() => store.dispatch(StoreAction.switch.switchSpinner, false), 300);
 }
 
 </script>
@@ -226,7 +228,7 @@ const confirmCharacter = async () => {
 <style lang="scss" scoped>
 #game {
   position: relative;
-  height: 90%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

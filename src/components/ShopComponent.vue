@@ -9,9 +9,9 @@
             <IconComponent :icon="'images/screw'"></IconComponent>
             {{ player.Coin }}
           </span>
-          <span>背包上限：{{ player.ItemList.length }} / {{ player.Character.ItemLimit }}</span>
+          <span>背包上限：{{ player.CardList.length }} / {{ player.Character.ItemLimit }}</span>
         </p>
-        <CardComponent v-for="item in player.ItemList" :sm="true" :item="item"></CardComponent>
+        <CardComponent v-for="item in player.CardList" :sm="true" :item="item"></CardComponent>
       </div>
     </div>
     <div class="item-list flex-grow-1">
@@ -43,14 +43,13 @@ import CardComponent from './CardComponent.vue';
 import IconComponent from './IconComponent.vue';
 import { Item, Player, enumDialog } from '@/types/general';
 import { DIALOGS } from '@/data/index';
-import { Sound } from '@/service/sounds';
+import Sound from '@/service/sounds';
 
 const store = useStore();
 const isShopOpen = computed(() => store.getters.isShopOpen);
 const dialogs = DIALOGS[enumDialog.Shop];
 const player = computed(() => store.getters.player as Player);
 const shop = computed(() => store.getters.shop as Item[]);
-const sounds = computed(() => store.getters.sounds);
 
 const confirmPurchase = async (i: number) => {
   const item = shop.value[i];
@@ -59,14 +58,14 @@ const confirmPurchase = async (i: number) => {
   } else {
     const confirmBox = confirm('確定購買？');
     if (confirmBox) {
-      await Sound.playSound(sounds.value.coinDrop);
+      await Sound.playSound(Sound.sounds.coinDrop);
       const updatedShop = [ ...shop.value ];
       updatedShop.splice(i, 1);
-      store.dispatch(StoreAction.updateShop, updatedShop);
+      store.dispatch(StoreAction.general.updateShop, updatedShop);
       const updatedPlayer = { ...player.value };
       updatedPlayer.Coin -= item.Price;
-      updatedPlayer.ItemList.push(item);
-      store.dispatch(StoreAction.updatePlayer, { who: 'player', player: updatedPlayer });
+      updatedPlayer.CardList.push(item);
+      store.dispatch(StoreAction.player.updatePlayer, { who: 'player', player: updatedPlayer });
       alert('感謝購買！');
     }
   }
@@ -74,8 +73,8 @@ const confirmPurchase = async (i: number) => {
 
 // 打開商店
 const closeShop = async () => {
-  await Sound.playSound(sounds.value.click);
-  store.dispatch(StoreAction.switchShop);
+  await Sound.playSound(Sound.sounds.click);
+  store.dispatch(StoreAction.switch.switchShop);
 }
 
 </script>

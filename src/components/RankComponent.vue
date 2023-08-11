@@ -19,7 +19,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { enumSheetName, enumOperation, Player, enumDialog } from '@/types/general';
 import { DIALOGS } from '@/data/index';
-import { Sound } from '@/service/sounds';
+import Sound from '@/service/sounds';
 import DialogComponent from './DialogComponent.vue';
 import api from '@/service/api';
 
@@ -27,12 +27,11 @@ const store = useStore();
 const dialogs = DIALOGS[enumDialog.Rank];
 const isRankOpen = computed(() => store.getters.isRankOpen as boolean);
 const rankList = computed(() => store.getters.rankList as string[][]);
-const sounds = computed(() => store.getters.sounds);
 
 // 關閉排行榜
 const closeRank = async () => {
-  await Sound.playSound(sounds.value.click);
-  store.dispatch(StoreAction.switchRank);
+  await Sound.playSound(Sound.sounds.click);
+  store.dispatch(StoreAction.switch.switchRank);
 }
 </script>
 
