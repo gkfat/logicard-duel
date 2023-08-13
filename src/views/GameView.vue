@@ -3,7 +3,7 @@
     <!-- Game Init -->
     <template v-if="gameState === enumGameState.Init">
       <DialogComponent :dialogs="dialogs.opening"></DialogComponent>
-      <div class="social mb-3">
+      <div class="social">
         <a type="button" class="system-btn social-item" @click="openGithub()">
           <img class="img-fluid" :src="require(`@/assets/images/github.png`)">
         </a>
@@ -14,38 +14,10 @@
           <img class="img-fluid" :src="require(`@/assets/images/rank.png`)">
         </div>
       </div>
-      <button type="button" class="w-100 system-btn mb-3" @click="start()">開始冒險</button>
+      <button type="button" class="w-100 system-btn" @click="start()">開始冒險</button>
     </template>
 
-    <!-- Choose Character -->
-    <template v-if="gameState === enumGameState.ChooseCharacter">
-      <DialogComponent :dialogs="dialogs.gameStart[dialogIndex]"></DialogComponent>
-      <template v-if="!dialogEnd">
-        <button type="button" class="w-100 system-btn system-btn-skip system-btn-light mb-3" @click="dialogNextToEnd()">跳過</button>
-        <button type="button" class="w-100 system-btn mb-3" @click="dialogNext()">繼續</button>
-      </template>
-      <template v-if="dialogEnd">
-        <div class="choose-character mb-3">
-          <Carousel :items-to-show="1" :wrap-around="true" @slide-end="selectCharacter">
-            <Slide v-for="(player, i) in mockPlayerList" :key="i">
-              <div type="button" class="character rounded p-3"
-                  :class="{ 'carousel__slide--active': selectedCharacter === i }">
-                  <PlayerStatusComponent :player="player"></PlayerStatusComponent>
-                  <p class="m-0 mb-1">初始道具：</p>
-                  <div class="items-container px-3 d-flex">
-                    <CardComponent v-for="item in player.Character.InitCardList" :sm="true" :item="item"></CardComponent>
-                  </div>
-              </div>
-            </Slide>
-            <template #addons>
-              <Navigation />
-            </template>
-          </Carousel>
-        </div>
-        <button type="button" class="w-100 system-btn mb-3" @click="confirmCharacter()">決定</button>
-      </template>
-    </template>
-
+    <ChooseCharacterComponent v-if="gameState === enumGameState.ChooseCharacter"></ChooseCharacterComponent>
     <RestComponent v-if="gameState === enumGameState.Rest"></RestComponent>
     <BattleStartComponent v-if="gameState === enumGameState.BattleStart"></BattleStartComponent>
     <BattleComponent v-if="gameState === enumGameState.Battle"></BattleComponent>
@@ -61,26 +33,24 @@
         <tr><td>存活時間</td><td class="text">{{ player.Record.SurvivalTime }} 小時</td></tr>
       </table>
       <input type="text" class="form-control mb-3 " placeholder="寫點什麼吧...(上限 20 字)" v-model="lastWords">
-      <button type="button" class="w-100 system-btn mb-3" @click="restart()">成佛</button>
+      <button type="button" class="w-100 system-btn" @click="restart()">成佛</button>
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Ref, reactive, ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { StoreAction } from '@/store/storeActions';
-import { Character, enumOperation, Player, enumSheetName, enumGameState, enumMumbleType, enumDialog } from '@/types/general';
-import { CHARACTER_LIST, CHARACTER_MUMBLE_LIST, DIALOGS } from '@/data/index';
+import { enumOperation, Player, enumSheetName, enumGameState, enumDialog } from '@/types/general';
+import {  DIALOGS } from '@/data/index';
 import RestComponent from '@/components/RestComponent.vue';
+import ChooseCharacterComponent from '@/components/ChooseCharacterComponent.vue';
 import BattleStartComponent from '@/components/BattleStartComponent.vue';
 import BattleComponent from '@/components/BattleComponent.vue';
 import BattleEndComponent from '@/components/BattleEndComponent.vue';
-import CardComponent from '@/components/CardComponent.vue';
 import DialogComponent from '@/components/DialogComponent.vue';
-import PlayerStatusComponent from '@/components/PlayerStatusComponent.vue';
 import Sound from '@/service/sounds';
-import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import Util from '@/service/util';
 
 const store = useStore();
@@ -89,7 +59,6 @@ const player = computed(() => store.getters.player as Player);
 
 const dialogs = {
   opening: DIALOGS[enumDialog.Opening],
-  gameStart: DIALOGS[enumDialog.GameStart],
   gameEnd: DIALOGS[enumDialog.GameEnd],
 }
 
@@ -180,49 +149,6 @@ watch(gameState, async () => {
   }
 })
 
-// Dialog
-const gameStartDialogsLength = dialogs.gameStart.length - 1;
-const dialogEnd = computed(() => dialogIndex.value === gameStartDialogsLength);
-const dialogIndex = ref(0);
-const dialogNext = async () => {
-  if (dialogIndex.value < gameStartDialogsLength) {
-    await Sound.playSound(Sound.sounds.click);
-    dialogIndex.value += 1;
-  }
-}
-const dialogNextToEnd = async () => {
-  await Sound.playSound(Sound.sounds.click);
-  dialogIndex.value = gameStartDialogsLength;
-}
-
-// 選擇角色
-const characterList = CHARACTER_LIST.filter(c => c.Type === 'P');
-const mockPlayerList = characterList.map(c => {
-  return reactive({
-    Character: c,
-    CurrentHealth: c.Health,
-    CurrentAttack: c.Attack,
-    CurrentDefense: c.Defense,
-    ExtraAttack: 0,
-    ExtraDefense: 0,
-    Coin: c.Coin
-  }) as Player
-});
-const selectedCharacter = ref(0);
-const selectCharacter = (data: any) => selectedCharacter.value = data.currentSlideIndex;
-const confirmCharacter = async () => {
-  await Sound.playSound(Sound.sounds.click);
-  const character = characterList[selectedCharacter.value];
-  // 加入此角色的喃喃自語
-  for (const mumble of CHARACTER_MUMBLE_LIST[character.ID]) {
-    character.MumbleList[enumMumbleType.General].push(mumble);
-  }
-  await store.dispatch(StoreAction.player.selectCharacter, character);
-  await store.dispatch(StoreAction.switch.switchSpinner, true);
-  await store.dispatch(StoreAction.general.changeGameState, enumGameState.BattleStart);
-  setTimeout(() => store.dispatch(StoreAction.switch.switchSpinner, false), 300);
-}
-
 </script>
 
 <style lang="scss" scoped>
@@ -233,7 +159,7 @@ const confirmCharacter = async () => {
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
-  margin: 0 auto;
+  gap: 10px;
   @media screen and (min-width: 768px) {
     width: 80%;
   }
@@ -244,7 +170,7 @@ const confirmCharacter = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   &-item {
     width: 60px;
     height: 60px;
@@ -254,30 +180,5 @@ const confirmCharacter = async () => {
   .text {
     color: var(--darkblue);
   }
-}
-
-.choose-character {
-  .items-container {
-    flex-wrap: nowrap;
-  }
-}
-
-/** Carousel */
-.carousel__slide {
-  padding: 5px;
-}
-.carousel__viewport {
-  perspective: 2000px;
-}
-.carousel__track {
-  transform-style: preserve-3d;
-}
-.carousel__slide--sliding {
-  transition: 0.5s;
-}
-.carousel__slide--active {
-  background-color: var(--green);
-  color: var(--white);
-  border-radius: 10px;
 }
 </style>

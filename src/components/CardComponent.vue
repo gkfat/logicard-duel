@@ -1,23 +1,29 @@
 <template>
     <div v-if="isCardBack"
-        class="item item-back rounded"
+        class="card card-back rounded"
         :class="[
-          sm ? 'item-sm' : '',
-          item.ItemType === enumItemType.LogiCard ? '' : 'item-tech-card'
+          sm ? 'card-sm' : '',
+          item.ItemType === enumItemType.LogiCard ? '' : 'card-tech'
         ]">
+        <template v-if="item.ItemType === enumItemType.LogiCard" >
+          <IconComponent :icon="`images/cardback-logicard`"></IconComponent>
+        </template>
+        <template v-else>
+          <IconComponent :icon="`images/cardback-tech`"></IconComponent>
+        </template>
     </div>
     <div v-if="!isCardBack"
-        class="item item-face rounded"
+        class="card card-face rounded"
         :style="{ transform: style }"
         data-bs-toggle="tooltip"
         data-bs-placement="top"
         :class="[
-          sm ? 'item-sm' : '',
-          item.ItemType === enumItemType.LogiCard ? '' : 'item-tech-card',
+          sm ? 'card-sm' : '',
+          item.ItemType === enumItemType.LogiCard ? '' : 'card-tech',
           klass ? klass : ''
         ]"
         :title="`【${item.Name}】${item.Description}`">
-      <IconComponent :icon="`images/itemtype${item.ItemType}`"></IconComponent>
+      <IconComponent :icon="`images/card-${item.ItemType}`"></IconComponent>
       <p class="h4 m-0 w-100 text-center">{{ item.Point }}</p>
     </div>
 </template>
@@ -56,26 +62,26 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .card-table {
-  .item {
+  .card {
     margin: 0;
   }
 }
 
 .items-container {
-  .item-back:nth-child(1) {
+  .card-back:nth-child(1) {
     margin-left: 0;
   }
 }
 
 .used-card-list {
-  .item {
+  .card {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
   }
 }
-.item {
+.card {
   position: relative;
   height: 80px;
   width: 60px;
@@ -115,15 +121,22 @@ onMounted(() => {
     width: 45px;
     height: 60px;
   }
-  &-tech-card {
+  &-tech {
     background-color: var(--skin);
     color: var(--blue);
     &:after {
       border: 2px solid var(--blue);
     }
-    &.item-back {
+    &.card-back {
       background-color: var(--skin);
     }
+  }
+}
+
+// Shop
+.item {
+  .card {
+    margin-left: 0;
   }
 }
 

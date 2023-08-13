@@ -9,7 +9,7 @@
             <span v-if="!recoverCountdown">冒著被發現的風險休息回血</span>
             <span v-if="recoverCountdown">回血中...</span>
     </button>
-    <button type="button" class="system-btn w-100 mb-3" @click="battleStart()">尋找下一個 GKBot</button>
+    <button type="button" class="system-btn w-100" @click="battleStart()">尋找下一個 GKBot</button>
   </div>
 </template>
 

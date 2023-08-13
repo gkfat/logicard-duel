@@ -1,5 +1,5 @@
 <template>
-  <div id="rank" class="frame" :class="{ 'frame-show': isRankOpen }">
+  <div id="rank" class="frame" :class="{ 'frame-show': isRankOpen }" v-if="isRankOpen">
     <DialogComponent :dialogs="dialogs"></DialogComponent>
     <div class="rank-list flex-grow-1">
       <table v-for="rank of rankList.slice(1).reverse()" class="table table-sm shadow-sm rounded">
@@ -9,7 +9,7 @@
         </tr>
       </table>
     </div>
-    <button type="button" class="system-btn mb-3" @click="closeRank()">收起平板</button>
+    <button type="button" class="system-btn" @click="closeRank()">收起平板</button>
   </div>
 </template>
 
@@ -36,6 +36,9 @@ const closeRank = async () => {
 </script>
 
 <style lang="scss" scoped>
+#rank {
+  height: 90%;
+}
 .table {
   background-color: var(--white);
 }

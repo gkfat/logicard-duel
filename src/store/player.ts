@@ -85,13 +85,16 @@ const playerModule: Module<PlayerState, any> = {
       state.player.CurrentAttack = JSON.parse(JSON.stringify(character.Attack));
       state.player.CurrentDefense = JSON.parse(JSON.stringify(character.Defense));
       state.player.CreatedTime = new Date().getTime();
+      state.player.ExtraAttack = 0;
+      state.player.ExtraDefense = 0;
       state.player.Record = {
         SurvivalTime: 0,
         DefeatBots: 0,
         TotalDamage: 0,
         TotalHeal: 0,
       };
-      state.player.CardList = JSON.parse(JSON.stringify(character.InitCardList));
+      state.player.CardList = [];
+      state.player.ItemList = [];
       state.player.Coin = character.Coin; // 初始螺絲釘
     },
     /** 產生敵人 */
@@ -171,6 +174,7 @@ const playerModule: Module<PlayerState, any> = {
         state.player.ExtraAttack = player.ExtraAttack;
         state.player.ExtraDefense = player.ExtraDefense;
         state.player.Coin = player.Coin;
+        state.player.ItemList = player.ItemList;
         state.player.CardList = player.CardList.sort((a, b) => a.Point - b.Point);
       } else if (who === 'enemy') {
         state.enemy.ExtraAttack = player.ExtraAttack;

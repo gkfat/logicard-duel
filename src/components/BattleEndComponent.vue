@@ -1,23 +1,21 @@
 <template>
-  <div class="battle-end flex-grow-1 d-flex flex-column justify-content-center">
+  <div id="battle-end" class="d-flex flex-column justify-content-center">
     <DialogComponent :dialogs="dialogs"></DialogComponent>
-    <p class="h6 w-100 m-0">機器人殘骸</p>
-    <div class="items-container px-3 d-flex flex-wrap">
-      <div v-for="(item, i) in enemy.CardList" type="button"
-            @click="switchItem('enemy', item, i)">
-        <CardComponent :item="item"></CardComponent>
+    
+    <div>
+      <p class="m-0 h6 w-100 text-center">戰利品</p>
+      <p class="m-0 w-100 text-center">
+        螺絲釘：{{ player.Coin }}｜物品：{{ player.ItemList.length + '／' + player.Character.ItemLimit }}
+      </p>
+    </div>
+    <div class="items-container d-flex justify-content-center flex-wrap flex-grow-1">
+      <div v-for="item in lootBox">
+        <ItemComponent :item="item"></ItemComponent>
       </div>
     </div>
-    <hr class="hr m-0" />
-    <p class="h6 w-100 m-0">你的背包（上限：{{ player.CardList.length + '／' + player.Character.ItemLimit }}）</p>
-    <p class="w-100 m-0">獲得螺絲釘：{{ earnCoin }} ／總螺絲釘：{{ player.Coin }}</p>
-    <div class="items-container px-3 d-flex flex-wrap">
-      <div v-for="(item, i) in player.CardList" type="button"
-            @click="switchItem('player', item, i)">
-        <CardComponent :item="item"></CardComponent>
-      </div>
-    </div>
-    <button type="button" class="system-btn w-100 mb-3" @click="goRest()">休息</button>
+    <!-- 沒有多餘空間 -->
+    <button v-if="noSpace" type="button" class="system-btn w-100" @click="openBackpack()">整理背包</button>
+    <button v-else type="button" class="system-btn w-100" @click="goRest()">休息</button>
   </div>
 </template>
 
@@ -28,24 +26,71 @@ import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { Item, Player, Character, enumGameState, enumItemType, enumBattleResult, enumMumbleType, enumDialog } from '@/types/general';
 import MumbleComponent from './MumbleComponent.vue';
-import CardComponent from './CardComponent.vue';
+import ItemComponent from './ItemComponent.vue';
 import DialogComponent from './DialogComponent.vue';
 import PlayerStatusComponent from './PlayerStatusComponent.vue';
 import Util from '@/service/util';
 import Sound from '@/service/sounds';
-import { DIALOGS, CARDS } from '@/data';
+import { DIALOGS, CARDS, ITEMS } from '@/data';
 
 const store = useStore();
 const player = computed(() => store.getters.player as Player);
 const enemy = computed(() => store.getters.enemy as Player);
 const shop = computed(() => store.getters.shop as Item[]);
-const earnCoin = ref(0);
+const lootBox = reactive([] as Item[]);
+const noSpace = computed(() => player.value.ItemList.length > player.value.Character.ItemLimit);
 
 const dialogs = DIALOGS[enumDialog.BattleEnd];
-
 const box50 = Util.makeLotteryBox(50);
+
+const makeLoot = (type: enumItemType) => {
+  switch (type) {
+    case enumItemType.Weapon:
+      const weaponList = ITEMS.filter(item => item.ItemType === type);
+      const iw = Util.getRandomInt(0, enemy.value.Character.RewardWeaponList!.length - 1);
+      const weapon = weaponList[iw];
+      lootBox.push(weapon);
+      break;
+    case enumItemType.Armor:
+      const armorList = ITEMS.filter(item => item.ItemType === type);
+      const ia = Util.getRandomInt(0, enemy.value.Character.RewardArmorList!.length - 1);
+      const armor = armorList[ia];
+      lootBox.push(armor);
+      break;
+  }
+}
+
 onMounted(() => {
-  // 商店補充邏輯牌，隨機增加技術牌
+  // 判斷戰利品
+  const min = enemy.value.Character.RewardCoin![0];
+  const max = enemy.value.Character.RewardCoin![1];
+  const coin = ITEMS.find(item => item.ItemType === enumItemType.Coin)!;
+  coin.Point = Util.getRandomInt(min, max);
+  player.value.Coin += coin.Point;
+  
+  lootBox.push(coin);
+  makeLoot(enumItemType.Weapon);
+  makeLoot(enumItemType.Armor);
+
+  makeLoot(enumItemType.Weapon);
+  makeLoot(enumItemType.Weapon);
+  makeLoot(enumItemType.Weapon);
+  makeLoot(enumItemType.Weapon);
+  makeLoot(enumItemType.Weapon);
+  makeLoot(enumItemType.Weapon);
+  makeLoot(enumItemType.Weapon);
+  makeLoot(enumItemType.Weapon);
+  makeLoot(enumItemType.Weapon);
+  makeLoot(enumItemType.Weapon);
+
+  
+  lootBox.filter(loot => loot.ItemType !== enumItemType.Coin).forEach(loot => {
+    player.value.ItemList.push(loot);
+  })
+
+  store.dispatch(StoreAction.player.updatePlayer, player.value);
+
+  // 商店增加技術牌
   const newShopItems = [];
   const techCards = CARDS.filter(item => item.ItemType !== enumItemType.LogiCard);
   const shopRemainTechCards = shop.value.filter(item => item.ItemType !== enumItemType.LogiCard);
@@ -57,43 +102,27 @@ onMounted(() => {
     newShopItems.push(techCards[i]);
   }
   store.dispatch(StoreAction.general.updateShop, newShopItems);
-
-  const min = enemy.value.Character.RewardCoin![0];
-  const max = enemy.value.Character.RewardCoin![1];
-  earnCoin.value = Util.getRandomInt(min, max);
-  player.value.Coin += earnCoin.value;
 })
 
-const switchItem = (who: string, item: Item, i: number) => {
-  switch (who) {
-    case 'player':
-      enemy.value.CardList.push(item);
-      player.value.CardList.splice(i, 1);
-      enemy.value.CardList.sort((a, b) => a.ID - b.ID);
-      break;
-    case 'enemy':
-      if (player.value.CardList.length < player.value.Character.ItemLimit) {
-        player.value.CardList.push(item);
-        enemy.value.CardList.splice(i, 1);
-        player.value.CardList.sort((a, b) => a.ID - b.ID);
-      } else {
-        alert('已達背包上限！');
-      }
-      break;
-  }
+// 打開背包
+const openBackpack = async () => {
+  await Sound.playSound(Sound.sounds.click);
+  store.dispatch(StoreAction.switch.switchBackpack);
 }
+
 const goRest = async () => {
-  const confirmBox = confirm('離開後就無法取回機器人殘骸裡的卡牌了，確定嗎？');
-  if (confirmBox) {
-    await Sound.playSound(Sound.sounds.click);
-    store.dispatch(StoreAction.player.updatePlayer, player.value);
-    store.dispatch(StoreAction.general.changeGameState, enumGameState.Rest);
-  }
+  await Sound.playSound(Sound.sounds.click);
+  store.dispatch(StoreAction.general.changeGameState, enumGameState.Rest);
 }
 </script>
 
 <style lang="scss" scoped>
-.battle-end {
+#battle-end {
+  height: 100%;
   gap: 15px;
+}
+.items-container {
+  overflow-y: scroll;
+  gap: 10px;
 }
 </style>

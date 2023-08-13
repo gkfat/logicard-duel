@@ -1,18 +1,15 @@
 <template>
   <div id="backpack" class="frame" :class="{ 'frame-show': isBackpackOpen }">
     <DialogComponent :dialogs="dialogs"></DialogComponent>
-    <div class="item-list flex-grow-1">
-      <template v-for="item in player.CardList">
-        <div class="item">
-          <CardComponent :item="item"></CardComponent>
-          <div class="item-description">
-            <p class="h6 text-center m-0 mb-1">{{ item.Name }}</p>
-            <p class="m-0">{{ item.Description }}</p>
-          </div>
-        </div>
-      </template>
+    <p class="w-100 text-center m-0" v-if="canShow">
+      螺絲釘：{{ player.Coin }}｜物品：{{ player.ItemList.length + '／' + player.Character.ItemLimit }}
+    </p>
+    <div class="items-container" v-if="canShow">
+      <div v-for="(item, i) in player.ItemList">
+        <ItemComponent :backpack="true" :item="item" :index="i"></ItemComponent>
+      </div>
     </div>
-    <button type="button" class="system-btn mb-3" @click="closeBackpack()">關上背包</button>
+    <button type="button" class="w-100 system-btn" @click="closeBackpack()">關上背包</button>
   </div>
 </template>
 
@@ -22,7 +19,7 @@ import { computed, watch, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { Player, enumDialog } from '@/types/general';
 import DialogComponent from './DialogComponent.vue';
-import CardComponent from './CardComponent.vue';
+import ItemComponent from './ItemComponent.vue';
 import Sound from '@/service/sounds';
 import { DIALOGS } from '@/data';
 
@@ -30,6 +27,7 @@ const store = useStore();
 const isBackpackOpen = computed(() => store.getters.isBackpackOpen);
 const dialogs = DIALOGS[enumDialog.Backpack];
 const player = computed(() => store.getters.player as Player);
+const canShow = computed(() => player.value.ItemList && player.value.ItemList.length > 0);
 
 // 關上背包
 const closeBackpack = async () => {
@@ -40,41 +38,15 @@ const closeBackpack = async () => {
 
 <style lang="scss" scoped>
 #backpack {
-  .item-list {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    overflow-y: scroll;
-    padding: 5px;
-    background-color: var(--darkblue);
-    border-radius: 10px;
-    .item {
-      flex-grow: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      background-color: var(--blue);
-      border: 6px solid var(--darkblue);
-      border-radius: 10px;
-      height: 220px;
-      max-width: 50%;
-      padding-top: 5px;
-      gap: 5px;
-      @media screen and (min-width: 576px) {
-        max-width: 33.33%;
-      }
-      @media screen and (min-width: 768px) {
-        max-width: 25%;
-      }
-      &-description {
-        padding: 5px;
-        width: 100%;
-        color: var(--skin);
-        font-size: 0.8rem;
-        text-align: center;
-      }
-    }
-  }
+  height: 90%;
+}
+.items-container {
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  overflow-y: scroll;
 }
 </style>

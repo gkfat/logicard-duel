@@ -58,14 +58,18 @@ export interface Character {
     ID: number;
     Avatar: string;
     Name: string;
+    Description: string;
     Health: number;
     Attack: number;
     Defense: number;
     ItemLimit: number;
-    InitCardList: Item[];
     MumbleList: MumbleList;
     Coin: number;
-    RewardCoin?: number[]; // 獎勵金幣範圍，機器人才有
+    // 機器人才有
+    InitCardList?: Item[];
+    RewardCoin?: number[]; // 獎勵金幣範圍
+    RewardWeaponList?: Item[];
+    RewardArmorList?: Item[];
 }
 
 export interface Player {
@@ -105,10 +109,10 @@ export enum enumItemType {
     Attack,
     Defense,
     Health,
+    Coin,
     Weapon,
     Armor
 }
-
 
 /**
  * Google Sheet

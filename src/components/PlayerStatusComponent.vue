@@ -21,15 +21,15 @@
         </div>
   
         <p class="w-100 m-0 d-flex align-items-center">
-          <IconComponent :icon="`images/itemtype1`"></IconComponent>
+          <IconComponent :icon="`images/card-1`"></IconComponent>
           <span class="status-text">{{ player.CurrentAttack }}</span>
           <span v-if="player.ExtraAttack > 0" class="status-text">（+ {{ player.ExtraAttack }}）</span>
-          <IconComponent :icon="`images/itemtype2`"></IconComponent>
+          <IconComponent :icon="`images/card-2`"></IconComponent>
           <span class="status-text">{{ player.CurrentDefense }}</span>
           <span v-if="player.ExtraDefense > 0" class="status-text">（+ {{ player.ExtraDefense }}）</span>
           <!-- 金幣 -->
           <div class="coin m-0 d-flex justify-content-between align-items-center" v-if="player.Character.Type === 'P'">
-            <IconComponent :icon="`images/screw`"></IconComponent>
+            <IconComponent :icon="`images/item-4`"></IconComponent>
             <span class="status-text m-1">{{ player.Coin }}</span>
             <!-- 獲得螺絲釘動畫 -->
             <p v-if="coinChange !== 0" class="coin-change m-0 flow-up">+{{ coinChange }}</p>
@@ -63,15 +63,15 @@
           </div>
     
           <p class="w-100 m-0 d-flex align-items-center">
-            <IconComponent :icon="`images/itemtype1`"></IconComponent>
+            <IconComponent :icon="`images/card-1`"></IconComponent>
             <span class="status-text">{{ player.CurrentAttack }}</span>
             <span v-if="player.ExtraAttack" class="status-text">（+ {{ player.ExtraAttack }}）</span>
-            <IconComponent :icon="`images/itemtype2`"></IconComponent>
+            <IconComponent :icon="`images/card-2`"></IconComponent>
             <span class="status-text">{{ player.CurrentDefense }}</span>
             <span v-if="player.ExtraDefense" class="status-text">（+ {{ player.ExtraDefense }}）</span>
             <!-- 金幣 -->
             <div class="coin m-0 d-flex justify-content-between align-items-center" v-if="player.Character.Type === 'P'">
-              <IconComponent :icon="`images/screw`"></IconComponent>
+              <IconComponent :icon="`images/item-4`"></IconComponent>
               <span class="status-text">{{ player.Coin }}</span>
               <!-- 獲得螺絲釘動畫 -->
               <p v-if="coinChange !== 0" class="coin-change m-0 flow-up">+{{ coinChange }}</p>

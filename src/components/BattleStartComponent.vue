@@ -1,11 +1,11 @@
 <template>
-  <div v-if="enemy.Character">
+  <div id="battle-start" v-if="enemy.Character">
     <DialogComponent :dialogs="dialogs"></DialogComponent>
-    <div class="enemy d-flex justify-content-center align-items-center flex-wrap">
+    <div class="enemy">
       <PlayerStatusComponent :player="enemy"></PlayerStatusComponent>
-      <p>選擇技術牌</p>
-      <button type="button" class="system-btn my-3" @click="startBattle()">戰鬥</button>
+      <p class="m-0">{{ enemy.Character.Description }}</p>
     </div>
+    <button type="button" class="system-btn w-100" @click="startBattle()">戰鬥</button>
   </div>
 </template>
 
@@ -15,12 +15,13 @@ import { Player, enumGameState, enumDialog } from '@/types/general';
 import { computed, onMounted, ref, watch } from 'vue';
 import DialogComponent from './DialogComponent.vue';
 import PlayerStatusComponent from './PlayerStatusComponent.vue';
+import CardComponent from './CardComponent.vue';
 import { useStore } from 'vuex';
 import { DIALOGS } from '@/data/index';
 
-const dialogs = DIALOGS[enumDialog.BattleStart];
 const store = useStore();
 const enemy = computed(() => store.getters.enemy as Player);
+const dialogs = DIALOGS[enumDialog.BattleStart];
 
 // Init
 onMounted(() => {
@@ -40,11 +41,21 @@ const startBattle = () => {
 </script>
 
 <style lang="scss" scoped>
-.enemy {
-  width: 300px;
-  margin: 0 auto;
-  @media screen and (max-width: 768px) {
-    width: 100%;
+#battle-start {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
+  .enemy {
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    p {
+      text-align: left;
+    }
   }
 }
 </style>

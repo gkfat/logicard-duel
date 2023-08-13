@@ -1,17 +1,20 @@
 <template>
-  <div id="footer" class="w-100 container-fluid p-1 d-flex justify-content-center align-center"
+  <div id="footer" class="w-100 container-fluid d-flex justify-content-center"
       v-if="gameState === enumGameState.Rest">
-    <div type="button" class="system-btn">
-      玩家狀態
+    <div type="button" class="">
+      <IconComponent :icon="`images/player`"></IconComponent>
     </div>
-    <div type="button" class="system-btn" @click="openBackpack()">
-      <img :src="require(`@/assets/images/backpack.png`)">
+    <p class="seperate-line"></p>
+    <div type="button" class="" @click="openBackpack()">
+      <IconComponent :icon="`images/backpack`"></IconComponent>
     </div>
-    <div type="button" class="system-btn" @click="openRank()">
-      <img :src="require(`@/assets/images/rank.png`)">
+    <p class="seperate-line"></p>
+    <div type="button" class="" @click="openRank()">
+      <IconComponent :icon="`images/rank`"></IconComponent>
     </div>
-    <div type="button" class="system-btn" @click="openShop()">
-      商店
+    <p class="seperate-line"></p>
+    <div type="button" class="" @click="openShop()">
+      <IconComponent :icon="`images/shop`"></IconComponent>
     </div>
   </div>
 </template>
@@ -22,6 +25,7 @@ import { StoreAction } from '@/store/storeActions';
 import { enumGameState } from '@/types/general';
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
+import IconComponent from './IconComponent.vue';
 import Sound from '@/service/sounds';
 import router from '@/router';
 
@@ -48,11 +52,19 @@ const openShop = async () => {
 <style lang="scss" scoped>
 #footer {
   gap: 10px;
-  .system-btn {
-    img {
-      width: 30px;
-      height: 30px;
-    }
+  background-color: var(--skin);
+  align-items: center;
+  padding: 10px;
+  .icon {
+    width: 40px;
+    height: 40px;
+  }
+  .seperate-line {
+    height: 30px;
+    margin: 0;
+    width: 2px;
+    border-radius: 1px;
+    background-color: var(--blue);
   }
 }
 </style>

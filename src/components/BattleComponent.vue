@@ -2,7 +2,7 @@
   <div id="battle" class="d-flex flex-column justify-content-end align-items-center">
     <!-- Enemy -->
     <div class="enemy">
-      <div class="items-container mb-1">
+      <div class="cards-container mb-1">
         <CardComponent v-for="(item, i) in enemy.CardList" :sm="true" :is-card-back="true" :item="item"></CardComponent>
       </div>
       <PlayerStatusComponent :player="enemy"></PlayerStatusComponent>
@@ -35,22 +35,22 @@
             </template>
           </p>
           <!-- Enemy Cards -->
-          <div class="enemy-items">
-            <CardComponent v-if="table.enemyItems[0]" :klass="tossCard ? 'enemy-toss-card' : ''" :is-card-back="!openCard" :item="table.enemyItems[0]"></CardComponent>
-            <div class="card-placeholder card-placeholder-logicard" v-if="!table.enemyItems[0]"></div>
-            <CardComponent v-if="table.enemyItems[1]" :klass="tossCard ? 'enemy-toss-card' : ''" :is-card-back="!openCard" :item="table.enemyItems[1]"></CardComponent>
-            <div class="card-placeholder card-placeholder-techcard" v-if="!table.enemyItems[1]"></div>
+          <div class="enemy-cards">
+            <CardComponent v-if="table.enemyCards[0]" :klass="tossCard ? 'enemy-toss-card' : ''" :is-card-back="!openCard" :item="table.enemyCards[0]"></CardComponent>
+            <div class="card-placeholder card-placeholder-logicard" v-if="!table.enemyCards[0]"></div>
+            <CardComponent v-if="table.enemyCards[1]" :klass="tossCard ? 'enemy-toss-card' : ''" :is-card-back="!openCard" :item="table.enemyCards[1]"></CardComponent>
+            <div class="card-placeholder card-placeholder-techcard" v-if="!table.enemyCards[1]"></div>
           </div>
           <!-- Player Cards -->
-          <div class="player-items">
-            <div type="button" v-if="table.playerItems[0]" @click="getCardFromTable(player.Character, 0)">
-              <CardComponent :klass="tossCard ? 'player-toss-card' : ''" :item="table.playerItems[0]"></CardComponent>
+          <div class="player-cards">
+            <div type="button" v-if="table.playerCards[0]" @click="getCardFromTable(player.Character, 0)">
+              <CardComponent :klass="tossCard ? 'player-toss-card' : ''" :item="table.playerCards[0]"></CardComponent>
             </div>
-            <div class="card-placeholder card-placeholder-logicard" v-if="!table.playerItems[0]"></div>
-            <div type="button" v-if="table.playerItems[1]" @click="getCardFromTable(player.Character, 1)">
-              <CardComponent :klass="tossCard ? 'player-toss-card' : ''" :item="table.playerItems[1]"></CardComponent>
+            <div class="card-placeholder card-placeholder-logicard" v-if="!table.playerCards[0]"></div>
+            <div type="button" v-if="table.playerCards[1]" @click="getCardFromTable(player.Character, 1)">
+              <CardComponent :klass="tossCard ? 'player-toss-card' : ''" :item="table.playerCards[1]"></CardComponent>
             </div>
-            <div class="card-placeholder card-placeholder-techcard" v-if="!table.playerItems[1]"></div>
+            <div class="card-placeholder card-placeholder-techcard" v-if="!table.playerCards[1]"></div>
           </div>
 
         </div>
@@ -59,7 +59,7 @@
 
     <!-- Player -->
     <div class="player">
-      <div class="items-container">
+      <div class="cards-container">
         <div v-for="(item, i) in player.CardList" type="button" @click="placeCardOnTable(player.Character, item, i)">
           <CardComponent :style="calcCardRotate(i)" :item="item"></CardComponent>
         </div>
@@ -91,8 +91,8 @@ const deal = ref(0);
 
 const roundState = ref(enumRoundState.Start);
 const table = reactive({
-  enemyItems: [null, null] as Array<Item | null>,
-  playerItems: [null, null] as Array<Item | null>,
+  enemyCards: [null, null] as Array<Item | null>,
+  playerCards: [null, null] as Array<Item | null>,
   result: enumBattleResult.Init,
   usedCardList: [] as Item[]
 })
@@ -128,20 +128,20 @@ const tossCard = ref(false);
 
 // 開始回合
 const roundStart = () => {
-  if (table.enemyItems[0]) {
-    table.usedCardList.push(table.enemyItems[0]);
+  if (table.enemyCards[0]) {
+    table.usedCardList.push(table.enemyCards[0]);
   }
-  if (table.enemyItems[1]) {
-    table.usedCardList.push(table.enemyItems[1]);
+  if (table.enemyCards[1]) {
+    table.usedCardList.push(table.enemyCards[1]);
   }
-  if (table.playerItems[0]) {
-    table.usedCardList.push(table.playerItems[0]);
+  if (table.playerCards[0]) {
+    table.usedCardList.push(table.playerCards[0]);
   }
-  if (table.playerItems[1]) {
-    table.usedCardList.push(table.playerItems[1]);
+  if (table.playerCards[1]) {
+    table.usedCardList.push(table.playerCards[1]);
   }
-  table.enemyItems = [null, null];
-  table.playerItems = [null, null];
+  table.enemyCards = [null, null];
+  table.playerCards = [null, null];
   tossCard.value = false;
   openCard.value = false; // 重置開牌狀態
   roundState.value = enumRoundState.Start;
@@ -181,6 +181,7 @@ const dealGame = async () => {
 
 // 監看抽籤結果，決定敵人何時出牌
 const countDownSec = 10;
+// const countDownSec = 10000;
 const countDownTimer = ref(null as number | null);
 const countDownRemainSec = ref(countDownSec);
 watch(deal, async () => {
@@ -284,12 +285,12 @@ const placeCardOnTable = async (character: Character, item: Item, i: number) => 
   }
   switch (character.Type) {
     case 'P': // 玩家
-      const findCard = table.playerItems[pos];
+      const findCard = table.playerCards[pos];
       const allowTime = roundState.value === enumRoundState.Counting || roundState.value === enumRoundState.Start;
       if (!findCard && allowTime) {
         await Sound.playSound(Sound.sounds.placeCard);
         player.value.CardList.splice(i, 1);
-        table.playerItems[pos] = item;
+        table.playerCards[pos] = item;
         store.dispatch(StoreAction.player.playerMumble, { type: enumMumbleType.PlaceCard, delay: 0 });
         if (!enemyMumbling.value && Util.lottery(box50)) {
           store.dispatch(StoreAction.player.enemyMumble, { type: enumMumbleType.EnemyPlaceCard, delay: 0 });
@@ -299,7 +300,7 @@ const placeCardOnTable = async (character: Character, item: Item, i: number) => 
       break;
     case 'B': // 機器人
       enemy.value.CardList.splice(i, 1);
-      table.enemyItems[pos] = item;
+      table.enemyCards[pos] = item;
       if (Util.lottery(box50)) {
         store.dispatch(StoreAction.player.enemyMumble, { type: enumMumbleType.PlaceCard, delay: 0 });
       }
@@ -311,19 +312,19 @@ const placeCardOnTable = async (character: Character, item: Item, i: number) => 
 const getCardFromTable = async (character: Character, i: number) => {
   switch (character.Type) {
     case 'P': // 玩家
-      const findCard = table.playerItems[i]!;
+      const findCard = table.playerCards[i]!;
       const allowTime = roundState.value === enumRoundState.Counting || roundState.value === enumRoundState.Start;
       if (allowTime) {
         await Sound.playSound(Sound.sounds.placeCard);
         player.value.CardList.push(findCard);
-        table.playerItems[i] = null;
+        table.playerCards[i] = null;
         player.value.CardList.sort((a, b) => a.ID - b.ID);
       }
       break;
     case 'B': // 機器人
-      const findEnemyCard = table.enemyItems[i]!;
+      const findEnemyCard = table.enemyCards[i]!;
       enemy.value.CardList.push(findEnemyCard);
-      table.enemyItems[i] = null;
+      table.enemyCards[i] = null;
       break;
   }
 }
@@ -331,10 +332,10 @@ const getCardFromTable = async (character: Character, i: number) => {
 // 開牌，計算輸贏並執行扣血
 const draw = async () => {
   // 取得雙方點數
-  const enemyLogiCard = table.enemyItems[0] ? table.enemyItems[0].Point : null;
-  const enemyTechCard = table.enemyItems[1] ? table.enemyItems[1] : null;
-  const playerLogiCard = table.playerItems[0] ? table.playerItems[0].Point : null;
-  const playerTechCard = table.playerItems[1] ? table.playerItems[1] : null;
+  const enemyLogiCard = table.enemyCards[0] ? table.enemyCards[0].Point : null;
+  const enemyTechCard = table.enemyCards[1] ? table.enemyCards[1] : null;
+  const playerLogiCard = table.playerCards[0] ? table.playerCards[0].Point : null;
+  const playerTechCard = table.playerCards[1] ? table.playerCards[1] : null;
   // 計算攻擊力、防禦力
   let enemyAttack = enemy.value.CurrentAttack;
   let enemyDefense = enemy.value.CurrentDefense;
@@ -472,11 +473,11 @@ const resetExtraStatus = () => {
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
-  .items-container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
+}
+.cards-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 .card-table {
   width: 100%;
@@ -538,7 +539,7 @@ const resetExtraStatus = () => {
     align-items: center;
     z-index: 2;
   }
-  .enemy-items, .player-items {
+  .enemy-cards, .player-cards {
     z-index: 1;
     width: 48%;
     display: flex;

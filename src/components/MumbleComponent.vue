@@ -39,6 +39,7 @@ const store = useStore();
 .message {
   position: relative;
   font-size: 0.8rem;
+  line-height: 1rem;
   max-width: 240px;
   width: 180px;
   word-break: break-all;
