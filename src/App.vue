@@ -3,56 +3,51 @@
     <ul class="blocks">
       <li v-for="i in 10" :key="i"></li>
     </ul>
-    <HeaderComponent></HeaderComponent>
+    <Header></Header>
     <div class="layout-body">
       <router-view></router-view>
     </div>
-    <RankComponent></RankComponent>
-    <BackpackComponent></BackpackComponent>
-    <ShopComponent></ShopComponent>
   </div>
+
+  <Rank></Rank>
+  <Backpack></Backpack>
+  <Shop></Shop>
 
   <div class="spinner" v-if="isSpinnerOpen">
     <div class="spinner-inner d-flex justify-content-center align-items-center">
-      <SpinnerComponent></SpinnerComponent>
+      <Spinner></Spinner>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import SpinnerComponent from './components/SpinnerComponent.vue';
-import HeaderComponent from './components/HeaderComponent.vue';
-import RankComponent from './components/RankComponent.vue';
-import BackpackComponent from './components/BackpackComponent.vue';
-import ShopComponent from './components/ShopComponent.vue';
+import Spinner from './components/Spinner.vue';
+import Header from './components/Header.vue';
+import Rank from './components/Rank.vue';
+import Backpack from './components/Backpack.vue';
+import Shop from './components/Shop.vue';
 import { useStore } from 'vuex';
-import router from '@/router';
+import Sound from '@/service/sounds';
 import { StoreAction } from './store/storeActions';
-import { enumSheetName, enumOperation, Item, enumItemType } from './types/general';
-import { ITEM } from './data';
+import { enumSheetName, enumOperation, enumItemType } from './types/enums';
+import { CARDS } from './data';
 import Util from './service/util';
 
 const store = useStore();
 const isSpinnerOpen = computed(() => store.getters.isSpinnerOpen);
-const sounds = computed(() => store.getters.sounds);
 
 // 初始化排行榜、商店、音樂
 onMounted(async () => {
-  await store.dispatch(StoreAction.initSounds);
-  console.log(sounds.value.click)
-  await store.dispatch(StoreAction.fetchData, { sheetName: enumSheetName.Records, operation: enumOperation.Get });
+  Sound.loadAssets();
+  await store.dispatch(StoreAction.general.fetchData, { sheetName: enumSheetName.Records, operation: enumOperation.Get });
   const shopItems = [];
-  const logiCards = ITEM.filter(item => item.ItemType === enumItemType.LogiCard);
-  const techCards = ITEM.filter(item => item.ItemType !== enumItemType.LogiCard);
-  for (const item of logiCards) {
-    shopItems.push(item);
-  }
-  while (shopItems.length < 8) {
+  const techCards = CARDS.filter(item => item.ItemType !== enumItemType.LogiCard);
+  while (shopItems.length < 6) {
     const i = Util.getRandomInt(0, techCards.length - 1);
     shopItems.push(techCards[i]);
   }
-  store.dispatch(StoreAction.updateShop, shopItems);
+  store.dispatch(StoreAction.general.updateShop, shopItems);
 })
 
 </script>
@@ -63,14 +58,16 @@ onMounted(async () => {
   line-height: 24px;
 }
 .layout {
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   flex-direction: column;
   &-body {
     position: relative;
-    flex-grow: 1;
-    overflow: scroll;
-    padding: 15px 30px 0;
+    height: 90%;
+    padding: 10px 15px 0;
   }
 }
 .spinner {

@@ -1,40 +1,188 @@
-import { enumDialog, enumMumbleType } from './../types/general';
-import { Character, Item, MumbleList, Player, enumItemType } from "@/types/general"
+import { enumDialog, enumMumbleType, enumItemType, enumItem, enumCard, enumCharacter } from './../types/enums';
+import { Character, Item, MumbleList, Player } from '@/types';
 
-export const ITEM: Item[] = [
-  { ID: 1, Name: 'LogiCard 1', Description: '一張邏輯牌，上面寫著數字 1。', Point: 1, ItemType: enumItemType.LogiCard, Price: 2 },
-  { ID: 2, Name: 'LogiCard 2', Description: '一張邏輯牌，上面寫著數字 2。', Point: 2, ItemType: enumItemType.LogiCard, Price: 2 },
-  { ID: 3, Name: 'LogiCard 3', Description: '一張邏輯牌，上面寫著數字 3。', Point: 3, ItemType: enumItemType.LogiCard, Price: 2 },
-  { ID: 4, Name: 'LogiCard 4', Description: '一張邏輯牌，上面寫著數字 4。', Point: 4, ItemType: enumItemType.LogiCard, Price: 2 },
-  { ID: 5, Name: 'LogiCard 5', Description: '一張邏輯牌，上面寫著數字 5。', Point: 5, ItemType: enumItemType.LogiCard, Price: 2 },
-  { ID: 6, Name: 'LogiCard 6', Description: '一張邏輯牌，上面寫著數字 6。', Point: 6, ItemType: enumItemType.LogiCard, Price: 2 },
-  { ID: 7, Name: 'LogiCard 7', Description: '一張邏輯牌，上面寫著數字 7。', Point: 7, ItemType: enumItemType.LogiCard, Price: 2 },
-  { ID: 8, Name: '螺絲起子', Description: '感覺可以撬開什麼。', Point: 3, ItemType: enumItemType.Attack, Price: 10 },
-  { ID: 9, Name: '榔頭', Description: '這個肯定能砸穿敵人吧...', Point: 8, ItemType: enumItemType.Attack, Price: 15 },
-  { ID: 9, Name: '一堆破銅爛鐵', Description: '至少可以撐一下子。', Point: 7, ItemType: enumItemType.Defense, Price: 8 },
-  { ID: 10, Name: '一片 GKBot 的機殼', Description: '看起來相當堅硬。', Point: 10, ItemType: enumItemType.Defense, Price: 10 },
-  { ID: 11, Name: '一桶機油', Description: '要不要喝下去看看呢...', Point: 10, ItemType: enumItemType.Health, Price: 20 },
-  { ID: 12, Name: '3 號電池', Description: '怎麼有股想把他吃下去的衝動...', Point: 5, ItemType: enumItemType.Health, Price: 15 },
+// Icons
+import github from '@/assets/icons/github.png';
+import mail from '@/assets/icons/mail.png';
+import rank from '@/assets/icons/rank.png';
+import backapck from '@/assets/icons/backpack.png';
+import logoLogicard from '@/assets/icons/logo-logicard.png';
+import attack from '@/assets/icons/attack.png';
+import defense from '@/assets/icons/defense.png';
+import heal from '@/assets/icons/heal.png';
+import cardbackLogicard from '@/assets/icons/cardback-logicard.png';
+import cardbackTech from '@/assets/icons/cardback-tech.png';
+import coin from '@/assets/icons/coin.png';
+import boxer from '@/assets/icons/boxer.png';
+import bat from '@/assets/icons/bat.png';
+import gun from '@/assets/icons/gun.png';
+import cloth from '@/assets/icons/cloth.png';
+import bulletproof from '@/assets/icons/bulletproof.png';
+import armor from '@/assets/icons/armor.png';
+import player from '@/assets/icons/player.png';
+import shop from '@/assets/icons/shop.png';
+
+// Gif
+import rest from '@/assets/gifs/rest.gif';
+
+// Avatar
+import man from '@/assets/avatars/man.png';
+import fat from '@/assets/avatars/fat.png';
+import artist from '@/assets/avatars/artist.png';
+import gkbotWorker from '@/assets/avatars/gkbot-worker.png';
+import gkbotAttack from '@/assets/avatars/gkbot-attack.png';
+import gkbotDefense from '@/assets/avatars/gkbot-defense.png';
+import gkbotPerform from '@/assets/avatars/gkbot-perform.png';
+
+export const IMAGES = {
+  avatar: {
+    man,
+    fat,
+    artist,
+    gkbotWorker,
+    gkbotPerform,
+    gkbotDefense,
+    gkbotAttack,
+  },
+  icon: {
+    github,
+    mail,
+    rank,
+    backapck,
+    logoLogicard,
+    attack,
+    defense,
+    heal,
+    cardbackLogicard,
+    cardbackTech,
+    coin,
+    bat,
+    boxer,
+    gun,
+    cloth,
+    armor,
+    bulletproof,
+    player,
+    shop,
+  },
+  gifs: {
+    rest
+  }
+}
+
+export const CARDS: Item[] = [
+  {
+    ID: enumCard.LogiCard1, Name: 'LogiCard 1', Description: '一張邏輯牌，上面寫著數字 1。',
+    Point: 1, ItemType: enumItemType.LogiCard, Price: 2, Icon: IMAGES.icon.logoLogicard,
+  },
+  {
+    ID: enumCard.LogiCard2, Name: 'LogiCard 2', Description: '一張邏輯牌，上面寫著數字 2。',
+    Point: 2, ItemType: enumItemType.LogiCard, Price: 2, Icon: IMAGES.icon.logoLogicard,
+  },
+  {
+    ID: enumCard.LogiCard3, Name: 'LogiCard 3', Description: '一張邏輯牌，上面寫著數字 3。',
+    Point: 3, ItemType: enumItemType.LogiCard, Price: 2, Icon: IMAGES.icon.logoLogicard,
+  },
+  {
+    ID: enumCard.LogiCard4, Name: 'LogiCard 4', Description: '一張邏輯牌，上面寫著數字 4。',
+    Point: 4, ItemType: enumItemType.LogiCard, Price: 2, Icon: IMAGES.icon.logoLogicard,
+  },
+  {
+    ID: enumCard.LogiCard5, Name: 'LogiCard 5', Description: '一張邏輯牌，上面寫著數字 5。',
+    Point: 5, ItemType: enumItemType.LogiCard, Price: 2, Icon: IMAGES.icon.logoLogicard,
+  },
+  {
+    ID: enumCard.LogiCard6, Name: 'LogiCard 6', Description: '一張邏輯牌，上面寫著數字 6。',
+    Point: 6, ItemType: enumItemType.LogiCard, Price: 2, Icon: IMAGES.icon.logoLogicard,
+  },
+  {
+    ID: enumCard.LogiCard7, Name: 'LogiCard 7', Description: '一張邏輯牌，上面寫著數字 7。',
+    Point: 7, ItemType: enumItemType.LogiCard, Price: 2, Icon: IMAGES.icon.logoLogicard,
+  },
+  {
+    ID: enumCard.ScrewDriver, Name: '螺絲起子', Description: '感覺可以撬開什麼。',
+    Point: 3, ItemType: enumItemType.Attack, Price: 10, Icon: IMAGES.icon.attack,
+  },
+  {
+    ID: enumCard.Hammer, Name: '榔頭', Description: '這個肯定能砸穿敵人吧...',
+    Point: 8, ItemType: enumItemType.Attack, Price: 15, Icon: IMAGES.icon.attack,
+  },
+  {
+    ID: enumCard.ScrapMetal, Name: '破銅爛鐵', Description: '至少可以撐一下子。',
+    Point: 7, ItemType: enumItemType.Defense, Price: 8, Icon: IMAGES.icon.defense,
+  },
+  {
+    ID: enumCard.GkbotShell, Name: 'GKBot 的機殼', Description: '看起來相當堅硬。',
+    Point: 10, ItemType: enumItemType.Defense, Price: 10, Icon: IMAGES.icon.defense,
+  },
+  {
+    ID: enumCard.Oil, Name: '機油', Description: '要不要喝下去看看呢...',
+    Point: 10, ItemType: enumItemType.Heal, Price: 20, Icon: IMAGES.icon.heal,
+  },
+  {
+    ID: enumCard.Battery, Name: '3 號電池', Description: '有股想把它吃下去的衝動...',
+    Point: 5, ItemType: enumItemType.Heal, Price: 15, Icon: IMAGES.icon.heal,
+  },
+];
+
+export const ITEMS: Item[] = [
+  {
+    ID: enumItem.Coin, Name: '螺絲釘', Description: '世界變成這個樣子後，GKBot 的螺絲釘成了主要貨幣。',
+    Point: 0, ItemType: enumItemType.Coin, Price: 0, Icon: IMAGES.icon.coin,
+  },
+  {
+    ID: enumItem.Boxer, Name: '拳擊手套', Description: '這軟趴趴的手套，對機器人有用嗎...',
+    Point: 1, ItemType: enumItemType.Weapon, Price: 2, Icon: IMAGES.icon.boxer,
+  },
+  {
+    ID: enumItem.Bat, Name: '棒球棍', Description: '一根隨處可見的棒球棍。',
+    Point: 3, ItemType: enumItemType.Weapon, Price: 5, Icon: IMAGES.icon.bat,
+  },
+  {
+    ID: enumItem.Gun, Name: '手槍', Description: '哈利，你看！這東西比魔杖還好用呢！',
+    Point: 5, ItemType: enumItemType.Weapon, Price: 20, Icon: IMAGES.icon.gun,
+  },
+  {
+    ID: enumItem.Cloth, Name: '布衣', Description: '有穿總比沒穿好。',
+    Point: 1, ItemType: enumItemType.Armor, Price: 2, Icon: IMAGES.icon.cloth,
+  },
+  {
+    ID: enumItem.BulletProof, Name: '防彈衣', Description: '應該可以保護自己吧。',
+    Point: 3, ItemType: enumItemType.Armor, Price: 5, Icon: IMAGES.icon.bulletproof,
+  },
+  {
+    ID: enumItem.Armor, Name: '盔甲', Description: '原本在博物館裡的東西...',
+    Point: 5, ItemType: enumItemType.Armor, Price: 20, Icon: IMAGES.icon.armor,
+  },
 ]
 
 export const HUMAN_MUMBLE_LIST: MumbleList = {
   [enumMumbleType.General]: [
     '怪了...為什麼我喝機油會沒事啊...',
+    '現在是 2021...2022..啊，應該是 2023？啊，不對，早就已經 2100 了...',
+    '怎麼都沒有好牌啊？機器人作弊?',
+    '我可以吃電池欸...',
   ],
   [enumMumbleType.PlaceCard]: [
     '希望這張牌能讓我活下去。',
     '這真的有用嗎...',
+    '請問是放這嗎？',
   ],
-  [enumMumbleType.EnemyPlaceCard]: [],
+  [enumMumbleType.EnemyPlaceCard]: [
+    '機器人出牌為什麼看起來那麼恐怖啊？',
+  ],
   [enumMumbleType.Hurt]: [
-    '啊...血流不止了...'
+    '啊...血流不止了...',
+    '欸...',
+    '痛啊...',
   ],
   [enumMumbleType.Attack]: [
     '攻擊！攻擊！攻擊！',
-    '為什麼這樣機器就會損血？'
+    '為什麼這樣可以傷到機器人？',
   ],
   [enumMumbleType.Lose]: [
     '原來...這就是終結嗎...',
+    '終於能輕鬆了...',
   ]
 }
 
@@ -80,81 +228,121 @@ export const ROBOT_MUMBLE_LIST: MumbleList = {
 }
 
 export const CHARACTER_MUMBLE_LIST:{ [ID: number]: string[] } = {
-  1: [
+  [enumCharacter.Man]: [
     '明天是星期一？真不想上班...啊，公司已經沒了。',
     '再存個 20 年，我也買得起一台工作型...',
     '這下不用繳房貸了！',
-    '撐過了今天，還有明天...咦？這不是跟末日前上班的日子一樣嗎...',
+    '撐過了今天，還有明天...咦？這不是跟以前上班的日子一樣嗎...',
   ],
-  2: [
+  [enumCharacter.Nerd]: [
     '今晚要吃什麼好呢？',
     '呼...好熱...嘻嘻。',
     '如果沒有這些機器人的話，就可以在家玩遊戲了。',
-    '暗黑 4 才打到一半...',
+    '暗黑四才打到一半...',
+    '媽！',
   ],
-  3: [
+  [enumCharacter.Artist]: [
     '你的線條真是俐落啊。',
     '能告訴我你的色碼嗎？',
+    '這邊是方形...那邊是圓形...',
+    '我的眼裡只有色彩！',
     '我還有 3 張表技沒畫耶。',
-    '哦呼...我的創作慾快要爆發啦！',
+    '哦呼...我的創作欲快要爆發啦！',
   ]
 }
 
 export const CHARACTER_LIST: Character[] = [
   {
-    Type: 'P', ID: 1, Name: '失業的上班族', Health: 40, Attack: 10, Defense: 3, ItemLimit: 10, Coin: 5,
-    InitItemList: ITEM.filter(item => item.ItemType === enumItemType.LogiCard),
-    Avatar: 'man.png',
+    Type: 'P', ID: enumCharacter.Man, Name: '失業的上班族',
+    Health: 40, Attack: 100, Defense: 3, ItemLimit: 10, Coin: 5,
+    Description: '沒什麼特別的，就是個平凡的上班族（aka you）。',
+    Avatar: IMAGES.avatar.man,
     MumbleList: HUMAN_MUMBLE_LIST
   },
   {
-    Type: 'P', ID: 2, Name: '家裡蹲', Health: 50, Attack: 8, Defense: 5, ItemLimit: 15, Coin: 5,
-    InitItemList: ITEM.filter(item => item.ItemType === enumItemType.LogiCard),
-    Avatar: 'fat.png',
+    Type: 'P', ID: enumCharacter.Nerd, Name: '家裡蹲',
+    Health: 50, Attack: 8, Defense: 5, ItemLimit: 15, Coin: 5,
+    Description: '因為體力不太好沒辦法背太多東西，很重。擁有比較厚的脂肪層，比較不容易受傷。',
+    Avatar: IMAGES.avatar.fat,
     MumbleList: HUMAN_MUMBLE_LIST
   },
   {
-    Type: 'P', ID: 3, Name: '藝術家', Health: 30, Attack: 15, Defense: 2, ItemLimit: 10, Coin: 5,
-    InitItemList: ITEM.filter(item => item.ItemType === enumItemType.LogiCard),
-    Avatar: 'artist.png',
+    Type: 'P', ID: enumCharacter.Artist, Name: '藝術家',
+    Health: 30, Attack: 15, Defense: 2, ItemLimit: 10, Coin: 5,
+    Description: '穿著獨特的大衣，口袋很多。因為有低血糖，比較虛弱。',
+    Avatar: IMAGES.avatar.artist,
     MumbleList: HUMAN_MUMBLE_LIST
   },
   {
-    Type: 'B', ID: 1, Name: 'GKBot 工作型', Health: 30, Attack: 8, Defense: 1, ItemLimit: 8, Coin: 0, RewardCoin: [10, 15],
-    Avatar: 'gkbot-worker.png',
-    InitItemList: [
-      ...ITEM.filter(item => item.ItemType === enumItemType.LogiCard),
-      ...ITEM.filter(item => item.ID === 8)
+    Type: 'B', ID: enumCharacter.GkbotWorker, Name: 'GKBot 工作型',
+    Health: 30, Attack: 8, Defense: 1, ItemLimit: 8, Coin: 0,
+    Avatar: IMAGES.avatar.gkbotWorker,
+    Description: '被生產來做一些基本的事務，例如清潔、搬運、量產等。特色是平板的聲音線。',
+    InitCardList: [
+      ...CARDS.filter(card => card.ID === enumCard.ScrewDriver),
+      ...CARDS.filter(card => card.ID === enumCard.Battery),
+    ],
+    RewardCoin: [10, 15],
+    RewardItemList: [
+      ...ITEMS.filter(item => item.ID === enumItem.Boxer),
+      ...ITEMS.filter(item => item.ID === enumItem.Cloth),
     ],
     MumbleList: ROBOT_MUMBLE_LIST
   },
   {
-    Type: 'B', ID: 2, Name: 'GKBot 表演型', Health: 35, Attack: 12, Defense: 2, ItemLimit: 8, Coin: 0, RewardCoin: [15, 25],
-    Avatar: 'gkbot-perform.png',
-    InitItemList: [
-      ...ITEM.filter(item => item.ItemType === enumItemType.LogiCard),
-      ...ITEM.filter(item => item.ID === 10)
+    Type: 'B', ID: enumCharacter.GkbotPerform, Name: 'GKBot 表演型',
+    Health: 35, Attack: 12, Defense: 2, ItemLimit: 8, Coin: 0,
+    Avatar: IMAGES.avatar.gkbotPerform,
+    Description: '被生產來與人互動，多作為看護或保姆，有安裝 DLC 的版本甚至能擔任教師。特色是能模擬人類的情感，有時會講笑話或唱歌。',
+    InitCardList: [
+      ...CARDS.filter(card => card.ID === enumCard.ScrewDriver),
+      ...CARDS.filter(card => card.ID === enumCard.Battery),
+      ...CARDS.filter(card => card.ID === enumCard.Oil),
+    ],
+    RewardCoin: [15, 25],
+    RewardItemList: [
+      ...ITEMS.filter(item => item.ID === enumItem.Boxer),
+      ...ITEMS.filter(item => item.ID === enumItem.Cloth),
+      ...ITEMS.filter(item => item.ID === enumItem.Bat),
     ],
     MumbleList: ROBOT_MUMBLE_LIST
   },
   {
-    Type: 'B', ID: 3, Name: 'GKBot 侵略型', Health: 40, Attack: 18, Defense: 2, ItemLimit: 8, Coin: 0, RewardCoin: [30, 50],
-    Avatar: 'gkbot-attack.png',
-    InitItemList: [
-      ...ITEM.filter(item => item.ItemType === enumItemType.LogiCard),
-      ...ITEM.filter(item => item.ID === 10),
-      ...ITEM.filter(item => item.ID === 8)
+    Type: 'B', ID: enumCharacter.GkbotAttack, Name: 'GKBot 侵略型',
+    Health: 40, Attack: 18, Defense: 2, ItemLimit: 8, Coin: 0,
+    Avatar: IMAGES.avatar.gkbotAttack,
+    Description: '被生產來進行軍事行動的型號，行動敏捷，知曉一些秘密。',
+    InitCardList: [
+      ...CARDS.filter(item => item.ID === 8),
+      ...CARDS.filter(item => item.ID === 10),
+    ],
+    RewardCoin: [30, 50],
+    RewardItemList: [
+      ...ITEMS.filter(item => item.ID === enumItem.Boxer),
+      ...ITEMS.filter(item => item.ID === enumItem.Cloth),
+      ...ITEMS.filter(item => item.ID === enumItem.Bat),
+      ...ITEMS.filter(item => item.ID === enumItem.Gun),
+      ...ITEMS.filter(item => item.ID === enumItem.BulletProof),
     ],
     MumbleList: ROBOT_MUMBLE_LIST
   },
   {
-    Type: 'B', ID: 4, Name: 'GKBot 防禦型', Health: 50, Attack: 8, Defense: 5, ItemLimit: 8, Coin: 0, RewardCoin: [30, 50],
-    Avatar: 'gkbot-defense.png',
-    InitItemList: [
-      ...ITEM.filter(item => item.ItemType === enumItemType.LogiCard),
-      ...ITEM.filter(item => item.ID === 9),
-      ...ITEM.filter(item => item.ID === 9),
-      ...ITEM.filter(item => item.ID === 10),
+    Type: 'B', ID: enumCharacter.GkbotDefense, Name: 'GKBot 防禦型',
+    Health: 50, Attack: 8, Defense: 5, ItemLimit: 8, Coin: 0,
+    Avatar: IMAGES.avatar.gkbotDefense,
+    Description: '外殼特別堅硬，能夠更有效地防禦攻擊，話很少。',
+    InitCardList: [
+      ...CARDS.filter(item => item.ID === 9),
+      ...CARDS.filter(item => item.ID === 9),
+      ...CARDS.filter(item => item.ID === 10),
+    ],
+    RewardCoin: [30, 50],
+    RewardItemList: [
+      ...ITEMS.filter(item => item.ID === enumItem.Boxer),
+      ...ITEMS.filter(item => item.ID === enumItem.Cloth),
+      ...ITEMS.filter(item => item.ID === enumItem.Bat),
+      ...ITEMS.filter(item => item.ID === enumItem.BulletProof),
+      ...ITEMS.filter(item => item.ID === enumItem.Armor),
     ],
     MumbleList: ROBOT_MUMBLE_LIST
   }
@@ -176,10 +364,10 @@ export const DIALOGS = {
     ['「我是...」'],
   ],
   [enumDialog.BattleStart]: [
-    '眼前出現了一台機器人，根據平板上的記載，好像是...',
+    '眼前出現了一台 GKBot，根據平板上的記載，好像是...',
   ],
   [enumDialog.BattleEnd]: [
-    '看著機器人冒著煙的軀殼，你不禁感到一絲同情。突然間，你被散落在地上的東西吸引。那不是機器人手中的卡牌嗎？要趁現在補充一點邏輯牌嗎？',
+    '你看著 GKBot 冒著煙的軀殼，不禁感到一絲同情，但為了生存，你還是翻找著殘骸，看看有什麼能用的東西。',
   ],
   [enumDialog.Rest]: [
     '你找到一處隱蔽的避難所，躲在暗處稍事休息。外頭不時傳來 GKBot 四處肆虐的聲響。一直躲下去也不是辦法，休息夠了就出發吧。',

@@ -1,4 +1,4 @@
-import { enumSheetName, enumOperation } from './../types/general';
+import { enumSheetName, enumOperation } from '../types';
 import axios from 'axios';
 
 class ApiService {

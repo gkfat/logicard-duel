@@ -3,9 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "NODE_OPTIONS='--openssl-legacy-provider' vue-cli-service build",
-    "gh-deploy": "npm run build && gh-pages -d dist"
+    "dev": "vite",
+    "build": "NODE_OPTIONS='--openssl-legacy-provider' vue-tsc && vite build"
   },
   "dependencies": {
     "@hennge/vue3-pagination": "^1.0.17",
@@ -13,16 +12,17 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.3.0",
     "core-js": "^3.6.5",
-    "gh-pages": "^5.0.0",
     "moment": "^2.29.4",
+    "vite": "^4.4.9",
     "vue": "^3.0.0",
-    "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.0-0",
     "vue3-carousel": "^0.3.1",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "vue-tsc": "^1.8.5",
     "@types/bootstrap": "^5.2.6",
+    "@vitejs/plugin-vue": "^4.2.3",
     "@vue/cli-plugin-babel": "~4.5.13",
     "@vue/cli-plugin-router": "~4.5.13",
     "@vue/cli-plugin-typescript": "~4.5.13",
