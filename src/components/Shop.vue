@@ -45,14 +45,11 @@ const closeShop = async () => {
 }
 .items-container {
   gap: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
   flex-grow: 1;
   overflow-y: scroll;
+  padding-top: 10px;
 }
 </style>
-@/types

@@ -17,7 +17,7 @@
       </template>
       <!-- Card -->
       <template v-if="!isItem">
-        <div class="price rounded">$ {{ item.Price }}</div>
+        <div class="price rounded" v-if="!backpack">$ {{ item.Price }}</div>
         <Card :sm="true" :item="item"></Card>
       </template>
       <p class="m-0 w-100 py-1 text-center">{{ item.Name }}</p>
@@ -28,16 +28,19 @@
       data-bs-placement="top"
       :title="`【${item.Name}】${item.Description}`"
       v-if="playerStatus">
-      <Icon :url=item.Icon></Icon>
+      <Icon :url="item.Icon"></Icon>
   </div>
   <!-- Backpack Control -->
   <div class="control" :class="{ 'control-show': isShowBackpackControl }">
+    <Detail :item="item"></Detail>
+    <button class="system-btn w-100" v-if="isItem" @click="switchEquip()">裝備／脫下</button>
+    <button class="system-btn w-100" v-if="isHealCard" @click="useHealCard()">使用</button>
     <button class="system-btn w-100" @click="sellItem()">以 $ {{ evaluateSalePrice }} 賣出</button>
-    <button class="system-btn w-100" @click="switchEquip()">裝備／脫下</button>
     <button class="system-btn system-btn-skip w-100" @click="toggleControl()">取消</button>
   </div>
   <!-- Shop Control -->
   <div class="control" :class="{ 'control-show': isShowShopControl }">
+    <Detail :item="item"></Detail>
     <button class="system-btn w-100" @click="buyItem()">以 $ {{ item.Price }} 買入</button>
     <button class="system-btn system-btn-skip w-100" @click="toggleControl()">取消</button>
   </div>
@@ -48,10 +51,12 @@ import { Item, Player } from '@/types';
 import { enumItemType } from '@/types/enums';
 import { Tooltip } from 'bootstrap';
 import Sound from '@/service/sounds';
+import Util from '@/service/util';
 import { IMAGES } from '@/data';
 import { ref, onMounted, computed } from 'vue';
 import Icon from './Icon.vue';
 import Card from './Card.vue';
+import Detail from './Detail.vue';
 import { useStore } from 'vuex';
 import { StoreAction } from '@/store/storeActions';
 
@@ -76,7 +81,7 @@ const props = withDefaults(defineProps<{
 const isItem = props.item.ItemType === enumItemType.Coin ||
                 props.item.ItemType === enumItemType.Weapon || 
                 props.item.ItemType === enumItemType.Armor;
-
+const isHealCard = props.item.ItemType === enumItemType.Heal;
 const evaluateSalePrice = Math.floor(props.item.Price * 0.5);
 
 const isShowBackpackControl = ref(false);
@@ -102,6 +107,12 @@ const switchEquip = async () => {
       } else {
         updatedPlayer.WeaponIndex = props.index! + 1;
       }
+      // 調整攻擊力
+      if (updatedPlayer.WeaponIndex) {
+        updatedPlayer.ExtraAttack = props.item.Point;
+      } else {
+        updatedPlayer.ExtraAttack = 0;
+      }
       break;
     case enumItemType.Armor:
       if (updatedPlayer.ArmorIndex) {
@@ -109,10 +120,33 @@ const switchEquip = async () => {
       } else {
         updatedPlayer.ArmorIndex = props.index! + 1;
       }
+      // 調整防禦力
+      if (updatedPlayer.ArmorIndex) {
+        updatedPlayer.ExtraDefense = props.item.Point;
+      } else {
+        updatedPlayer.ExtraDefense = 0;
+      }
       break;
   }
   await store.dispatch(StoreAction.player.updatePlayer, { who: 'player', player: updatedPlayer });
   toggleControl();
+}
+
+// 使用治療牌
+const useHealCard = async () => {
+  if (player.value.CurrentHealth === player.value.Character.Health) {
+    alert('你覺得無病無痛，應該不需要使用這東西。');
+  } else {
+    const confirmBox = confirm(`你目前的生命值為 ${player.value.CurrentHealth} / ${player.value.Character.Health}，確定要使用？`);
+    if (confirmBox) {
+      const updatedPlayer = { ...player.value };
+      await Sound.playSound(Sound.sounds.heal);
+      store.dispatch(StoreAction.player.heal, { who: 'player', point: props.item.Point });
+      updatedPlayer.ItemList.splice(props.index! + 1, 1);
+      await store.dispatch(StoreAction.player.updatePlayer, { who: 'player', player: updatedPlayer });
+      toggleControl();
+    }
+  }
 }
 
 // 賣出物品
@@ -132,6 +166,12 @@ const sellItem = async () => {
             break;
         }
       }
+    }
+    if (updatedPlayer.WeaponIndex && props.index! < updatedPlayer.WeaponIndex) {
+      updatedPlayer.WeaponIndex -= 1;
+    }
+     if (updatedPlayer.ArmorIndex && props.index! < updatedPlayer.ArmorIndex) {
+      updatedPlayer.ArmorIndex -= 1;
     }
     await Sound.playSound(Sound.sounds.coin);
     updatedPlayer.ItemList.splice(props.index!, 1);
@@ -167,7 +207,7 @@ onMounted(() => {
   new Tooltip(document.body, {
     selector: "[data-bs-toggle='tooltip']",
     delay: {
-      show: 1000,
+      show: 900,
       hide: 0
     },
     trigger: 'focus'
@@ -178,8 +218,8 @@ onMounted(() => {
 <style lang="scss" scoped>
 .item {
   position: relative;
-  height: 100px;
-  width: 100px;
+  height: 120px;
+  width: 120px;
   color: var(--blue);
   background-color: var(--yellow);
   border: 3px solid var(--darkblue);
@@ -253,9 +293,9 @@ onMounted(() => {
   flex-wrap: wrap;
   gap: 10px;
   z-index: 9;
+  padding: 10px;
   &-show {
     display: flex;
   }
 }
 </style>
-@/types

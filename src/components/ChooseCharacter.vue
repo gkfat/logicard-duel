@@ -34,6 +34,7 @@ import { CHARACTER_LIST, CHARACTER_MUMBLE_LIST, DIALOGS } from '@/data';
 import Sound from '@/service/sounds';
 import { useStore } from 'vuex';
 import { StoreAction } from '@/store/storeActions';
+import Util from '@/service/util';
 
 const store = useStore();
 const dialogs = DIALOGS[enumDialog.GameStart];
@@ -76,8 +77,9 @@ const confirmCharacter = async () => {
   }
   await store.dispatch(StoreAction.player.selectCharacter, character);
   await store.dispatch(StoreAction.switch.switchSpinner, true);
+  await Util.sleep(300);
   await store.dispatch(StoreAction.general.changeGameState, enumGameState.BattleStart);
-  setTimeout(() => store.dispatch(StoreAction.switch.switchSpinner, false), 300);
+  store.dispatch(StoreAction.switch.switchSpinner, false);
 }
 
 </script>
@@ -119,4 +121,3 @@ const confirmCharacter = async () => {
   border-radius: 10px;
 }
 </style>
-@/types

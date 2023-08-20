@@ -1,5 +1,7 @@
 <template>
-  <div id="backpack" class="frame" :class="{ 'frame-show': isBackpackOpen }" v-if="player && player.ItemList">
+  <div id="backpack"
+    class="frame" :class="{ 'frame-show': isBackpackOpen }"
+    v-if="player && player.ItemList && player.CardList">
     <Dialog :dialogs="dialogs"></Dialog>
     <p class="w-100 text-center m-0">
       螺絲釘：{{ player.Coin }}｜物品：{{ player.ItemList.length + '／' + player.Character.ItemLimit }}
@@ -11,6 +13,12 @@
             :backpack="true"
             :item="item"
             :index="i">
+        </ItemComponent>
+      </div>
+      <div v-for="(item, i) in player.CardList">
+        <ItemComponent
+            :backpack="true"
+            :item="item">
         </ItemComponent>
       </div>
     </div>
@@ -59,10 +67,8 @@ const closeBackpack = async () => {
   gap: 10px;
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
   flex-grow: 1;
   overflow-y: scroll;
 }
 </style>
-@/types

@@ -24,8 +24,7 @@ export interface Character {
     // 機器人才有
     InitCardList?: Item[];
     RewardCoin?: number[]; // 獎勵金幣範圍
-    RewardWeaponList?: Item[];
-    RewardArmorList?: Item[];
+    RewardItemList?: Item[];
 };
 
 export interface Player {

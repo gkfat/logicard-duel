@@ -48,10 +48,46 @@ export enum enumItemType {
     LogiCard,
     Attack,
     Defense,
-    Health,
+    Heal,
     Coin,
     Weapon,
     Armor
+}
+
+export enum enumItem {
+    Coin,
+    Boxer,
+    Bat,
+    Gun,
+    Cloth,
+    BulletProof,
+    Armor,
+}
+
+export enum enumCard {
+    LogiCard1,
+    LogiCard2,
+    LogiCard3,
+    LogiCard4,
+    LogiCard5,
+    LogiCard6,
+    LogiCard7,
+    ScrewDriver,
+    Hammer,
+    ScrapMetal,
+    GkbotShell,
+    Oil,
+    Battery,
+}
+
+export enum enumCharacter {
+    Man,
+    Nerd,
+    Artist,
+    GkbotWorker,
+    GkbotAttack,
+    GkbotPerform,
+    GkbotDefense,
 }
 
 /**

@@ -59,23 +59,19 @@ const playerModule: Module<PlayerState, any> = {
       content.commit(StoreAction.player.generateEnemy, character);
     },
     /** 喃喃自語 */
-    async playerMumble(content, payload: { type: enumMumbleType, delay: number }) {
-      content.commit(StoreAction.player.playerMumble, payload);
-    },
-    /** 喃喃自語 */
-    async enemyMumble(content, payload: { type: enumMumbleType, delay: number }) {
-      content.commit(StoreAction.player.enemyMumble, payload);
+    async mumble(content, payload: { who: 'player' | 'enemy', type: enumMumbleType, delay: number }) {
+      content.commit(StoreAction.player.mumble, payload);
     },
     /** 扣血 */
-    async deduction(content, payload: { who: string; point: number; }) {
+    async deduction(content, payload: { who: 'player' | 'enemy'; point: number; }) {
       content.commit(StoreAction.player.deduction, payload);
     },
     /** 補血 */
-    async heal(content, payload: { who: string; point: number; }) {
+    async heal(content, payload: { who: 'player' | 'enemy'; point: number; }) {
       content.commit(StoreAction.player.heal, payload);
     },
     /** 更新玩家資訊 */
-    async updatePlayer(content, payload: { who: string; player: Player; }) {
+    async updatePlayer(content, payload: { who: 'player' | 'enemy'; player: Player; }) {
       content.commit(StoreAction.player.updatePlayer, payload);
     },
   },
@@ -111,47 +107,48 @@ const playerModule: Module<PlayerState, any> = {
       state.enemy.CardList = JSON.parse(JSON.stringify(character.InitCardList));
     },
     /** 玩家喃喃自語 */
-    playerMumble(state, payload: { type: enumMumbleType, delay: number }) {
-      const mumbleList = state.player.Character.MumbleList[payload.type];
+    async mumble(state, payload: { who: 'player' | 'enemy', type: enumMumbleType, delay: number }) {
+      const targetPlayer = payload.who === 'player' ? state.player : state.enemy;
+      const mumbleList = targetPlayer.Character.MumbleList[payload.type];
       const randomIndex = Util.getRandomInt(0, mumbleList.length);
-      if (mumbleList.length > 0 && !state.mumbling.player) {
-        state.mumbling.player = true;
-        setTimeout(async () => {
-          await Sound.playSound(Sound.sounds.pop);
-          state.mumble.player = mumbleList[randomIndex];
-          // 5 秒後關閉
-          setTimeout(() => {
+
+      switch (payload.who) {
+        case 'player':
+          if (payload.delay === 0) {
             state.mumbling.player = false;
             state.mumble.player = '';
-          }, 5000);
-        }, payload.delay);
-      } else {
-        state.mumbling.player = false;
-        state.mumble.player = '';
-      }
-    },
-    /** 敵人喃喃自語 */
-    enemyMumble(state, payload: { type: enumMumbleType, delay: number }) {
-      const mumbleList = state.enemy.Character.MumbleList[payload.type];
-      const randomIndex = Util.getRandomInt(0, mumbleList.length);
-      if (mumbleList.length > 0 && !state.mumbling.enemy) {
-        state.mumbling.enemy = true;
-        setTimeout(async () => {
-          await Sound.playSound(Sound.sounds.pop);
-          state.mumble.enemy = mumbleList[randomIndex];
-          // 5 秒後關閉
-          setTimeout(() => {
+          }
+          if (mumbleList.length > 0 && !state.mumbling.player) {
+            state.mumbling.player = true;
+            await Util.sleep(payload.delay);
+            await Sound.playSound(Sound.sounds.pop);
+            state.mumble.player = mumbleList[randomIndex];
+            // 5 秒後關閉
+            await Util.sleep(5000);
+            state.mumbling.player = false;
+            state.mumble.player = '';
+          }
+          break;
+        case 'enemy':
+            if (payload.delay === 0) {
             state.mumbling.enemy = false;
             state.mumble.enemy = '';
-          }, 5000);
-        }, payload.delay)
-      } else {
-        state.mumbling.enemy = false;
-        state.mumble.enemy = '';
+          }
+          if (mumbleList.length > 0 && !state.mumbling.enemy) {
+            state.mumbling.enemy = true;
+            await Util.sleep(payload.delay);
+            await Sound.playSound(Sound.sounds.pop);
+            state.mumble.enemy = mumbleList[randomIndex];
+            // 5 秒後關閉
+            await Util.sleep(5000);
+            state.mumbling.enemy = false;
+            state.mumble.enemy = '';
+          }
+          break;
       }
     },
     /** 扣血 */
-    deduction(state, payload: { who: string; point: number; }) {
+    deduction(state, payload: { who: 'player' | 'enemy', point: number, }) {
       const { who, point } = payload;
       if (who === 'player') {
         state.player.CurrentHealth - point < 0 ? state.player.CurrentHealth = 0 : state.player.CurrentHealth -= point;
@@ -160,7 +157,7 @@ const playerModule: Module<PlayerState, any> = {
       }
     },
     /** 補血 */
-    heal(state, payload: { who: string; point: number; }) {
+    heal(state, payload: { who: 'player' | 'enemy', point: number, }) {
       const { who, point } = payload;
       if (who === 'player') {
         const healResult = state.player.CurrentHealth + point;
@@ -175,15 +172,13 @@ const playerModule: Module<PlayerState, any> = {
         const healResult = state.enemy.CurrentHealth + point;
         if (healResult > state.enemy.Character.Health) {
           state.enemy.CurrentHealth = state.enemy.Character.Health;
-          state.enemy.Record.TotalHeal = state.enemy.Character.Health - healResult;
         } else {
           state.enemy.CurrentHealth = healResult;
-          state.enemy.Record.TotalHeal += point;
         }
       }
     },
     /** 更新玩家資訊 */
-    updatePlayer(state, payload: { who: string; player: Player }) {
+    updatePlayer(state, payload: { who: 'player' | 'enemy', player: Player, }) {
       const { who, player } = payload;
       if (who === 'player') {
         state.player.ExtraAttack = player.ExtraAttack;
@@ -191,16 +186,8 @@ const playerModule: Module<PlayerState, any> = {
         state.player.Coin = player.Coin;
         state.player.ItemList = player.ItemList;
         state.player.WeaponIndex = player.WeaponIndex;
-        if (player.WeaponIndex) {
-          const weapon = player.ItemList[player.WeaponIndex - 1];
-          state.player.ExtraAttack += weapon.Point;
-        }
         state.player.ArmorIndex = player.ArmorIndex;
-        if (player.ArmorIndex) {
-          const armor = player.ItemList[player.ArmorIndex - 1];
-          state.player.ExtraDefense += armor.Point;
-        }
-        state.player.CardList = player.CardList.sort((a, b) => a.Point - b.Point);
+        state.player.CardList = Util.sortCardList(player.CardList);
       } else if (who === 'enemy') {
         state.enemy.ExtraAttack = player.ExtraAttack;
         state.enemy.ExtraDefense = player.ExtraDefense;

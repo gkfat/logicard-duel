@@ -43,7 +43,7 @@ onMounted(async () => {
   await store.dispatch(StoreAction.general.fetchData, { sheetName: enumSheetName.Records, operation: enumOperation.Get });
   const shopItems = [];
   const techCards = CARDS.filter(item => item.ItemType !== enumItemType.LogiCard);
-  while (shopItems.length < 8) {
+  while (shopItems.length < 6) {
     const i = Util.getRandomInt(0, techCards.length - 1);
     shopItems.push(techCards[i]);
   }

@@ -10,7 +10,7 @@
     </div>
     <div class="items-container d-flex justify-content-center flex-wrap flex-grow-1">
       <div v-for="item in lootBox">
-        <ItemComponent :item="item"></ItemComponent>
+        <ItemComponent :backpack="item.ItemType !== enumItemType.Coin" :item="item"></ItemComponent>
       </div>
     </div>
     <!-- 沒有多餘空間 -->
@@ -38,47 +38,69 @@ const enemy = computed(() => store.getters.enemy as Player);
 const shop = computed(() => store.getters.shop as Item[]);
 const lootBox = reactive([] as Item[]);
 const noSpace = computed(() => player.value.ItemList.length > player.value.Character.ItemLimit);
-
 const dialogs = DIALOGS[enumDialog.BattleEnd];
+const box80 = Util.makeLotteryBox(80);
 const box50 = Util.makeLotteryBox(50);
+const box30 = Util.makeLotteryBox(30);
 
-const makeLoot = (type: enumItemType) => {
+// 產生戰利品
+const makeLoot = (type: 'equipment' | 'coin' | 'techCard') => {
   switch (type) {
-    case enumItemType.Weapon:
-      const weaponList = ITEMS.filter(item => item.ItemType === type);
-      const iw = Util.getRandomInt(0, enemy.value.Character.RewardWeaponList!.length - 1);
-      const weapon = weaponList[iw];
-      lootBox.push(weapon);
+    case 'coin':
+      const min = enemy.value.Character.RewardCoin![0];
+      const max = enemy.value.Character.RewardCoin![1];
+      const coin = ITEMS.find(item => item.ItemType === enumItemType.Coin)!;
+      coin.Point = Util.getRandomInt(min, max);
+      lootBox.push(coin);
       break;
-    case enumItemType.Armor:
-      const armorList = ITEMS.filter(item => item.ItemType === type);
-      const ia = Util.getRandomInt(0, enemy.value.Character.RewardArmorList!.length - 1);
-      const armor = armorList[ia];
-      lootBox.push(armor);
+    case 'equipment':
+      const i = Util.getRandomInt(0, enemy.value.Character.RewardItemList!.length - 1);
+      const loot = enemy.value.Character.RewardItemList![i];
+      lootBox.push(loot);
+      break;
+    case 'techCard':
+      const remainTechCardList = enemy.value.CardList.filter(c => c.ItemType !== enumItemType.LogiCard);
+      if (remainTechCardList.length > 0) {
+        const i = Util.getRandomInt(0, remainTechCardList.length - 1);
+        const loot = remainTechCardList[i];
+        lootBox.push(loot);
+      }
       break;
   }
 }
 
 onMounted(() => {
-  // 判斷戰利品
-  const min = enemy.value.Character.RewardCoin![0];
-  const max = enemy.value.Character.RewardCoin![1];
-  const coin = ITEMS.find(item => item.ItemType === enumItemType.Coin)!;
-  coin.Point = Util.getRandomInt(min, max);
-  player.value.Coin += coin.Point;
-  
-  lootBox.push(coin);
-  if (Util.lottery(box50)) {
-    makeLoot(enumItemType.Weapon);
-  }
-  if (Util.lottery(box50)) {
-    makeLoot(enumItemType.Armor);
-  }
-  
-  lootBox.filter(loot => loot.ItemType !== enumItemType.Coin).forEach(loot => {
-    player.value.ItemList.push(loot);
-  })
+  makeLoot('coin'); // 判斷獲得金幣
 
+  if (Util.lottery(box80)) { // 80% 機率獲得一件戰利品
+    makeLoot('equipment');
+  }
+
+  if (Util.lottery(box30)) { // 30% 機率獲得第二件戰利品
+    makeLoot('equipment');
+  }
+
+  // 50% 機率獲得一張 Gkbot 剩餘的技術牌
+  if (Util.lottery(box50)) {
+    makeLoot('techCard');
+  }
+  
+  lootBox.forEach(loot => {
+    switch (loot.ItemType) {
+      case enumItemType.Coin:
+        player.value.Coin += loot.Point;
+        break;
+      case enumItemType.Attack:
+      case enumItemType.Defense:
+      case enumItemType.Heal:
+        player.value.CardList.push(loot);
+        break;
+      case enumItemType.Weapon:
+      case enumItemType.Armor:
+        player.value.ItemList.push(loot);
+        break;
+    }
+  })
   store.dispatch(StoreAction.player.updatePlayer, player.value);
 
   // 商店增加技術牌
@@ -117,4 +139,3 @@ const goRest = async () => {
   gap: 10px;
 }
 </style>
-@/types

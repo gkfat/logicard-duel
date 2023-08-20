@@ -13,6 +13,7 @@ import battle from '@/assets/sounds/battle.mp3';
 import rest from '@/assets/sounds/rest.mp3';
 import prologue from '@/assets/sounds/prologue.mp3';
 import end from '@/assets/sounds/end.mp3';
+import win from '@/assets/sounds/win.wav';
 
 class SoundService {
   totalAssets: number = 0;
@@ -31,6 +32,7 @@ class SoundService {
     bell: new Audio(bell),
     equip: new Audio(equip),
     heal: new Audio(heal),
+    win: new Audio(win),
     /** BGM */
     battle: new Audio(battle),
     rest: new Audio(rest),

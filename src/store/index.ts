@@ -48,7 +48,7 @@ export default createStore({
     },
     /** 更新商店 Item */
     updateShop(state, payload: Item[]) {
-      state.shop = payload.sort((a, b) => a.Point - b.Point);
+      state.shop = Util.sortCardList(payload);
     },
     /** 獲取 API 資料 */
     fetchData(state, payload: { sheetName: enumSheetName, operation: enumOperation }) {

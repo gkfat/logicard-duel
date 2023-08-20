@@ -3,7 +3,7 @@
     <Dialog :dialogs="dialogs"></Dialog>
     <div class="enemy">
       <PlayerStatus :player="enemy"></PlayerStatus>
-      <p class="m-0">{{ enemy.Character.Description }}</p>
+      <p class="m-0 w-100">{{ enemy.Character.Description }}</p>
     </div>
     <button type="button" class="system-btn w-100" @click="startBattle()">戰鬥</button>
   </div>
@@ -12,7 +12,7 @@
 <script setup name="BattleStart" lang="ts">
 import { StoreAction } from '@/store/storeActions';
 import type { Player } from '@/types';
-import { enumGameState, enumDialog } from '@/types/enums';
+import { enumGameState, enumDialog, enumCharacter } from '@/types/enums';
 import { computed, onMounted, ref, watch } from 'vue';
 import Dialog from './Dialog.vue';
 import PlayerStatus from './PlayerStatus.vue';
@@ -27,7 +27,7 @@ const dialogs = DIALOGS[enumDialog.BattleStart];
 // Init
 onMounted(() => {
   if (!enemy.value.Character) { // 若敵人是第一次初始化，就產生工作型 GKBot
-    store.dispatch(StoreAction.player.generateEnemy, 1);
+    store.dispatch(StoreAction.player.generateEnemy, enumCharacter.GkbotWorker);
   } else {
     store.dispatch(StoreAction.player.generateEnemy);
   }
@@ -60,4 +60,3 @@ const startBattle = () => {
   }
 }
 </style>
-@/types

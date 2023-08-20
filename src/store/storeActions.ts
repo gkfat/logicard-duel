@@ -8,8 +8,7 @@ export const StoreAction = {
     player: {
         selectCharacter: 'selectCharacter',
         generateEnemy: 'generateEnemy',
-        playerMumble: 'playerMumble',
-        enemyMumble: 'enemyMumble',
+        mumble: 'mumble',
         deduction: 'deduction',
         heal: 'heal',
         updatePlayer: 'updatePlayer',

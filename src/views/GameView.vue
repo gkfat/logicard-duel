@@ -124,10 +124,11 @@ const restart = async () => {
     }
   })
 }
-watch(endUpdating, () => {
+watch(endUpdating, async () => {
   if (endUpdating.value) {
     store.dispatch(StoreAction.switch.switchSpinner, false);
-    setTimeout(() => window.location.reload(), 1000);
+    Util.sleep(1000);
+    window.location.reload();
   }
 })
 watch(gameState, async () => {
@@ -184,4 +185,4 @@ watch(gameState, async () => {
     color: var(--darkblue);
   }
 }
-</style>@/types
+</style>

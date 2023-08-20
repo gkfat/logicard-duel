@@ -54,7 +54,7 @@ onMounted(() => {
   new Tooltip(document.body, {
     selector: "[data-bs-toggle='tooltip']",
     delay: {
-      show: 1000,
+      show: 900,
       hide: 0
     },
     trigger: 'focus'
@@ -173,10 +173,9 @@ onMounted(() => {
 
 
 #backpack, #shop {
-  .item {
+  .item, .card {
     margin: 0;
   }
 }
 
 </style>
-@/types
