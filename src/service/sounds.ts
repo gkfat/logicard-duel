@@ -1,23 +1,41 @@
+import click from '@/assets/sounds/click.wav';
+import pop from '@/assets/sounds/pop.wav';
+import countdown from '@/assets/sounds/countdown.wav';
+import placeCard from '@/assets/sounds/placeCard.wav';
+import coin from '@/assets/sounds/coin.mp3';
+import robotHurt from '@/assets/sounds/robotHurt.wav';
+import ouch from '@/assets/sounds/ouch.wav';
+import huh from '@/assets/sounds/huh.wav';
+import bell from '@/assets/sounds/bell.wav';
+import equip from '@/assets/sounds/equip.wav';
+import heal from '@/assets/sounds/heal.wav';
+import battle from '@/assets/sounds/battle.mp3';
+import rest from '@/assets/sounds/rest.mp3';
+import prologue from '@/assets/sounds/prologue.mp3';
+import end from '@/assets/sounds/end.mp3';
+
 class SoundService {
   totalAssets: number = 0;
   loadedAssets: number = 0;
   sounds: {
     [key: string]: HTMLAudioElement
   } = {
-    click: new Audio(require('@/assets/sounds/click.wav')),
-    pop: new Audio(require('@/assets/sounds/pop.wav')),
-    countdown: new Audio(require('@/assets/sounds/countdown.wav')),
-    placeCard: new Audio(require('@/assets/sounds/placeCard.wav')),
-    coinDrop: new Audio(require('@/assets/sounds/coin.mp3')),
-    robotHurt: new Audio(require('@/assets/sounds/robotHurt.wav')),
-    ouch: new Audio(require('@/assets/sounds/ouch.wav')),
-    huh: new Audio(require('@/assets/sounds/huh.wav')),
-    bell: new Audio(require('@/assets/sounds/bell.wav')),
+    click: new Audio(click),
+    pop: new Audio(pop),
+    countdown: new Audio(countdown),
+    placeCard: new Audio(placeCard),
+    coin: new Audio(coin),
+    robotHurt: new Audio(robotHurt),
+    ouch: new Audio(ouch),
+    huh: new Audio(huh),
+    bell: new Audio(bell),
+    equip: new Audio(equip),
+    heal: new Audio(heal),
     /** BGM */
-    battle: new Audio(require('@/assets/sounds/battle.mp3')),
-    rest: new Audio(require('@/assets/sounds/rest.mp3')),
-    prologue: new Audio(require('@/assets/sounds/prologue.mp3')),
-    end: new Audio(require('@/assets/sounds/end.mp3'))
+    battle: new Audio(battle),
+    rest: new Audio(rest),
+    prologue: new Audio(prologue),
+    end: new Audio(end),
   }
 
   // 開始載入素材
@@ -37,15 +55,13 @@ class SoundService {
 
   async playSound(audio: HTMLAudioElement) {
     audio.currentTime = 0;
-    // audio.volume = 1;
-    audio.volume = 0;
+    audio.volume = 1;
     await audio.play();
   }
 
   async playBGM(audio: HTMLAudioElement) {
     audio.currentTime = 0;
-    // audio.volume = 0.5;
-    audio.volume = 0;
+    audio.volume = 0.5;
     audio.loop = true;
     await audio.play();
   };

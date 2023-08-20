@@ -2,29 +2,29 @@
   <div id="game">
     <!-- Game Init -->
     <template v-if="gameState === enumGameState.Init">
-      <DialogComponent :dialogs="dialogs.opening"></DialogComponent>
+      <Dialog :dialogs="dialogs.opening"></Dialog>
       <div class="social">
         <a type="button" class="system-btn social-item" @click="openGithub()">
-          <img class="img-fluid" :src="require(`@/assets/images/github.png`)">
+          <img class="img-fluid" :src="IMAGES.icon.github">
         </a>
         <a type="button" class="system-btn social-item" @click="openMail()">
-          <img class="img-fluid" :src="require(`@/assets/images/mail.png`)">
+          <img class="img-fluid" :src="IMAGES.icon.mail">
         </a>
         <div type="button" class="system-btn social-item" @click="openRank()">
-          <img class="img-fluid" :src="require(`@/assets/images/rank.png`)">
+          <img class="img-fluid" :src="IMAGES.icon.rank">
         </div>
       </div>
       <button type="button" class="w-100 system-btn" @click="start()">開始冒險</button>
     </template>
 
-    <ChooseCharacterComponent v-if="gameState === enumGameState.ChooseCharacter"></ChooseCharacterComponent>
-    <RestComponent v-if="gameState === enumGameState.Rest"></RestComponent>
-    <BattleStartComponent v-if="gameState === enumGameState.BattleStart"></BattleStartComponent>
-    <BattleComponent v-if="gameState === enumGameState.Battle"></BattleComponent>
-    <BattleEndComponent v-if="gameState === enumGameState.BattleEnd"></BattleEndComponent>
+    <ChooseCharacter v-if="gameState === enumGameState.ChooseCharacter"></ChooseCharacter>
+    <Rest v-if="gameState === enumGameState.Rest"></Rest>
+    <BattleStart v-if="gameState === enumGameState.BattleStart"></BattleStart>
+    <Battle v-if="gameState === enumGameState.Battle"></Battle>
+    <BattleEnd v-if="gameState === enumGameState.BattleEnd"></BattleEnd>
 
     <template v-if="gameState === enumGameState.GameEnd">
-      <DialogComponent :dialogs="dialogs.gameEnd"></DialogComponent>
+      <Dialog :dialogs="dialogs.gameEnd"></Dialog>
       <table class="table flex-grow-1">
         <tr><td>使用角色</td><td class="text">{{ player.Character.Name }}</td></tr>
         <tr><td>總攻擊量</td><td class="text">{{ player.Record.TotalDamage }}</td></tr>
@@ -42,16 +42,18 @@
 import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { StoreAction } from '@/store/storeActions';
-import { enumOperation, Player, enumSheetName, enumGameState, enumDialog } from '@/types/general';
-import {  DIALOGS } from '@/data/index';
-import RestComponent from '@/components/RestComponent.vue';
-import ChooseCharacterComponent from '@/components/ChooseCharacterComponent.vue';
-import BattleStartComponent from '@/components/BattleStartComponent.vue';
-import BattleComponent from '@/components/BattleComponent.vue';
-import BattleEndComponent from '@/components/BattleEndComponent.vue';
-import DialogComponent from '@/components/DialogComponent.vue';
+import { Player } from '@/types';
+import { enumOperation, enumSheetName, enumGameState, enumDialog } from '@/types/enums';
+import { DIALOGS, IMAGES } from '@/data';
+import Rest from '@/components/Rest.vue';
+import ChooseCharacter from '@/components/ChooseCharacter.vue';
+import BattleStart from '@/components/BattleStart.vue';
+import Battle from '@/components/Battle.vue';
+import BattleEnd from '@/components/BattleEnd.vue';
+import Dialog from '@/components/Dialog.vue';
 import Sound from '@/service/sounds';
 import Util from '@/service/util';
+
 
 const store = useStore();
 const gameState = computed(() => store.getters.gameState as enumGameState);
@@ -159,6 +161,7 @@ watch(gameState, async () => {
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
+  margin: 0 auto;
   gap: 10px;
   @media screen and (min-width: 768px) {
     width: 80%;
@@ -181,4 +184,4 @@ watch(gameState, async () => {
     color: var(--darkblue);
   }
 }
-</style>
+</style>@/types

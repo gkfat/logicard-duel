@@ -1,48 +1,4 @@
-export enum enumDialog {
-    Opening,
-    GameStart,
-    BattleStart,
-    BattleEnd,
-    Rest,
-    Rank,
-    Shop,
-    Backpack,
-    GameEnd
-}
-
-export enum enumGameState {
-    Init,
-    ChooseCharacter,
-    Rest,
-    BattleStart,
-    Battle,
-    BattleEnd,
-    GameEnd
-}
-
-export enum enumBattleResult {
-    Init,
-    Draw,
-    PlayerWin,
-    PlayerLose
-}
-
-export enum enumRoundState {
-    Start,
-    Counting,
-    Duel,
-    Settle,
-    SettleEnd
-}
-
-export enum enumMumbleType {
-    General,
-    PlaceCard,
-    EnemyPlaceCard,
-    Hurt,
-    Attack,
-    Lose
-}
+import { enumItemType, enumMumbleType } from "./enums";
 
 export interface MumbleList {
     [enumMumbleType.General]: string[];
@@ -51,7 +7,7 @@ export interface MumbleList {
     [enumMumbleType.Hurt]: string[];
     [enumMumbleType.Attack]: string[];
     [enumMumbleType.Lose]: string[];
-  }
+}
 
 export interface Character {
     Type: string;
@@ -70,7 +26,7 @@ export interface Character {
     RewardCoin?: number[]; // 獎勵金幣範圍
     RewardWeaponList?: Item[];
     RewardArmorList?: Item[];
-}
+};
 
 export interface Player {
     Character: Character;
@@ -82,8 +38,8 @@ export interface Player {
     Record: Record;
     ItemList: Item[];
     CardList: Item[];
-    Weapon: Item | null;
-    Armor: Item | null;
+    WeaponIndex: number | null;
+    ArmorIndex: number | null;
     Coin: number;
     CreatedTime: number;
 }
@@ -95,6 +51,7 @@ export interface Item {
     Name: string;
     Description: string;
     Price: number;
+    Icon: string;
 }
 
 export interface Record {
@@ -104,24 +61,4 @@ export interface Record {
     TotalHeal: number;
 }
 
-export enum enumItemType {
-    LogiCard,
-    Attack,
-    Defense,
-    Health,
-    Coin,
-    Weapon,
-    Armor
-}
-
-/**
- * Google Sheet
- */
-export enum enumOperation {
-    Get = 'get',
-    Update = 'update'
-}
-
-export enum enumSheetName {
-    Records = 'records'
-}
+export default Character;

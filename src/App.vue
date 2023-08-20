@@ -3,37 +3,34 @@
     <ul class="blocks">
       <li v-for="i in 10" :key="i"></li>
     </ul>
-    <HeaderComponent></HeaderComponent>
+    <Header></Header>
     <div class="layout-body">
       <router-view></router-view>
     </div>
-    <FooterComponent></FooterComponent>
   </div>
 
-  <RankComponent></RankComponent>
-  <BackpackComponent></BackpackComponent>
-  <ShopComponent></ShopComponent>
+  <Rank></Rank>
+  <Backpack></Backpack>
+  <Shop></Shop>
 
   <div class="spinner" v-if="isSpinnerOpen">
     <div class="spinner-inner d-flex justify-content-center align-items-center">
-      <SpinnerComponent></SpinnerComponent>
+      <Spinner></Spinner>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import SpinnerComponent from './components/SpinnerComponent.vue';
-import HeaderComponent from './components/HeaderComponent.vue';
-import FooterComponent from './components/FooterComponent.vue';
-import RankComponent from './components/RankComponent.vue';
-import BackpackComponent from './components/BackpackComponent.vue';
-import ShopComponent from './components/ShopComponent.vue';
+import Spinner from './components/Spinner.vue';
+import Header from './components/Header.vue';
+import Rank from './components/Rank.vue';
+import Backpack from './components/Backpack.vue';
+import Shop from './components/Shop.vue';
 import { useStore } from 'vuex';
-import router from '@/router';
 import Sound from '@/service/sounds';
 import { StoreAction } from './store/storeActions';
-import { enumSheetName, enumOperation, Item, enumItemType } from './types/general';
+import { enumSheetName, enumOperation, enumItemType } from './types/enums';
 import { CARDS } from './data';
 import Util from './service/util';
 

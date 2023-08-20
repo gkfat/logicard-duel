@@ -18,7 +18,7 @@
 </template>
 
 
-<script setup name="MumbleComponent" lang="ts">
+<script setup name="Mumble" lang="ts">
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 

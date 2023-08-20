@@ -1,6 +1,6 @@
 <template>
   <div id="battle-end" class="d-flex flex-column justify-content-center">
-    <DialogComponent :dialogs="dialogs"></DialogComponent>
+    <Dialog :dialogs="dialogs"></Dialog>
     
     <div>
       <p class="m-0 h6 w-100 text-center">戰利品</p>
@@ -20,15 +20,14 @@
 </template>
 
 
-<script setup name="BattleEndComponent" lang="ts">
+<script setup name="BattleEnd" lang="ts">
 import { StoreAction } from '@/store/storeActions';
 import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useStore } from 'vuex';
-import { Item, Player, Character, enumGameState, enumItemType, enumBattleResult, enumMumbleType, enumDialog } from '@/types/general';
-import MumbleComponent from './MumbleComponent.vue';
+import { Item, Player } from '@/types';
+import { enumGameState, enumItemType, enumDialog } from '@/types/enums';
 import ItemComponent from './ItemComponent.vue';
-import DialogComponent from './DialogComponent.vue';
-import PlayerStatusComponent from './PlayerStatusComponent.vue';
+import Dialog from './Dialog.vue';
 import Util from '@/service/util';
 import Sound from '@/service/sounds';
 import { DIALOGS, CARDS, ITEMS } from '@/data';
@@ -69,20 +68,12 @@ onMounted(() => {
   player.value.Coin += coin.Point;
   
   lootBox.push(coin);
-  makeLoot(enumItemType.Weapon);
-  makeLoot(enumItemType.Armor);
-
-  makeLoot(enumItemType.Weapon);
-  makeLoot(enumItemType.Weapon);
-  makeLoot(enumItemType.Weapon);
-  makeLoot(enumItemType.Weapon);
-  makeLoot(enumItemType.Weapon);
-  makeLoot(enumItemType.Weapon);
-  makeLoot(enumItemType.Weapon);
-  makeLoot(enumItemType.Weapon);
-  makeLoot(enumItemType.Weapon);
-  makeLoot(enumItemType.Weapon);
-
+  if (Util.lottery(box50)) {
+    makeLoot(enumItemType.Weapon);
+  }
+  if (Util.lottery(box50)) {
+    makeLoot(enumItemType.Armor);
+  }
   
   lootBox.filter(loot => loot.ItemType !== enumItemType.Coin).forEach(loot => {
     player.value.ItemList.push(loot);
@@ -126,3 +117,4 @@ const goRest = async () => {
   gap: 10px;
 }
 </style>
+@/types

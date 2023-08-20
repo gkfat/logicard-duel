@@ -6,7 +6,7 @@
     <div></div>
   </div>
 </template>
-<script setup name="SpinnerComponent" lang="ts">
+<script setup name="Spinner" lang="ts">
 </script>
 
 <style scoped lang="scss">

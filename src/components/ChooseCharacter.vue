@@ -1,6 +1,6 @@
 <template>
   <div id="choose-character">
-    <DialogComponent :dialogs="dialogs[dialogIndex]"></DialogComponent>
+    <Dialog :dialogs="dialogs[dialogIndex]"></Dialog>
     <template v-if="!dialogEnd">
       <button type="button" class="w-100 system-btn system-btn-skip" @click="dialogNextToEnd()">跳過</button>
       <button type="button" class="w-100 system-btn" @click="dialogNext()">繼續</button>
@@ -10,7 +10,7 @@
         <Slide v-for="(player, i) in mockPlayerList" :key="i">
           <div type="button" class="character-choose rounded p-3"
               :class="{ 'carousel__slide--active': selectedCharacter === i }">
-              <PlayerStatusComponent :player="player"></PlayerStatusComponent>
+              <PlayerStatus :player="player"></PlayerStatus>
               <p class="m-0">{{ player.Character.Description }}</p>
           </div>
         </Slide>
@@ -23,12 +23,13 @@
   </div>
 </template>
 
-<script setup name="ChooseCharacterComponent" lang="ts">
-import { Item, enumDialog, Player, enumMumbleType, enumGameState } from '@/types/general';
+<script setup name="ChooseCharacter" lang="ts">
+import type { Player } from '@/types';
+import { enumMumbleType, enumGameState, enumDialog } from '@/types/enums';
 import { computed, ref, reactive } from 'vue';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
-import DialogComponent from '@/components/DialogComponent.vue';
-import PlayerStatusComponent from '@/components/PlayerStatusComponent.vue';
+import Dialog from '@/components/Dialog.vue';
+import PlayerStatus from '@/components/PlayerStatus.vue';
 import { CHARACTER_LIST, CHARACTER_MUMBLE_LIST, DIALOGS } from '@/data';
 import Sound from '@/service/sounds';
 import { useStore } from 'vuex';
@@ -118,3 +119,4 @@ const confirmCharacter = async () => {
   border-radius: 10px;
 }
 </style>
+@/types

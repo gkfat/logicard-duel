@@ -1,7 +1,9 @@
 import { reactive, ref } from 'vue'
 import { createStore, createLogger, Module } from 'vuex'
 import { StoreAction } from '@/store/storeActions';
-import { Character, enumOperation, Player, enumSheetName, enumGameState, enumMumbleType, Item } from '@/types/general';
+import { Character, Player, Item } from '@/types';
+import { enumMumbleType } from '@/types/enums';
+
 import { CHARACTER_LIST } from '@/data';
 import Util from '@/service/util';
 import api from '@/service/api';
@@ -161,10 +163,23 @@ const playerModule: Module<PlayerState, any> = {
     heal(state, payload: { who: string; point: number; }) {
       const { who, point } = payload;
       if (who === 'player') {
-        state.player.CurrentHealth += point;
-        state.player.Record.TotalHeal += point;
+        const healResult = state.player.CurrentHealth + point;
+        if (healResult > state.player.Character.Health) {
+          state.player.CurrentHealth = state.player.Character.Health;
+          state.player.Record.TotalHeal = state.player.Character.Health - healResult;
+        } else {
+          state.player.CurrentHealth = healResult;
+          state.player.Record.TotalHeal += point;
+        }
       } else if (who === 'enemy') {
-        state.enemy.CurrentHealth += point;
+        const healResult = state.enemy.CurrentHealth + point;
+        if (healResult > state.enemy.Character.Health) {
+          state.enemy.CurrentHealth = state.enemy.Character.Health;
+          state.enemy.Record.TotalHeal = state.enemy.Character.Health - healResult;
+        } else {
+          state.enemy.CurrentHealth = healResult;
+          state.enemy.Record.TotalHeal += point;
+        }
       }
     },
     /** 更新玩家資訊 */
@@ -175,6 +190,16 @@ const playerModule: Module<PlayerState, any> = {
         state.player.ExtraDefense = player.ExtraDefense;
         state.player.Coin = player.Coin;
         state.player.ItemList = player.ItemList;
+        state.player.WeaponIndex = player.WeaponIndex;
+        if (player.WeaponIndex) {
+          const weapon = player.ItemList[player.WeaponIndex - 1];
+          state.player.ExtraAttack += weapon.Point;
+        }
+        state.player.ArmorIndex = player.ArmorIndex;
+        if (player.ArmorIndex) {
+          const armor = player.ItemList[player.ArmorIndex - 1];
+          state.player.ExtraDefense += armor.Point;
+        }
         state.player.CardList = player.CardList.sort((a, b) => a.Point - b.Point);
       } else if (who === 'enemy') {
         state.enemy.ExtraAttack = player.ExtraAttack;

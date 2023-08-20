@@ -1,7 +1,8 @@
 import { reactive, ref } from 'vue'
 import { createStore, createLogger } from 'vuex'
 import { StoreAction } from '@/store/storeActions';
-import { Character, enumOperation, Player, enumSheetName, enumGameState, enumMumbleType, Item } from '@/types/general';
+import { Character, Player, Item } from '@/types';
+import { enumOperation, enumSheetName, enumGameState, enumMumbleType } from '@/types/enums';
 import { CHARACTER_LIST } from '@/data';
 import Util from '@/service/util';
 import api from '@/service/api';
@@ -9,7 +10,6 @@ import playerModule from './player';
 import switchModule from './switchToggle';
 
 export default createStore({
-  plugins: process.env.NEDE_ENV === 'development' ? [createLogger()] : [],
   state: {
     /** GameState */
     gameState: enumGameState.Init,

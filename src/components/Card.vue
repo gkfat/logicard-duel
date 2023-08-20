@@ -6,10 +6,10 @@
           item.ItemType === enumItemType.LogiCard ? '' : 'card-tech'
         ]">
         <template v-if="item.ItemType === enumItemType.LogiCard" >
-          <IconComponent :icon="`images/cardback-logicard`"></IconComponent>
+          <Icon :url="IMAGES.icon.cardbackLogicard"></Icon>
         </template>
         <template v-else>
-          <IconComponent :icon="`images/cardback-tech`"></IconComponent>
+          <Icon :url="IMAGES.icon.cardbackTech"></Icon>
         </template>
     </div>
     <div v-if="!isCardBack"
@@ -23,17 +23,19 @@
           klass ? klass : ''
         ]"
         :title="`【${item.Name}】${item.Description}`">
-      <IconComponent :icon="`images/card-${item.ItemType}`"></IconComponent>
+      <Icon :url="item.Icon"></Icon>
       <p class="h4 m-0 w-100 text-center">{{ item.Point }}</p>
     </div>
 </template>
 
 
-<script setup name="CardComponent" lang="ts">
-import { Item, enumItemType } from '@/types/general';
+<script setup name="Card" lang="ts">
+import { Item } from '@/types';
+import { enumItemType } from '@/types/enums';
 import { Tooltip } from 'bootstrap';
 import { onMounted } from 'vue';
-import IconComponent from './IconComponent.vue';
+import Icon from './Icon.vue';
+import { IMAGES } from '@/data';
 
 withDefaults(defineProps<{
   style?: string,
@@ -177,3 +179,4 @@ onMounted(() => {
 }
 
 </style>
+@/types

@@ -19,5 +19,6 @@ export const StoreAction = {
         switchRank: 'switchRank',
         switchBackpack: 'switchBackpack',
         switchShop: 'switchShop',
+        switchStatus: 'switchStatus',
     }
 }

@@ -1,10 +1,10 @@
 <template>
-  <div id="shop" class="frame" :class="{ 'frame-show': isShopOpen }">
-    <DialogComponent :dialogs="dialogs"></DialogComponent>
-    <p class="w-100 text-center m-0" v-if="canShow">
+  <div id="shop" class="frame" :class="{ 'frame-show': isShopOpen }" v-if="player && player.ItemList">
+    <Dialog :dialogs="dialogs"></Dialog>
+    <p class="w-100 text-center m-0">
       螺絲釘：{{ player.Coin }}｜物品：{{ player.ItemList.length + '／' + player.Character.ItemLimit }}
     </p>
-    <div class="items-container" v-if="canShow">
+    <div class="items-container">
       <div v-for="(item, i) in shop">
         <ItemComponent :shop="true" :item="item" :index="i"></ItemComponent>
       </div>
@@ -13,14 +13,14 @@
   </div>
 </template>
 
-<script setup name="ShopComponent" lang="ts">
+<script setup name="Shop" lang="ts">
 import { StoreAction } from '@/store/storeActions';
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
-import DialogComponent from './DialogComponent.vue';
+import Dialog from './Dialog.vue';
 import ItemComponent from './ItemComponent.vue';
-import IconComponent from './IconComponent.vue';
-import { Item, Player, enumDialog } from '@/types/general';
+import { Item, Player } from '@/types';
+import { enumDialog } from '@/types/enums';
 import { DIALOGS } from '@/data/index';
 import Sound from '@/service/sounds';
 
@@ -45,6 +45,8 @@ const closeShop = async () => {
 }
 .items-container {
   gap: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,3 +55,4 @@ const closeShop = async () => {
   overflow-y: scroll;
 }
 </style>
+@/types

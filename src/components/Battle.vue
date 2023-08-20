@@ -3,9 +3,9 @@
     <!-- Enemy -->
     <div class="enemy">
       <div class="cards-container mb-1">
-        <CardComponent v-for="(item, i) in enemy.CardList" :sm="true" :is-card-back="true" :item="item"></CardComponent>
+        <Card v-for="(item, i) in enemy.CardList" :sm="true" :is-card-back="true" :item="item"></Card>
       </div>
-      <PlayerStatusComponent :player="enemy"></PlayerStatusComponent>
+      <PlayerStatus :player="enemy"></PlayerStatus>
     </div>
 
     <!-- Table -->
@@ -15,12 +15,12 @@
 
           <!-- 用過的牌堆 -->
           <div class="used-card-list rounded">
-            <CardComponent v-for="item of table.usedCardList" :sm="true" :item="item"></CardComponent>
+            <Card v-for="item of table.usedCardList" :sm="true" :item="item"></Card>
           </div>
           <!-- 系統提示 -->
           <p class="system-text">
             <!-- 局規則 -->
-            <template v-if="deal === -1">【抽籤中...】</template>
+            <template v-if="deal < 0">【抽籤中...】</template>
             <template v-if="deal === 0">【比小】</template>
             <template v-if="deal === 1">【比大】</template>
             <span class="me-1"></span>
@@ -36,19 +36,19 @@
           </p>
           <!-- Enemy Cards -->
           <div class="enemy-cards">
-            <CardComponent v-if="table.enemyCards[0]" :klass="tossCard ? 'enemy-toss-card' : ''" :is-card-back="!openCard" :item="table.enemyCards[0]"></CardComponent>
+            <Card v-if="table.enemyCards[0]" :klass="tossCard ? 'enemy-toss-card' : ''" :is-card-back="!openCard" :item="table.enemyCards[0]"></Card>
             <div class="card-placeholder card-placeholder-logicard" v-if="!table.enemyCards[0]"></div>
-            <CardComponent v-if="table.enemyCards[1]" :klass="tossCard ? 'enemy-toss-card' : ''" :is-card-back="!openCard" :item="table.enemyCards[1]"></CardComponent>
+            <Card v-if="table.enemyCards[1]" :klass="tossCard ? 'enemy-toss-card' : ''" :is-card-back="!openCard" :item="table.enemyCards[1]"></Card>
             <div class="card-placeholder card-placeholder-techcard" v-if="!table.enemyCards[1]"></div>
           </div>
           <!-- Player Cards -->
           <div class="player-cards">
             <div type="button" v-if="table.playerCards[0]" @click="getCardFromTable(player.Character, 0)">
-              <CardComponent :klass="tossCard ? 'player-toss-card' : ''" :item="table.playerCards[0]"></CardComponent>
+              <Card :klass="tossCard ? 'player-toss-card' : ''" :item="table.playerCards[0]"></Card>
             </div>
             <div class="card-placeholder card-placeholder-logicard" v-if="!table.playerCards[0]"></div>
             <div type="button" v-if="table.playerCards[1]" @click="getCardFromTable(player.Character, 1)">
-              <CardComponent :klass="tossCard ? 'player-toss-card' : ''" :item="table.playerCards[1]"></CardComponent>
+              <Card :klass="tossCard ? 'player-toss-card' : ''" :item="table.playerCards[1]"></Card>
             </div>
             <div class="card-placeholder card-placeholder-techcard" v-if="!table.playerCards[1]"></div>
           </div>
@@ -61,28 +61,28 @@
     <div class="player">
       <div class="cards-container">
         <div v-for="(item, i) in player.CardList" type="button" @click="placeCardOnTable(player.Character, item, i)">
-          <CardComponent :style="calcCardRotate(i)" :item="item"></CardComponent>
+          <Card :style="calcCardRotate(i)" :item="item"></Card>
         </div>
       </div>
-      <PlayerStatusComponent :is-main="true" :player="player"></PlayerStatusComponent>
+      <PlayerStatus :is-main="true" :player="player"></PlayerStatus>
     </div>
 
   </div>
 </template>
 
-<script setup name="BattleComponent" lang="ts">
+<script setup name="Battle" lang="ts">
 import { StoreAction } from '@/store/storeActions';
 import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useStore } from 'vuex';
-import { Item, Player, Character, enumGameState, enumItemType, enumRoundState, enumBattleResult, enumMumbleType } from '@/types/general';
-import CardComponent from './CardComponent.vue';
-import PlayerStatusComponent from './PlayerStatusComponent.vue';
+import { Item, Player } from '@/types';
+import { enumGameState, enumItemType, enumRoundState, enumBattleResult, enumMumbleType } from '@/types/enums';
+import Card from './Card.vue';
+import PlayerStatus from './PlayerStatus.vue';
 import Util from '@/service/util';
 import Sound from '@/service/sounds';
 import { CARDS } from '@/data';
 
 const store = useStore();
-const gameState = computed(() => store.getters.gameState as enumGameState);
 const player = computed(() => store.getters.player as Player);
 const enemy = computed(() => store.getters.enemy as Player);
 
@@ -101,10 +101,10 @@ const box50 = Util.makeLotteryBox(50); // 機率 50% 的箱子
 const box30 = Util.makeLotteryBox(30); // 機率 30% 的箱子
 
 // Init
-onMounted(() => {
+onMounted(async () => {
   table.usedCardList = [];
   resetExtraStatus();
-  initDealCards();
+  await dealCardsTo5();
   roundStart();
 })
 
@@ -117,17 +117,22 @@ const calcCardRotate = (i: number) => {
 }
 
 // 戰鬥開始時雙方各發 5 張數字牌
-const initDealCards = () => {
+const dealCardsTo5 = async () => {
   for (let i = 0; i < 4; i++) {
-    setTimeout(async () => dealCard('enemy'), i * 300);
-    setTimeout(async () => dealCard('player'), i * 300);
+    await Util.sleep(300);
+    if (enemy.value.CardList.length < 5) {
+      dealCard('enemy');
+    }
+    if (player.value.CardList.length < 5) {
+      dealCard('player');
+    }
   }
 }
 
 const tossCard = ref(false);
 
 // 開始回合
-const roundStart = () => {
+const roundStart = async () => {
   if (table.enemyCards[0]) {
     table.usedCardList.push(table.enemyCards[0]);
   }
@@ -146,20 +151,19 @@ const roundStart = () => {
   openCard.value = false; // 重置開牌狀態
   roundState.value = enumRoundState.Start;
   table.result = enumBattleResult.Init;
-  // 各發一張牌
-  setTimeout(async () => dealCard('enemy'), 300);
-  setTimeout(async () => dealCard('player'), 300);
   clearInterval(countDownTimer.value!); // 清除計時器
+  // 補足牌
+  await dealCardsTo5();
   dealGame(); // 抽籤決定比大比小
 }
 
 // 雙方各補充 3 張牌堆中的牌
 const dealCard = async (who: string) => {
-  await Sound.playSound(Sound.sounds.placeCard);
   const point = Util.getRandomInt(1, 7);
   const card: Item = CARDS.find(item => item.Point === point)!;
   switch (who) {
     case 'player':
+      await Sound.playSound(Sound.sounds.placeCard);
       player.value.CardList.push(card);
       player.value.CardList.sort((a, b) => a.ID - b.ID);
       break;
@@ -181,8 +185,7 @@ const dealGame = async () => {
 
 // 監看抽籤結果，決定敵人何時出牌
 const countDownSec = 10;
-// const countDownSec = 10000;
-const countDownTimer = ref(null as number | null);
+const countDownTimer = ref(null as NodeJS.Timer | null);
 const countDownRemainSec = ref(countDownSec);
 watch(deal, async () => {
   if (deal.value !== -1) {
@@ -271,7 +274,7 @@ const enemyPlaceCard = () => {
 }
 
 // 放一張牌上桌
-const placeCardOnTable = async (character: Character, item: Item, i: number) => {
+const placeCardOnTable = async (character: any, item: Item, i: number) => {
   let pos = 0;
   switch (item.ItemType) {
     case enumItemType.LogiCard:
@@ -309,7 +312,7 @@ const placeCardOnTable = async (character: Character, item: Item, i: number) => 
 }
 
 // 從桌上收回牌
-const getCardFromTable = async (character: Character, i: number) => {
+const getCardFromTable = async (character: any, i: number) => {
   switch (character.Type) {
     case 'P': // 玩家
       const findCard = table.playerCards[i]!;
@@ -353,8 +356,13 @@ const draw = async () => {
         enemyDefense += enemyTechCard.Point;
         enemy.value.ExtraDefense = enemyTechCard.Point;
         break;
-      case enumItemType.Health: 
-        store.dispatch(StoreAction.player.heal, { who: 'enemy', point: enemyTechCard.Point })
+      case enumItemType.Health:
+        await new Promise<void>(async (resolve, reject) => {
+          await Sound.playSound(Sound.sounds.heal);
+          store.dispatch(StoreAction.player.heal, { who: 'enemy', point: enemyTechCard.Point });
+          await Util.sleep(500);
+          resolve();
+        })
       break;
     }
   }
@@ -369,7 +377,12 @@ const draw = async () => {
         player.value.ExtraDefense = playerTechCard.Point;
         break;
       case enumItemType.Health:
-        store.dispatch(StoreAction.player.heal, { who: 'player', point: playerTechCard.Point })
+        await new Promise<void>(async (resolve, reject) => {
+          await Sound.playSound(Sound.sounds.heal);
+          store.dispatch(StoreAction.player.heal, { who: 'player', point: playerTechCard.Point });
+          await Util.sleep(500);
+          resolve();
+        })
       break;
     }
   }
@@ -439,6 +452,7 @@ const draw = async () => {
   setTimeout(() => {
     if (enemy.value.CurrentHealth === 0) { // 若敵人死亡就進到戰利品
       player.value.Record.DefeatBots += 1;
+      player.value.CardList = player.value.CardList.filter(card => card.ItemType !== enumItemType.LogiCard);
       store.dispatch(StoreAction.player.updatePlayer, { who: 'player', player: player.value });
       store.dispatch(StoreAction.general.changeGameState, enumGameState.BattleEnd);
     } else if (player.value.CurrentHealth === 0) { // 若玩家死亡就進到 game end
@@ -549,3 +563,4 @@ const resetExtraStatus = () => {
   }
 }
 </style>
+@/types

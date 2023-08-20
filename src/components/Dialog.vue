@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script setup name="DialogComponent" lang="ts">
+<script setup name="Dialog" lang="ts">
 
 const props = defineProps<{ dialogs: string[] }>();
 </script>

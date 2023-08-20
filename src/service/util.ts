@@ -38,4 +38,11 @@ export default class Util {
     return moment().format('YYYY-MM-DD HH:mm');
   }
 
+  /** Sleep 效果 */
+  static async sleep(ms: number): Promise<void> {
+    await new Promise<void>(async (resolve, reject) => {
+      setTimeout(() => resolve(), ms);
+    })
+  }
+
 }

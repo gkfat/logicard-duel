@@ -1,21 +1,22 @@
 <template>
   <div id="battle-start" v-if="enemy.Character">
-    <DialogComponent :dialogs="dialogs"></DialogComponent>
+    <Dialog :dialogs="dialogs"></Dialog>
     <div class="enemy">
-      <PlayerStatusComponent :player="enemy"></PlayerStatusComponent>
+      <PlayerStatus :player="enemy"></PlayerStatus>
       <p class="m-0">{{ enemy.Character.Description }}</p>
     </div>
     <button type="button" class="system-btn w-100" @click="startBattle()">戰鬥</button>
   </div>
 </template>
 
-<script setup name="BattleStartComponent" lang="ts">
+<script setup name="BattleStart" lang="ts">
 import { StoreAction } from '@/store/storeActions';
-import { Player, enumGameState, enumDialog } from '@/types/general';
+import type { Player } from '@/types';
+import { enumGameState, enumDialog } from '@/types/enums';
 import { computed, onMounted, ref, watch } from 'vue';
-import DialogComponent from './DialogComponent.vue';
-import PlayerStatusComponent from './PlayerStatusComponent.vue';
-import CardComponent from './CardComponent.vue';
+import Dialog from './Dialog.vue';
+import PlayerStatus from './PlayerStatus.vue';
+import Card from './Card.vue';
 import { useStore } from 'vuex';
 import { DIALOGS } from '@/data/index';
 
@@ -59,3 +60,4 @@ const startBattle = () => {
   }
 }
 </style>
+@/types

@@ -1,6 +1,6 @@
 <template>
-  <div id="rank" class="frame" :class="{ 'frame-show': isRankOpen }" v-if="isRankOpen">
-    <DialogComponent :dialogs="dialogs"></DialogComponent>
+  <div id="rank" class="frame" :class="{ 'frame-show': isRankOpen }">
+    <Dialog :dialogs="dialogs"></Dialog>
     <div class="rank-list flex-grow-1">
       <table v-for="rank of rankList.slice(1).reverse()" class="table table-sm shadow-sm rounded">
         <tr v-for="(text, i) of rank">
@@ -13,14 +13,14 @@
   </div>
 </template>
 
-<script setup name="RankComponent" lang="ts">
+<script setup name="Rank" lang="ts">
 import { StoreAction } from '@/store/storeActions';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
-import { enumSheetName, enumOperation, Player, enumDialog } from '@/types/general';
+import { enumDialog } from '@/types/enums';
 import { DIALOGS } from '@/data/index';
 import Sound from '@/service/sounds';
-import DialogComponent from './DialogComponent.vue';
+import Dialog from './Dialog.vue';
 import api from '@/service/api';
 
 const store = useStore();
