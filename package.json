@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "NODE_OPTIONS='--openssl-legacy-provider' vue-tsc && vite build"
+    "build": "vite build"
   },
   "dependencies": {
     "@hennge/vue3-pagination": "^1.0.17",
