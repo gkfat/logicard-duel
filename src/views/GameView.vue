@@ -131,26 +131,27 @@ watch(endUpdating, async () => {
     window.location.reload();
   }
 })
-watch(gameState, async () => {
-  switch (gameState.value) {
-    case enumGameState.ChooseCharacter:
-      await Sound.playBGM(Sound.sounds.prologue);
-      break;
-    case enumGameState.BattleStart:
-      Sound.stop(Sound.sounds.rest);
-      Sound.stop(Sound.sounds.prologue);
-      await Sound.playBGM(Sound.sounds.battle);
-      break;
-    case enumGameState.Rest:
-      Sound.stop(Sound.sounds.battle);
-      await Sound.playBGM(Sound.sounds.rest);
-      break;
-    case enumGameState.GameEnd:
-      Sound.stop(Sound.sounds.battle);
-      await Sound.playBGM(Sound.sounds.end);
-      break;
-  }
-})
+// Play BGM
+// watch(gameState, async () => {
+//   switch (gameState.value) {
+//     case enumGameState.ChooseCharacter:
+//       await Sound.playBGM(Sound.sounds.prologue);
+//       break;
+//     case enumGameState.BattleStart:
+//       Sound.stop(Sound.sounds.rest);
+//       Sound.stop(Sound.sounds.prologue);
+//       await Sound.playBGM(Sound.sounds.battle);
+//       break;
+//     case enumGameState.Rest:
+//       Sound.stop(Sound.sounds.battle);
+//       await Sound.playBGM(Sound.sounds.rest);
+//       break;
+//     case enumGameState.GameEnd:
+//       Sound.stop(Sound.sounds.battle);
+//       await Sound.playBGM(Sound.sounds.end);
+//       break;
+//   }
+// })
 
 </script>
 

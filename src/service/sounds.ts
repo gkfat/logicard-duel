@@ -9,11 +9,12 @@ import huh from '@/assets/sounds/huh.wav';
 import bell from '@/assets/sounds/bell.wav';
 import equip from '@/assets/sounds/equip.wav';
 import heal from '@/assets/sounds/heal.wav';
-import battle from '@/assets/sounds/battle.mp3';
-import rest from '@/assets/sounds/rest.mp3';
-import prologue from '@/assets/sounds/prologue.mp3';
-import end from '@/assets/sounds/end.mp3';
 import win from '@/assets/sounds/win.wav';
+// BGM
+// import battle from '@/assets/sounds/battle.mp3';
+// import rest from '@/assets/sounds/rest.mp3';
+// import prologue from '@/assets/sounds/prologue.mp3';
+// import end from '@/assets/sounds/end.mp3';
 
 class SoundService {
   totalAssets: number = 0;
@@ -34,10 +35,10 @@ class SoundService {
     heal: new Audio(heal),
     win: new Audio(win),
     /** BGM */
-    battle: new Audio(battle),
-    rest: new Audio(rest),
-    prologue: new Audio(prologue),
-    end: new Audio(end),
+    // battle: new Audio(battle),
+    // rest: new Audio(rest),
+    // prologue: new Audio(prologue),
+    // end: new Audio(end),
   }
 
   // 開始載入素材
