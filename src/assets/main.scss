@@ -31,9 +31,6 @@
     color: var(--blue);
     background-color: var(--darkgreen);
   }
-  &:hover {
-    transform: scale(0.95);
-  }
   &:after {
     position: absolute;
     content: '';
@@ -44,6 +41,12 @@
     width: 100%;
     background-color: var(--blue);
     opacity: 0.3;
+  }
+}
+
+@media (any-pointer: fine) {
+  .system-btn:hover {
+    transform: scale(0.95);
   }
 }
 

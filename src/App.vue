@@ -21,14 +21,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted } from 'vue';
 import Spinner from './components/Spinner.vue';
 import Header from './components/Header.vue';
 import Rank from './components/Rank.vue';
 import Backpack from './components/Backpack.vue';
 import Shop from './components/Shop.vue';
 import { useStore } from 'vuex';
-import Sound from '@/service/sounds';
 import { StoreAction } from './store/storeActions';
 import { enumSheetName, enumOperation, enumItemType } from './types/enums';
 import { CARDS } from './data';
@@ -39,7 +38,6 @@ const isSpinnerOpen = computed(() => store.getters.isSpinnerOpen);
 
 // 初始化排行榜、商店、音樂
 onMounted(async () => {
-  Sound.loadAssets();
   await store.dispatch(StoreAction.general.fetchData, { sheetName: enumSheetName.Records, operation: enumOperation.Get });
   const shopItems = [];
   const techCards = CARDS.filter(item => item.ItemType !== enumItemType.LogiCard);

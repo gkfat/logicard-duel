@@ -30,7 +30,7 @@ import { computed, ref, reactive } from 'vue';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import Dialog from '@/components/Dialog.vue';
 import PlayerStatus from '@/components/PlayerStatus.vue';
-import { CHARACTER_LIST, CHARACTER_MUMBLE_LIST, DIALOGS } from '@/data';
+import { CHARACTER_LIST, DIALOGS } from '@/data';
 import Sound from '@/service/sounds';
 import { useStore } from 'vuex';
 import { StoreAction } from '@/store/storeActions';
@@ -71,10 +71,6 @@ const selectCharacter = (data: any) => selectedCharacter.value = data.currentSli
 const confirmCharacter = async () => {
   await Sound.playSound(Sound.sounds.click);
   const character = characterList[selectedCharacter.value];
-  // 加入此角色的喃喃自語
-  for (const mumble of CHARACTER_MUMBLE_LIST[character.ID]) {
-    character.MumbleList[enumMumbleType.General].push(mumble);
-  }
   await store.dispatch(StoreAction.player.selectCharacter, character);
   await store.dispatch(StoreAction.switch.switchSpinner, true);
   await Util.sleep(300);

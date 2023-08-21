@@ -37,19 +37,35 @@
           </p>
           <!-- Enemy Cards -->
           <div class="enemy-cards">
-            <Card v-if="table.enemyCards[0]" :klass="tossCard ? 'enemy-toss-card' : ''" :is-card-back="!openCard" :item="table.enemyCards[0]"></Card>
+            <Card
+              v-if="table.enemyCards[0]"
+              :klass="tossCard ? 'enemy-toss-card' : ''"
+              :is-card-back="!openCard"
+              :item="table.enemyCards[0]">
+            </Card>
             <div class="card-placeholder card-placeholder-logicard" v-if="!table.enemyCards[0]"></div>
-            <Card v-if="table.enemyCards[1]" :klass="tossCard ? 'enemy-toss-card' : ''" :is-card-back="!openCard" :item="table.enemyCards[1]"></Card>
+            <Card
+              v-if="table.enemyCards[1]"
+              :klass="tossCard ? 'enemy-toss-card' : ''"
+              :is-card-back="!openCard"
+              :item="table.enemyCards[1]">
+            </Card>
             <div class="card-placeholder card-placeholder-techcard" v-if="!table.enemyCards[1]"></div>
           </div>
           <!-- Player Cards -->
           <div class="player-cards">
-            <div type="button" v-if="table.playerCards[0]" @click="getCardFromTable(player.Character, 0)">
-              <Card :klass="tossCard ? 'player-toss-card' : ''" :item="table.playerCards[0]"></Card>
+            <div type="button" v-if="table.playerCards[0]" @click="getCardFromTable('player', 0)">
+              <Card
+                :klass="tossCard ? 'player-toss-card' : ''"
+                :item="table.playerCards[0]">
+              </Card>
             </div>
             <div class="card-placeholder card-placeholder-logicard" v-if="!table.playerCards[0]"></div>
-            <div type="button" v-if="table.playerCards[1]" @click="getCardFromTable(player.Character, 1)">
-              <Card :klass="tossCard ? 'player-toss-card' : ''" :item="table.playerCards[1]"></Card>
+            <div type="button" v-if="table.playerCards[1]" @click="getCardFromTable('player', 1)">
+              <Card
+                :klass="tossCard ? 'player-toss-card' : ''"
+                :item="table.playerCards[1]">
+              </Card>
             </div>
             <div class="card-placeholder card-placeholder-techcard" v-if="!table.playerCards[1]"></div>
           </div>
@@ -62,7 +78,10 @@
     <div class="player">
       <div class="cards-container">
         <div v-for="(item, i) in player.CardList" type="button" @click="placeCardOnTable(player.Character, item, i)">
-          <Card :style="calcCardRotate(i)" :item="item"></Card>
+          <Card
+            :style="calcCardRotate(i)"
+            :item="item">
+          </Card>
         </div>
       </div>
       <PlayerStatus :is-main="true" :player="player"></PlayerStatus>
@@ -91,7 +110,7 @@ const openCard = ref(false);
 const rule = ref(-1);
 
 const roundState = ref(enumRoundState.Start);
-const table = reactive({
+const table = ref({
   enemyCards: [null, null] as Array<Item | null>,
   playerCards: [null, null] as Array<Item | null>,
   result: enumBattleResult.Init,
@@ -104,7 +123,7 @@ const box30 = Util.makeLotteryBox(30); // 機率 30% 的箱子
 
 // Init
 onMounted(async () => {
-  table.usedCardList = [];
+  table.value.usedCardList = [];
   resetExtraStatus();
   await dealCardsTo5();
   roundStart();
@@ -118,102 +137,51 @@ const calcCardRotate = (i: number) => {
   return `rotate(${deg}deg) translateY(${y}px)`;
 }
 
-// 戰鬥開始時雙方各發 5 張數字牌
-const dealCardsTo5 = async () => {
-  for (let i = 0; i < 4; i++) {
-    await Util.sleep(300);
-    const enemyCardLength = enemy.value.CardList.filter(c => c.ItemType === enumItemType.LogiCard).length;
-    const playerCardLength = player.value.CardList.filter(c => c.ItemType === enumItemType.LogiCard).length;
-    if (enemyCardLength < 5) {
-      dealCard('enemy');
-    }
-    if (playerCardLength < 5) {
-      dealCard('player');
-    }
-  }
-}
-
 const tossCard = ref(false);
 
 // 開始回合
 const roundStart = async () => {
-  if (table.enemyCards[0]) {
-    table.usedCardList.push(table.enemyCards[0]);
-  }
-  if (table.enemyCards[1]) {
-    table.usedCardList.push(table.enemyCards[1]);
-  }
-  if (table.playerCards[0]) {
-    table.usedCardList.push(table.playerCards[0]);
-  }
-  if (table.playerCards[1]) {
-    table.usedCardList.push(table.playerCards[1]);
-  }
-  table.enemyCards = [null, null];
-  table.playerCards = [null, null];
-  tossCard.value = false;
   openCard.value = false; // 重置開牌狀態
   rule.value = -1; // 重置規則
-  table.result = enumBattleResult.Init;
+  table.value.result = enumBattleResult.Init;
   roundState.value = enumRoundState.Start;
-  clearInterval(countDownTimer.value!); // 清除計時器
   // 補足牌
   await dealCardsTo5();
-  dealGame(); // 抽籤決定比大比小
+  await dealGame(); // 抽籤決定比大比小
 }
 
-// 雙方各補充 3 張牌堆中的牌
-const dealCard = async (who: string) => {
-  const point = Util.getRandomInt(1, 8);
-  const card = CARDS.filter(c => c.Point === point)[0];
-  switch (who) {
-    case 'player':
-      await Sound.playSound(Sound.sounds.placeCard);
-      player.value.CardList.push(card);
-      player.value.CardList = Util.sortCardList(player.value.CardList);
-      break;
-    case 'enemy':
-      await Sound.playSound(Sound.sounds.placeCard);
-      enemy.value.CardList.push(card);
-      enemy.value.CardList = Util.sortCardList(enemy.value.CardList);
-      break;
-  }
-}
+const countDownSec = 10;
+const countDownRemainSec = ref(countDownSec);
 
 // 抽籤
 const dealGame = async () => {
-  await Util.sleep(3000);
+  await Util.sleep(2500);
   rule.value = Util.getZeroOrOne();
+  countDownRemainSec.value = JSON.parse(JSON.stringify(countDownSec));
+  roundState.value = enumRoundState.Counting;
+  startMumbleInterval(); // 開始喃喃自語定時器
+  startCountdownInterval(); // 開始倒數計時器
   await Sound.playSound(Sound.sounds.bell);
+  // 機器人不定時出牌
+  const randomSec = Util.getRandomInt(3, countDownSec / 2) * 1000;
+  await Util.sleep(randomSec);
+  enemyPlaceCard();
 }
 
-// 監看抽籤結果，決定敵人何時出牌
-const countDownSec = 10;
-const countDownTimer = ref(null as number | null);
-const countDownRemainSec = ref(countDownSec);
-watch(rule, async () => {
-  if (rule.value !== -1) {
-    startMumbleInterval(); // 開始喃喃自語定時器
-    // 開始倒數計時
-    countDownRemainSec.value = countDownSec;
-    roundState.value = enumRoundState.Counting;
-    countDownTimer.value = setInterval(async () => {
-      if (countDownRemainSec.value > 0) {
+// 開始倒數計時器
+const startCountdownInterval = async () => {
+  const countdownInterval = setInterval(async () => {
+    if (countDownRemainSec.value > 0) {
         countDownRemainSec.value -= 1;
         if (countDownRemainSec.value === 3) {
           await Sound.playSound(Sound.sounds.countdown);
         }
       } else {
-        clearInterval(countDownTimer.value!);
+        clearInterval(countdownInterval);
         await draw();
       }
-    }, 1000);
-    // 不定時出牌
-    const randomSec = Util.getRandomInt(3, countDownSec / 2) * 1000;
-    await Util.sleep(randomSec);
-    enemyPlaceCard();
-  }
-})
+  }, 1000);
+}
 
 const playerMumbling = computed(() => store.getters.playerMumbling as boolean);
 const enemyMumbling = computed(() => store.getters.enemyMumbling as boolean);
@@ -293,12 +261,12 @@ const placeCardOnTable = async (character: any, item: Item, i: number) => {
   }
   switch (character.Type) {
     case 'P': // 玩家
-      const findCard = table.playerCards[pos];
-      const allowTime = roundState.value === enumRoundState.Counting || roundState.value === enumRoundState.Start;
+      const findCard = table.value.playerCards[pos];
+      const allowTime = [enumRoundState.Counting].includes(roundState.value);
       if (!findCard && allowTime) {
         await Sound.playSound(Sound.sounds.placeCard);
         player.value.CardList.splice(i, 1);
-        table.playerCards[pos] = item;
+        table.value.playerCards[pos] = item;
         store.dispatch(StoreAction.player.mumble, { who: 'player', type: enumMumbleType.PlaceCard, delay: 0 });
         if (Util.lottery(box50)) {
           store.dispatch(StoreAction.player.mumble, { who: 'enemy', type: enumMumbleType.EnemyPlaceCard, delay: 0 });
@@ -309,7 +277,7 @@ const placeCardOnTable = async (character: any, item: Item, i: number) => {
     case 'B': // 機器人
       await Sound.playSound(Sound.sounds.placeCard);
       enemy.value.CardList.splice(i, 1);
-      table.enemyCards[pos] = item;
+      table.value.enemyCards[pos] = item;
       if (Util.lottery(box50)) {
         store.dispatch(StoreAction.player.mumble, { who: 'enemy', type: enumMumbleType.PlaceCard, delay: 0 });
       }
@@ -321,22 +289,22 @@ const placeCardOnTable = async (character: any, item: Item, i: number) => {
 }
 
 // 從桌上收回牌
-const getCardFromTable = async (character: any, i: number) => {
-  switch (character.Type) {
-    case 'P': // 玩家
-      const findCard = table.playerCards[i]!;
-      const allowTime = roundState.value === enumRoundState.Counting || roundState.value === enumRoundState.Start;
+const getCardFromTable = async (who: 'player' | 'enemy', i: number) => {
+  switch (who) {
+    case 'player': // 玩家
+      const findCard = table.value.playerCards[i]!;
+      const allowTime = [enumRoundState.Counting, enumRoundState.Start].includes(roundState.value);
       if (allowTime) {
         await Sound.playSound(Sound.sounds.placeCard);
         player.value.CardList.push(findCard);
-        table.playerCards[i] = null;
+        table.value.playerCards[i] = null;
         player.value.CardList = Util.sortCardList(player.value.CardList);
       }
       break;
-    case 'B': // 機器人
-      const findEnemyCard = table.enemyCards[i]!;
+    case 'enemy': // 機器人
+      const findEnemyCard = table.value.enemyCards[i]!;
       enemy.value.CardList.push(findEnemyCard);
-      table.enemyCards[i] = null;
+      table.value.enemyCards[i] = null;
       break;
   }
 }
@@ -346,10 +314,10 @@ const draw = async () => {
   openCard.value = true; // 開牌
   roundState.value = enumRoundState.Duel;
   // 取得雙方點數
-  const enemyLogiCard = table.enemyCards[0] ? table.enemyCards[0].Point : null;
-  const enemyTechCard = table.enemyCards[1] ? table.enemyCards[1] : null;
-  const playerLogiCard = table.playerCards[0] ? table.playerCards[0].Point : null;
-  const playerTechCard = table.playerCards[1] ? table.playerCards[1] : null;
+  const enemyLogiCard = table.value.enemyCards[0] ? table.value.enemyCards[0].Point : null;
+  const enemyTechCard = table.value.enemyCards[1] ? table.value.enemyCards[1] : null;
+  const playerLogiCard = table.value.playerCards[0] ? table.value.playerCards[0].Point : null;
+  const playerTechCard = table.value.playerCards[1] ? table.value.playerCards[1] : null;
   // 計算攻擊力、防禦力
   let enemyAttack = enemy.value.CurrentAttack;
   let enemyDefense = enemy.value.CurrentDefense;
@@ -421,7 +389,7 @@ const draw = async () => {
         break;
     }
   }
-  table.result = result;
+  table.value.result = result;
   roundState.value = enumRoundState.Settle;
 
   // 依結果判斷扣血
@@ -459,14 +427,14 @@ const draw = async () => {
     await Sound.playSound(Sound.sounds.huh);
   }
 
+  await Util.sleep(1000);
   roundState.value = enumRoundState.SettleEnd;
-  await Util.sleep(2500);
-  tossCard.value = true;
+  await tossCardToTrash();
   resetExtraStatus();
   if (enemy.value.CurrentHealth === 0) { // 若敵人死亡就進到戰利品
     player.value.Record.DefeatBots += 1;
     player.value.CardList = player.value.CardList.filter(c => c.ItemType !== enumItemType.LogiCard);
-    Sound.playSound(Sound.sounds.win);
+    await Sound.playSound(Sound.sounds.win);
     store.dispatch(StoreAction.player.updatePlayer, { who: 'player', player: player.value });
     store.dispatch(StoreAction.general.changeGameState, enumGameState.BattleEnd);
   } else if (player.value.CurrentHealth === 0) { // 若玩家死亡就進到 game end
@@ -474,13 +442,71 @@ const draw = async () => {
     store.dispatch(StoreAction.player.updatePlayer, { who: 'player', player: player.value });
     store.dispatch(StoreAction.general.changeGameState, enumGameState.GameEnd);
   } else { // 若無人死亡就重啟 roundStart
-    roundStart();
+    await roundStart();
+  }
+}
+
+// 將用過的牌丟到垃圾桶
+const tossCardToTrash = async () => {
+  tossCard.value = true;
+  await Util.sleep(200);
+  if (table.value.enemyCards[0]) {
+    table.value.usedCardList.push(table.value.enemyCards[0]);
+  }
+  if (table.value.enemyCards[1]) {
+    table.value.usedCardList.push(table.value.enemyCards[1]);
+  }
+  if (table.value.playerCards[0]) {
+    table.value.usedCardList.push(table.value.playerCards[0]);
+  }
+  if (table.value.playerCards[1]) {
+    table.value.usedCardList.push(table.value.playerCards[1]);
+  }
+  await Util.sleep(2000);
+  table.value.enemyCards = [null, null];
+  table.value.playerCards = [null, null];
+  tossCard.value = false;
+}
+
+
+// 戰鬥開始時雙方各發 5 張數字牌
+const dealCardsTo5 = async () => {
+  for (let i = 0; i < 4; i++) {
+    await Util.sleep(300);
+    const enemyCardLength = enemy.value.CardList.filter(c => c.ItemType === enumItemType.LogiCard).length;
+    const playerCardLength =
+      player.value.CardList.filter(c => c.ItemType === enumItemType.LogiCard).length +
+      (table.value.playerCards[0] ? 1 : 0);
+    if (enemyCardLength < 5) {
+      dealCard('enemy');
+    }
+    if (playerCardLength < 5) {
+      dealCard('player');
+    }
+  }
+}
+
+// 雙方各補充 3 張牌堆中的牌
+const dealCard = async (who: string) => {
+  const point = Util.getRandomInt(1, 8);
+  const card = CARDS.filter(c => c.Point === point)[0];
+  switch (who) {
+    case 'player':
+      await Sound.playSound(Sound.sounds.placeCard);
+      player.value.CardList.push(card);
+      player.value.CardList = Util.sortCardList(player.value.CardList);
+      break;
+    case 'enemy':
+      await Sound.playSound(Sound.sounds.placeCard);
+      enemy.value.CardList.push(card);
+      enemy.value.CardList = Util.sortCardList(enemy.value.CardList);
+      break;
   }
 }
 
 // 重置額外數值
 const resetExtraStatus = () => {
-  const playerTechCard = table.playerCards[1];
+  const playerTechCard = table.value.playerCards[1];
   if (playerTechCard) {
     switch (playerTechCard.ItemType) {
       case enumItemType.Attack:
@@ -518,18 +544,18 @@ const resetExtraStatus = () => {
   width: 100%;
   margin: 0 auto;
   max-width: 330px;
-  min-height: 130px;
+  min-height: 140px;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  perspective: 600px;
+  // perspective: 600px;
 
   &-inner {
     width: 100%;
     height: 100%;
     position: relative;
-    transform-style: preserve-3d;
+    // transform-style: preserve-3d;
   }
   &-platform {
     width: 100%;
@@ -543,8 +569,8 @@ const resetExtraStatus = () => {
     gap: 10px;
     padding: 10px;
     top: 0;
-    transform-origin: bottom;
-    transform: rotateX(30deg);
+    // transform-origin: bottom;
+    // transform: rotateX(30deg);
     border-radius: 20px;
     border: 8px solid var(--blue);
   }

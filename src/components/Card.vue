@@ -111,10 +111,6 @@ onMounted(() => {
       bottom: 4px;
       right: 4px;
     }
-    &:hover {
-      filter: brightness(95%);
-      box-shadow: 0 0 2px 2px rgba(94, 245, 215, 0.3);
-    }
   }
   &-back {
     background-color: var(--blue);
@@ -132,6 +128,13 @@ onMounted(() => {
     &.card-back {
       background-color: var(--skin);
     }
+  }
+}
+
+@media (any-pointer: fine) {
+  .card:hover {
+    filter: brightness(95%);
+    box-shadow: 0 0 2px 2px rgba(94, 245, 215, 0.3);
   }
 }
 

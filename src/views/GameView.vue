@@ -54,7 +54,6 @@ import Dialog from '@/components/Dialog.vue';
 import Sound from '@/service/sounds';
 import Util from '@/service/util';
 
-
 const store = useStore();
 const gameState = computed(() => store.getters.gameState as enumGameState);
 const player = computed(() => store.getters.player as Player);
@@ -81,20 +80,13 @@ const openRank = async () => {
 }
 
 const start = async () => {
-  await Sound.playSound(Sound.sounds.click);
   await store.dispatch(StoreAction.switch.switchSpinner, true);
-  checkCanStart();
-}
-
-const assetsLoadFinish = computed(() => Sound.loadedAssets >= Sound.totalAssets);
-const checkCanStart = async () => {
-  if (assetsLoadFinish.value) {
+  await Sound.loadAssets().then(() => {
     console.log('Assets loaded finished');
-    await store.dispatch(StoreAction.general.changeGameState, enumGameState.ChooseCharacter);
-    store.dispatch(StoreAction.switch.switchSpinner, false);
-  } else {
-    checkCanStart();
-  }
+  });
+  await Sound.playSound(Sound.sounds.click);
+  await store.dispatch(StoreAction.general.changeGameState, enumGameState.ChooseCharacter);
+  store.dispatch(StoreAction.switch.switchSpinner, false);
 }
 
 /**
@@ -132,26 +124,26 @@ watch(endUpdating, async () => {
   }
 })
 // Play BGM
-// watch(gameState, async () => {
-//   switch (gameState.value) {
-//     case enumGameState.ChooseCharacter:
-//       await Sound.playBGM(Sound.sounds.prologue);
-//       break;
-//     case enumGameState.BattleStart:
-//       Sound.stop(Sound.sounds.rest);
-//       Sound.stop(Sound.sounds.prologue);
-//       await Sound.playBGM(Sound.sounds.battle);
-//       break;
-//     case enumGameState.Rest:
-//       Sound.stop(Sound.sounds.battle);
-//       await Sound.playBGM(Sound.sounds.rest);
-//       break;
-//     case enumGameState.GameEnd:
-//       Sound.stop(Sound.sounds.battle);
-//       await Sound.playBGM(Sound.sounds.end);
-//       break;
-//   }
-// })
+watch(gameState, async () => {
+  switch (gameState.value) {
+    case enumGameState.ChooseCharacter:
+      await Sound.playBGM(Sound.sounds.prologue);
+      break;
+    case enumGameState.BattleStart:
+      Sound.stop(Sound.sounds.rest);
+      Sound.stop(Sound.sounds.prologue);
+      await Sound.playBGM(Sound.sounds.battle);
+      break;
+    case enumGameState.Rest:
+      Sound.stop(Sound.sounds.battle);
+      await Sound.playBGM(Sound.sounds.rest);
+      break;
+    case enumGameState.GameEnd:
+      Sound.stop(Sound.sounds.battle);
+      await Sound.playBGM(Sound.sounds.end);
+      break;
+  }
+})
 
 </script>
 

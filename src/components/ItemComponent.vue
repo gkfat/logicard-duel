@@ -17,7 +17,7 @@
       </template>
       <!-- Card -->
       <template v-if="!isItem">
-        <div class="price rounded" v-if="!backpack">$ {{ item.Price }}</div>
+        <div class="price rounded" v-if="shop">$ {{ item.Price }}</div>
         <Card :sm="true" :item="item"></Card>
       </template>
       <p class="m-0 w-100 py-1 text-center">{{ item.Name }}</p>
@@ -31,7 +31,7 @@
       <Icon :url="item.Icon"></Icon>
   </div>
   <!-- Backpack Control -->
-  <div class="control" :class="{ 'control-show': isShowBackpackControl }">
+  <div class="control" v-if="backpack" :class="{ 'control-show': isShowBackpackControl }">
     <Detail :item="item"></Detail>
     <button class="system-btn w-100" v-if="isItem" @click="switchEquip()">裝備／脫下</button>
     <button class="system-btn w-100" v-if="isHealCard" @click="useHealCard()">使用</button>
@@ -39,7 +39,7 @@
     <button class="system-btn system-btn-skip w-100" @click="toggleControl()">取消</button>
   </div>
   <!-- Shop Control -->
-  <div class="control" :class="{ 'control-show': isShowShopControl }">
+  <div class="control" v-if="shop" :class="{ 'control-show': isShowShopControl }">
     <Detail :item="item"></Detail>
     <button class="system-btn w-100" @click="buyItem()">以 $ {{ item.Price }} 買入</button>
     <button class="system-btn system-btn-skip w-100" @click="toggleControl()">取消</button>
@@ -62,7 +62,7 @@ import { StoreAction } from '@/store/storeActions';
 
 const store = useStore();
 const player = computed(() => store.getters.player as Player);
-const shop = computed(() => store.getters.shop as Item[]);
+const storeShop = computed(() => store.getters.shop as Item[]);
 
 const props = withDefaults(defineProps<{
   item: Item,
@@ -142,7 +142,14 @@ const useHealCard = async () => {
       const updatedPlayer = { ...player.value };
       await Sound.playSound(Sound.sounds.heal);
       store.dispatch(StoreAction.player.heal, { who: 'player', point: props.item.Point });
-      updatedPlayer.ItemList.splice(props.index! + 1, 1);
+      // 檢查裝備 index
+      if (updatedPlayer.WeaponIndex && props.index! < updatedPlayer.WeaponIndex) {
+        updatedPlayer.WeaponIndex -= 1;
+      }
+      if (updatedPlayer.ArmorIndex && props.index! < updatedPlayer.ArmorIndex) {
+        updatedPlayer.ArmorIndex -= 1;
+      }
+      updatedPlayer.CardList.splice(props.index!, 1);
       await store.dispatch(StoreAction.player.updatePlayer, { who: 'player', player: updatedPlayer });
       toggleControl();
     }
@@ -151,30 +158,49 @@ const useHealCard = async () => {
 
 // 賣出物品
 const sellItem = async () => {
-  const confirmBox = confirm('確定要賣掉？');
-  if (confirmBox) {
-    const updatedPlayer = { ...player.value };
-    if (props.equiped) {
-      const confirmSell = confirm('你正穿著這件裝備，確定賣出？');
-      if (confirmSell) {
-        switch (props.item.ItemType) {
-          case enumItemType.Weapon:
-            updatedPlayer.WeaponIndex = null;
-            break;
-          case enumItemType.Armor:
-            updatedPlayer.ArmorIndex = null;
-            break;
-        }
+  const a = { ...player.value };
+  const updatedPlayer = { ...player.value };
+  let proceed = false;
+
+  if (props.equiped) {
+    const confirmBox = confirm('你正穿著這件裝備，確定賣出？');
+    if (confirmBox) {
+      switch (props.item.ItemType) {
+        case enumItemType.Weapon:
+          updatedPlayer.WeaponIndex = null;
+          break;
+        case enumItemType.Armor:
+          updatedPlayer.ArmorIndex = null;
+          break;
       }
+      proceed = true;
     }
-    if (updatedPlayer.WeaponIndex && props.index! < updatedPlayer.WeaponIndex) {
-      updatedPlayer.WeaponIndex -= 1;
+  } else {
+    const confirmBox = confirm('確定要賣掉？');
+    if (confirmBox) {
+      proceed = true;
     }
-     if (updatedPlayer.ArmorIndex && props.index! < updatedPlayer.ArmorIndex) {
-      updatedPlayer.ArmorIndex -= 1;
+  }
+  if (proceed) {
+    switch (props.item.ItemType) {
+      case enumItemType.Weapon:
+      case enumItemType.Armor:
+        if (updatedPlayer.WeaponIndex && props.index! < updatedPlayer.WeaponIndex) {
+          updatedPlayer.WeaponIndex -= 1;
+        }
+        if (updatedPlayer.ArmorIndex && props.index! < updatedPlayer.ArmorIndex) {
+          updatedPlayer.ArmorIndex -= 1;
+        }
+        updatedPlayer.ItemList.splice(props.index!, 1);
+        break;
+      case enumItemType.Attack:
+      case enumItemType.Defense:
+      case enumItemType.Heal:
+        updatedPlayer.CardList.splice(props.index!, 1);
+        break;
     }
+
     await Sound.playSound(Sound.sounds.coin);
-    updatedPlayer.ItemList.splice(props.index!, 1);
     updatedPlayer.Coin += evaluateSalePrice;
     await store.dispatch(StoreAction.player.updatePlayer, { who: 'player', player: updatedPlayer });
     alert(`成功賣出！賺了 ${evaluateSalePrice} 個螺絲釘`);
@@ -190,7 +216,7 @@ const buyItem = async () => {
     const confirmBox = confirm('確定購買？');
     if (confirmBox) {
       await Sound.playSound(Sound.sounds.coin);
-      const updatedShop = [ ...shop.value ];
+      const updatedShop = [ ...storeShop.value ];
       updatedShop.splice(props.index!, 1);
       store.dispatch(StoreAction.general.updateShop, updatedShop);
       const updatedPlayer = { ...player.value };

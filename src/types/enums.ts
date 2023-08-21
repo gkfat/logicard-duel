@@ -83,6 +83,8 @@ export enum enumCard {
 export enum enumCharacter {
     Man,
     Nerd,
+    Broker,
+    Grandma,
     Artist,
     GkbotWorker,
     GkbotAttack,

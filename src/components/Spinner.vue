@@ -6,6 +6,7 @@
     <div></div>
   </div>
 </template>
+
 <script setup name="Spinner" lang="ts">
 </script>
 

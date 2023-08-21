@@ -10,7 +10,7 @@
     </div>
     <div class="items-container d-flex justify-content-center flex-wrap flex-grow-1">
       <div v-for="item in lootBox">
-        <ItemComponent :backpack="item.ItemType !== enumItemType.Coin" :item="item"></ItemComponent>
+        <ItemComponent :item="item"></ItemComponent>
       </div>
     </div>
     <!-- 沒有多餘空間 -->
@@ -18,7 +18,6 @@
     <button v-else type="button" class="system-btn w-100" @click="goRest()">休息</button>
   </div>
 </template>
-
 
 <script setup name="BattleEnd" lang="ts">
 import { StoreAction } from '@/store/storeActions';
@@ -84,6 +83,13 @@ onMounted(() => {
   if (Util.lottery(box50)) {
     makeLoot('techCard');
   }
+
+  makeLoot('equipment');
+  makeLoot('equipment');
+  makeLoot('equipment');
+  makeLoot('techCard');
+  makeLoot('techCard');
+
   
   lootBox.forEach(loot => {
     switch (loot.ItemType) {

@@ -9,4 +9,7 @@ import 'bootstrap';
 import 'vue3-carousel/dist/carousel.css'
 import '@/assets/main.scss';
 
-createApp(App).use(store).use(router).mount('#app')
+createApp(App)
+    .use(store)
+    .use(router)
+    .mount('#app')

@@ -60,17 +60,17 @@
             <!-- Weapon -->
             <div class="equipment equipment-weapon">
               <ItemComponent
-                v-if="player.WeaponIndex"
+                v-if="weaponItem"
                 :player-status="true"
-                :item="player.ItemList[player.WeaponIndex - 1]">
+                :item="weaponItem">
               </ItemComponent>
             </div>
             <!-- Armor -->
             <div class="equipment equipment-armor">
               <ItemComponent
-                v-if="player.ArmorIndex"
+                v-if="armorItem"
                 :player-status="true"
-                :item="player.ItemList[player.ArmorIndex - 1]">
+                :item="armorItem">
               </ItemComponent>
             </div>
           </div>
@@ -108,7 +108,7 @@
 </template>
 
 <script setup name="PlayerStatus" lang="ts">
-import { Player } from '@/types';
+import { Item, Player } from '@/types';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import ItemComponent from './ItemComponent.vue';
@@ -137,6 +137,9 @@ const lastHealth = ref(0);
 const coinChange = ref(0);
 const lastCoin = ref(0);
 
+const weaponItem = ref(null as Item | null);
+const armorItem = ref(null as Item | null);
+
 watch((props.player), async () => {
   // 監聽生命值變化
   if (props.player.CurrentHealth !== lastHealth.value) {
@@ -152,6 +155,9 @@ watch((props.player), async () => {
     lastCoin.value = props.player.Coin;
     coinChange.value = 0;
   }
+  // 裝備變化
+  weaponItem.value = props.player.WeaponIndex ? props.player.ItemList[props.player.WeaponIndex - 1] : null;
+  armorItem.value = props.player.ArmorIndex ? props.player.ItemList[props.player.ArmorIndex - 1] : null;
 })
 
 onMounted(() => {

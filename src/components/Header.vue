@@ -1,10 +1,9 @@
 <template>
   <div id="header" class="w-100 container-fluid p-1 d-flex justify-content-center align-center">
     <h1 class="h6 m-0">LogiCard Duel</h1>
-    <p class="version m-0">v0.2.0</p>
+    <p class="version m-0">v0.2.1</p>
   </div>
 </template>
-
 
 <script setup name="Header" lang="ts">
 </script>

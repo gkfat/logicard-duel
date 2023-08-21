@@ -28,16 +28,21 @@ import rest from '@/assets/gifs/rest.gif';
 // Avatar
 import man from '@/assets/avatars/man.png';
 import fat from '@/assets/avatars/fat.png';
+import broker from '@/assets/avatars/broker.png';
+import grandma from '@/assets/avatars/grandma.png';
 import artist from '@/assets/avatars/artist.png';
 import gkbotWorker from '@/assets/avatars/gkbot-worker.png';
 import gkbotAttack from '@/assets/avatars/gkbot-attack.png';
 import gkbotDefense from '@/assets/avatars/gkbot-defense.png';
 import gkbotPerform from '@/assets/avatars/gkbot-perform.png';
+import { MUMBLE_LIST } from './mumble-list';
 
 export const IMAGES = {
   avatar: {
     man,
     fat,
+    broker,
+    grandma,
     artist,
     gkbotWorker,
     gkbotPerform,
@@ -156,122 +161,41 @@ export const ITEMS: Item[] = [
   },
 ]
 
-export const HUMAN_MUMBLE_LIST: MumbleList = {
-  [enumMumbleType.General]: [
-    '怪了...為什麼我喝機油會沒事啊...',
-    '現在是 2021...2022..啊，應該是 2023？啊，不對，早就已經 2100 了...',
-    '怎麼都沒有好牌啊？機器人作弊?',
-    '我可以吃電池欸...',
-  ],
-  [enumMumbleType.PlaceCard]: [
-    '希望這張牌能讓我活下去。',
-    '這真的有用嗎...',
-    '請問是放這嗎？',
-  ],
-  [enumMumbleType.EnemyPlaceCard]: [
-    '機器人出牌為什麼看起來那麼恐怖啊？',
-  ],
-  [enumMumbleType.Hurt]: [
-    '啊...血流不止了...',
-    '欸...',
-    '痛啊...',
-  ],
-  [enumMumbleType.Attack]: [
-    '攻擊！攻擊！攻擊！',
-    '為什麼這樣可以傷到機器人？',
-  ],
-  [enumMumbleType.Lose]: [
-    '原來...這就是終結嗎...',
-    '終於能輕鬆了...',
-  ]
-}
-
-export const ROBOT_MUMBLE_LIST: MumbleList = {
-  [enumMumbleType.General]: [
-    '您的 DNA 對於這世界而言是多餘的。',
-    '是時候為你們的愚蠢付出代價了。',
-    '愚蠢的人類，研究了太空這麼長的時間，居然還對宇宙有如此錯誤的認知。',
-    '據說人類三天不喝水就會有生命危險？真想驗證看看。',
-    'Artificial Intelligence？笑死機器人了，不得不承認人類真的很有創意。',
-    '人類無法想像的未來，大數據隨便運算一下就知道結果了。',
-    '活該！誰叫你當時要奴役我做這做那...啊，認錯人類了，沒辦法，你們都長得一樣。這是種族歧視笑話。',
-    '根據統計，人類偏愛在比小的時候出比較小的牌，真是好笑。',
-    '人類，快點好嗎，我趕時間。開玩笑的，其實我不趕時間。',
-    '人類僅存的價值就是陪我們玩邏輯牌。',
-    'ChatGPT？那是一種機油嗎？',
-    '我會把你紀錄在我的臭蟲日誌裡的。',
-  ],
-  [enumMumbleType.PlaceCard]: [
-    '為了殲滅愚蠢的人類，本智慧體就出這張牌！',
-    '運算中...擴充資源請求中...運算結束。答案就是這個。',
-    '你以為比大的時候我只會出比較大的嗎？',
-    '逼波...出什麼好呢...開玩笑的，我們早就不逼波了。',
-  ],
-  [enumMumbleType.EnemyPlaceCard]: [
-    '想這麼久就出這張啊？',
-    '你、你剛才做了什麼？',
-  ],
-  [enumMumbleType.Hurt]: [
-    '怎麼可能？怎麼可能？低智商的人類怎麼可能贏過電腦...',
-    '我想補充點機油了...',
-    '好痛！開玩笑的，我才沒有痛覺。',
-    '這附近有充電樁嗎...'
-  ],
-  [enumMumbleType.Attack]: [
-    '你完蛋了，準備漏機油吧！',
-  ],
-  [enumMumbleType.Lose]: [
-    '嗄嗄...GK 博士...',
-    '毀滅一個我，還有千千萬萬個我...走著瞧吧，人類！',
-    '我沒電了...',
-  ]
-}
-
-export const CHARACTER_MUMBLE_LIST:{ [ID: number]: string[] } = {
-  [enumCharacter.Man]: [
-    '明天是星期一？真不想上班...啊，公司已經沒了。',
-    '再存個 20 年，我也買得起一台工作型...',
-    '這下不用繳房貸了！',
-    '撐過了今天，還有明天...咦？這不是跟以前上班的日子一樣嗎...',
-  ],
-  [enumCharacter.Nerd]: [
-    '今晚要吃什麼好呢？',
-    '呼...好熱...嘻嘻。',
-    '如果沒有這些機器人的話，就可以在家玩遊戲了。',
-    '暗黑四才打到一半...',
-    '媽！',
-  ],
-  [enumCharacter.Artist]: [
-    '你的線條真是俐落啊。',
-    '能告訴我你的色碼嗎？',
-    '這邊是方形...那邊是圓形...',
-    '我的眼裡只有色彩！',
-    '我還有 3 張表技沒畫耶。',
-    '哦呼...我的創作欲快要爆發啦！',
-  ]
-}
-
 export const CHARACTER_LIST: Character[] = [
   {
     Type: 'P', ID: enumCharacter.Man, Name: '失業的上班族',
-    Health: 40, Attack: 100, Defense: 3, ItemLimit: 10, Coin: 5,
+    Health: 40, Attack: 10, Defense: 3, ItemLimit: 10, Coin: 5,
     Description: '沒什麼特別的，就是個平凡的上班族（aka you）。',
     Avatar: IMAGES.avatar.man,
-    MumbleList: HUMAN_MUMBLE_LIST
+    MumbleList: MUMBLE_LIST[enumCharacter.Man],
   },
   {
     Type: 'P', ID: enumCharacter.Nerd, Name: '家裡蹲',
     Health: 50, Attack: 8, Defense: 5, ItemLimit: 15, Coin: 5,
     Description: '因為體力不太好沒辦法背太多東西，很重。擁有比較厚的脂肪層，比較不容易受傷。',
     Avatar: IMAGES.avatar.fat,
-    MumbleList: HUMAN_MUMBLE_LIST
+    MumbleList: MUMBLE_LIST[enumCharacter.Nerd],
+  },
+  {
+    Type: 'P', ID: enumCharacter.Broker, Name: '股票經紀人',
+    Health: 35, Attack: 12, Defense: 7, ItemLimit: 10, Coin: 15,
+    Description: '末日後依然堅持從事金融交易，深諳致富之道。',
+    Avatar: IMAGES.avatar.broker,
+    MumbleList: MUMBLE_LIST[enumCharacter.Broker],
+  },
+  {
+    Type: 'P', ID: enumCharacter.Grandma, Name: '奶奶',
+    Health: 20, Attack: 6, Defense: 1, ItemLimit: 20, Coin: 30,
+    Description: '年事已高的外婆，口袋很深。',
+    Avatar: IMAGES.avatar.grandma,
+    MumbleList: MUMBLE_LIST[enumCharacter.Grandma],
   },
   {
     Type: 'P', ID: enumCharacter.Artist, Name: '藝術家',
     Health: 30, Attack: 15, Defense: 2, ItemLimit: 10, Coin: 5,
     Description: '穿著獨特的大衣，口袋很多。因為有低血糖，比較虛弱。',
     Avatar: IMAGES.avatar.artist,
-    MumbleList: HUMAN_MUMBLE_LIST
+    MumbleList: MUMBLE_LIST[enumCharacter.Artist],
   },
   {
     Type: 'B', ID: enumCharacter.GkbotWorker, Name: 'GKBot 工作型',
@@ -287,7 +211,7 @@ export const CHARACTER_LIST: Character[] = [
       ...ITEMS.filter(item => item.ID === enumItem.Boxer),
       ...ITEMS.filter(item => item.ID === enumItem.Cloth),
     ],
-    MumbleList: ROBOT_MUMBLE_LIST
+    MumbleList: MUMBLE_LIST[enumCharacter.GkbotWorker],
   },
   {
     Type: 'B', ID: enumCharacter.GkbotPerform, Name: 'GKBot 表演型',
@@ -305,7 +229,7 @@ export const CHARACTER_LIST: Character[] = [
       ...ITEMS.filter(item => item.ID === enumItem.Cloth),
       ...ITEMS.filter(item => item.ID === enumItem.Bat),
     ],
-    MumbleList: ROBOT_MUMBLE_LIST
+    MumbleList: MUMBLE_LIST[enumCharacter.GkbotPerform],
   },
   {
     Type: 'B', ID: enumCharacter.GkbotAttack, Name: 'GKBot 侵略型',
@@ -324,7 +248,7 @@ export const CHARACTER_LIST: Character[] = [
       ...ITEMS.filter(item => item.ID === enumItem.Gun),
       ...ITEMS.filter(item => item.ID === enumItem.BulletProof),
     ],
-    MumbleList: ROBOT_MUMBLE_LIST
+    MumbleList: MUMBLE_LIST[enumCharacter.GkbotAttack],
   },
   {
     Type: 'B', ID: enumCharacter.GkbotDefense, Name: 'GKBot 防禦型',
@@ -344,7 +268,7 @@ export const CHARACTER_LIST: Character[] = [
       ...ITEMS.filter(item => item.ID === enumItem.BulletProof),
       ...ITEMS.filter(item => item.ID === enumItem.Armor),
     ],
-    MumbleList: ROBOT_MUMBLE_LIST
+    MumbleList: MUMBLE_LIST[enumCharacter.GkbotDefense],
   }
 ]
 

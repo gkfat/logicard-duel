@@ -11,14 +11,15 @@ import equip from '@/assets/sounds/equip.wav';
 import heal from '@/assets/sounds/heal.wav';
 import win from '@/assets/sounds/win.wav';
 // BGM
-// import battle from '@/assets/sounds/battle.mp3';
-// import rest from '@/assets/sounds/rest.mp3';
-// import prologue from '@/assets/sounds/prologue.mp3';
-// import end from '@/assets/sounds/end.mp3';
+import battle from '@/assets/sounds/battle.mp3';
+import rest from '@/assets/sounds/rest.mp3';
+import prologue from '@/assets/sounds/prologue.mp3';
+import end from '@/assets/sounds/end.mp3';
 
 class SoundService {
+  errors: string[] = [];
   totalAssets: number = 0;
-  loadedAssets: number = 0;
+  loadedAssets: string[] = [];
   sounds: {
     [key: string]: HTMLAudioElement
   } = {
@@ -35,24 +36,33 @@ class SoundService {
     heal: new Audio(heal),
     win: new Audio(win),
     /** BGM */
-    // battle: new Audio(battle),
-    // rest: new Audio(rest),
-    // prologue: new Audio(prologue),
-    // end: new Audio(end),
+    battle: new Audio(battle),
+    rest: new Audio(rest),
+    prologue: new Audio(prologue),
+    end: new Audio(end),
   }
 
   // 開始載入素材
-  loadAssets() {
+  async loadAssets() {
     console.log('Start loading assets');
     const soundKeys = Object.keys(this.sounds);
     this.totalAssets = soundKeys.length;
+
     for (const key of soundKeys) {
-      this.sounds[key].addEventListener('canplaythrough', () => {
-        if (this.loadedAssets < this.totalAssets) {
-          this.loadedAssets += 1;
-          console.log(`loading process: ${this.loadedAssets}/${this.totalAssets}`);
+      const audio = this.sounds[key];
+      audio.addEventListener('canplaythrough', () => {
+        if (this.loadedAssets.indexOf(key) === -1) {
+          this.loadedAssets.push(key);
+          console.log(`canplaythrough: ${key}, process: ${this.loadedAssets.length}/${this.totalAssets}`);
         }
+        // 全部下載完
+        return new Promise<void>((resolve, reject) => {
+          if (this.loadedAssets.length === this.totalAssets) {
+            return resolve();
+          }
+        })
       });
+      audio.load();
     }
   }
 
@@ -67,7 +77,7 @@ class SoundService {
     audio.volume = 0.5;
     audio.loop = true;
     await audio.play();
-  };
+  }
 
   stop(audio: HTMLAudioElement) {
     audio.pause();
