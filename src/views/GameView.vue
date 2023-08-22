@@ -99,8 +99,10 @@ watch(lastWords, () => {
     lastWords.value = lastWords.value.substring(0, 20);
   }
 })
+
 const endUpdating = computed(() => store.getters.endUpdating as boolean);
 const restart = async () => {
+  const finalLastWords = lastWords.value.length === 0 ? '走的太倉促，沒有留下遺言。' : lastWords.value;
   await store.dispatch(StoreAction.switch.switchSpinner, true);
   await store.dispatch(StoreAction.general.updateData, {
     sheetName: enumSheetName.Records,
@@ -112,7 +114,7 @@ const restart = async () => {
       TotalHeal: player.value.Record.TotalHeal,
       DefeatBots: player.value.Record.DefeatBots,
       SurvivalTime: player.value.Record.SurvivalTime + ' 小時',
-      LastWords: lastWords.value
+      LastWords: finalLastWords
     }
   })
 }

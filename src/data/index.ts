@@ -178,7 +178,7 @@ export const CHARACTER_LIST: Character[] = [
   },
   {
     Type: 'P', ID: enumCharacter.Broker, Name: '股票經紀人',
-    Health: 35, Attack: 12, Defense: 7, ItemLimit: 10, Coin: 15,
+    Health: 35, Attack: 12, Defense: 4, ItemLimit: 10, Coin: 15,
     Description: '末日後依然堅持從事金融交易，深諳致富之道。',
     Avatar: IMAGES.avatar.broker,
     MumbleList: MUMBLE_LIST[enumCharacter.Broker],
@@ -223,7 +223,7 @@ export const CHARACTER_LIST: Character[] = [
       ...CARDS.filter(card => card.ID === enumCard.Battery),
       ...CARDS.filter(card => card.ID === enumCard.Oil),
     ],
-    RewardCoin: [15, 25],
+    RewardCoin: [20, 25],
     RewardItemList: [
       ...ITEMS.filter(item => item.ID === enumItem.Boxer),
       ...ITEMS.filter(item => item.ID === enumItem.Cloth),

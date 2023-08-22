@@ -37,7 +37,7 @@ export default class Util {
 
   /** 取得目前日期 */
   static getCurrentDate(): string {
-    return moment().format('YYYY-MM-DD HH:mm');
+    return moment().locale('zh').format('YYYY-MM-DD HH:mm');
   }
 
   /** Sleep 效果 */

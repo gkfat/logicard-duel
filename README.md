@@ -1,27 +1,32 @@
-# gkbot-marathon
+# logicard-duel
 
 此為練習用 `Vue3` 開發的純前端專案，採用 `Composition API` coding style，部分資料儲存串接 `Google App Scripts`，以 `Google Spreadsheets` 作為資料儲存。
 
+試玩連結：[https://logicard-duel.pages.dev](https://logicard-duel.pages.dev)
+
 ## 技術棧
-- `Vue3`
-- `Vue3 Composition API`
+- `Vue3`：前端框架
+- `Vue3 Composition API`：Component 描述語法
+- `TypeScript`：型別語法
+- `Vite`：本地開發工具
 - `Vuex`：狀態管理
-- `TypeScript`
 - `Google App Scripts`：遊玩紀錄資料儲存
+- `Cloudflare`：靜態網站 hosting，`master` 分支進度更新觸發自動化部署
 
 ## 版本更新
 
-### `v0.2.0`
+##### `v0.2.2`
+- 新增喃喃自語文本
+- 修復細微錯誤
+##### `v0.2.1`
+- 新增角色，及角色喃喃自語文本
+- 修復細微錯誤
+##### `v0.2.0`
 - 引入 `Vite` 提升開發速度
 - 取消卡牌保存機制，改為每回合發牌，戰鬥結束只保留技術牌
 - 增加裝備系統，商店可購買裝備
 - 增加物品詳細說明
-
-#### `v0.2.1`
-- 新增角色，及角色喃喃自語文本
-- 修復細微錯誤
-
-### `v0.1.0`
+##### `v0.1.0`
 - 初始化專案
 - 機器人出牌邏輯
 - 玩家擊敗機器人後，可獲得卡牌

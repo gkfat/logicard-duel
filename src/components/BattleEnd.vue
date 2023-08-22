@@ -83,13 +83,6 @@ onMounted(() => {
   if (Util.lottery(box50)) {
     makeLoot('techCard');
   }
-
-  makeLoot('equipment');
-  makeLoot('equipment');
-  makeLoot('equipment');
-  makeLoot('techCard');
-  makeLoot('techCard');
-
   
   lootBox.forEach(loot => {
     switch (loot.ItemType) {
