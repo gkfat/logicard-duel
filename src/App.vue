@@ -1,32 +1,22 @@
 <template>
   <div class="layout d-flex">
     <ul class="blocks">
-      <li v-for="i in 10" :key="i"></li>
+      <li v-for="i in 10" :key="i" />
     </ul>
-    <Header></Header>
+    <Header />
     <div class="layout-body">
-      <router-view></router-view>
+      <router-view />
     </div>
   </div>
 
-  <Rank></Rank>
-  <Backpack></Backpack>
-  <Shop></Shop>
-
-  <div class="spinner" v-if="isSpinnerOpen">
-    <div class="spinner-inner d-flex justify-content-center align-items-center">
-      <Spinner></Spinner>
-    </div>
-  </div>
+  <Rank />
+  <Backpack />
+  <Shop />
+  <Spinner />
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import Spinner from './components/Spinner.vue';
-import Header from './components/Header.vue';
-import Rank from './components/Rank.vue';
-import Backpack from './components/Backpack.vue';
-import Shop from './components/Shop.vue';
+import { onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { StoreAction } from './store/storeActions';
 import { enumSheetName, enumOperation, enumItemType } from './types/enums';
@@ -34,19 +24,21 @@ import { CARDS } from './data';
 import Util from './service/util';
 
 const store = useStore();
-const isSpinnerOpen = computed(() => store.getters.isSpinnerOpen);
 
 // 初始化排行榜、商店、音樂
 onMounted(async () => {
-  await store.dispatch(StoreAction.general.fetchData, { sheetName: enumSheetName.Records, operation: enumOperation.Get });
-  const shopItems = [];
-  const techCards = CARDS.filter(item => item.ItemType !== enumItemType.LogiCard);
-  while (shopItems.length < 6) {
-    const i = Util.getRandomInt(0, techCards.length - 1);
-    shopItems.push(techCards[i]);
-  }
-  store.dispatch(StoreAction.general.updateShop, shopItems);
-})
+    await store.dispatch(StoreAction.general.fetchData, {
+        sheetName: enumSheetName.Records,
+        operation: enumOperation.Get,
+    });
+    const shopItems = [];
+    const techCards = CARDS.filter((item) => item.ItemType !== enumItemType.LogiCard);
+    while (shopItems.length < 6) {
+        const i = Util.getRandomInt(0, techCards.length - 1);
+        shopItems.push(techCards[i]);
+    }
+    store.dispatch(StoreAction.general.updateShop, shopItems);
+});
 
 </script>
 
@@ -66,18 +58,6 @@ onMounted(async () => {
     position: relative;
     height: 90%;
     padding: 10px 15px 0;
-  }
-}
-.spinner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 10;
-  &-inner {
-    height: 100%;
   }
 }
 .navbar-collapse .nav-item {
@@ -184,4 +164,3 @@ onMounted(async () => {
   }
 }
 </style>
-

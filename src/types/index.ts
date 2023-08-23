@@ -25,7 +25,7 @@ export interface Character {
     InitCardList?: Item[];
     RewardCoin?: number[]; // 獎勵金幣範圍
     RewardItemList?: Item[];
-};
+}
 
 export interface Player {
     Character: Character;

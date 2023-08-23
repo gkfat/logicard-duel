@@ -1,6 +1,6 @@
 <template>
   <div class="icon d-flex justify-content-center align-items-center">
-    <img class="img-fluid" :src="url">
+    <img alt="icon" class="img-fluid" :src="url">
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 
 defineProps<{
   url: string,
-}>()
+}>();
 
 </script>
 

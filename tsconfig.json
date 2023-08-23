@@ -30,6 +30,7 @@
     "src/**/*.vue",
     "src/types/*.ts",
     "src/types/*.d.ts",
+    "*.d.ts",
   ],
   "exclude": [
     "node_modules"

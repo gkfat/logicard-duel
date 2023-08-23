@@ -1,7 +1,7 @@
 <template>
   <div class="detail">
-    <Icon v-if="isItem" :url="item.Icon"></Icon>
-    <Card v-if="!isItem" :item="item"></Card>
+    <Icon v-if="isItem" :url="item.Icon" />
+    <Card v-if="!isItem" :item="item" />
     <p class="h5 w-100 text-center m-0">{{ item.Name }}</p>
     <p class="w-100 text-center m-0">【{{ Util.getItemType(item.ItemType) }}】</p>
     <p class="w-100 text-center m-0 detail-extra" v-if="item.ItemType === enumItemType.Attack || item.ItemType === enumItemType.Weapon">攻擊力 + {{ item.Point }}</p>
@@ -12,25 +12,15 @@
 </template>
 
 <script setup name="Detail" lang="ts">
-import { Item, Player } from '@/types';
+import { Item } from '@/types';
 import { enumItemType } from '@/types/enums';
-import { Tooltip } from 'bootstrap';
-import Sound from '@/service/sounds';
 import Util from '@/service/util';
-import { IMAGES } from '@/data';
-import { ref, onMounted, computed } from 'vue';
-import Icon from './Icon.vue';
-import Card from './Card.vue';
-import { useStore } from 'vuex';
-import { StoreAction } from '@/store/storeActions';
-
-const store = useStore();
 
 const props = defineProps<{ item: Item }>();
 
-const isItem = props.item.ItemType === enumItemType.Coin ||
-                props.item.ItemType === enumItemType.Weapon || 
-                props.item.ItemType === enumItemType.Armor;
+const isItem = props.item.ItemType === enumItemType.Coin
+                || props.item.ItemType === enumItemType.Weapon
+                || props.item.ItemType === enumItemType.Armor;
 </script>
 
 <style lang="scss" scoped>

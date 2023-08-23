@@ -15,6 +15,11 @@
 
 ## 版本更新
 
+#### `v0.2.3`
+- 導入套件 `unplugin-vue-components`：減少程式碼中 import component 部分，於編譯時執行
+- 導入套件 `vitest`：單元測試
+- 導入套件 `eslint`：依 Airbnb Guide 寫作風格規範程式碼開發（[Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)）
+
 ##### `v0.2.2`
 - 新增喃喃自語文本
 - 修復細微錯誤

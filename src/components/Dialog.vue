@@ -1,8 +1,11 @@
 <template>
   <div class="dialog-text">
-    <p class="m-0" :class="{ 'mb-3' : i !== props.dialogs.length - 1 }"
-        v-for="(dialog, i) in props.dialogs">
-        {{ dialog }}
+    <p
+      class="m-0"
+      :class="{ 'mb-3': i !== props.dialogs.length - 1 }"
+      v-for="(dialog, i) in props.dialogs"
+      :key="i">
+      {{ dialog }}
     </p>
   </div>
 </template>
