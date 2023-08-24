@@ -107,7 +107,7 @@
 
 <script setup name="PlayerStatus" lang="ts">
 import {
-    computed, onMounted, ref, watch, toRefs,
+	computed, onMounted, ref, watch, toRefs,
 } from 'vue';
 import { useStore } from 'vuex';
 import { Tooltip } from 'bootstrap';
@@ -120,7 +120,7 @@ const props = withDefaults(defineProps<{
   player: Player,
   isMain?: boolean
 }>(), {
-    isMain: false,
+	isMain: false,
 });
 
 const { player, isMain } = toRefs(props);
@@ -128,10 +128,11 @@ const { player, isMain } = toRefs(props);
 const store = useStore();
 const gameState = computed(() => store.getters.gameState as enumGameState);
 
-const healthPercent = computed(() => (player.value.CurrentHealth / player.value.Character.Health) * 100);
 // 生命值變化
+const healthPercent = computed(() => (player.value.CurrentHealth / player.value.Character.Health) * 100);
 const healthChange = ref(0);
 const lastHealth = ref(0);
+
 // 螺絲釘變化
 const coinChange = ref(0);
 const lastCoin = ref(0);
@@ -139,37 +140,43 @@ const lastCoin = ref(0);
 const weaponItem = ref(null as Item | null);
 const armorItem = ref(null as Item | null);
 
+// 更新角色裝備
+const updateWearingItem = () => {
+	weaponItem.value = player.value.WeaponIndex ? player.value.ItemList[player.value.WeaponIndex - 1] : null;
+	armorItem.value = player.value.ArmorIndex ? player.value.ItemList[player.value.ArmorIndex - 1] : null;
+};
+
 watch((player.value), async () => {
-    // 監聽生命值變化
-    if (player.value.CurrentHealth !== lastHealth.value) {
-        healthChange.value = player.value.CurrentHealth - lastHealth.value;
-        await Util.sleep(1000);
-        lastHealth.value = player.value.CurrentHealth;
-        healthChange.value = 0;
-    }
-    // 監聽螺絲釘變化
-    if (player.value.Coin !== lastCoin.value) {
-        coinChange.value = player.value.Coin - lastCoin.value;
-        await Util.sleep(1000);
-        lastCoin.value = player.value.Coin;
-        coinChange.value = 0;
-    }
-    // 裝備變化
-    weaponItem.value = player.value.WeaponIndex ? player.value.ItemList[player.value.WeaponIndex - 1] : null;
-    armorItem.value = player.value.ArmorIndex ? player.value.ItemList[player.value.ArmorIndex - 1] : null;
+	// 監聽生命值變化
+	if (player.value.CurrentHealth !== lastHealth.value) {
+		healthChange.value = player.value.CurrentHealth - lastHealth.value;
+		await Util.sleep(1000);
+		lastHealth.value = player.value.CurrentHealth;
+		healthChange.value = 0;
+	}
+	// 監聽螺絲釘變化
+	if (player.value.Coin !== lastCoin.value) {
+		coinChange.value = player.value.Coin - lastCoin.value;
+		await Util.sleep(1000);
+		lastCoin.value = player.value.Coin;
+		coinChange.value = 0;
+	}
+	// 裝備變化
+	updateWearingItem();
 });
 
 onMounted(() => {
-    lastHealth.value = player.value.CurrentHealth;
-    lastCoin.value = player.value.Coin;
-    new Tooltip(document.body, {
-        selector: "[data-bs-toggle='tooltip']",
-        delay: {
-            show: 900,
-            hide: 0,
-        },
-        trigger: 'focus',
-    });
+	updateWearingItem();
+	lastHealth.value = player.value.CurrentHealth;
+	lastCoin.value = player.value.Coin;
+	new Tooltip(document.body, {
+		selector: "[data-bs-toggle='tooltip']",
+		delay: {
+			show: 900,
+			hide: 0,
+		},
+		trigger: 'focus',
+	});
 });
 
 </script>

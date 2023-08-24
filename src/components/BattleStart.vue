@@ -12,7 +12,7 @@
 <script setup name="BattleStart" lang="ts">
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { StoreAction } from '@/store/storeActions';
+import StoreAction from '@/store/storeActions';
 import type { Player } from '@/types';
 import { enumGameState, enumDialog, enumCharacter } from '@/types/enums';
 import { DIALOGS } from '@/data/index';
@@ -23,15 +23,15 @@ const dialogs = DIALOGS[enumDialog.BattleStart];
 
 // Init
 onMounted(() => {
-    if (!enemy.value.Character) { // 若敵人是第一次初始化，就產生工作型 GKBot
-        store.dispatch(StoreAction.player.generateEnemy, enumCharacter.GkbotWorker);
-    } else {
-        store.dispatch(StoreAction.player.generateEnemy);
-    }
+	if (!enemy.value.Character) { // 若敵人是第一次初始化，就產生工作型 GKBot
+		store.dispatch(StoreAction.player.generateEnemy, enumCharacter.GkbotWorker);
+	} else {
+		store.dispatch(StoreAction.player.generateEnemy);
+	}
 });
 
 const startBattle = () => {
-    store.dispatch(StoreAction.general.changeGameState, enumGameState.Battle);
+	store.dispatch(StoreAction.general.changeGameState, enumGameState.Battle);
 };
 
 // 選擇要帶入的技術牌

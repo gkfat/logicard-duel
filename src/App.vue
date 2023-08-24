@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { StoreAction } from './store/storeActions';
+import StoreAction from './store/storeActions';
 import { enumSheetName, enumOperation, enumItemType } from './types/enums';
 import { CARDS } from './data';
 import Util from './service/util';
@@ -27,17 +27,17 @@ const store = useStore();
 
 // 初始化排行榜、商店、音樂
 onMounted(async () => {
-    await store.dispatch(StoreAction.general.fetchData, {
-        sheetName: enumSheetName.Records,
-        operation: enumOperation.Get,
-    });
-    const shopItems = [];
-    const techCards = CARDS.filter((item) => item.ItemType !== enumItemType.LogiCard);
-    while (shopItems.length < 6) {
-        const i = Util.getRandomInt(0, techCards.length - 1);
-        shopItems.push(techCards[i]);
-    }
-    store.dispatch(StoreAction.general.updateShop, shopItems);
+	await store.dispatch(StoreAction.general.fetchData, {
+		sheetName: enumSheetName.Records,
+		operation: enumOperation.Get,
+	});
+	const shopItems = [];
+	const techCards = CARDS.filter((item) => item.ItemType !== enumItemType.LogiCard);
+	while (shopItems.length < 6) {
+		const i = Util.getRandomInt(0, techCards.length - 1);
+		shopItems.push(techCards[i]);
+	}
+	store.dispatch(StoreAction.general.updateShop, shopItems);
 });
 
 </script>

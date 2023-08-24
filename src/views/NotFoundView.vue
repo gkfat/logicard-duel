@@ -11,15 +11,15 @@
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
-import { StoreAction } from '@/store/storeActions';
+import StoreAction from '@/store/storeActions';
 import Util from '@/service/util';
 
 const store = useStore();
 const router = useRouter();
 onMounted(async () => {
-    store.dispatch(StoreAction.switch.switchSpinner, false);
-    await Util.sleep(2000);
-    router.push('/');
+	store.dispatch(StoreAction.switch.switchSpinner, false);
+	await Util.sleep(2000);
+	router.push('/');
 });
 </script>
 

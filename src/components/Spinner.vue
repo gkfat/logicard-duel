@@ -29,7 +29,7 @@ const isSpinnerOpen = computed(() => store.getters.isSpinnerOpen);
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 10;
-  &-inner {
+  .spinner-inner {
     height: 100%;
   }
 }

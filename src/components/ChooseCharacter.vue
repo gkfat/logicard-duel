@@ -33,7 +33,7 @@ import type { Player } from '@/types';
 import { enumGameState, enumDialog } from '@/types/enums';
 import { CHARACTER_LIST, DIALOGS } from '@/data';
 import Sound from '@/service/sounds';
-import { StoreAction } from '@/store/storeActions';
+import StoreAction from '@/store/storeActions';
 import Util from '@/service/util';
 
 const store = useStore();
@@ -43,37 +43,37 @@ const gameStartDialogsLength = dialogs.length - 1;
 const dialogIndex = ref(0);
 const dialogEnd = computed(() => dialogIndex.value === gameStartDialogsLength);
 const dialogNext = async () => {
-    if (dialogIndex.value < gameStartDialogsLength) {
-        await Sound.playSound(Sound.sounds.click);
-        dialogIndex.value += 1;
-    }
+	if (dialogIndex.value < gameStartDialogsLength) {
+		await Sound.playSound(Sound.sounds.click);
+		dialogIndex.value += 1;
+	}
 };
 const dialogNextToEnd = async () => {
-    await Sound.playSound(Sound.sounds.click);
-    dialogIndex.value = gameStartDialogsLength;
+	await Sound.playSound(Sound.sounds.click);
+	dialogIndex.value = gameStartDialogsLength;
 };
 
 // 選擇角色
 const characterList = CHARACTER_LIST.filter((c) => c.Type === 'P');
 const mockPlayerList = characterList.map((c) => reactive({
-    Character: c,
-    CurrentHealth: c.Health,
-    CurrentAttack: c.Attack,
-    CurrentDefense: c.Defense,
-    ExtraAttack: 0,
-    ExtraDefense: 0,
-    Coin: c.Coin,
+	Character: c,
+	CurrentHealth: c.Health,
+	CurrentAttack: c.Attack,
+	CurrentDefense: c.Defense,
+	ExtraAttack: 0,
+	ExtraDefense: 0,
+	Coin: c.Coin,
 }) as Player);
 const selectedCharacter = ref(0);
 const selectCharacter = (data: { currentSlideIndex: number; }) => { selectedCharacter.value = data.currentSlideIndex; };
 const confirmCharacter = async () => {
-    await Sound.playSound(Sound.sounds.click);
-    const character = characterList[selectedCharacter.value];
-    await store.dispatch(StoreAction.player.selectCharacter, character);
-    await store.dispatch(StoreAction.switch.switchSpinner, true);
-    await Util.sleep(300);
-    await store.dispatch(StoreAction.general.changeGameState, enumGameState.BattleStart);
-    store.dispatch(StoreAction.switch.switchSpinner, false);
+	await Sound.playSound(Sound.sounds.click);
+	const character = characterList[selectedCharacter.value];
+	await store.dispatch(StoreAction.player.selectCharacter, character);
+	await store.dispatch(StoreAction.switch.switchSpinner, true);
+	await Util.sleep(300);
+	await store.dispatch(StoreAction.general.changeGameState, enumGameState.BattleStart);
+	store.dispatch(StoreAction.switch.switchSpinner, false);
 };
 
 </script>

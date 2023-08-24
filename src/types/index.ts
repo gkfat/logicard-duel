@@ -1,4 +1,4 @@
-import { enumItemType, enumMumbleType } from "./enums";
+import { enumItemType, enumMumbleType } from './enums';
 
 export interface MumbleList {
     [enumMumbleType.General]: string[];
@@ -7,6 +7,23 @@ export interface MumbleList {
     [enumMumbleType.Hurt]: string[];
     [enumMumbleType.Attack]: string[];
     [enumMumbleType.Lose]: string[];
+}
+
+export interface Item {
+    ID: number;
+    ItemType: enumItemType;
+    Point: number;
+    Name: string;
+    Description: string;
+    Price: number;
+    Icon: string;
+}
+
+export interface Record {
+    SurvivalTime: number;
+    DefeatBots: number;
+    TotalDamage: number;
+    TotalHeal: number;
 }
 
 export interface Character {
@@ -27,6 +44,11 @@ export interface Character {
     RewardItemList?: Item[];
 }
 
+export interface Shop {
+	CardList: Item[];
+	ItemList: Item[];
+}
+
 export interface Player {
     Character: Character;
     CurrentHealth: number;
@@ -41,23 +63,6 @@ export interface Player {
     ArmorIndex: number | null;
     Coin: number;
     CreatedTime: number;
-}
-
-export interface Item {
-    ID: number;
-    ItemType: enumItemType;
-    Point: number;
-    Name: string;
-    Description: string;
-    Price: number;
-    Icon: string;
-}
-
-export interface Record {
-    SurvivalTime: number;
-    DefeatBots: number;
-    TotalDamage: number;
-    TotalHeal: number;
 }
 
 export default Character;

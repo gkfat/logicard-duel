@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
 export enum enumDialog {
     Opening,
     GameStart,
@@ -32,7 +34,6 @@ export enum enumRoundState {
     Counting,
     Duel,
     Settle,
-    SettleEnd
 }
 
 export enum enumMumbleType {

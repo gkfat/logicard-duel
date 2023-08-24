@@ -44,21 +44,21 @@ withDefaults(defineProps<{
   item: Item,
   isCardBack?: boolean
 }>(), {
-    style: '',
-    klass: '',
-    sm: false,
-    isCardBack: false,
+	style: '',
+	klass: '',
+	sm: false,
+	isCardBack: false,
 });
 
 onMounted(() => {
-    new Tooltip(document.body, {
-        selector: "[data-bs-toggle='tooltip']",
-        delay: {
-            show: 900,
-            hide: 0,
-        },
-        trigger: 'focus',
-    });
+	new Tooltip(document.body, {
+		selector: "[data-bs-toggle='tooltip']",
+		delay: {
+			show: 900,
+			hide: 0,
+		},
+		trigger: 'focus',
+	});
 });
 </script>
 

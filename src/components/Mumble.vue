@@ -27,8 +27,8 @@ const props = withDefaults(defineProps<{
     who: string,
     showTriangle: string,
 }>(), {
-    who: 'player',
-    showTriangle: 'up',
+	who: 'player',
+	showTriangle: 'up',
 });
 
 const { who, showTriangle } = toRefs(props);
