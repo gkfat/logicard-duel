@@ -4,27 +4,37 @@
     <p class="w-100 text-center m-0">
       螺絲釘：{{ player.Coin }}｜物品：{{ player.ItemList.length + '／' + player.Character.ItemLimit }}
     </p>
-	<div class="w-100 py-1 d-flex justify-content-center align-items-center">
-      <button type="button" class="" @click="toggleDisplayType(0)">裝備</button>
-      <button type="button" class="" @click="toggleDisplayType(1)">技術牌</button>
+    <div class="nav-container">
+      <button type="button" class="nav-btn" @click="toggleDisplayType(0)">裝備</button>
+      <button type="button" class="nav-btn" @click="toggleDisplayType(1)">技術牌</button>
     </div>
-	<div class="items-container" v-if="displayType === 0">
-      <div v-for="(item, i) in shop.ItemList" :key="i">
-        <ItemComponent
-          :shop="true"
-          :item="item"
-          :index="i"
-        />
-      </div>
+    <div class="items-container" v-if="displayType === 0">
+      <template v-if="shop.ItemList.length === 0">
+        <p class="reminder-text">商店目前沒有裝備。</p>
+      </template>
+      <template v-else>
+        <div v-for="(item, i) in shop.ItemList" :key="i">
+          <ItemComponent
+            :shop="true"
+            :item="item"
+            :index="i"
+          />
+        </div>
+      </template>
     </div>
     <div class="items-container" v-if="displayType === 1">
-      <div v-for="(item, i) in shop.CardList" :key="i">
-        <ItemComponent
-          :shop="true"
-          :item="item"
-          :index="i"
-        />
-      </div>
+      <template v-if="shop.CardList.length === 0">
+        <p class="reminder-text">商店目前沒有技術牌。</p>
+      </template>
+      <template v-else>
+        <div v-for="(item, i) in shop.CardList" :key="i">
+          <ItemComponent
+            :shop="true"
+            :item="item"
+            :index="i"
+          />
+        </div>
+      </template>
     </div>
     <button type="button" class="system-btn" @click="closeShop()">離開商店</button>
   </div>
@@ -34,7 +44,7 @@
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import StoreAction from '@/store/storeActions';
-import { Item, Player } from '@/types';
+import { Shop, Player } from '@/types';
 import { enumDialog } from '@/types/enums';
 import { DIALOGS } from '@/data/index';
 import Sound from '@/service/sounds';
@@ -43,11 +53,12 @@ const store = useStore();
 const isShopOpen = computed(() => store.getters.isShopOpen);
 const dialogs = DIALOGS[enumDialog.Shop];
 const player = computed(() => store.getters.player as Player);
-const shop = computed(() => store.getters.shop as Item[]);
+const shop = computed(() => store.getters.shop as Shop);
 
 const displayType = ref(0);
 
-const toggleDisplayType = (type: number) => {
+const toggleDisplayType = async (type: number) => {
+	await Sound.playSound(Sound.sounds.click);
 	displayType.value = type;
 };
 
@@ -63,6 +74,7 @@ const closeShop = async () => {
 	height: 90%;
 }
 .items-container {
+	padding-top: 10px;
 	height: 100%;
 	gap: 10px;
 	display: flex;

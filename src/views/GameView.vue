@@ -39,7 +39,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import {
+	ref, computed, watch,
+} from 'vue';
 import { Player } from '@/types';
 import { useStore } from 'vuex';
 import StoreAction from '@/store/storeActions';
@@ -114,6 +116,7 @@ const restart = async () => {
 		},
 	});
 };
+
 watch(endUpdating, async () => {
 	if (endUpdating.value) {
 		store.dispatch(StoreAction.switch.switchSpinner, false);
@@ -121,6 +124,7 @@ watch(endUpdating, async () => {
 		window.location.reload();
 	}
 });
+
 // Play BGM
 watch(gameState, async () => {
 	switch (gameState.value) {
@@ -144,7 +148,6 @@ watch(gameState, async () => {
 		break;
 	}
 });
-
 </script>
 
 <style lang="scss" scoped>

@@ -1,8 +1,9 @@
 import { createStore } from 'vuex';
 import StoreAction from '@/store/storeActions';
-import { Item, Shop } from '@/types';
+import { Shop } from '@/types';
 import { enumOperation, enumSheetName, enumGameState } from '@/types/enums';
 import api from '@/service/api';
+import Util from '@/service/util';
 import playerModule from './player';
 import switchModule from './switchToggle';
 
@@ -29,7 +30,7 @@ export default createStore({
 			content.commit(StoreAction.general.changeGameState, gameState);
 		},
 		/** 更新商店 Item */
-		async updateShop(content, payload: Item[]) {
+		async updateShop(content, payload: Shop) {
 			content.commit(StoreAction.general.updateShop, payload);
 		},
 		/** 獲取 API 資料 */
@@ -48,7 +49,8 @@ export default createStore({
 		},
 		/** 更新商店 Item */
 		updateShop(state, payload: Shop) {
-			state.shop = payload;
+			state.shop.CardList = Util.sortCardList(payload.CardList);
+			state.shop.ItemList = Util.sortItemList(payload.ItemList);
 		},
 		/** 獲取 API 資料 */
 		fetchData(state, payload: { sheetName: enumSheetName, operation: enumOperation }) {

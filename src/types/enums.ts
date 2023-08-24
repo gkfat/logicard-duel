@@ -93,6 +93,14 @@ export enum enumCharacter {
     GkbotDefense,
 }
 
+export enum enumRarity {
+    None = 0,
+    N = 60,
+    R = 30,
+    SR = 8,
+    SSR = 2,
+}
+
 /**
  * Google Sheet
  */

@@ -35,9 +35,14 @@ import gkbotAttack from '@/assets/avatars/gkbot-attack.png';
 import gkbotDefense from '@/assets/avatars/gkbot-defense.png';
 import gkbotPerform from '@/assets/avatars/gkbot-perform.png';
 import {
-	enumDialog, enumItemType, enumItem, enumCard, enumCharacter,
+	enumDialog, enumItemType, enumItem, enumCard, enumCharacter, enumRarity,
 } from '../types/enums';
 import { MUMBLE_LIST } from './mumble-list';
+
+export const ShopLimit = {
+	Item: 10,
+	Card: 10,
+};
 
 export const IMAGES = {
 	avatar: {
@@ -86,6 +91,7 @@ export const CARDS: Item[] = [
 		ItemType: enumItemType.LogiCard,
 		Price: 2,
 		Icon: IMAGES.icon.logoLogicard,
+		Rarity: enumRarity.None,
 	},
 	{
 		ID: enumCard.LogiCard2,
@@ -95,6 +101,7 @@ export const CARDS: Item[] = [
 		ItemType: enumItemType.LogiCard,
 		Price: 2,
 		Icon: IMAGES.icon.logoLogicard,
+		Rarity: enumRarity.None,
 	},
 	{
 		ID: enumCard.LogiCard3,
@@ -104,6 +111,7 @@ export const CARDS: Item[] = [
 		ItemType: enumItemType.LogiCard,
 		Price: 2,
 		Icon: IMAGES.icon.logoLogicard,
+		Rarity: enumRarity.None,
 	},
 	{
 		ID: enumCard.LogiCard4,
@@ -113,6 +121,7 @@ export const CARDS: Item[] = [
 		ItemType: enumItemType.LogiCard,
 		Price: 2,
 		Icon: IMAGES.icon.logoLogicard,
+		Rarity: enumRarity.None,
 	},
 	{
 		ID: enumCard.LogiCard5,
@@ -122,6 +131,7 @@ export const CARDS: Item[] = [
 		ItemType: enumItemType.LogiCard,
 		Price: 2,
 		Icon: IMAGES.icon.logoLogicard,
+		Rarity: enumRarity.None,
 	},
 	{
 		ID: enumCard.LogiCard6,
@@ -131,6 +141,7 @@ export const CARDS: Item[] = [
 		ItemType: enumItemType.LogiCard,
 		Price: 2,
 		Icon: IMAGES.icon.logoLogicard,
+		Rarity: enumRarity.None,
 	},
 	{
 		ID: enumCard.LogiCard7,
@@ -140,6 +151,7 @@ export const CARDS: Item[] = [
 		ItemType: enumItemType.LogiCard,
 		Price: 2,
 		Icon: IMAGES.icon.logoLogicard,
+		Rarity: enumRarity.None,
 	},
 	{
 		ID: enumCard.ScrewDriver,
@@ -149,6 +161,7 @@ export const CARDS: Item[] = [
 		ItemType: enumItemType.Attack,
 		Price: 10,
 		Icon: IMAGES.icon.attack,
+		Rarity: enumRarity.N,
 	},
 	{
 		ID: enumCard.Hammer,
@@ -158,6 +171,7 @@ export const CARDS: Item[] = [
 		ItemType: enumItemType.Attack,
 		Price: 15,
 		Icon: IMAGES.icon.attack,
+		Rarity: enumRarity.R,
 	},
 	{
 		ID: enumCard.ScrapMetal,
@@ -167,6 +181,7 @@ export const CARDS: Item[] = [
 		ItemType: enumItemType.Defense,
 		Price: 8,
 		Icon: IMAGES.icon.defense,
+		Rarity: enumRarity.N,
 	},
 	{
 		ID: enumCard.GkbotShell,
@@ -176,15 +191,8 @@ export const CARDS: Item[] = [
 		ItemType: enumItemType.Defense,
 		Price: 10,
 		Icon: IMAGES.icon.defense,
-	},
-	{
-		ID: enumCard.Oil,
-		Name: '機油',
-		Description: '要不要喝下去看看呢...',
-		Point: 10,
-		ItemType: enumItemType.Heal,
-		Price: 20,
-		Icon: IMAGES.icon.heal,
+		Rarity: enumRarity.R,
+
 	},
 	{
 		ID: enumCard.Battery,
@@ -194,6 +202,17 @@ export const CARDS: Item[] = [
 		ItemType: enumItemType.Heal,
 		Price: 15,
 		Icon: IMAGES.icon.heal,
+		Rarity: enumRarity.SR,
+	},
+	{
+		ID: enumCard.Oil,
+		Name: '機油',
+		Description: '要不要喝下去看看呢...',
+		Point: 10,
+		ItemType: enumItemType.Heal,
+		Price: 20,
+		Icon: IMAGES.icon.heal,
+		Rarity: enumRarity.SR,
 	},
 ];
 
@@ -206,6 +225,7 @@ export const ITEMS: Item[] = [
 		ItemType: enumItemType.Coin,
 		Price: 0,
 		Icon: IMAGES.icon.coin,
+		Rarity: enumRarity.None,
 	},
 	{
 		ID: enumItem.Boxer,
@@ -215,6 +235,7 @@ export const ITEMS: Item[] = [
 		ItemType: enumItemType.Weapon,
 		Price: 2,
 		Icon: IMAGES.icon.boxer,
+		Rarity: enumRarity.N,
 	},
 	{
 		ID: enumItem.Bat,
@@ -224,6 +245,7 @@ export const ITEMS: Item[] = [
 		ItemType: enumItemType.Weapon,
 		Price: 5,
 		Icon: IMAGES.icon.bat,
+		Rarity: enumRarity.R,
 	},
 	{
 		ID: enumItem.Gun,
@@ -233,6 +255,7 @@ export const ITEMS: Item[] = [
 		ItemType: enumItemType.Weapon,
 		Price: 20,
 		Icon: IMAGES.icon.gun,
+		Rarity: enumRarity.SR,
 	},
 	{
 		ID: enumItem.Cloth,
@@ -242,6 +265,7 @@ export const ITEMS: Item[] = [
 		ItemType: enumItemType.Armor,
 		Price: 2,
 		Icon: IMAGES.icon.cloth,
+		Rarity: enumRarity.N,
 	},
 	{
 		ID: enumItem.BulletProof,
@@ -251,6 +275,7 @@ export const ITEMS: Item[] = [
 		ItemType: enumItemType.Armor,
 		Price: 5,
 		Icon: IMAGES.icon.bulletproof,
+		Rarity: enumRarity.R,
 	},
 	{
 		ID: enumItem.Armor,
@@ -260,6 +285,7 @@ export const ITEMS: Item[] = [
 		ItemType: enumItemType.Armor,
 		Price: 20,
 		Icon: IMAGES.icon.armor,
+		Rarity: enumRarity.SR,
 	},
 ];
 

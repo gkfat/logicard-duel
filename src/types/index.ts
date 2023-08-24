@@ -1,4 +1,4 @@
-import { enumItemType, enumMumbleType } from './enums';
+import { enumItemType, enumMumbleType, enumRarity } from './enums';
 
 export interface MumbleList {
     [enumMumbleType.General]: string[];
@@ -17,6 +17,8 @@ export interface Item {
     Description: string;
     Price: number;
     Icon: string;
+    /** 稀有度 */
+    Rarity: enumRarity;
 }
 
 export interface Record {

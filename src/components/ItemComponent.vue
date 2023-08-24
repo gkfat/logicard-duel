@@ -99,7 +99,8 @@ const isShowBackpackControl = ref(false);
 const isShowShopControl = ref(false);
 
 // 開啟操作選單
-const toggleControl = () => {
+const toggleControl = async () => {
+	await Sound.playSound(Sound.sounds.click);
 	if (backpack.value) {
 		isShowBackpackControl.value = !isShowBackpackControl.value;
 	} else if (shop.value) {

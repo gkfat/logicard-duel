@@ -38,16 +38,17 @@ import Util from '@/service/util';
 
 const store = useStore();
 const dialogs = DIALOGS[enumDialog.GameStart];
-
 const gameStartDialogsLength = dialogs.length - 1;
 const dialogIndex = ref(0);
 const dialogEnd = computed(() => dialogIndex.value === gameStartDialogsLength);
+
 const dialogNext = async () => {
 	if (dialogIndex.value < gameStartDialogsLength) {
 		await Sound.playSound(Sound.sounds.click);
 		dialogIndex.value += 1;
 	}
 };
+
 const dialogNextToEnd = async () => {
 	await Sound.playSound(Sound.sounds.click);
 	dialogIndex.value = gameStartDialogsLength;
@@ -64,8 +65,12 @@ const mockPlayerList = characterList.map((c) => reactive({
 	ExtraDefense: 0,
 	Coin: c.Coin,
 }) as Player);
+
 const selectedCharacter = ref(0);
-const selectCharacter = (data: { currentSlideIndex: number; }) => { selectedCharacter.value = data.currentSlideIndex; };
+const selectCharacter = (data: { currentSlideIndex: number; }) => {
+	selectedCharacter.value = data.currentSlideIndex;
+};
+
 const confirmCharacter = async () => {
 	await Sound.playSound(Sound.sounds.click);
 	const character = characterList[selectedCharacter.value];
@@ -75,7 +80,6 @@ const confirmCharacter = async () => {
 	await store.dispatch(StoreAction.general.changeGameState, enumGameState.BattleStart);
 	store.dispatch(StoreAction.switch.switchSpinner, false);
 };
-
 </script>
 
 <style lang="scss" scoped>

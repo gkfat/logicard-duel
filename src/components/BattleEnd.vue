@@ -23,16 +23,18 @@
 import { computed, onMounted, reactive } from 'vue';
 import { useStore } from 'vuex';
 import StoreAction from '@/store/storeActions';
-import { Item, Player } from '@/types';
+import { Item, Shop, Player } from '@/types';
 import { enumGameState, enumItemType, enumDialog } from '@/types/enums';
 import Util from '@/service/util';
 import Sound from '@/service/sounds';
-import { DIALOGS, CARDS, ITEMS } from '@/data';
+import {
+	DIALOGS, CARDS, ITEMS, ShopLimit,
+} from '@/data';
 
 const store = useStore();
 const player = computed(() => store.getters.player as Player);
 const enemy = computed(() => store.getters.enemy as Player);
-const shop = computed(() => store.getters.shop as Item[]);
+const shop = computed(() => store.getters.shop as Shop);
 const lootBox = reactive([] as Item[]);
 const noSpace = computed(() => player.value.ItemList.length > player.value.Character.ItemLimit);
 const dialogs = DIALOGS[enumDialog.BattleEnd];
@@ -69,6 +71,41 @@ const makeLoot = (type: 'equipment' | 'coin' | 'techCard') => {
 	}
 };
 
+// 更新商店
+const reFillShop = () => {
+	const newShop: Shop = {
+		CardList: [...shop.value.CardList],
+		ItemList: [...shop.value.ItemList],
+	};
+
+	// 商店增加裝備
+	const itemIdsPool = Util.makePool(ITEMS);
+
+	for (let j = 0; j < ShopLimit.Item; j += 1) {
+		if (newShop.ItemList.length < ShopLimit.Item) {
+			const i = Util.getRandomInt(0, itemIdsPool.length);
+			const id = itemIdsPool[i];
+			const item = ITEMS.find((x) => x.ID === id)!;
+			newShop.ItemList.push(item);
+		}
+	}
+
+	// 商店增加技術牌
+	const techCardsPool = Util.makePool(CARDS);
+
+	for (let j = 0; j < ShopLimit.Card; j += 1) {
+		if (newShop.CardList.length < ShopLimit.Card) {
+			const i = Util.getRandomInt(0, techCardsPool.length);
+			const id = techCardsPool[i];
+			const card = CARDS.find((x) => x.ID === id)!;
+			newShop.CardList.push(card);
+		}
+	}
+
+	// 更新商店
+	store.dispatch(StoreAction.general.updateShop, newShop);
+};
+
 onMounted(() => {
 	makeLoot('coin'); // 判斷獲得金幣
 
@@ -103,18 +140,10 @@ onMounted(() => {
 		}
 	});
 
-	console.log('after make loot', player.value);
 	store.dispatch(StoreAction.player.updatePlayer, player.value);
 
-	// 商店增加技術牌
-	const techCards = CARDS.filter((item) => item.ItemType !== enumItemType.LogiCard);
-	const shopRemainTechCards = shop.value.filter((item) => item.ItemType !== enumItemType.LogiCard);
-	const newShopItems = [...shopRemainTechCards];
-	if (Util.lottery(box50)) { // 商店 50% 機率增加一件技術牌
-		const i = Util.getRandomInt(0, techCards.length - 1);
-		newShopItems.push(techCards[i]);
-	}
-	store.dispatch(StoreAction.general.updateShop, newShopItems);
+	// 更新商店
+	reFillShop();
 });
 
 // 打開背包

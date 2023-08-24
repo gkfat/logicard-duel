@@ -8,27 +8,37 @@
     <p class="w-100 text-center m-0">
       螺絲釘：{{ player.Coin }}｜物品：{{ player.ItemList.length + '／' + player.Character.ItemLimit }}
     </p>
-    <div class="w-100 py-1 d-flex justify-content-center align-items-center">
-      <button type="button" class="" @click="toggleDisplayType(0)">裝備</button>
-      <button type="button" class="" @click="toggleDisplayType(1)">技術牌</button>
+    <div class="nav-container">
+      <button type="button" class="nav-btn" @click="toggleDisplayType(0)">裝備</button>
+      <button type="button" class="nav-btn" @click="toggleDisplayType(1)">技術牌</button>
     </div>
     <div class="items-container" v-if="displayType === 0">
-      <div v-for="(item, i) in player.ItemList" :key="i">
-        <ItemComponent
-          :equiped="isEquiped(i)"
-          :backpack="true"
-          :item="item"
-          :index="i"
-        />
-      </div>
+      <template v-if="player.ItemList.length === 0">
+        <p class="reminder-text">背包目前沒有裝備。</p>
+      </template>
+      <template v-else>
+        <div v-for="(item, i) in player.ItemList" :key="i">
+          <ItemComponent
+            :equiped="isEquiped(i)"
+            :backpack="true"
+            :item="item"
+            :index="i"
+          />
+        </div>
+      </template>
     </div>
     <div class="items-container" v-if="displayType === 1">
-      <div v-for="(item, i) in player.CardList" :key="i">
-        <ItemComponent
-          :backpack="true"
-          :item="item"
-        />
-      </div>
+      <template v-if="player.CardList.length === 0">
+        <p class="reminder-text">背包目前沒有技術牌。</p>
+      </template>
+      <template v-else>
+        <div v-for="(item, i) in player.CardList" :key="i">
+          <ItemComponent
+            :backpack="true"
+            :item="item"
+          />
+        </div>
+      </template>
     </div>
     <button type="button" class="w-100 system-btn" @click="closeBackpack()">關上背包</button>
   </div>
@@ -49,7 +59,8 @@ const dialogs = DIALOGS[enumDialog.Backpack];
 const player = computed(() => store.getters.player as Player);
 const displayType = ref(0);
 
-const toggleDisplayType = (type: number) => {
+const toggleDisplayType = async (type: number) => {
+	await Sound.playSound(Sound.sounds.click);
 	displayType.value = type;
 };
 

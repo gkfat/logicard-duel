@@ -16,6 +16,7 @@ import StoreAction from '@/store/storeActions';
 import type { Player } from '@/types';
 import { enumGameState, enumDialog, enumCharacter } from '@/types/enums';
 import { DIALOGS } from '@/data/index';
+import Sound from '@/service/sounds';
 
 const store = useStore();
 const enemy = computed(() => store.getters.enemy as Player);
@@ -30,7 +31,8 @@ onMounted(() => {
 	}
 });
 
-const startBattle = () => {
+const startBattle = async () => {
+	await Sound.playSound(Sound.sounds.click);
 	store.dispatch(StoreAction.general.changeGameState, enumGameState.Battle);
 };
 
