@@ -49,7 +49,7 @@ export interface Character {
 }
 
 export interface Shop {
-	CardList: Item[];
+	CardDataList: Item[];
 	ItemList: Item[];
 }
 
@@ -62,7 +62,7 @@ export interface Player {
     ExtraDefense: number;
     Record: Record;
     ItemList: Item[];
-    CardList: Item[];
+    CardDataList: Item[];
     WeaponIndex: number | null;
     ArmorIndex: number | null;
     Coin: number;

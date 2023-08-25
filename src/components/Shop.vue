@@ -6,15 +6,27 @@
     :class="{ 'frame-show': switchToggleStore.shopOpen }">
     <Dialog :dialogs="dialogs" />
     <p class="w-100 text-center m-0">
-      螺絲釘：{{ player.Coin }}｜物品：{{ player.ItemList.length + '／' + player.Character.ItemLimit }}
+      {{ $t('coin') }}：{{ player.Coin }}｜
+      {{ $t('item') }}：{{ player.ItemList.length + '／' + player.Character.ItemLimit }}
     </p>
     <div class="nav-container">
-      <button type="button" class="nav-btn" :class="{ 'nav-btn-active': displayType === 0 }" @click="toggleDisplayType(0)">裝備</button>
-      <button type="button" class="nav-btn" :class="{ 'nav-btn-active': displayType === 1 }" @click="toggleDisplayType(1)">技術牌</button>
+      <button
+        type="button"
+        class="nav-btn"
+        :class="{ 'nav-btn-active': displayType === 0 }"
+        @click="toggleDisplayType(0)">
+        {{ $t('equip') }}</button>
+      <button
+        type="button"
+        class="nav-btn"
+        :class="{ 'nav-btn-active': displayType === 1 }"
+        @click="toggleDisplayType(1)">
+        {{ $t('tech_card') }}
+      </button>
     </div>
     <div class="items-container" v-if="displayType === 0">
       <template v-if="shop.ItemList.length === 0">
-        <p class="reminder-text">商店目前沒有裝備。</p>
+        <p class="reminder-text">{{ $t('shop.empty') }}{{ $t('equip') }}。</p>
       </template>
       <template v-else>
         <div v-for="(item, i) in shop.ItemList" :key="i">
@@ -27,11 +39,11 @@
       </template>
     </div>
     <div class="items-container" v-if="displayType === 1">
-      <template v-if="shop.CardList.length === 0">
-        <p class="reminder-text">商店目前沒有技術牌。</p>
+      <template v-if="shop.CardDataList.length === 0">
+        <p class="reminder-text">{{ $t('shop.empty') }}{{ $t('tech_card') }}。</p>
       </template>
       <template v-else>
-        <div v-for="(item, i) in shop.CardList" :key="i">
+        <div v-for="(item, i) in shop.CardDataList" :key="i">
           <ItemComponent
             :shop="true"
             :item="item"
@@ -40,14 +52,16 @@
         </div>
       </template>
     </div>
-    <button type="button" class="system-btn" @click="closeShop()">離開商店</button>
+    <button type="button" class="system-btn" @click="closeShop()">
+      {{ $t('button.leave') }}{{ $t('button.shop') }}
+    </button>
   </div>
 </template>
 
 <script setup name="Shop" lang="ts">
 import { computed, ref } from 'vue';
 import { enumDialog } from '@/types/enums';
-import { DIALOGS } from '@/data/index';
+import { DialogDataList } from '@/data/index';
 import Sound from '@/service/sounds';
 import { usePlayerStore, useShopStore, useSwitchToggleStore } from '@/store';
 
@@ -55,7 +69,7 @@ const switchToggleStore = useSwitchToggleStore();
 const playerStore = usePlayerStore();
 const shopStore = useShopStore();
 
-const dialogs = DIALOGS[enumDialog.Shop];
+const dialogs = DialogDataList[enumDialog.Shop];
 const player = computed(() => playerStore.player);
 const shop = computed(() => shopStore.shop);
 

@@ -2,8 +2,12 @@
   <div id="choose-character">
     <Dialog :dialogs="dialogs[dialogIndex]" />
     <template v-if="!dialogEnd">
-      <button type="button" class="w-100 system-btn system-btn-skip" @click="dialogNextToEnd()">跳過</button>
-      <button type="button" class="w-100 system-btn" @click="dialogNext()">繼續</button>
+      <button type="button" class="w-100 system-btn system-btn-skip" @click="dialogNextToEnd()">
+        {{ $t('button.skip') }}
+      </button>
+      <button type="button" class="w-100 system-btn" @click="dialogNext()">
+        {{ $t('button.next') }}
+      </button>
     </template>
     <template v-if="dialogEnd">
       <Carousel :items-to-show="1" :wrap-around="true" @slide-end="selectCharacter">
@@ -30,7 +34,7 @@ import { computed, ref, reactive } from 'vue';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import type { Player } from '@/types';
 import { enumGameState, enumDialog } from '@/types/enums';
-import { CHARACTER_LIST, DIALOGS } from '@/data';
+import { CharacterDataList, DialogDataList } from '@/data';
 import Sound from '@/service/sounds';
 import Util from '@/service/util';
 import { useGameStateStore, usePlayerStore, useSwitchToggleStore } from '@/store';
@@ -39,7 +43,7 @@ const playerStore = usePlayerStore();
 const switchToggleStore = useSwitchToggleStore();
 const gameStateStore = useGameStateStore();
 
-const dialogs = DIALOGS[enumDialog.GameStart];
+const dialogs = DialogDataList[enumDialog.GameStart];
 const dialogEndIndex = dialogs.length - 1;
 const dialogIndex = ref(0);
 const dialogEnd = computed(() => dialogIndex.value === dialogEndIndex);
@@ -57,7 +61,7 @@ const dialogNextToEnd = async () => {
 };
 
 // 選擇角色
-const characterList = CHARACTER_LIST.filter((c) => c.Type === 'P');
+const characterList = CharacterDataList.filter((c) => c.Type === 'P');
 const mockPlayerList = characterList.map((c) => reactive({
 	Character: c,
 	CurrentHealth: c.Health,

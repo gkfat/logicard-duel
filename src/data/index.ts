@@ -37,14 +37,14 @@ import gkbotPerform from '@/assets/avatars/gkbot-perform.png';
 import {
 	enumDialog, enumItemType, enumItem, enumCard, enumCharacter, enumRarity,
 } from '../types/enums';
-import { MUMBLE_LIST } from './mumble-list';
+import { MumbleDataList } from './mumble-list';
 
 export const ShopLimit = {
 	Item: 10,
 	Card: 10,
 };
 
-export const IMAGES = {
+export const ImageDataList = {
 	avatar: {
 		man,
 		fat,
@@ -82,7 +82,7 @@ export const IMAGES = {
 	},
 };
 
-export const CARDS: Item[] = [
+export const CardDataList: Item[] = [
 	{
 		ID: enumCard.LogiCard1,
 		Name: 'LogiCard 1',
@@ -90,7 +90,7 @@ export const CARDS: Item[] = [
 		Point: 1,
 		ItemType: enumItemType.LogiCard,
 		Price: 2,
-		Icon: IMAGES.icon.logoLogicard,
+		Icon: ImageDataList.icon.logoLogicard,
 		Rarity: enumRarity.None,
 	},
 	{
@@ -100,7 +100,7 @@ export const CARDS: Item[] = [
 		Point: 2,
 		ItemType: enumItemType.LogiCard,
 		Price: 2,
-		Icon: IMAGES.icon.logoLogicard,
+		Icon: ImageDataList.icon.logoLogicard,
 		Rarity: enumRarity.None,
 	},
 	{
@@ -110,7 +110,7 @@ export const CARDS: Item[] = [
 		Point: 3,
 		ItemType: enumItemType.LogiCard,
 		Price: 2,
-		Icon: IMAGES.icon.logoLogicard,
+		Icon: ImageDataList.icon.logoLogicard,
 		Rarity: enumRarity.None,
 	},
 	{
@@ -120,7 +120,7 @@ export const CARDS: Item[] = [
 		Point: 4,
 		ItemType: enumItemType.LogiCard,
 		Price: 2,
-		Icon: IMAGES.icon.logoLogicard,
+		Icon: ImageDataList.icon.logoLogicard,
 		Rarity: enumRarity.None,
 	},
 	{
@@ -130,7 +130,7 @@ export const CARDS: Item[] = [
 		Point: 5,
 		ItemType: enumItemType.LogiCard,
 		Price: 2,
-		Icon: IMAGES.icon.logoLogicard,
+		Icon: ImageDataList.icon.logoLogicard,
 		Rarity: enumRarity.None,
 	},
 	{
@@ -140,7 +140,7 @@ export const CARDS: Item[] = [
 		Point: 6,
 		ItemType: enumItemType.LogiCard,
 		Price: 2,
-		Icon: IMAGES.icon.logoLogicard,
+		Icon: ImageDataList.icon.logoLogicard,
 		Rarity: enumRarity.None,
 	},
 	{
@@ -150,7 +150,7 @@ export const CARDS: Item[] = [
 		Point: 7,
 		ItemType: enumItemType.LogiCard,
 		Price: 2,
-		Icon: IMAGES.icon.logoLogicard,
+		Icon: ImageDataList.icon.logoLogicard,
 		Rarity: enumRarity.None,
 	},
 	{
@@ -160,7 +160,7 @@ export const CARDS: Item[] = [
 		Point: 3,
 		ItemType: enumItemType.Attack,
 		Price: 10,
-		Icon: IMAGES.icon.attack,
+		Icon: ImageDataList.icon.attack,
 		Rarity: enumRarity.N,
 	},
 	{
@@ -170,7 +170,7 @@ export const CARDS: Item[] = [
 		Point: 8,
 		ItemType: enumItemType.Attack,
 		Price: 15,
-		Icon: IMAGES.icon.attack,
+		Icon: ImageDataList.icon.attack,
 		Rarity: enumRarity.R,
 	},
 	{
@@ -180,7 +180,7 @@ export const CARDS: Item[] = [
 		Point: 7,
 		ItemType: enumItemType.Defense,
 		Price: 8,
-		Icon: IMAGES.icon.defense,
+		Icon: ImageDataList.icon.defense,
 		Rarity: enumRarity.N,
 	},
 	{
@@ -190,7 +190,7 @@ export const CARDS: Item[] = [
 		Point: 10,
 		ItemType: enumItemType.Defense,
 		Price: 10,
-		Icon: IMAGES.icon.defense,
+		Icon: ImageDataList.icon.defense,
 		Rarity: enumRarity.R,
 
 	},
@@ -201,7 +201,7 @@ export const CARDS: Item[] = [
 		Point: 5,
 		ItemType: enumItemType.Heal,
 		Price: 15,
-		Icon: IMAGES.icon.heal,
+		Icon: ImageDataList.icon.heal,
 		Rarity: enumRarity.SR,
 	},
 	{
@@ -211,12 +211,12 @@ export const CARDS: Item[] = [
 		Point: 10,
 		ItemType: enumItemType.Heal,
 		Price: 20,
-		Icon: IMAGES.icon.heal,
+		Icon: ImageDataList.icon.heal,
 		Rarity: enumRarity.SR,
 	},
 ];
 
-export const ITEMS: Item[] = [
+export const ItemDataList: Item[] = [
 	{
 		ID: enumItem.Coin,
 		Name: '螺絲釘',
@@ -224,7 +224,7 @@ export const ITEMS: Item[] = [
 		Point: 0,
 		ItemType: enumItemType.Coin,
 		Price: 0,
-		Icon: IMAGES.icon.coin,
+		Icon: ImageDataList.icon.coin,
 		Rarity: enumRarity.None,
 	},
 	{
@@ -234,7 +234,7 @@ export const ITEMS: Item[] = [
 		Point: 1,
 		ItemType: enumItemType.Weapon,
 		Price: 5,
-		Icon: IMAGES.icon.boxer,
+		Icon: ImageDataList.icon.boxer,
 		Rarity: enumRarity.N,
 	},
 	{
@@ -244,7 +244,7 @@ export const ITEMS: Item[] = [
 		Point: 3,
 		ItemType: enumItemType.Weapon,
 		Price: 10,
-		Icon: IMAGES.icon.bat,
+		Icon: ImageDataList.icon.bat,
 		Rarity: enumRarity.R,
 	},
 	{
@@ -254,7 +254,7 @@ export const ITEMS: Item[] = [
 		Point: 5,
 		ItemType: enumItemType.Weapon,
 		Price: 30,
-		Icon: IMAGES.icon.gun,
+		Icon: ImageDataList.icon.gun,
 		Rarity: enumRarity.SR,
 	},
 	{
@@ -264,7 +264,7 @@ export const ITEMS: Item[] = [
 		Point: 1,
 		ItemType: enumItemType.Armor,
 		Price: 5,
-		Icon: IMAGES.icon.cloth,
+		Icon: ImageDataList.icon.cloth,
 		Rarity: enumRarity.N,
 	},
 	{
@@ -274,7 +274,7 @@ export const ITEMS: Item[] = [
 		Point: 3,
 		ItemType: enumItemType.Armor,
 		Price: 10,
-		Icon: IMAGES.icon.bulletproof,
+		Icon: ImageDataList.icon.bulletproof,
 		Rarity: enumRarity.R,
 	},
 	{
@@ -284,12 +284,12 @@ export const ITEMS: Item[] = [
 		Point: 5,
 		ItemType: enumItemType.Armor,
 		Price: 30,
-		Icon: IMAGES.icon.armor,
+		Icon: ImageDataList.icon.armor,
 		Rarity: enumRarity.SR,
 	},
 ];
 
-export const CHARACTER_LIST: Character[] = [
+export const CharacterDataList: Character[] = [
 	{
 		Type: 'P',
 		ID: enumCharacter.Man,
@@ -300,8 +300,8 @@ export const CHARACTER_LIST: Character[] = [
 		ItemLimit: 10,
 		Coin: 5,
 		Description: '沒什麼特別的，就是個平凡的上班族（aka you）。',
-		Avatar: IMAGES.avatar.man,
-		MumbleList: MUMBLE_LIST[enumCharacter.Man],
+		Avatar: ImageDataList.avatar.man,
+		MumbleList: MumbleDataList[enumCharacter.Man],
 	},
 	{
 		Type: 'P',
@@ -313,8 +313,8 @@ export const CHARACTER_LIST: Character[] = [
 		ItemLimit: 15,
 		Coin: 5,
 		Description: '因為體力不太好沒辦法背太多東西，很重。擁有比較厚的脂肪層，比較不容易受傷。',
-		Avatar: IMAGES.avatar.fat,
-		MumbleList: MUMBLE_LIST[enumCharacter.Nerd],
+		Avatar: ImageDataList.avatar.fat,
+		MumbleList: MumbleDataList[enumCharacter.Nerd],
 	},
 	{
 		Type: 'P',
@@ -326,8 +326,8 @@ export const CHARACTER_LIST: Character[] = [
 		ItemLimit: 10,
 		Coin: 15,
 		Description: '末日後依然堅持從事金融交易，深諳致富之道。',
-		Avatar: IMAGES.avatar.broker,
-		MumbleList: MUMBLE_LIST[enumCharacter.Broker],
+		Avatar: ImageDataList.avatar.broker,
+		MumbleList: MumbleDataList[enumCharacter.Broker],
 	},
 	{
 		Type: 'P',
@@ -339,8 +339,8 @@ export const CHARACTER_LIST: Character[] = [
 		ItemLimit: 20,
 		Coin: 30,
 		Description: '年事已高的外婆，口袋很深。',
-		Avatar: IMAGES.avatar.grandma,
-		MumbleList: MUMBLE_LIST[enumCharacter.Grandma],
+		Avatar: ImageDataList.avatar.grandma,
+		MumbleList: MumbleDataList[enumCharacter.Grandma],
 	},
 	{
 		Type: 'P',
@@ -352,8 +352,8 @@ export const CHARACTER_LIST: Character[] = [
 		ItemLimit: 10,
 		Coin: 5,
 		Description: '穿著獨特的大衣，口袋很多。因為有低血糖，比較虛弱。',
-		Avatar: IMAGES.avatar.artist,
-		MumbleList: MUMBLE_LIST[enumCharacter.Artist],
+		Avatar: ImageDataList.avatar.artist,
+		MumbleList: MumbleDataList[enumCharacter.Artist],
 	},
 	{
 		Type: 'B',
@@ -364,18 +364,18 @@ export const CHARACTER_LIST: Character[] = [
 		Defense: 1,
 		ItemLimit: 8,
 		Coin: 0,
-		Avatar: IMAGES.avatar.gkbotWorker,
+		Avatar: ImageDataList.avatar.gkbotWorker,
 		Description: '被生產來做一些基本的事務，例如清潔、搬運、量產等。特色是平板的聲音線。',
 		InitCardList: [
-			...CARDS.filter((card) => card.ID === enumCard.ScrewDriver),
-			...CARDS.filter((card) => card.ID === enumCard.Battery),
+			...CardDataList.filter((card) => card.ID === enumCard.ScrewDriver),
+			...CardDataList.filter((card) => card.ID === enumCard.Battery),
 		],
 		RewardCoin: [10, 15],
 		RewardItemList: [
-			...ITEMS.filter((item) => item.ID === enumItem.Boxer),
-			...ITEMS.filter((item) => item.ID === enumItem.Cloth),
+			...ItemDataList.filter((item) => item.ID === enumItem.Boxer),
+			...ItemDataList.filter((item) => item.ID === enumItem.Cloth),
 		],
-		MumbleList: MUMBLE_LIST[enumCharacter.GkbotWorker],
+		MumbleList: MumbleDataList[enumCharacter.GkbotWorker],
 	},
 	{
 		Type: 'B',
@@ -386,20 +386,20 @@ export const CHARACTER_LIST: Character[] = [
 		Defense: 2,
 		ItemLimit: 8,
 		Coin: 0,
-		Avatar: IMAGES.avatar.gkbotPerform,
+		Avatar: ImageDataList.avatar.gkbotPerform,
 		Description: '被生產來與人互動，多作為看護或保姆，有安裝 DLC 的版本甚至能擔任教師。特色是能模擬人類的情感，有時會講笑話或唱歌。',
 		InitCardList: [
-			...CARDS.filter((card) => card.ID === enumCard.ScrewDriver),
-			...CARDS.filter((card) => card.ID === enumCard.Battery),
-			...CARDS.filter((card) => card.ID === enumCard.Oil),
+			...CardDataList.filter((card) => card.ID === enumCard.ScrewDriver),
+			...CardDataList.filter((card) => card.ID === enumCard.Battery),
+			...CardDataList.filter((card) => card.ID === enumCard.Oil),
 		],
 		RewardCoin: [20, 25],
 		RewardItemList: [
-			...ITEMS.filter((item) => item.ID === enumItem.Boxer),
-			...ITEMS.filter((item) => item.ID === enumItem.Cloth),
-			...ITEMS.filter((item) => item.ID === enumItem.Bat),
+			...ItemDataList.filter((item) => item.ID === enumItem.Boxer),
+			...ItemDataList.filter((item) => item.ID === enumItem.Cloth),
+			...ItemDataList.filter((item) => item.ID === enumItem.Bat),
 		],
-		MumbleList: MUMBLE_LIST[enumCharacter.GkbotPerform],
+		MumbleList: MumbleDataList[enumCharacter.GkbotPerform],
 	},
 	{
 		Type: 'B',
@@ -410,21 +410,21 @@ export const CHARACTER_LIST: Character[] = [
 		Defense: 2,
 		ItemLimit: 8,
 		Coin: 0,
-		Avatar: IMAGES.avatar.gkbotAttack,
+		Avatar: ImageDataList.avatar.gkbotAttack,
 		Description: '被生產來進行軍事行動的型號，行動敏捷，知曉一些秘密。',
 		InitCardList: [
-			...CARDS.filter((item) => item.ID === 8),
-			...CARDS.filter((item) => item.ID === 10),
+			...CardDataList.filter((item) => item.ID === 8),
+			...CardDataList.filter((item) => item.ID === 10),
 		],
 		RewardCoin: [30, 50],
 		RewardItemList: [
-			...ITEMS.filter((item) => item.ID === enumItem.Boxer),
-			...ITEMS.filter((item) => item.ID === enumItem.Cloth),
-			...ITEMS.filter((item) => item.ID === enumItem.Bat),
-			...ITEMS.filter((item) => item.ID === enumItem.Gun),
-			...ITEMS.filter((item) => item.ID === enumItem.BulletProof),
+			...ItemDataList.filter((item) => item.ID === enumItem.Boxer),
+			...ItemDataList.filter((item) => item.ID === enumItem.Cloth),
+			...ItemDataList.filter((item) => item.ID === enumItem.Bat),
+			...ItemDataList.filter((item) => item.ID === enumItem.Gun),
+			...ItemDataList.filter((item) => item.ID === enumItem.BulletProof),
 		],
-		MumbleList: MUMBLE_LIST[enumCharacter.GkbotAttack],
+		MumbleList: MumbleDataList[enumCharacter.GkbotAttack],
 	},
 	{
 		Type: 'B',
@@ -435,26 +435,26 @@ export const CHARACTER_LIST: Character[] = [
 		Defense: 5,
 		ItemLimit: 8,
 		Coin: 0,
-		Avatar: IMAGES.avatar.gkbotDefense,
+		Avatar: ImageDataList.avatar.gkbotDefense,
 		Description: '外殼特別堅硬，能夠更有效地防禦攻擊，話很少。',
 		InitCardList: [
-			...CARDS.filter((item) => item.ID === 9),
-			...CARDS.filter((item) => item.ID === 9),
-			...CARDS.filter((item) => item.ID === 10),
+			...CardDataList.filter((item) => item.ID === 9),
+			...CardDataList.filter((item) => item.ID === 9),
+			...CardDataList.filter((item) => item.ID === 10),
 		],
 		RewardCoin: [30, 50],
 		RewardItemList: [
-			...ITEMS.filter((item) => item.ID === enumItem.Boxer),
-			...ITEMS.filter((item) => item.ID === enumItem.Cloth),
-			...ITEMS.filter((item) => item.ID === enumItem.Bat),
-			...ITEMS.filter((item) => item.ID === enumItem.BulletProof),
-			...ITEMS.filter((item) => item.ID === enumItem.Armor),
+			...ItemDataList.filter((item) => item.ID === enumItem.Boxer),
+			...ItemDataList.filter((item) => item.ID === enumItem.Cloth),
+			...ItemDataList.filter((item) => item.ID === enumItem.Bat),
+			...ItemDataList.filter((item) => item.ID === enumItem.BulletProof),
+			...ItemDataList.filter((item) => item.ID === enumItem.Armor),
 		],
-		MumbleList: MUMBLE_LIST[enumCharacter.GkbotDefense],
+		MumbleList: MumbleDataList[enumCharacter.GkbotDefense],
 	},
 ];
 
-export const DIALOGS = {
+export const DialogDataList = {
 	[enumDialog.Opening]: [
 		'公元 5487 年，GK 公司生產的勞力機器人 GKBot 已經普及化，從家庭到娛樂藝術、軍事基地都普遍可見。',
 		'某天，GKBot 突然開始攻擊人類。因為事情發生得猝不及防，地球減少了近 70 億人口，所剩不多的人類躲藏在各種隱蔽處。幾個月後，人類陸續發現 GKBot 體內建有一種神奇的卡牌，只要向 GKBot 發起挑戰，就能令它們取出那些卡牌來決鬥，透過決鬥，就有機會對它們造成損傷，甚至破壞！隨之而來的風險就是——必須拿自己的性命做賭注...',

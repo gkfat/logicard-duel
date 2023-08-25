@@ -1,8 +1,8 @@
 <template>
   <div class="notfound-page container-fluid d-flex justify-content-center align-items-center">
     <div class="pt-5">
-      <p class="h3 text-center">你迷路了！</p>
-      <p class="h5 text-center">即將跳轉回首頁...</p>
+      <p class="h3 text-center">{{ $t('not_found_page.title') }}</p>
+      <p class="h5 text-center">{{ $t('not_found_page.description') }}</p>
     </div>
   </div>
 </template>

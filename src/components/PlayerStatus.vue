@@ -26,17 +26,17 @@
 
         <!-- 屬性 -->
         <div class="attribue w-100">
-          <Icon :url="IMAGES.icon.attack" />
+          <Icon :url="ImageDataList.icon.attack" />
           <p class="status-text m-0">{{ player.CurrentAttack }}</p>
           <p v-if="player.ExtraAttack" class="status-text status-text-extra m-0">(+ {{ player.ExtraAttack }})</p>
-          <Icon :url="IMAGES.icon.defense" />
+          <Icon :url="ImageDataList.icon.defense" />
           <p class="status-text m-0">{{ player.CurrentDefense }}</p>
           <p v-if="player.ExtraDefense" class="status-text status-text-extra m-0">(+ {{ player.ExtraDefense }})</p>
         </div>
 
         <!-- 金幣 -->
         <div class="coin w-100 m-0 d-flex align-items-center" v-if="player.Character.Type === 'P'">
-          <Icon :url="IMAGES.icon.coin" />
+          <Icon :url="ImageDataList.icon.coin" />
           <p class="status-text m-0">{{ player.Coin }}</p>
         </div>
       </div>
@@ -84,16 +84,16 @@
           </div>
           <!-- 屬性 -->
           <div class="attribue w-100">
-            <Icon :url="IMAGES.icon.attack" />
+            <Icon :url="ImageDataList.icon.attack" />
             <p class="status-text m-0">{{ player.CurrentAttack }}</p>
             <p v-if="player.ExtraAttack" class="status-text status-text-extra m-0">(+ {{ player.ExtraAttack }})</p>
-            <Icon :url="IMAGES.icon.defense" />
+            <Icon :url="ImageDataList.icon.defense" />
             <p class="status-text m-0">{{ player.CurrentDefense }}</p>
             <p v-if="player.ExtraDefense" class="status-text status-text-extra m-0">(+ {{ player.ExtraDefense }})</p>
           </div>
           <!-- 金幣 -->
           <div class="coin w-100 m-0 d-flex align-items-center" v-if="player.Character.Type === 'P'">
-            <Icon :url="IMAGES.icon.coin" />
+            <Icon :url="ImageDataList.icon.coin" />
             <p class="status-text m-0">{{ player.Coin }}</p>
             <!-- 獲得螺絲釘動畫 -->
             <p v-if="coinChange !== 0" class="coin-change m-0 flow-up">+{{ coinChange }}</p>
@@ -112,7 +112,7 @@ import {
 import { Tooltip } from 'bootstrap';
 import Util from '@/service/util';
 import { Item, Player } from '@/types';
-import { IMAGES } from '@/data';
+import { ImageDataList } from '@/data';
 import { enumGameState } from '@/types/enums';
 import { useGameStateStore } from '@/store';
 

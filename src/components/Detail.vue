@@ -4,23 +4,23 @@
     <Card v-if="!isItem" :item="item" />
     <p class="h5 w-100 text-center m-0">{{ item.Name }}</p>
     <p v-if="item.Rarity !== enumRarity.None" class="rarity">{{ Util.getRarityType(item.Rarity) }}</p>
-    <p class="w-100 text-center m-0">【{{ Util.getItemType(item.ItemType) }}】</p>
+    <p class="w-100 text-center m-0">【{{ $t('item_type.' + item.ItemType) }}】</p>
     <p
       v-if="item.ItemType === enumItemType.Attack
         || item.ItemType === enumItemType.Weapon"
       class="w-100 text-center m-0 detail-extra">
-      攻擊力 + {{ item.Point }}
+      {{ $t('attack') }} + {{ item.Point }}
     </p>
     <p
       v-if="item.ItemType === enumItemType.Defense
         || item.ItemType === enumItemType.Armor"
       class="w-100 text-center m-0 detail-extra">
-      防禦力 + {{ item.Point }}
+      {{ $t('defense') }} + {{ item.Point }}
     </p>
     <p
       v-if="item.ItemType === enumItemType.Heal"
       class="w-100 text-center m-0 detail-extra">
-      生命值 + {{ item.Point }}
+      {{ $t('health') }} + {{ item.Point }}
     </p>
     <p class="w-100 text-center m-0">{{ item.Description }}</p>
   </div>

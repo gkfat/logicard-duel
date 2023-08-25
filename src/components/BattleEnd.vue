@@ -3,9 +3,12 @@
     <Dialog :dialogs="dialogs" />
 
     <div>
-      <p class="m-0 h6 w-100 text-center">戰利品</p>
+      <p class="m-0 h6 w-100 text-center">
+        {{ $t('battle_end.loot') }}
+      </p>
       <p class="m-0 w-100 text-center">
-        螺絲釘：{{ player.Coin }}｜物品：{{ player.ItemList.length + '／' + player.Character!.ItemLimit }}
+        {{ $t('coin') }}：{{ player.Coin }}｜
+        {{ $t('item') }}：{{ player.ItemList.length + '／' + player.Character!.ItemLimit }}
       </p>
     </div>
     <div class="items-container d-flex justify-content-center flex-wrap flex-grow-1">
@@ -14,8 +17,12 @@
       </div>
     </div>
     <!-- 沒有多餘空間 -->
-    <button v-if="noSpace" type="button" class="system-btn w-100" @click="openBackpack()">整理背包</button>
-    <button v-else type="button" class="system-btn w-100" @click="goRest()">休息</button>
+    <button v-if="noSpace" type="button" class="system-btn w-100" @click="openBackpack()">
+      {{ $t('button.tidy') }}
+    </button>
+    <button v-else type="button" class="system-btn w-100" @click="goRest()">
+      {{ $t('button.rest') }}
+    </button>
   </div>
 </template>
 
@@ -25,7 +32,7 @@ import { Item } from '@/types';
 import { enumGameState, enumItemType, enumDialog } from '@/types/enums';
 import Util from '@/service/util';
 import Sound from '@/service/sounds';
-import { DIALOGS, ITEMS } from '@/data';
+import { DialogDataList, ItemDataList } from '@/data';
 import {
 	useGameStateStore, usePlayerStore, useShopStore, useSwitchToggleStore,
 } from '@/store';
@@ -39,7 +46,7 @@ const player = computed(() => playerStore.player);
 const enemy = computed(() => playerStore.enemy);
 const lootBox = reactive([] as Item[]);
 const noSpace = computed(() => player.value.ItemList.length > player.value.Character!.ItemLimit);
-const dialogs = DIALOGS[enumDialog.BattleEnd];
+const dialogs = DialogDataList[enumDialog.BattleEnd];
 const box80 = Util.makeLotteryBox(80);
 const box50 = Util.makeLotteryBox(50);
 const box30 = Util.makeLotteryBox(30);
@@ -49,10 +56,10 @@ const makeLoot = (type: 'equipment' | 'coin' | 'techCard') => {
 	const enemyCharacter = enemy.value.Character!;
 	const min = enemyCharacter.RewardCoin![0];
 	const max = enemyCharacter.RewardCoin![1];
-	const coin = ITEMS.find((item) => item.ItemType === enumItemType.Coin)!;
+	const coin = ItemDataList.find((item) => item.ItemType === enumItemType.Coin)!;
 	const rewardItemIndex = Util.getRandomInt(0, enemyCharacter.RewardItemList!.length - 1);
 	const lootRewardItem = enemyCharacter.RewardItemList![rewardItemIndex];
-	const remainTechCardList = enemy.value.CardList.filter((c) => c.ItemType !== enumItemType.LogiCard);
+	const remainTechCardList = enemy.value.CardDataList.filter((c) => c.ItemType !== enumItemType.LogiCard);
 	const techCardIndex = Util.getRandomInt(0, remainTechCardList.length - 1);
 	const lootTechCard = remainTechCardList[techCardIndex];
 
@@ -98,7 +105,7 @@ onMounted(() => {
 		case enumItemType.Attack:
 		case enumItemType.Defense:
 		case enumItemType.Heal:
-			updatedPlayer.CardList.push(loot);
+			updatedPlayer.CardDataList.push(loot);
 			break;
 		case enumItemType.Weapon:
 		case enumItemType.Armor:

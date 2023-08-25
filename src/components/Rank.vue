@@ -9,20 +9,22 @@
         </tr>
       </table>
     </div>
-    <button type="button" class="system-btn" @click="closeRank()">收起平板</button>
+    <button type="button" class="system-btn" @click="closeRank()">
+      {{ $t('button.close_rank') }}
+    </button>
   </div>
 </template>
 
 <script setup name="Rank" lang="ts">
 import { computed } from 'vue';
 import { enumDialog } from '@/types/enums';
-import { DIALOGS } from '@/data/index';
+import { DialogDataList } from '@/data/index';
 import { useRankStore, useSwitchToggleStore } from '@/store';
 
 const switchToggleStore = useSwitchToggleStore();
 const rankStore = useRankStore();
 
-const dialogs = DIALOGS[enumDialog.Rank];
+const dialogs = DialogDataList[enumDialog.Rank];
 const rankList = computed(() => rankStore.rankList as string[][]);
 
 // 關閉排行榜

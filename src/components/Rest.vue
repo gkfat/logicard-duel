@@ -2,10 +2,18 @@
   <div id="rest">
     <div class="campfire" />
     <Dialog :dialogs="dialogs" />
-    <button type="button" class="system-btn w-100" @click="openRank()">排行榜</button>
-    <button type="button" class="system-btn w-100" @click="openBackpack()">背包</button>
-    <button type="button" class="system-btn w-100" @click="openShop()">商店</button>
-    <button type="button" class="system-btn w-100" @click="battleStart()">尋找下一個 GKBot</button>
+    <button type="button" class="system-btn w-100" @click="openRank()">
+      {{ $t('button.rank') }}
+    </button>
+    <button type="button" class="system-btn w-100" @click="openBackpack()">
+      {{ $t('button.backpack') }}
+    </button>
+    <button type="button" class="system-btn w-100" @click="openShop()">
+      {{ $t('button.shop') }}
+    </button>
+    <button type="button" class="system-btn w-100" @click="battleStart()">
+      {{ $t('button.next_battle') }}
+    </button>
     <PlayerStatus :is-main="true" :player="player" />
   </div>
 </template>
@@ -13,7 +21,7 @@
 <script setup name="Rest" lang="ts">
 import { computed } from 'vue';
 import { enumGameState, enumDialog } from '@/types/enums';
-import { DIALOGS } from '@/data/index';
+import { DialogDataList } from '@/data/index';
 import Sound from '@/service/sounds';
 import { useGameStateStore, usePlayerStore, useSwitchToggleStore } from '@/store';
 
@@ -22,7 +30,7 @@ const playerStore = usePlayerStore();
 const gameStateStore = useGameStateStore();
 
 const player = computed(() => playerStore.player);
-const dialogs = DIALOGS[enumDialog.Rest];
+const dialogs = DialogDataList[enumDialog.Rest];
 
 // 打開排行榜
 const openRank = async () => {

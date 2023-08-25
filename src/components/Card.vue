@@ -7,10 +7,10 @@
       item.ItemType === enumItemType.LogiCard ? '' : 'card-tech',
     ]">
     <template v-if="item.ItemType === enumItemType.LogiCard">
-      <Icon :url="IMAGES.icon.cardbackLogicard" />
+      <Icon :url="ImageDataList.icon.cardbackLogicard" />
     </template>
     <template v-else>
-      <Icon :url="IMAGES.icon.cardbackTech" />
+      <Icon :url="ImageDataList.icon.cardbackTech" />
     </template>
   </div>
   <div
@@ -35,7 +35,7 @@ import { Tooltip } from 'bootstrap';
 import { onMounted } from 'vue';
 import { Item } from '@/types';
 import { enumItemType } from '@/types/enums';
-import { IMAGES } from '@/data';
+import { ImageDataList } from '@/data';
 
 withDefaults(defineProps<{
   style?: string,

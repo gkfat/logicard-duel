@@ -11,8 +11,8 @@
     <!-- Item -->
     <template v-if="isItem">
       <div class="item-point w-100 d-flex justify-content-end align-items-center">
-        <Icon v-if="item.ItemType === enumItemType.Weapon" :url="IMAGES.icon.attack" />
-        <Icon v-if="item.ItemType === enumItemType.Armor" :url="IMAGES.icon.defense" />
+        <Icon v-if="item.ItemType === enumItemType.Weapon" :url="ImageDataList.icon.attack" />
+        <Icon v-if="item.ItemType === enumItemType.Armor" :url="ImageDataList.icon.defense" />
         <p class="m-0">{{ item.Point }}</p>
       </div>
       <Icon v-if="isItem" :url="item.Icon" />
@@ -36,16 +36,28 @@
   <!-- Backpack Control -->
   <div class="control" v-if="backpack" :class="{ 'control-show': isShowBackpackControl }">
     <Detail :item="item" />
-    <button type="button" class="system-btn w-100" v-if="isItem" @click="switchEquip()">裝備／脫下</button>
-    <button type="button" class="system-btn w-100" v-if="isHealCard" @click="useHealCard()">使用</button>
-    <button type="button" class="system-btn w-100" @click="sellItem()">以 $ {{ evaluateSalePrice }} 賣出</button>
-    <button type="button" class="system-btn system-btn-skip w-100" @click="toggleControl()">取消</button>
+    <button type="button" class="system-btn w-100" v-if="isItem" @click="switchEquip()">
+      {{ $t('button.equip') }}
+    </button>
+    <button type="button" class="system-btn w-100" v-if="isHealCard" @click="useHealCard()">
+      {{ $t('button.use') }}
+    </button>
+    <button type="button" class="system-btn w-100" @click="sellItem()">
+      {{ $t('button.sell') }}（$ {{ evaluateSalePrice }}）
+    </button>
+    <button type="button" class="system-btn system-btn-skip w-100" @click="toggleControl()">
+      {{ $t('button.cancel') }}
+    </button>
   </div>
   <!-- Shop Control -->
   <div class="control" v-if="shop" :class="{ 'control-show': isShowShopControl }">
     <Detail :item="item" />
-    <button type="button" class="system-btn w-100" @click="buyItem()">以 $ {{ item.Price }} 買入</button>
-    <button type="button" class="system-btn system-btn-skip w-100" @click="toggleControl()">取消</button>
+    <button type="button" class="system-btn w-100" @click="buyItem()">
+      {{ $t('button.buy') }}（$ {{ item.Price }}）
+    </button>
+    <button type="button" class="system-btn system-btn-skip w-100" @click="toggleControl()">
+      {{ $t('button.cancel') }}
+    </button>
   </div>
 </template>
 
@@ -57,7 +69,7 @@ import {
 import { Item } from '@/types';
 import { enumItemType } from '@/types/enums';
 import Sound from '@/service/sounds';
-import { IMAGES } from '@/data';
+import { ImageDataList } from '@/data';
 import { usePlayerStore, useShopStore } from '@/store';
 
 const playerStore = usePlayerStore();
@@ -165,7 +177,7 @@ const useHealCard = async () => {
 			if (updatedPlayer.ArmorIndex && props.index! < updatedPlayer.ArmorIndex) {
 				updatedPlayer.ArmorIndex -= 1;
 			}
-			updatedPlayer.CardList.splice(props.index!, 1);
+			updatedPlayer.CardDataList.splice(props.index!, 1);
 			playerStore.updatePlayer('player', updatedPlayer);
 			toggleControl();
 		}
@@ -213,7 +225,7 @@ const sellItem = async () => {
 		case enumItemType.Attack:
 		case enumItemType.Defense:
 		case enumItemType.Heal:
-			updatedPlayer.CardList.splice(props.index!, 1);
+			updatedPlayer.CardDataList.splice(props.index!, 1);
 			break;
 		default:
 			break;
@@ -242,8 +254,8 @@ const buyItem = async () => {
 				shopStore.shop.ItemList.splice(props.index!, 1);
 				updatedPlayer.ItemList.push(item.value);
 			} else {
-				shopStore.shop.CardList.splice(props.index!, 1);
-				updatedPlayer.CardList.push(item.value);
+				shopStore.shop.CardDataList.splice(props.index!, 1);
+				updatedPlayer.CardDataList.push(item.value);
 			}
 
 			playerStore.updatePlayer('player', updatedPlayer);

@@ -5,16 +5,18 @@
       <Dialog :dialogs="dialogs.opening" />
       <div class="social">
         <a type="button" class="system-btn social-item" @click="openGithub()">
-          <img alt="github" class="img-fluid" :src="IMAGES.icon.github">
+          <img alt="github" class="img-fluid" :src="ImageDataList.icon.github">
         </a>
         <a type="button" class="system-btn social-item" @click="openMail()">
-          <img alt="mail" class="img-fluid" :src="IMAGES.icon.mail">
+          <img alt="mail" class="img-fluid" :src="ImageDataList.icon.mail">
         </a>
         <div type="button" class="system-btn social-item" @click="openRank()">
-          <img alt="rank" class="img-fluid" :src="IMAGES.icon.rank">
+          <img alt="rank" class="img-fluid" :src="ImageDataList.icon.rank">
         </div>
       </div>
-      <button type="button" class="w-100 system-btn" @click="start()">開始冒險</button>
+      <button type="button" class="w-100 system-btn" @click="start()">
+        {{ $t('game_view.start') }}
+      </button>
     </template>
 
     <ChooseCharacter v-if="gameState === enumGameState.ChooseCharacter" />
@@ -26,14 +28,33 @@
     <template v-if="gameState === enumGameState.GameEnd">
       <Dialog :dialogs="dialogs.gameEnd" />
       <table class="table flex-grow-1">
-        <tr><td>使用角色</td><td class="text">{{ player.Character!.Name }}</td></tr>
-        <tr><td>總攻擊量</td><td class="text">{{ player.Record.TotalDamage }}</td></tr>
-        <tr><td>總治療量</td><td class="text">{{ player.Record.TotalHeal }}</td></tr>
-        <tr><td>擊殺 GKBot 數量</td><td class="text">{{ player.Record.DefeatBots }}</td></tr>
-        <tr><td>存活時間</td><td class="text">{{ player.Record.SurvivalTime }} 小時</td></tr>
+        <tr>
+          <td>{{ $t('game_view.game_end.name') }}</td>
+          <td class="text">{{ player.Character!.Name }}</td>
+        </tr>
+        <tr>
+          <td>{{ $t('game_view.game_end.total_damage') }}</td>
+          <td class="text">{{ player.Record.TotalDamage }}</td>
+        </tr>
+        <tr>
+          <td>{{ $t('game_view.game_end.total_heal') }}</td>
+          <td class="text">{{ player.Record.TotalHeal }}</td>
+        </tr>
+        <tr>
+          <td>{{ $t('game_view.game_end.defeat_bots') }}</td>
+          <td class="text">{{ player.Record.DefeatBots }}</td>
+        </tr>
+        <tr>
+          <td>{{ $t('game_view.game_end.survival_time') }}</td>
+          <td class="text">{{ player.Record.SurvivalTime }} {{ $t('game_view.game_end.hour') }}</td>
+        </tr>
       </table>
-      <input type="text" class="form-control mb-3 " placeholder="寫點什麼吧...(上限 20 字)" v-model="lastWords">
-      <button type="button" class="w-100 system-btn" @click="restart()">成佛</button>
+      <input
+        type="text"
+        class="form-control mb-3 "
+        :placeholder="$t('game_view.game_end.leave_message')"
+        v-model="lastWords">
+      <button type="button" class="w-100 system-btn" @click="restart()">{{ $t('game_view.game_end.restart') }}</button>
     </template>
   </div>
 </template>
@@ -43,7 +64,7 @@ import { ref, computed, watch } from 'vue';
 import {
 	enumOperation, enumSheetName, enumGameState, enumDialog,
 } from '@/types/enums';
-import { DIALOGS, IMAGES } from '@/data';
+import { DialogDataList, ImageDataList } from '@/data';
 import Sound from '@/service/sounds';
 import Util from '@/service/util';
 import {
@@ -59,8 +80,8 @@ const gameState = computed(() => gameStateStore.gameState);
 const player = computed(() => playerStore.player);
 
 const dialogs = {
-	opening: DIALOGS[enumDialog.Opening],
-	gameEnd: DIALOGS[enumDialog.GameEnd],
+	opening: DialogDataList[enumDialog.Opening],
+	gameEnd: DialogDataList[enumDialog.GameEnd],
 };
 
 const openGithub = async () => {

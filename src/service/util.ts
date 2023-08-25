@@ -83,16 +83,16 @@ export default class Util {
 		return [];
 	}
 
-	static getItemType(itemType: enumItemType): string {
-		switch (itemType) {
-		case enumItemType.Attack: return '技術牌（攻擊）';
-		case enumItemType.Defense: return '技術牌（防禦）';
-		case enumItemType.Heal: return '技術牌（治療）';
-		case enumItemType.Weapon: return '武器';
-		case enumItemType.Armor: return '防具';
-		default: return '';
-		}
-	}
+	// static getItemType(itemType: enumItemType): string {
+	// 	switch (itemType) {
+	// 	case enumItemType.Attack: return '技術牌（攻擊）';
+	// 	case enumItemType.Defense: return '技術牌（防禦）';
+	// 	case enumItemType.Heal: return '技術牌（治療）';
+	// 	case enumItemType.Weapon: return '武器';
+	// 	case enumItemType.Armor: return '防具';
+	// 	default: return '';
+	// 	}
+	// }
 
 	static getRarityType(rarity: enumRarity): string {
 		const i = Object.values(enumRarity).indexOf(rarity);

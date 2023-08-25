@@ -5,21 +5,23 @@
       <PlayerStatus :player="enemy" />
       <p class="m-0 w-100">{{ enemy.Character.Description }}</p>
     </div>
-    <button type="button" class="system-btn w-100" @click="startBattle()">戰鬥</button>
+    <button type="button" class="system-btn w-100" @click="startBattle()">
+      {{ $t('button.battle') }}
+    </button>
   </div>
 </template>
 
 <script setup name="BattleStart" lang="ts">
 import { computed, onMounted } from 'vue';
 import { enumGameState, enumDialog, enumCharacter } from '@/types/enums';
-import { DIALOGS } from '@/data/index';
+import { DialogDataList } from '@/data/index';
 import Sound from '@/service/sounds';
 import { useGameStateStore, usePlayerStore } from '@/store';
 
 const playerStore = usePlayerStore();
 const gameStateStore = useGameStateStore();
 const enemy = computed(() => playerStore.enemy);
-const dialogs = DIALOGS[enumDialog.BattleStart];
+const dialogs = DialogDataList[enumDialog.BattleStart];
 
 // Init
 onMounted(() => {

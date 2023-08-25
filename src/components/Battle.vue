@@ -4,7 +4,7 @@
     <div class="enemy">
       <div class="cards-container mb-1">
         <Card
-          v-for="(item, i) in enemy.CardList"
+          v-for="(item, i) in enemy.CardDataList"
           :sm="true"
           :is-card-back="true"
           :item="item"
@@ -31,22 +31,22 @@
           <!-- 系統提示 -->
           <p class="system-text">
             <!-- 局規則 -->
-            <template v-if="table.rule < 0">【抽籤中...】</template>
-            <template v-if="table.rule === 0">【比小】</template>
-            <template v-if="table.rule === 1">【比大】</template>
+            <template v-if="roundState === enumRoundState.Start">
+              <template v-if="table.rule === -1">【{{ $t('battle.rule._1') }}】</template>
+            </template>
+            <template v-if="roundState > enumRoundState.Start">
+              <template v-if="table.rule === 0">【{{ $t('battle.rule.0') }}】</template>
+              <template v-if="table.rule === 1">【{{ $t('battle.rule.1') }}】</template>
+            </template>
             <span class="me-1" />
             <!-- 局狀態 -->
-            <template v-if="roundState === enumRoundState.Start">回合開始</template>
-            <template v-if="roundState === enumRoundState.Counting">{{ countDownRemainSec }} 秒</template>
-            <template v-if="roundState === enumRoundState.Duel">決勝！</template>
+            <template v-if="roundState === enumRoundState.Start">{{ $t('battle.round_state.0') }}</template>
+            <template v-if="roundState === enumRoundState.Counting">{{ countDownRemainSec }} {{ $t('sec') }}</template>
+            <template v-if="roundState === enumRoundState.Duel">{{ $t('battle.round_state.2') }}</template>
             <!-- 局結果 -->
-            <template v-if="roundState >= enumRoundState.Settle">
-              <template v-if="table.result === enumBattleResult.PlayerWin">你贏了</template>
-              <template v-if="table.result === enumBattleResult.PlayerLose">你輸了</template>
-              <template v-if="table.result === enumBattleResult.Draw">平手</template>
-            </template>
+            <template v-if="roundState >= enumRoundState.Settle">{{ $t('battle.result.' + table.result) }}</template>
           </p>
-          <!-- Enemy Cards -->
+          <!-- Enemy CardDataList -->
           <div class="enemy-cards">
             <Card
               v-if="table.enemyCards[0]"
@@ -63,7 +63,7 @@
             />
             <div class="card-placeholder card-placeholder-techcard" v-if="!table.enemyCards[1]" />
           </div>
-          <!-- Player Cards -->
+          <!-- Player CardDataList -->
           <div class="player-cards">
             <div type="button" v-if="table.playerCards[0]" @click="getCardFromTable('player', 0)">
               <Card
@@ -88,7 +88,7 @@
     <!-- Player -->
     <div class="player">
       <div class="cards-container">
-        <div v-for="(item, i) in player.CardList" type="button" @click="placeCardOnTable(player.Character!, item, i)" :key="i">
+        <div v-for="(item, i) in player.CardDataList" type="button" @click="placeCardOnTable(player.Character!, item, i)" :key="i">
           <Card
             :style="calcCardRotate(i)"
             :item="item"
@@ -112,7 +112,7 @@ import {
 } from '@/types/enums';
 import Util from '@/service/util';
 import Sound from '@/service/sounds';
-import { CARDS } from '@/data';
+import { CardDataList } from '@/data';
 import { useGameStateStore, usePlayerStore } from '@/store';
 
 const playerStore = usePlayerStore();
@@ -144,7 +144,7 @@ const box30 = Util.makeLotteryBox(30); // 機率 30% 的箱子
 
 // 設定卡牌弧形排列
 const calcCardRotate = (i: number) => {
-	const middleIndex = Math.floor(player.value.CardList.length / 2);
+	const middleIndex = Math.floor(player.value.CardDataList.length / 2);
 	const deg = (i - middleIndex) * 5.5;
 	const y = Math.abs((i - middleIndex)) * Math.abs((i - middleIndex)) * 2;
 	return `rotate(${deg}deg) translateY(${y}px)`;
@@ -205,7 +205,7 @@ const placeCardOnTable = async (character: any, item: Item, i: number) => {
 	case 'P': // 玩家
 		if (!findPlayerCard && allowTime) {
 			await Sound.playSound(soundEffects.placeCard);
-			player.value.CardList.splice(i, 1);
+			player.value.CardDataList.splice(i, 1);
 			table.value.playerCards[pos] = item;
 			playerStore.mumble('player', enumMumbleType.PlaceCard, 0);
 			if (Util.lottery(box50)) {
@@ -216,7 +216,7 @@ const placeCardOnTable = async (character: any, item: Item, i: number) => {
 	case 'B': // 機器人
 		if (!findEnemyCard && allowTime) {
 			await Sound.playSound(soundEffects.placeCard);
-			enemy.value.CardList.splice(i, 1);
+			enemy.value.CardDataList.splice(i, 1);
 			table.value.enemyCards[pos] = item;
 			if (Util.lottery(box50)) {
 				playerStore.mumble('enemy', enumMumbleType.PlaceCard, 0);
@@ -240,17 +240,17 @@ const getCardFromTable = async (who: 'player' | 'enemy', pos: number) => {
 	case 'player': // 玩家
 		if (allowTime) {
 			await Sound.playSound(soundEffects.placeCard);
-			player.value.CardList.push(findPlayerCard);
+			player.value.CardDataList.push(findPlayerCard);
 			table.value.playerCards[pos] = null;
-			player.value.CardList = Util.sortCardList(player.value.CardList);
+			player.value.CardDataList = Util.sortCardList(player.value.CardDataList);
 		}
 		break;
 	case 'enemy': // 機器人
 		if (allowTime) {
 			await Sound.playSound(soundEffects.placeCard);
-			enemy.value.CardList.push(findEnemyCard);
+			enemy.value.CardDataList.push(findEnemyCard);
 			table.value.enemyCards[pos] = null;
-			enemy.value.CardList = Util.sortCardList(enemy.value.CardList);
+			enemy.value.CardDataList = Util.sortCardList(enemy.value.CardDataList);
 		}
 		break;
 	default:
@@ -276,7 +276,7 @@ const enemyPlaceCard = async (replaceCardOdd: boolean[]) => {
 	let randomSec = Util.getRandomInt(100, (countDownRemainSec.value / 2) * 1000);
 	await Util.sleep(randomSec);
 	// 出邏輯牌
-	const logicards = enemy.value.CardList.filter((item) => item.ItemType === enumItemType.LogiCard);
+	const logicards = enemy.value.CardDataList.filter((item) => item.ItemType === enumItemType.LogiCard);
 	const half = Math.floor(logicards.length / 2);
 	let index = 0;
 	switch (table.value.rule) {
@@ -290,33 +290,33 @@ const enemyPlaceCard = async (replaceCardOdd: boolean[]) => {
 		break;
 	}
 
-	await placeCardOnTable(enemy.value.Character!, enemy.value.CardList[index], index);
+	await placeCardOnTable(enemy.value.Character!, enemy.value.CardDataList[index], index);
 
 	// 技術牌
 	randomSec = Util.getRandomInt(100, countDownRemainSec.value * 1000);
 	await Util.sleep(randomSec);
 
 	const findEenyLogicard = table.value.enemyCards[0];
-	const findHealthCards = enemy.value.CardList.filter((item) => item.ItemType === enumItemType.Heal);
-	const findAttackCards = enemy.value.CardList.filter((item) => item.ItemType === enumItemType.Attack);
-	const findDefenseCards = enemy.value.CardList.filter((item) => item.ItemType === enumItemType.Defense);
+	const findHealthCards = enemy.value.CardDataList.filter((item) => item.ItemType === enumItemType.Heal);
+	const findAttackCards = enemy.value.CardDataList.filter((item) => item.ItemType === enumItemType.Attack);
+	const findDefenseCards = enemy.value.CardDataList.filter((item) => item.ItemType === enumItemType.Defense);
 	const lowHealth = enemy.value.CurrentHealth <= (enemy.value.Character!.Health * 0.3);
 
 	// 若有補血牌，且機器人血量低於 30% 就用
 	if (findHealthCards.length > 0 && lowHealth) {
-		const i = enemy.value.CardList.indexOf(findHealthCards[0]);
+		const i = enemy.value.CardDataList.indexOf(findHealthCards[0]);
 		placeCardOnTable(enemy.value.Character!, findHealthCards[0], i);
 	}
 
 	// 若有攻擊牌，且有出過邏輯牌，則有 5 成機率出牌
 	if (findAttackCards.length > 0 && findEenyLogicard && Util.lottery(box50)) {
-		const i = enemy.value.CardList.indexOf(findAttackCards[0]);
+		const i = enemy.value.CardDataList.indexOf(findAttackCards[0]);
 		placeCardOnTable(enemy.value.Character!, findAttackCards[0], i);
 	}
 
 	// 若有防禦牌，則有 5 成機率出牌
 	if (findDefenseCards.length > 0 && Util.lottery(box50)) {
-		const i = enemy.value.CardList.indexOf(findDefenseCards[0]);
+		const i = enemy.value.CardDataList.indexOf(findDefenseCards[0]);
 		placeCardOnTable(enemy.value.Character!, findDefenseCards[0], i);
 	}
 
@@ -371,17 +371,17 @@ const resetExtraStatus = () => {
 // 雙方各補充 3 張牌堆中的牌
 const dealCard = async (who: string) => {
 	const point = Util.getRandomInt(1, 8);
-	const card = CARDS.filter((c) => c.Point === point)[0];
+	const card = CardDataList.filter((c) => c.Point === point)[0];
 	switch (who) {
 	case 'player':
 		await Sound.playSound(soundEffects.placeCard);
-		player.value.CardList.push(card);
-		player.value.CardList = Util.sortCardList(player.value.CardList);
+		player.value.CardDataList.push(card);
+		player.value.CardDataList = Util.sortCardList(player.value.CardDataList);
 		break;
 	case 'enemy':
 		await Sound.playSound(soundEffects.placeCard);
-		enemy.value.CardList.push(card);
-		enemy.value.CardList = Util.sortCardList(enemy.value.CardList);
+		enemy.value.CardDataList.push(card);
+		enemy.value.CardDataList = Util.sortCardList(enemy.value.CardDataList);
 		break;
 	default:
 		break;
@@ -393,8 +393,8 @@ const dealCardsTo5 = async () => {
 	for (let i = 0; i < 4; i += 1) {
 		// eslint-disable-next-line no-await-in-loop
 		await Util.sleep(300);
-		const enemyLogiCards = enemy.value.CardList.filter((c) => c.ItemType === enumItemType.LogiCard);
-		const playerLogiCards = player.value.CardList.filter((c) => c.ItemType === enumItemType.LogiCard);
+		const enemyLogiCards = enemy.value.CardDataList.filter((c) => c.ItemType === enumItemType.LogiCard);
+		const playerLogiCards = player.value.CardDataList.filter((c) => c.ItemType === enumItemType.LogiCard);
 		const enemyCardLength = enemyLogiCards.length;
 		const playerCardLength = playerLogiCards.length + (table.value.playerCards[0] ? 1 : 0);
 		if (enemyCardLength < 5) {
@@ -595,7 +595,7 @@ const draw = async () => {
 	if (enemy.value.CurrentHealth === 0) { // 若敵人死亡就進到戰利品
 		await Sound.playSound(soundEffects.win);
 		player.value.Record.DefeatBots += 1;
-		player.value.CardList = player.value.CardList.filter((c) => c.ItemType !== enumItemType.LogiCard);
+		player.value.CardDataList = player.value.CardDataList.filter((c) => c.ItemType !== enumItemType.LogiCard);
 		playerStore.updatePlayer('player', player.value);
 		gameStateStore.changeGameState(enumGameState.BattleEnd);
 	} else if (player.value.CurrentHealth === 0) { // 若玩家死亡就進到 game end

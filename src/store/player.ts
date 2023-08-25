@@ -2,22 +2,9 @@ import { reactive, ref } from 'vue';
 import { defineStore } from 'pinia';
 import { Character, Player } from '@/types';
 import { enumMumbleType } from '@/types/enums';
-import { CHARACTER_LIST } from '@/data';
+import { CharacterDataList } from '@/data';
 import Util from '@/service/util';
 import Sound from '@/service/sounds';
-
-// interface PlayerState {
-//     player: Player;
-//     enemy: Player;
-//     mumble: {
-//         player: string;
-//         enemy: string;
-//     }
-//     mumbling: {
-//         player: boolean;
-//         enemy: boolean;
-//     }
-// }
 
 const usePlayerStore = defineStore('player', () => {
 	const player = reactive({
@@ -29,7 +16,7 @@ const usePlayerStore = defineStore('player', () => {
 			TotalDamage: 0,
 			TotalHeal: 0,
 		},
-		CardList: [],
+		CardDataList: [],
 		ItemList: [],
 		Character: null,
 		CurrentAttack: 0,
@@ -49,7 +36,7 @@ const usePlayerStore = defineStore('player', () => {
 			TotalDamage: 0,
 			TotalHeal: 0,
 		},
-		CardList: [],
+		CardDataList: [],
 		ItemList: [],
 		Character: null,
 		CurrentAttack: 0,
@@ -80,7 +67,7 @@ const usePlayerStore = defineStore('player', () => {
 
 	/** 產生敵人 */
 	const generateEnemy = (id?: number) => {
-		const characters = CHARACTER_LIST.filter((c) => c.Type === 'B');
+		const characters = CharacterDataList.filter((c) => c.Type === 'B');
 		const i = id ? characters.findIndex((c) => c.ID === id) : Util.getRandomInt(0, characters.length - 1);
 		const newCharacter = { ...characters[i] };
 		enemy.Character = newCharacter;
@@ -88,7 +75,7 @@ const usePlayerStore = defineStore('player', () => {
 		enemy.CurrentAttack = newCharacter.Attack;
 		enemy.CurrentDefense = newCharacter.Defense;
 		enemy.CreatedTime = new Date().getTime();
-		enemy.CardList = newCharacter.InitCardList!;
+		enemy.CardDataList = newCharacter.InitCardList!;
 	};
 
 	/** private */
@@ -197,7 +184,7 @@ const usePlayerStore = defineStore('player', () => {
 			player.ItemList = updatedPlayer.ItemList;
 			player.WeaponIndex = updatedPlayer.WeaponIndex;
 			player.ArmorIndex = updatedPlayer.ArmorIndex;
-			player.CardList = Util.sortCardList(updatedPlayer.CardList);
+			player.CardDataList = Util.sortCardList(updatedPlayer.CardDataList);
 		} else if (who === 'enemy') {
 			enemy.ExtraAttack = updatedPlayer.ExtraAttack;
 			enemy.ExtraDefense = updatedPlayer.ExtraDefense;
