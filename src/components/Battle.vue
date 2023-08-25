@@ -321,7 +321,7 @@ const enemyPlaceCard = async (replaceCardOdd: boolean[]) => {
 	}
 
 	// 30% 機率收回牌再出一次
-	if (Util.lottery(replaceCardOdd)) {
+	if (countDownRemainSec.value > 3 && Util.lottery(replaceCardOdd)) {
 		await enemyPlaceCardAgain();
 	}
 };

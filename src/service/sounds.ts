@@ -1,3 +1,4 @@
+/* eslint-disable no-return-await */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
@@ -55,6 +56,18 @@ class SoundService {
 	/** 靜音模式 */
 	muteMode = false;
 
+	async assetLoaded(key: string) {
+		await new Promise<void>((resolve) => {
+			if (this.loadedAssets.indexOf(key) === -1) {
+				this.loadedAssets.push(key);
+				console.log(`canplaythrough: ${key}, process: ${this.loadedAssets.length}/${this.totalAssets}`);
+			}
+			if (this.loadedAssets.length === this.totalAssets) {
+				resolve();
+			}
+		});
+	}
+
 	// 開始載入素材
 	async loadAssets() {
 		console.log('Start loading assets');
@@ -65,40 +78,14 @@ class SoundService {
 		// 載入所有音效
 		for (const key of soundEffectKeys) {
 			const audio = this.sounds.effect[key];
-			audio.addEventListener('canplaythrough', () => {
-				if (this.loadedAssets.indexOf(key) === -1) {
-					this.loadedAssets.push(key);
-					console.log(`canplaythrough: ${key}, process: ${this.loadedAssets.length}/${this.totalAssets}`);
-				}
-				// 全部下載完
-				// eslint-disable-next-line consistent-return
-				return new Promise<void>((resolve) => {
-					if (this.loadedAssets.length === this.totalAssets) {
-						// eslint-disable-next-line no-promise-executor-return
-						return resolve();
-					}
-				});
-			});
+			audio.addEventListener('canplaythrough', () => this.assetLoaded(key));
 			audio.load();
 		}
 
 		// 載入所有 BGM
 		for (const key of soundBgmKeys) {
 			const audio = this.sounds.bgm[key];
-			audio.addEventListener('canplaythrough', () => {
-				if (this.loadedAssets.indexOf(key) === -1) {
-					this.loadedAssets.push(key);
-					console.log(`canplaythrough: ${key}, process: ${this.loadedAssets.length}/${this.totalAssets}`);
-				}
-				// 全部下載完
-				// eslint-disable-next-line consistent-return
-				return new Promise<void>((resolve) => {
-					if (this.loadedAssets.length === this.totalAssets) {
-						// eslint-disable-next-line no-promise-executor-return
-						return resolve();
-					}
-				});
-			});
+			audio.addEventListener('canplaythrough', () => this.assetLoaded(key));
 			audio.load();
 		}
 	}

@@ -101,7 +101,7 @@ const openRank = async () => {
 
 const start = async () => {
 	switchToggleStore.switchSpinner(true);
-	await Sound.loadAssets().then(() => console.log('Assets loaded finished'));
+	Sound.loadAssets().then(() => console.log('Assets loaded finished'));
 	await Sound.playSound(Sound.sounds.effect.click);
 	gameStateStore.changeGameState(enumGameState.ChooseCharacter);
 	switchToggleStore.switchSpinner(false);

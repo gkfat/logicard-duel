@@ -18,10 +18,8 @@
       <Icon v-if="isItem" :url="item.Icon" />
     </template>
     <!-- Card -->
-    <template v-if="!isItem">
-      <div class="price rounded" v-if="shop">$ {{ item.Price }}</div>
-      <Card :sm="true" :item="item" />
-    </template>
+    <Card v-if="!isItem" :sm="true" :item="item" />
+    <div class="price rounded" v-if="shop">$ {{ item.Price }}</div>
     <p class="m-0 w-100 py-1 text-center">{{ item.Name }}</p>
   </div>
   <!-- 玩家狀態：裝備中 -->
@@ -305,8 +303,9 @@ onMounted(() => {
   .price {
     position: absolute;
     top: -10px;
-    right: -10px;
-    padding: 2px 4px;
+    left: -10px;
+    padding: 2px 5px;
+	width: 60px;
     z-index: 1;
     margin: 0;
     text-align: center;
