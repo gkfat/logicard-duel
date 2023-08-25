@@ -12,38 +12,36 @@
 
 <script setup name="Rest" lang="ts">
 import { computed } from 'vue';
-import { useStore } from 'vuex';
-import StoreAction from '@/store/storeActions';
-import { Player } from '@/types';
 import { enumGameState, enumDialog } from '@/types/enums';
 import { DIALOGS } from '@/data/index';
 import Sound from '@/service/sounds';
+import { useGameStateStore, usePlayerStore, useSwitchToggleStore } from '@/store';
 
-const store = useStore();
-const player = computed(() => store.getters.player as Player);
+const switchToggleStore = useSwitchToggleStore();
+const playerStore = usePlayerStore();
+const gameStateStore = useGameStateStore();
+
+const player = computed(() => playerStore.player);
 const dialogs = DIALOGS[enumDialog.Rest];
 
 // 打開排行榜
 const openRank = async () => {
-	await Sound.playSound(Sound.sounds.click);
-	store.dispatch(StoreAction.switch.switchRank);
+	switchToggleStore.toggle('rank');
 };
 
 // 打開背包
 const openBackpack = async () => {
-	await Sound.playSound(Sound.sounds.click);
-	store.dispatch(StoreAction.switch.switchBackpack);
+	switchToggleStore.toggle('backpack');
 };
 
 // 打開商店
 const openShop = async () => {
-	await Sound.playSound(Sound.sounds.click);
-	store.dispatch(StoreAction.switch.switchShop);
+	switchToggleStore.toggle('shop');
 };
 
 const battleStart = async () => {
-	await Sound.playSound(Sound.sounds.click);
-	store.dispatch(StoreAction.general.changeGameState, enumGameState.BattleStart);
+	await Sound.playSound(Sound.sounds.effect.click);
+	gameStateStore.changeGameState(enumGameState.BattleStart);
 };
 </script>
 

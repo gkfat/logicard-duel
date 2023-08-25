@@ -8,16 +8,16 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
-import StoreAction from '@/store/storeActions';
 import Util from '@/service/util';
+import { useSwitchToggleStore } from '@/store';
 
-const store = useStore();
+const switchToggleStore = useSwitchToggleStore();
 const router = useRouter();
+
 onMounted(async () => {
-	store.dispatch(StoreAction.switch.switchSpinner, false);
+	switchToggleStore.switchSpinner(false);
 	await Util.sleep(2000);
 	router.push('/');
 });

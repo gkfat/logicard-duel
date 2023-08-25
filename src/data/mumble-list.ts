@@ -38,7 +38,7 @@ export const GENERAL_HUMAN_MUMBLE_LIST: { [key in enumMumbleType]: string[] } = 
 
 export const GENERAL_ROBOT_MUMBLE_LIST: MumbleList = {
 	[enumMumbleType.General]: [
-		'您的 DNA 對於這世界而言是多餘的。',
+		'您的 DNA 對這世界沒有貢獻。',
 		'是時候為你們的愚蠢付出代價了。',
 		'愚蠢的人類，研究太空這麼久，宇宙觀還是一蹋糊塗。',
 		'據說人類三天不喝水就會有生命危險？真想驗證看看。',

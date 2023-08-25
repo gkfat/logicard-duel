@@ -68,7 +68,7 @@ export default class Util {
 	/** 排序物品 */
 	static sortItemList(itemList: Item[]): Item[] {
 		if (itemList.length > 0) {
-			return itemList.sort((a, b) => (a.Point - b.Point) || (b.Rarity - a.Rarity));
+			return itemList.sort((a, b) => (a.Point - b.Point) || (b.Rarity - a.Rarity) || (a.ID - b.ID));
 		}
 		return [];
 	}

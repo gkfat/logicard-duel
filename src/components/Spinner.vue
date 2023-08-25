@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isSpinnerOpen" id="spinner">
+  <div v-if="switchToggleStore.spinnerOpen" id="spinner">
     <div class="spinner-inner d-flex justify-content-center align-items-center">
       <div class="lds-ellipsis">
         <div />
@@ -12,12 +12,9 @@
 </template>
 
 <script setup name="Spinner" lang="ts">
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { useSwitchToggleStore } from '@/store';
 
-const store = useStore();
-const isSpinnerOpen = computed(() => store.getters.isSpinnerOpen);
-
+const switchToggleStore = useSwitchToggleStore();
 </script>
 
 <style scoped lang="scss">

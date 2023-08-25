@@ -20,42 +20,71 @@ import prologue from '@/assets/sounds/prologue.mp3';
 import end from '@/assets/sounds/end.mp3';
 
 class SoundService {
-	errors: string[] = [];
+	sounds: {
+		effect: { [key: string]: HTMLAudioElement };
+		bgm: { [key: string]: HTMLAudioElement };
+  } = {
+			effect: {
+				click: new Audio(click),
+				pop: new Audio(pop),
+				countdown: new Audio(countdown),
+				placeCard: new Audio(placeCard),
+				coin: new Audio(coin),
+				robotHurt: new Audio(robotHurt),
+				ouch: new Audio(ouch),
+				huh: new Audio(huh),
+				bell: new Audio(bell),
+				equip: new Audio(equip),
+				heal: new Audio(heal),
+				win: new Audio(win),
+			},
+			bgm: {
+				battle: new Audio(battle),
+				rest: new Audio(rest),
+				prologue: new Audio(prologue),
+				end: new Audio(end),
+			},
+		};
 
 	totalAssets = 0;
 
 	loadedAssets: string[] = [];
 
-	sounds: {
-    [key: string]: HTMLAudioElement
-  } = {
-			click: new Audio(click),
-			pop: new Audio(pop),
-			countdown: new Audio(countdown),
-			placeCard: new Audio(placeCard),
-			coin: new Audio(coin),
-			robotHurt: new Audio(robotHurt),
-			ouch: new Audio(ouch),
-			huh: new Audio(huh),
-			bell: new Audio(bell),
-			equip: new Audio(equip),
-			heal: new Audio(heal),
-			win: new Audio(win),
-			/** BGM */
-			battle: new Audio(battle),
-			rest: new Audio(rest),
-			prologue: new Audio(prologue),
-			end: new Audio(end),
-		};
+	nowPlaying: HTMLAudioElement = this.sounds.bgm.prologue;
+
+	/** 靜音模式 */
+	muteMode = false;
 
 	// 開始載入素材
 	async loadAssets() {
 		console.log('Start loading assets');
-		const soundKeys = Object.keys(this.sounds);
-		this.totalAssets = soundKeys.length;
+		const soundEffectKeys = Object.keys(this.sounds.effect);
+		const soundBgmKeys = Object.keys(this.sounds.bgm);
+		this.totalAssets = soundEffectKeys.length + soundBgmKeys.length;
 
-		for (const key of soundKeys) {
-			const audio = this.sounds[key];
+		// 載入所有音效
+		for (const key of soundEffectKeys) {
+			const audio = this.sounds.effect[key];
+			audio.addEventListener('canplaythrough', () => {
+				if (this.loadedAssets.indexOf(key) === -1) {
+					this.loadedAssets.push(key);
+					console.log(`canplaythrough: ${key}, process: ${this.loadedAssets.length}/${this.totalAssets}`);
+				}
+				// 全部下載完
+				// eslint-disable-next-line consistent-return
+				return new Promise<void>((resolve) => {
+					if (this.loadedAssets.length === this.totalAssets) {
+						// eslint-disable-next-line no-promise-executor-return
+						return resolve();
+					}
+				});
+			});
+			audio.load();
+		}
+
+		// 載入所有 BGM
+		for (const key of soundBgmKeys) {
+			const audio = this.sounds.bgm[key];
 			audio.addEventListener('canplaythrough', () => {
 				if (this.loadedAssets.indexOf(key) === -1) {
 					this.loadedAssets.push(key);
@@ -75,20 +104,36 @@ class SoundService {
 	}
 
 	async playSound(audio: HTMLAudioElement) {
-		audio.currentTime = 0;
-		audio.volume = 1;
-		await audio.play();
+		if (!this.muteMode) {
+			audio.currentTime = 0;
+			audio.volume = 1;
+			await audio.play();
+		}
 	}
 
 	async playBGM(audio: HTMLAudioElement) {
-		audio.currentTime = 0;
-		audio.volume = 0.5;
-		audio.loop = true;
-		await audio.play();
+		this.pause(this.nowPlaying);
+		this.nowPlaying = audio;
+		if (!this.muteMode) {
+			audio.currentTime = 0;
+			audio.volume = 0.5;
+			audio.loop = true;
+			await audio.play();
+		}
 	}
 
-	stop(audio: HTMLAudioElement) {
+	async pause(audio: HTMLAudioElement) {
 		audio.pause();
+	}
+
+	async pauseAllSounds() {
+		Object.values(this.sounds.effect).forEach((audio) => this.pause(audio));
+		Object.values(this.sounds.bgm).forEach((audio) => this.pause(audio));
+		this.pause(this.nowPlaying);
+	}
+
+	async resume(audio: HTMLAudioElement) {
+		await audio.play();
 	}
 }
 

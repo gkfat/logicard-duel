@@ -1,4 +1,6 @@
-import { enumItemType, enumMumbleType, enumRarity } from './enums';
+import {
+	enumBattleResult, enumItemType, enumMumbleType, enumRarity,
+} from './enums';
 
 export interface MumbleList {
     [enumMumbleType.General]: string[];
@@ -52,7 +54,7 @@ export interface Shop {
 }
 
 export interface Player {
-    Character: Character;
+    Character: Character | null;
     CurrentHealth: number;
     CurrentAttack: number;
     ExtraAttack: number;
@@ -64,7 +66,16 @@ export interface Player {
     WeaponIndex: number | null;
     ArmorIndex: number | null;
     Coin: number;
-    CreatedTime: number;
+    CreatedTime: number | null;
+}
+
+export interface RoundRecord {
+    /** -1: 未開始 0: 比小 1: 比大 */
+    rule: number;
+	enemyCards: [Item | null, Item | null];
+	playerCards: [Item | null, Item | null];
+	result: enumBattleResult;
+	usedCardList: Item[];
 }
 
 export default Character;

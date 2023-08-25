@@ -13,7 +13,7 @@
             class="character-choose rounded p-3"
             :class="{ 'carousel__slide--active': selectedCharacter === i }">
             <PlayerStatus :player="player" />
-            <p class="m-0">{{ player.Character.Description }}</p>
+            <p class="m-0">{{ player.Character!.Description }}</p>
           </div>
         </Slide>
         <template #addons>
@@ -28,30 +28,32 @@
 <script setup name="ChooseCharacter" lang="ts">
 import { computed, ref, reactive } from 'vue';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
-import { useStore } from 'vuex';
 import type { Player } from '@/types';
 import { enumGameState, enumDialog } from '@/types/enums';
 import { CHARACTER_LIST, DIALOGS } from '@/data';
 import Sound from '@/service/sounds';
-import StoreAction from '@/store/storeActions';
 import Util from '@/service/util';
+import { useGameStateStore, usePlayerStore, useSwitchToggleStore } from '@/store';
 
-const store = useStore();
+const playerStore = usePlayerStore();
+const switchToggleStore = useSwitchToggleStore();
+const gameStateStore = useGameStateStore();
+
 const dialogs = DIALOGS[enumDialog.GameStart];
-const gameStartDialogsLength = dialogs.length - 1;
+const dialogEndIndex = dialogs.length - 1;
 const dialogIndex = ref(0);
-const dialogEnd = computed(() => dialogIndex.value === gameStartDialogsLength);
+const dialogEnd = computed(() => dialogIndex.value === dialogEndIndex);
 
 const dialogNext = async () => {
-	if (dialogIndex.value < gameStartDialogsLength) {
-		await Sound.playSound(Sound.sounds.click);
+	if (dialogIndex.value < dialogEndIndex) {
+		await Sound.playSound(Sound.sounds.effect.click);
 		dialogIndex.value += 1;
 	}
 };
 
 const dialogNextToEnd = async () => {
-	await Sound.playSound(Sound.sounds.click);
-	dialogIndex.value = gameStartDialogsLength;
+	await Sound.playSound(Sound.sounds.effect.click);
+	dialogIndex.value = dialogEndIndex;
 };
 
 // 選擇角色
@@ -72,13 +74,13 @@ const selectCharacter = (data: { currentSlideIndex: number; }) => {
 };
 
 const confirmCharacter = async () => {
-	await Sound.playSound(Sound.sounds.click);
+	await Sound.playSound(Sound.sounds.effect.click);
 	const character = characterList[selectedCharacter.value];
-	await store.dispatch(StoreAction.player.selectCharacter, character);
-	await store.dispatch(StoreAction.switch.switchSpinner, true);
+	playerStore.selectCharacter(character);
+	switchToggleStore.switchSpinner(true);
 	await Util.sleep(300);
-	await store.dispatch(StoreAction.general.changeGameState, enumGameState.BattleStart);
-	store.dispatch(StoreAction.switch.switchSpinner, false);
+	gameStateStore.changeGameState(enumGameState.BattleStart);
+	switchToggleStore.switchSpinner(false);
 };
 </script>
 

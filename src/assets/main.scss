@@ -61,12 +61,17 @@
 .nav-btn {
 	flex-grow: 1;
 	border-radius: 10px;
-	background-color: var(--darkblue);
-	color: var(--skin);
+	color: var(--blue);
+	background-color: var(--skin);
+	border: 3px solid var(--darkblue);
 	position: relative;
 	cursor: pointer;
 	min-height: 40px;
 	overflow: hidden;
+	&-active {
+		color: var(--white);
+		background-color: var(--green);
+	}
 }
 
 // 系統提示

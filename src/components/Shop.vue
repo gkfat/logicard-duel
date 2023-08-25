@@ -1,12 +1,16 @@
 <template>
-  <div id="shop" class="frame" :class="{ 'frame-show': isShopOpen }" v-if="player && player.ItemList">
+  <div
+    id="shop"
+    v-if="player && player.ItemList && player.Character"
+    class="frame"
+    :class="{ 'frame-show': switchToggleStore.shopOpen }">
     <Dialog :dialogs="dialogs" />
     <p class="w-100 text-center m-0">
       螺絲釘：{{ player.Coin }}｜物品：{{ player.ItemList.length + '／' + player.Character.ItemLimit }}
     </p>
     <div class="nav-container">
-      <button type="button" class="nav-btn" @click="toggleDisplayType(0)">裝備</button>
-      <button type="button" class="nav-btn" @click="toggleDisplayType(1)">技術牌</button>
+      <button type="button" class="nav-btn" :class="{ 'nav-btn-active': displayType === 0 }" @click="toggleDisplayType(0)">裝備</button>
+      <button type="button" class="nav-btn" :class="{ 'nav-btn-active': displayType === 1 }" @click="toggleDisplayType(1)">技術牌</button>
     </div>
     <div class="items-container" v-if="displayType === 0">
       <template v-if="shop.ItemList.length === 0">
@@ -42,31 +46,29 @@
 
 <script setup name="Shop" lang="ts">
 import { computed, ref } from 'vue';
-import { useStore } from 'vuex';
-import StoreAction from '@/store/storeActions';
-import { Shop, Player } from '@/types';
 import { enumDialog } from '@/types/enums';
 import { DIALOGS } from '@/data/index';
 import Sound from '@/service/sounds';
+import { usePlayerStore, useShopStore, useSwitchToggleStore } from '@/store';
 
-const store = useStore();
-const isShopOpen = computed(() => store.getters.isShopOpen);
+const switchToggleStore = useSwitchToggleStore();
+const playerStore = usePlayerStore();
+const shopStore = useShopStore();
+
 const dialogs = DIALOGS[enumDialog.Shop];
-const player = computed(() => store.getters.player as Player);
-const shop = computed(() => store.getters.shop as Shop);
+const player = computed(() => playerStore.player);
+const shop = computed(() => shopStore.shop);
 
 const displayType = ref(0);
 
 const toggleDisplayType = async (type: number) => {
-	await Sound.playSound(Sound.sounds.click);
+	await Sound.playSound(Sound.sounds.effect.click);
 	displayType.value = type;
 };
 
 const closeShop = async () => {
-	await Sound.playSound(Sound.sounds.click);
-	store.dispatch(StoreAction.switch.switchShop);
+	switchToggleStore.toggle('shop');
 };
-
 </script>
 
 <style lang="scss" scoped>

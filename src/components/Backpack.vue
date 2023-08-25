@@ -2,15 +2,15 @@
   <div
     id="backpack"
     class="frame"
-    :class="{ 'frame-show': isBackpackOpen }"
-    v-if="player && player.ItemList && player.CardList">
+    :class="{ 'frame-show': switchToggleStore.backpackOpen }"
+    v-if="player && player.Character && player.ItemList && player.CardList">
     <Dialog :dialogs="dialogs" />
     <p class="w-100 text-center m-0">
-      螺絲釘：{{ player.Coin }}｜物品：{{ player.ItemList.length + '／' + player.Character.ItemLimit }}
+      螺絲釘：{{ player.Coin }}｜物品：{{ player.ItemList.length + '／' + player.Character!.ItemLimit }}
     </p>
     <div class="nav-container">
-      <button type="button" class="nav-btn" @click="toggleDisplayType(0)">裝備</button>
-      <button type="button" class="nav-btn" @click="toggleDisplayType(1)">技術牌</button>
+      <button type="button" class="nav-btn" :class="{ 'nav-btn-active': displayType === 0 }" @click="toggleDisplayType(0)">裝備</button>
+      <button type="button" class="nav-btn" :class="{ 'nav-btn-active': displayType === 1 }" @click="toggleDisplayType(1)">技術牌</button>
     </div>
     <div class="items-container" v-if="displayType === 0">
       <template v-if="player.ItemList.length === 0">
@@ -46,21 +46,20 @@
 
 <script setup name="Backpack" lang="ts">
 import { computed, ref } from 'vue';
-import { useStore } from 'vuex';
-import StoreAction from '@/store/storeActions';
-import type { Player } from '@/types';
 import { enumDialog } from '@/types/enums';
 import Sound from '@/service/sounds';
 import { DIALOGS } from '@/data';
+import { usePlayerStore, useSwitchToggleStore } from '@/store';
 
-const store = useStore();
-const isBackpackOpen = computed(() => store.getters.isBackpackOpen);
+const playerStore = usePlayerStore();
+const switchToggleStore = useSwitchToggleStore();
+
 const dialogs = DIALOGS[enumDialog.Backpack];
-const player = computed(() => store.getters.player as Player);
+const player = computed(() => playerStore.player);
 const displayType = ref(0);
 
 const toggleDisplayType = async (type: number) => {
-	await Sound.playSound(Sound.sounds.click);
+	await Sound.playSound(Sound.sounds.effect.click);
 	displayType.value = type;
 };
 
@@ -75,8 +74,7 @@ const isEquiped = (i: number) => {
 
 // 關上背包
 const closeBackpack = async () => {
-	await Sound.playSound(Sound.sounds.click);
-	store.dispatch(StoreAction.switch.switchBackpack);
+	switchToggleStore.toggle('backpack');
 };
 </script>
 

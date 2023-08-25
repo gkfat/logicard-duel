@@ -7,16 +7,16 @@ class ApiService {
 	private googleAppScriptUrl = `https://script.google.com/macros/s/${this.sheetId}/exec`;
 
 	/** 取得 sheet 資料 */
-	public getData(sheetName: enumSheetName, operation: enumOperation): Promise<any> {
+	public async getData(sheetName: enumSheetName, operation: enumOperation): Promise<string[][]> {
 		const url = `${this.googleAppScriptUrl}?Sheet=${sheetName}&Operation=${operation}`;
-		return axios.get(url);
+		return axios.get(url).then((res) => res.data);
 	}
 
 	/** 更新 sheet 資料 */
-	public updateData(sheetName: enumSheetName, operation: enumOperation, data: { [key: string]: any }): Promise<any> {
+	public async updateData(sheetName: enumSheetName, operation: enumOperation, data: { [key: string]: any }): Promise<any> {
 		let url = `${this.googleAppScriptUrl}?Sheet=${sheetName}&Operation=${operation}`;
 		Object.keys(data).forEach((key) => { url += `&${key}=${data[key]}`; });
-		return axios.get(url);
+		return axios.get(url).then((res) => res);
 	}
 }
 

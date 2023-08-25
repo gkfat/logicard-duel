@@ -26,7 +26,7 @@
     <template v-if="gameState === enumGameState.GameEnd">
       <Dialog :dialogs="dialogs.gameEnd" />
       <table class="table flex-grow-1">
-        <tr><td>使用角色</td><td class="text">{{ player.Character.Name }}</td></tr>
+        <tr><td>使用角色</td><td class="text">{{ player.Character!.Name }}</td></tr>
         <tr><td>總攻擊量</td><td class="text">{{ player.Record.TotalDamage }}</td></tr>
         <tr><td>總治療量</td><td class="text">{{ player.Record.TotalHeal }}</td></tr>
         <tr><td>擊殺 GKBot 數量</td><td class="text">{{ player.Record.DefeatBots }}</td></tr>
@@ -39,22 +39,24 @@
 </template>
 
 <script setup lang="ts">
-import {
-	ref, computed, watch,
-} from 'vue';
-import { Player } from '@/types';
-import { useStore } from 'vuex';
-import StoreAction from '@/store/storeActions';
+import { ref, computed, watch } from 'vue';
 import {
 	enumOperation, enumSheetName, enumGameState, enumDialog,
 } from '@/types/enums';
 import { DIALOGS, IMAGES } from '@/data';
 import Sound from '@/service/sounds';
 import Util from '@/service/util';
+import {
+	useGameStateStore, usePlayerStore, useRankStore, useSwitchToggleStore,
+} from '@/store';
 
-const store = useStore();
-const gameState = computed(() => store.getters.gameState as enumGameState);
-const player = computed(() => store.getters.player as Player);
+const gameStateStore = useGameStateStore();
+const rankStore = useRankStore();
+const switchToggleStore = useSwitchToggleStore();
+const playerStore = usePlayerStore();
+
+const gameState = computed(() => gameStateStore.gameState);
+const player = computed(() => playerStore.player);
 
 const dialogs = {
 	opening: DIALOGS[enumDialog.Opening],
@@ -62,29 +64,26 @@ const dialogs = {
 };
 
 const openGithub = async () => {
-	await Sound.playSound(Sound.sounds.click);
+	await Sound.playSound(Sound.sounds.effect.click);
 	window.open('https://github.com/gkfat/logicard-duel/', '_blank');
 };
 
 const openMail = async () => {
-	await Sound.playSound(Sound.sounds.click);
+	await Sound.playSound(Sound.sounds.effect.click);
 	window.open('mailto:gkgkdesign@gmail.com', '_blank');
 };
 
 // 打開排行榜
 const openRank = async () => {
-	await Sound.playSound(Sound.sounds.click);
-	store.dispatch(StoreAction.switch.switchRank);
+	switchToggleStore.toggle('rank');
 };
 
 const start = async () => {
-	await store.dispatch(StoreAction.switch.switchSpinner, true);
-	await Sound.loadAssets().then(() => {
-		console.log('Assets loaded finished');
-	});
-	await Sound.playSound(Sound.sounds.click);
-	await store.dispatch(StoreAction.general.changeGameState, enumGameState.ChooseCharacter);
-	store.dispatch(StoreAction.switch.switchSpinner, false);
+	switchToggleStore.switchSpinner(true);
+	await Sound.loadAssets().then(() => console.log('Assets loaded finished'));
+	await Sound.playSound(Sound.sounds.effect.click);
+	gameStateStore.changeGameState(enumGameState.ChooseCharacter);
+	switchToggleStore.switchSpinner(false);
 };
 
 /**
@@ -98,51 +97,54 @@ watch(lastWords, () => {
 	}
 });
 
-const endUpdating = computed(() => store.getters.endUpdating as boolean);
 const restart = async () => {
 	const finalLastWords = lastWords.value.length === 0 ? '走的太倉促，沒有留下遺言。' : lastWords.value;
-	await store.dispatch(StoreAction.switch.switchSpinner, true);
-	await store.dispatch(StoreAction.general.updateData, {
-		sheetName: enumSheetName.Records,
-		operation: enumOperation.Update,
-		data: {
-			EndTime: Util.getCurrentDate(),
-			Character: player.value.Character.Name,
-			TotalDamage: player.value.Record.TotalDamage,
-			TotalHeal: player.value.Record.TotalHeal,
-			DefeatBots: player.value.Record.DefeatBots,
-			SurvivalTime: `${player.value.Record.SurvivalTime} 小時`,
-			LastWords: finalLastWords,
-		},
-	});
+	switchToggleStore.switchSpinner(true);
+	const data = {
+		EndTime: Util.getCurrentDate(),
+		Character: player.value.Character!.Name,
+		TotalDamage: player.value.Record.TotalDamage,
+		TotalHeal: player.value.Record.TotalHeal,
+		DefeatBots: player.value.Record.DefeatBots,
+		SurvivalTime: `${player.value.Record.SurvivalTime} 小時`,
+		LastWords: finalLastWords,
+	};
+	await rankStore.updateData(enumSheetName.Records, enumOperation.Update, data);
+	Util.sleep(1000);
+	switchToggleStore.switchSpinner(false);
+	window.location.reload();
 };
 
-watch(endUpdating, async () => {
-	if (endUpdating.value) {
-		store.dispatch(StoreAction.switch.switchSpinner, false);
-		Util.sleep(1000);
-		window.location.reload();
+// 檢查頁面是否離開，音樂是否須暫停
+const checkBGMshouldStop = async () => {
+	const { hidden } = document;
+	Sound.muteMode = hidden;
+	if (hidden) {
+		Sound.pauseAllSounds();
+	} else {
+		await Sound.resume(Sound.nowPlaying);
 	}
-});
+};
 
 // Play BGM
 watch(gameState, async () => {
+	// 註冊頁面可見性音樂監聽
+	if (gameState.value > enumGameState.Init) {
+		document.addEventListener('visibilitychange', checkBGMshouldStop);
+	}
+
 	switch (gameState.value) {
 	case enumGameState.ChooseCharacter:
-		await Sound.playBGM(Sound.sounds.prologue);
+		await Sound.playBGM(Sound.sounds.bgm.prologue);
 		break;
 	case enumGameState.BattleStart:
-		Sound.stop(Sound.sounds.rest);
-		Sound.stop(Sound.sounds.prologue);
-		await Sound.playBGM(Sound.sounds.battle);
+		await Sound.playBGM(Sound.sounds.bgm.battle);
 		break;
 	case enumGameState.Rest:
-		Sound.stop(Sound.sounds.battle);
-		await Sound.playBGM(Sound.sounds.rest);
+		await Sound.playBGM(Sound.sounds.bgm.rest);
 		break;
 	case enumGameState.GameEnd:
-		Sound.stop(Sound.sounds.battle);
-		await Sound.playBGM(Sound.sounds.end);
+		await Sound.playBGM(Sound.sounds.bgm.end);
 		break;
 	default:
 		break;

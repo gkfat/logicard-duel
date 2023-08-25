@@ -7,7 +7,7 @@
 <script setup name="Icon" lang="ts">
 
 defineProps<{
-  url: string,
+	url: string,
 }>();
 
 </script>

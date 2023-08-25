@@ -5,7 +5,7 @@
     <div>
       <p class="m-0 h6 w-100 text-center">戰利品</p>
       <p class="m-0 w-100 text-center">
-        螺絲釘：{{ player.Coin }}｜物品：{{ player.ItemList.length + '／' + player.Character.ItemLimit }}
+        螺絲釘：{{ player.Coin }}｜物品：{{ player.ItemList.length + '／' + player.Character!.ItemLimit }}
       </p>
     </div>
     <div class="items-container d-flex justify-content-center flex-wrap flex-grow-1">
@@ -21,22 +21,24 @@
 
 <script setup name="BattleEnd" lang="ts">
 import { computed, onMounted, reactive } from 'vue';
-import { useStore } from 'vuex';
-import StoreAction from '@/store/storeActions';
-import { Item, Shop, Player } from '@/types';
+import { Item } from '@/types';
 import { enumGameState, enumItemType, enumDialog } from '@/types/enums';
 import Util from '@/service/util';
 import Sound from '@/service/sounds';
+import { DIALOGS, ITEMS } from '@/data';
 import {
-	DIALOGS, CARDS, ITEMS, ShopLimit,
-} from '@/data';
+	useGameStateStore, usePlayerStore, useShopStore, useSwitchToggleStore,
+} from '@/store';
 
-const store = useStore();
-const player = computed(() => store.getters.player as Player);
-const enemy = computed(() => store.getters.enemy as Player);
-const shop = computed(() => store.getters.shop as Shop);
+const playerStore = usePlayerStore();
+const shopStore = useShopStore();
+const gameStateStore = useGameStateStore();
+const switchToggleStore = useSwitchToggleStore();
+
+const player = computed(() => playerStore.player);
+const enemy = computed(() => playerStore.enemy);
 const lootBox = reactive([] as Item[]);
-const noSpace = computed(() => player.value.ItemList.length > player.value.Character.ItemLimit);
+const noSpace = computed(() => player.value.ItemList.length > player.value.Character!.ItemLimit);
 const dialogs = DIALOGS[enumDialog.BattleEnd];
 const box80 = Util.makeLotteryBox(80);
 const box50 = Util.makeLotteryBox(50);
@@ -44,11 +46,12 @@ const box30 = Util.makeLotteryBox(30);
 
 // 產生戰利品
 const makeLoot = (type: 'equipment' | 'coin' | 'techCard') => {
-	const min = enemy.value.Character.RewardCoin![0];
-	const max = enemy.value.Character.RewardCoin![1];
+	const enemyCharacter = enemy.value.Character!;
+	const min = enemyCharacter.RewardCoin![0];
+	const max = enemyCharacter.RewardCoin![1];
 	const coin = ITEMS.find((item) => item.ItemType === enumItemType.Coin)!;
-	const rewardItemIndex = Util.getRandomInt(0, enemy.value.Character.RewardItemList!.length - 1);
-	const lootRewardItem = enemy.value.Character.RewardItemList![rewardItemIndex];
+	const rewardItemIndex = Util.getRandomInt(0, enemyCharacter.RewardItemList!.length - 1);
+	const lootRewardItem = enemyCharacter.RewardItemList![rewardItemIndex];
 	const remainTechCardList = enemy.value.CardList.filter((c) => c.ItemType !== enumItemType.LogiCard);
 	const techCardIndex = Util.getRandomInt(0, remainTechCardList.length - 1);
 	const lootTechCard = remainTechCardList[techCardIndex];
@@ -71,41 +74,6 @@ const makeLoot = (type: 'equipment' | 'coin' | 'techCard') => {
 	}
 };
 
-// 更新商店
-const reFillShop = () => {
-	const newShop: Shop = {
-		CardList: [...shop.value.CardList],
-		ItemList: [...shop.value.ItemList],
-	};
-
-	// 商店增加裝備
-	const itemIdsPool = Util.makePool(ITEMS);
-
-	for (let j = 0; j < ShopLimit.Item; j += 1) {
-		if (newShop.ItemList.length < ShopLimit.Item) {
-			const i = Util.getRandomInt(0, itemIdsPool.length);
-			const id = itemIdsPool[i];
-			const item = ITEMS.find((x) => x.ID === id)!;
-			newShop.ItemList.push(item);
-		}
-	}
-
-	// 商店增加技術牌
-	const techCardsPool = Util.makePool(CARDS);
-
-	for (let j = 0; j < ShopLimit.Card; j += 1) {
-		if (newShop.CardList.length < ShopLimit.Card) {
-			const i = Util.getRandomInt(0, techCardsPool.length);
-			const id = techCardsPool[i];
-			const card = CARDS.find((x) => x.ID === id)!;
-			newShop.CardList.push(card);
-		}
-	}
-
-	// 更新商店
-	store.dispatch(StoreAction.general.updateShop, newShop);
-};
-
 onMounted(() => {
 	makeLoot('coin'); // 判斷獲得金幣
 
@@ -121,40 +89,41 @@ onMounted(() => {
 		makeLoot('techCard');
 	}
 
+	const updatedPlayer = { ...player.value };
 	lootBox.forEach((loot) => {
 		switch (loot.ItemType) {
 		case enumItemType.Coin:
-			player.value.Coin += loot.Point;
+			updatedPlayer.Coin += loot.Point;
 			break;
 		case enumItemType.Attack:
 		case enumItemType.Defense:
 		case enumItemType.Heal:
-			player.value.CardList.push(loot);
+			updatedPlayer.CardList.push(loot);
 			break;
 		case enumItemType.Weapon:
 		case enumItemType.Armor:
-			player.value.ItemList.push(loot);
+			updatedPlayer.ItemList.push(loot);
 			break;
 		default:
 			break;
 		}
 	});
 
-	store.dispatch(StoreAction.player.updatePlayer, player.value);
+	// 更新玩家
+	playerStore.updatePlayer('player', updatedPlayer);
 
 	// 更新商店
-	reFillShop();
+	shopStore.refreshShop();
 });
 
 // 打開背包
 const openBackpack = async () => {
-	await Sound.playSound(Sound.sounds.click);
-	store.dispatch(StoreAction.switch.switchBackpack);
+	switchToggleStore.toggle('backpack');
 };
 
 const goRest = async () => {
-	await Sound.playSound(Sound.sounds.click);
-	store.dispatch(StoreAction.general.changeGameState, enumGameState.Rest);
+	await Sound.playSound(Sound.sounds.effect.click);
+	gameStateStore.changeGameState(enumGameState.Rest);
 };
 </script>
 

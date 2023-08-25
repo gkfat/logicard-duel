@@ -1,7 +1,7 @@
 <template>
   <!-- 小型顯示 -->
   <template v-if="!isMain">
-    <div class="profile-sm">
+    <div class="profile-sm" v-if="player.Character">
       <div class="avatar">
         <div class="mumble">
           <Mumble :who="'enemy'" :show-triangle="'down'" />
@@ -17,7 +17,7 @@
             <p class="health-text m-0">{{ player.CurrentHealth }} / {{ player.Character.Health }}</p>
             <!-- 扣血動畫 -->
             <p
-              v-if="gameState === enumGameState.Battle && healthChange !== 0"
+              v-if="gameStateStore.gameState === enumGameState.Battle && healthChange !== 0"
               class="health-change m-0 flow-up">
               {{ healthChange }}
             </p>
@@ -45,7 +45,7 @@
 
   <!-- 主狀態 -->
   <template v-if="isMain">
-    <div class="profile-main">
+    <div class="profile-main" v-if="player.Character">
       <div class="profile-main-inner">
 
         <div class="avatar">
@@ -109,12 +109,12 @@
 import {
 	computed, onMounted, ref, watch, toRefs,
 } from 'vue';
-import { useStore } from 'vuex';
 import { Tooltip } from 'bootstrap';
 import Util from '@/service/util';
 import { Item, Player } from '@/types';
 import { IMAGES } from '@/data';
 import { enumGameState } from '@/types/enums';
+import { useGameStateStore } from '@/store';
 
 const props = withDefaults(defineProps<{
   player: Player,
@@ -125,11 +125,10 @@ const props = withDefaults(defineProps<{
 
 const { player, isMain } = toRefs(props);
 
-const store = useStore();
-const gameState = computed(() => store.getters.gameState as enumGameState);
+const gameStateStore = useGameStateStore();
 
 // 生命值變化
-const healthPercent = computed(() => (player.value.CurrentHealth / player.value.Character.Health) * 100);
+const healthPercent = computed(() => (player.value.CurrentHealth / player.value.Character!.Health) * 100);
 const healthChange = ref(0);
 const lastHealth = ref(0);
 

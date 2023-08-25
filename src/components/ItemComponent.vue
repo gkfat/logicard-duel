@@ -54,16 +54,16 @@ import { Tooltip } from 'bootstrap';
 import {
 	ref, onMounted, computed, toRefs,
 } from 'vue';
-import { useStore } from 'vuex';
-import { Item, Player } from '@/types';
+import { Item } from '@/types';
 import { enumItemType } from '@/types/enums';
 import Sound from '@/service/sounds';
 import { IMAGES } from '@/data';
-import StoreAction from '@/store/storeActions';
+import { usePlayerStore, useShopStore } from '@/store';
 
-const store = useStore();
-const player = computed(() => store.getters.player as Player);
-const storeShop = computed(() => store.getters.shop as Item[]);
+const playerStore = usePlayerStore();
+const shopStore = useShopStore();
+
+const player = computed(() => playerStore.player);
 
 const props = withDefaults(defineProps<{
     item: Item,
@@ -100,7 +100,7 @@ const isShowShopControl = ref(false);
 
 // 開啟操作選單
 const toggleControl = async () => {
-	await Sound.playSound(Sound.sounds.click);
+	await Sound.playSound(Sound.sounds.effect.click);
 	if (backpack.value) {
 		isShowBackpackControl.value = !isShowBackpackControl.value;
 	} else if (shop.value) {
@@ -110,7 +110,7 @@ const toggleControl = async () => {
 
 // 穿脫裝備
 const switchEquip = async () => {
-	await Sound.playSound(Sound.sounds.equip);
+	await Sound.playSound(Sound.sounds.effect.equip);
 	const updatedPlayer = { ...player.value };
 	const newItemIndex = index.value! + 1;
 	switch (item.value.ItemType) {
@@ -143,20 +143,21 @@ const switchEquip = async () => {
 	default:
 		break;
 	}
-	await store.dispatch(StoreAction.player.updatePlayer, { who: 'player', player: updatedPlayer });
+	playerStore.updatePlayer('player', updatedPlayer);
 	toggleControl();
 };
 
 // 使用治療牌
 const useHealCard = async () => {
-	if (player.value.CurrentHealth === player.value.Character.Health) {
+	const playerHealth = player.value.Character!.Health;
+	if (player.value.CurrentHealth === playerHealth) {
 		alert('你覺得無病無痛，應該不需要使用這東西。');
 	} else {
-		const confirmBox = confirm(`你目前的生命值為 ${player.value.CurrentHealth} / ${player.value.Character.Health}，確定要使用？`);
+		const confirmBox = confirm(`你目前的生命值為 ${player.value.CurrentHealth} / ${playerHealth}，確定要使用？`);
 		if (confirmBox) {
 			const updatedPlayer = { ...player.value };
-			await Sound.playSound(Sound.sounds.heal);
-			store.dispatch(StoreAction.player.heal, { who: 'player', point: item.value.Point });
+			await Sound.playSound(Sound.sounds.effect.heal);
+			playerStore.heal('player', item.value.Point);
 			// 檢查裝備 index
 			if (updatedPlayer.WeaponIndex && props.index! < updatedPlayer.WeaponIndex) {
 				updatedPlayer.WeaponIndex -= 1;
@@ -165,7 +166,7 @@ const useHealCard = async () => {
 				updatedPlayer.ArmorIndex -= 1;
 			}
 			updatedPlayer.CardList.splice(props.index!, 1);
-			await store.dispatch(StoreAction.player.updatePlayer, { who: 'player', player: updatedPlayer });
+			playerStore.updatePlayer('player', updatedPlayer);
 			toggleControl();
 		}
 	}
@@ -218,9 +219,9 @@ const sellItem = async () => {
 			break;
 		}
 
-		await Sound.playSound(Sound.sounds.coin);
+		await Sound.playSound(Sound.sounds.effect.coin);
 		updatedPlayer.Coin += evaluateSalePrice;
-		await store.dispatch(StoreAction.player.updatePlayer, { who: 'player', player: updatedPlayer });
+		playerStore.updatePlayer('player', updatedPlayer);
 		alert(`成功賣出！賺了 ${evaluateSalePrice} 個螺絲釘`);
 		toggleControl();
 	}
@@ -233,14 +234,19 @@ const buyItem = async () => {
 	} else {
 		const confirmBox = confirm('確定購買？');
 		if (confirmBox) {
-			await Sound.playSound(Sound.sounds.coin);
-			const updatedShop = [...storeShop.value];
-			updatedShop.splice(props.index!, 1);
-			store.dispatch(StoreAction.general.updateShop, updatedShop);
+			await Sound.playSound(Sound.sounds.effect.coin);
 			const updatedPlayer = { ...player.value };
 			updatedPlayer.Coin -= item.value.Price;
-			updatedPlayer.CardList.push(item.value);
-			store.dispatch(StoreAction.player.updatePlayer, { who: 'player', player: updatedPlayer });
+
+			if (isItem) {
+				shopStore.shop.ItemList.splice(props.index!, 1);
+				updatedPlayer.ItemList.push(item.value);
+			} else {
+				shopStore.shop.CardList.splice(props.index!, 1);
+				updatedPlayer.CardList.push(item.value);
+			}
+
+			playerStore.updatePlayer('player', updatedPlayer);
 			alert('感謝購買！');
 			toggleControl();
 		}

@@ -1,27 +1,27 @@
 <template>
   <!-- Player -->
-  <template v-if="who === 'player' && playerMumbling && playerMumble.length > 0">
+  <template v-if="who === 'player' && playerStore.playerMumbling && playerStore.playerMumbleString.length > 0">
     <div class="message py-1 px-3 bg-light rounded shadow-sm d-flex align-center">
       <div v-if="showTriangle === 'up'" class="arrow arrow-up" />
       <div v-if="showTriangle === 'down'" class="arrow arrow-down" />
-      <p class="m-0">{{ playerMumble }}</p>
+      <p class="m-0">{{ playerStore.playerMumbleString }}</p>
     </div>
   </template>
   <!-- Enemy -->
-  <template v-if="who === 'enemy' && enemyMumbling && enemyMumble.length > 0">
+  <template v-if="who === 'enemy' && playerStore.enemyMumbling && playerStore.enemyMumbleString.length > 0">
     <div class="message py-1 px-3 bg-light rounded shadow-sm d-flex align-center">
       <div v-if="showTriangle === 'up'" class="arrow arrow-up" />
       <div v-if="showTriangle === 'down'" class="arrow arrow-down" />
-      <p class="m-0">{{ enemyMumble }}</p>
+      <p class="m-0">{{ playerStore.enemyMumbleString }}</p>
     </div>
   </template>
 </template>
 
 <script setup name="Mumble" lang="ts">
-import { computed, toRefs } from 'vue';
-import { useStore } from 'vuex';
+import { usePlayerStore } from '@/store';
+import { toRefs } from 'vue';
 
-const store = useStore();
+const playerStore = usePlayerStore();
 
 const props = withDefaults(defineProps<{
     who: string,
@@ -32,12 +32,6 @@ const props = withDefaults(defineProps<{
 });
 
 const { who, showTriangle } = toRefs(props);
-
-const playerMumble = computed(() => store.getters.playerMumble as string);
-const playerMumbling = computed(() => store.getters.playerMumbling as boolean);
-const enemyMumble = computed(() => store.getters.enemyMumble as string);
-const enemyMumbling = computed(() => store.getters.enemyMumbling as boolean);
-
 </script>
 
 <style lang="scss" scoped>

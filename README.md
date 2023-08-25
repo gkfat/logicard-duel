@@ -21,6 +21,8 @@
 - 導入套件 `eslint`：依 Airbnb Guide 寫作風格規範程式碼開發（[Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)）
 - 商店與背包現在可以篩選【裝備】與【技術牌】了
 - 裝備與技術牌增加稀有度，商店出現頻率依稀有度自動生成
+- 增加機器人出牌行為真實性
+- 離開畫面時音效暫停
 ##### `v0.2.2`
 - 新增喃喃自語文本
 - 修復細微錯誤
