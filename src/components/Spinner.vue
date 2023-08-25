@@ -1,16 +1,35 @@
 <template>
-  <div class="lds-ellipsis">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
+  <div v-if="switchToggleStore.spinnerOpen" id="spinner">
+    <div class="spinner-inner d-flex justify-content-center align-items-center">
+      <div class="lds-ellipsis">
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup name="Spinner" lang="ts">
+import { useSwitchToggleStore } from '@/store';
+
+const switchToggleStore = useSwitchToggleStore();
 </script>
 
 <style scoped lang="scss">
+#spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 10;
+  .spinner-inner {
+    height: 100%;
+  }
+}
 .lds-ellipsis {
   display: inline-block;
   position: relative;

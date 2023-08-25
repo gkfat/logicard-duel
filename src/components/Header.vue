@@ -1,11 +1,13 @@
 <template>
   <div id="header" class="w-100 container-fluid p-1 d-flex justify-content-center align-center">
-    <h1 class="h6 m-0">LogiCard Duel</h1>
-    <p class="version m-0">v0.2.2</p>
+    <h1 class="h6 m-0">{{ title }}</h1>
+    <p class="version m-0">v{{ version }}</p>
   </div>
 </template>
 
 <script setup name="Header" lang="ts">
+const title = import.meta.env.VITE_APP_TITLE;
+const version = import.meta.env.VITE_APP_VERSION;
 </script>
 
 <style lang="scss" scoped>

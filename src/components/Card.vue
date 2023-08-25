@@ -1,41 +1,41 @@
 <template>
-    <div v-if="isCardBack"
-        class="card card-back rounded"
-        :class="[
-          sm ? 'card-sm' : '',
-          item.ItemType === enumItemType.LogiCard ? '' : 'card-tech'
-        ]">
-        <template v-if="item.ItemType === enumItemType.LogiCard" >
-          <Icon :url="IMAGES.icon.cardbackLogicard"></Icon>
-        </template>
-        <template v-else>
-          <Icon :url="IMAGES.icon.cardbackTech"></Icon>
-        </template>
-    </div>
-    <div v-if="!isCardBack"
-        class="card card-face rounded"
-        :style="{ transform: style }"
-        data-bs-toggle="tooltip"
-        data-bs-placement="top"
-        :class="[
-          sm ? 'card-sm' : '',
-          item.ItemType === enumItemType.LogiCard ? '' : 'card-tech',
-          klass ? klass : ''
-        ]"
-        :title="`【${item.Name}】${item.Description}`">
-      <Icon :url="item.Icon"></Icon>
-      <p class="h4 m-0 w-100 text-center">{{ item.Point }}</p>
-    </div>
+  <div
+    v-if="isCardBack"
+    class="card card-back rounded"
+    :class="[
+      sm ? 'card-sm' : '',
+      item.ItemType === enumItemType.LogiCard ? '' : 'card-tech',
+    ]">
+    <template v-if="item.ItemType === enumItemType.LogiCard">
+      <Icon :url="ImageDataList.icon.cardbackLogicard" />
+    </template>
+    <template v-else>
+      <Icon :url="ImageDataList.icon.cardbackTech" />
+    </template>
+  </div>
+  <div
+    v-if="!isCardBack"
+    class="card card-face rounded"
+    :style="{ transform: style }"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    :class="[
+      sm ? 'card-sm' : '',
+      item.ItemType === enumItemType.LogiCard ? '' : 'card-tech',
+      klass ? klass : '',
+    ]"
+    :title="`【${item.Name}】${item.Description}`">
+    <Icon :url="item.Icon" />
+    <p class="h4 m-0 w-100 text-center">{{ item.Point }}</p>
+  </div>
 </template>
 
-
 <script setup name="Card" lang="ts">
-import { Item } from '@/types';
-import { enumItemType } from '@/types/enums';
 import { Tooltip } from 'bootstrap';
 import { onMounted } from 'vue';
-import Icon from './Icon.vue';
-import { IMAGES } from '@/data';
+import { Item } from '@/types';
+import { enumItemType } from '@/types/enums';
+import { ImageDataList } from '@/data';
 
 withDefaults(defineProps<{
   style?: string,
@@ -44,22 +44,22 @@ withDefaults(defineProps<{
   item: Item,
   isCardBack?: boolean
 }>(), {
-  style: '',
-  klass: '',
-  sm: false,
-  isCardBack: false
-})
+	style: '',
+	klass: '',
+	sm: false,
+	isCardBack: false,
+});
 
 onMounted(() => {
-  new Tooltip(document.body, {
-    selector: "[data-bs-toggle='tooltip']",
-    delay: {
-      show: 900,
-      hide: 0
-    },
-    trigger: 'focus'
-  })
-})
+	new Tooltip(document.body, {
+		selector: "[data-bs-toggle='tooltip']",
+		delay: {
+			show: 900,
+			hide: 0,
+		},
+		trigger: 'focus',
+	});
+});
 </script>
 
 <style lang="scss" scoped>
@@ -173,7 +173,6 @@ onMounted(() => {
     opacity: 0;
   }
 }
-
 
 #backpack, #shop {
   .item, .card {

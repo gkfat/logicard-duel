@@ -1,38 +1,37 @@
 <template>
   <!-- Player -->
-  <template v-if="props.who === 'player' && playerMumbling && playerMumble.length > 0">
+  <template v-if="who === 'player' && playerStore.playerMumbling && playerStore.playerMumbleString.length > 0">
     <div class="message py-1 px-3 bg-light rounded shadow-sm d-flex align-center">
-      <div v-if="showTriangle === 'up'" class="arrow arrow-up"></div>
-      <div v-if="showTriangle === 'down'" class="arrow arrow-down"></div>
-      <p class="m-0">{{ playerMumble }}</p>
+      <div v-if="showTriangle === 'up'" class="arrow arrow-up" />
+      <div v-if="showTriangle === 'down'" class="arrow arrow-down" />
+      <p class="m-0">{{ playerStore.playerMumbleString }}</p>
     </div>
   </template>
   <!-- Enemy -->
-  <template v-if="props.who === 'enemy' && enemyMumbling && enemyMumble.length > 0">
+  <template v-if="who === 'enemy' && playerStore.enemyMumbling && playerStore.enemyMumbleString.length > 0">
     <div class="message py-1 px-3 bg-light rounded shadow-sm d-flex align-center">
-      <div v-if="showTriangle === 'up'" class="arrow arrow-up"></div>
-      <div v-if="showTriangle === 'down'" class="arrow arrow-down"></div>
-      <p class="m-0">{{ enemyMumble }}</p>
+      <div v-if="showTriangle === 'up'" class="arrow arrow-up" />
+      <div v-if="showTriangle === 'down'" class="arrow arrow-down" />
+      <p class="m-0">{{ playerStore.enemyMumbleString }}</p>
     </div>
   </template>
 </template>
 
-
 <script setup name="Mumble" lang="ts">
-import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
+import { usePlayerStore } from '@/store';
+import { toRefs } from 'vue';
 
-const props = defineProps({
-  who: String,
-  showTriangle: String
-})
+const playerStore = usePlayerStore();
 
-const playerMumble = computed(() => store.getters.playerMumble as string);
-const playerMumbling = computed(() => store.getters.playerMumbling as boolean);
-const enemyMumble = computed(() => store.getters.enemyMumble as string);
-const enemyMumbling = computed(() => store.getters.enemyMumbling as boolean);
+const props = withDefaults(defineProps<{
+    who: string,
+    showTriangle: string,
+}>(), {
+	who: 'player',
+	showTriangle: 'up',
+});
 
-const store = useStore();
+const { who, showTriangle } = toRefs(props);
 </script>
 
 <style lang="scss" scoped>

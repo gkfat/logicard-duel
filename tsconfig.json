@@ -6,6 +6,7 @@
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -30,6 +31,7 @@
     "src/**/*.vue",
     "src/types/*.ts",
     "src/types/*.d.ts",
+    "*.d.ts",
   ],
   "exclude": [
     "node_modules"

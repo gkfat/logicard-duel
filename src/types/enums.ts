@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
 export enum enumDialog {
     Opening,
     GameStart,
@@ -32,7 +34,6 @@ export enum enumRoundState {
     Counting,
     Duel,
     Settle,
-    SettleEnd
 }
 
 export enum enumMumbleType {
@@ -90,6 +91,14 @@ export enum enumCharacter {
     GkbotAttack,
     GkbotPerform,
     GkbotDefense,
+}
+
+export enum enumRarity {
+    None = 0,
+    N = 60,
+    R = 30,
+    SR = 8,
+    SSR = 2,
 }
 
 /**

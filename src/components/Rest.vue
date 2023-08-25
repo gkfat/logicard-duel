@@ -1,50 +1,56 @@
 <template>
   <div id="rest">
-    <div class="campfire"></div>
-    <Dialog :dialogs="dialogs"></Dialog>
-    <button type="button" class="system-btn w-100" @click="openRank()">排行榜</button>
-    <button type="button" class="system-btn w-100" @click="openBackpack()">背包</button>
-    <button type="button" class="system-btn w-100" @click="openShop()">商店</button>
-    <button type="button" class="system-btn w-100" @click="battleStart()">尋找下一個 GKBot</button>
-    <PlayerStatus :is-main="true" :player="player"></PlayerStatus>
+    <div class="campfire" />
+    <Dialog :dialogs="dialogs" />
+    <button type="button" class="system-btn w-100" @click="openRank()">
+      {{ $t('button.rank') }}
+    </button>
+    <button type="button" class="system-btn w-100" @click="openBackpack()">
+      {{ $t('button.backpack') }}
+    </button>
+    <button type="button" class="system-btn w-100" @click="openShop()">
+      {{ $t('button.shop') }}
+    </button>
+    <button type="button" class="system-btn w-100" @click="battleStart()">
+      {{ $t('button.next_battle') }}
+    </button>
+    <PlayerStatus :is-main="true" :player="player" />
   </div>
 </template>
 
 <script setup name="Rest" lang="ts">
-import { StoreAction } from '@/store/storeActions';
-import { Player } from '@/types';
-import { enumGameState, enumDialog } from '@/types/enums';
 import { computed } from 'vue';
-import PlayerStatus from './PlayerStatus.vue';
-import Dialog from './Dialog.vue';
-import { DIALOGS } from '@/data/index';
-import { useStore } from 'vuex';
+import { enumGameState, enumDialog } from '@/types/enums';
+import { DialogDataList } from '@/data/index';
 import Sound from '@/service/sounds';
+import { useGameStateStore, usePlayerStore, useSwitchToggleStore } from '@/store';
 
-const store = useStore();
-const player = computed(() => store.getters.player as Player);
-const dialogs = DIALOGS[enumDialog.Rest];
+const switchToggleStore = useSwitchToggleStore();
+const playerStore = usePlayerStore();
+const gameStateStore = useGameStateStore();
+
+const player = computed(() => playerStore.player);
+const dialogs = DialogDataList[enumDialog.Rest];
 
 // 打開排行榜
 const openRank = async () => {
-  await Sound.playSound(Sound.sounds.click);
-  store.dispatch(StoreAction.switch.switchRank);
-}
+	switchToggleStore.toggle('rank');
+};
+
 // 打開背包
 const openBackpack = async () => {
-  await Sound.playSound(Sound.sounds.click);
-  store.dispatch(StoreAction.switch.switchBackpack);
-}
+	switchToggleStore.toggle('backpack');
+};
+
 // 打開商店
 const openShop = async () => {
-  await Sound.playSound(Sound.sounds.click);
-  store.dispatch(StoreAction.switch.switchShop);
-}
+	switchToggleStore.toggle('shop');
+};
 
 const battleStart = async () => {
-  await Sound.playSound(Sound.sounds.click);
-  store.dispatch(StoreAction.general.changeGameState, enumGameState.BattleStart);
-}
+	await Sound.playSound(Sound.sounds.effect.click);
+	gameStateStore.changeGameState(enumGameState.BattleStart);
+};
 </script>
 
 <style lang="scss" scoped>

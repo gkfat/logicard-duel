@@ -1,14 +1,14 @@
 <template>
   <div class="icon d-flex justify-content-center align-items-center">
-    <img class="img-fluid" :src="url">
+    <img alt="icon" class="img-fluid" :src="url">
   </div>
 </template>
 
 <script setup name="Icon" lang="ts">
 
 defineProps<{
-  url: string,
-}>()
+	url: string,
+}>();
 
 </script>
 

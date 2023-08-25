@@ -1,4 +1,6 @@
-import { enumItemType, enumMumbleType } from "./enums";
+import {
+	enumBattleResult, enumItemType, enumMumbleType, enumRarity,
+} from './enums';
 
 export interface MumbleList {
     [enumMumbleType.General]: string[];
@@ -7,6 +9,25 @@ export interface MumbleList {
     [enumMumbleType.Hurt]: string[];
     [enumMumbleType.Attack]: string[];
     [enumMumbleType.Lose]: string[];
+}
+
+export interface Item {
+    ID: number;
+    ItemType: enumItemType;
+    Point: number;
+    Name: string;
+    Description: string;
+    Price: number;
+    Icon: string;
+    /** 稀有度 */
+    Rarity: enumRarity;
+}
+
+export interface Record {
+    SurvivalTime: number;
+    DefeatBots: number;
+    TotalDamage: number;
+    TotalHeal: number;
 }
 
 export interface Character {
@@ -25,10 +46,15 @@ export interface Character {
     InitCardList?: Item[];
     RewardCoin?: number[]; // 獎勵金幣範圍
     RewardItemList?: Item[];
-};
+}
+
+export interface Shop {
+	CardDataList: Item[];
+	ItemList: Item[];
+}
 
 export interface Player {
-    Character: Character;
+    Character: Character | null;
     CurrentHealth: number;
     CurrentAttack: number;
     ExtraAttack: number;
@@ -36,28 +62,20 @@ export interface Player {
     ExtraDefense: number;
     Record: Record;
     ItemList: Item[];
-    CardList: Item[];
+    CardDataList: Item[];
     WeaponIndex: number | null;
     ArmorIndex: number | null;
     Coin: number;
-    CreatedTime: number;
+    CreatedTime: number | null;
 }
 
-export interface Item {
-    ID: number;
-    ItemType: enumItemType;
-    Point: number;
-    Name: string;
-    Description: string;
-    Price: number;
-    Icon: string;
-}
-
-export interface Record {
-    SurvivalTime: number;
-    DefeatBots: number;
-    TotalDamage: number;
-    TotalHeal: number;
+export interface RoundRecord {
+    /** -1: 未開始 0: 比小 1: 比大 */
+    rule: number;
+	enemyCards: [Item | null, Item | null];
+	playerCards: [Item | null, Item | null];
+	result: enumBattleResult;
+	usedCardList: Item[];
 }
 
 export default Character;

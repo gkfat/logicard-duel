@@ -1,26 +1,26 @@
 <template>
   <div class="notfound-page container-fluid d-flex justify-content-center align-items-center">
     <div class="pt-5">
-      <p class="h3 text-center">你迷路了！</p>
-      <p class="h5 text-center">即將跳轉回首頁...</p>
+      <p class="h3 text-center">{{ $t('not_found_page.title') }}</p>
+      <p class="h5 text-center">{{ $t('not_found_page.description') }}</p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useStore } from 'vuex';
-import { StoreAction } from '@/store/storeActions';
-import { useRouter} from 'vue-router';
+import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 import Util from '@/service/util';
+import { useSwitchToggleStore } from '@/store';
 
-const store = useStore();
+const switchToggleStore = useSwitchToggleStore();
 const router = useRouter();
+
 onMounted(async () => {
-    store.dispatch(StoreAction.switch.switchSpinner, false);
-    await Util.sleep(2000);
-    router.push('/');
-  });
+	switchToggleStore.switchSpinner(false);
+	await Util.sleep(2000);
+	router.push('/');
+});
 </script>
 
 <style scoped lang="scss">
