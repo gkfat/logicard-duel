@@ -1,17 +1,17 @@
 <template>
-  <div class="dialog-text">
-    <p
-      class="m-0"
-      :class="{ 'mb-3': i !== props.dialogs.length - 1 }"
-      v-for="(dialog, i) in props.dialogs"
-      :key="i">
-      {{ dialog }}
-    </p>
-  </div>
+    <div class="dialog-text">
+        <p
+            v-for="(dialog, i) in props.dialogs"
+            :key="i"
+            class="m-0"
+            :class="{ 'mb-3': i !== props.dialogs.length - 1 }"
+        >
+            {{ dialog }}
+        </p>
+    </div>
 </template>
 
 <script setup name="Dialog" lang="ts">
-
 const props = defineProps<{ dialogs: string[] }>();
 </script>
 

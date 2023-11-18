@@ -21,17 +21,18 @@
     "lib": [
       "esnext",
       "dom",
-      "dom.iterable",
-      "scripthost"
     ]
   },
+  "types": [
+    "node",
+    "vuetify"
+  ],
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "src/types/*.ts",
-    "src/types/*.d.ts",
-    "*.d.ts",
+    "vite.config.ts",
+    "src/**/*.d.ts",
   ],
   "exclude": [
     "node_modules"

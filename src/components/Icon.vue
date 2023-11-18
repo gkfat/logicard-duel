@@ -1,15 +1,17 @@
 <template>
-  <div class="icon d-flex justify-content-center align-items-center">
-    <img alt="icon" class="img-fluid" :src="url">
-  </div>
+    <div class="icon d-flex justify-content-center align-items-center">
+        <img
+            alt="icon"
+            class="img-fluid"
+            :src="url"
+        >
+    </div>
 </template>
 
 <script setup name="Icon" lang="ts">
-
 defineProps<{
-	url: string,
+    url: string,
 }>();
-
 </script>
 
 <style lang="scss" scoped>

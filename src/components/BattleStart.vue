@@ -1,22 +1,45 @@
 <template>
-  <div id="battle-start" v-if="enemy.Character">
-    <Dialog :dialogs="dialogs" />
-    <div class="enemy">
-      <PlayerStatus :player="enemy" />
-      <p class="m-0 w-100">{{ enemy.Character.Description }}</p>
+    <div
+        v-if="enemy.Character"
+        id="battle-start"
+    >
+        <Dialog :dialogs="dialogs" />
+        <div class="enemy">
+            <PlayerStatus :player="enemy" />
+            <p class="m-0 w-100">
+                {{ enemy.Character.Description }}
+            </p>
+        </div>
+        <button
+            type="button"
+            class="system-btn w-100"
+            @click="startBattle()"
+        >
+            {{ $t('button.battle') }}
+        </button>
     </div>
-    <button type="button" class="system-btn w-100" @click="startBattle()">
-      {{ $t('button.battle') }}
-    </button>
-  </div>
 </template>
 
 <script setup name="BattleStart" lang="ts">
-import { computed, onMounted } from 'vue';
-import { enumGameState, enumDialog, enumCharacter } from '@/types/enums';
+import {
+    computed,
+    onMounted,
+} from 'vue';
+
 import { DialogDataList } from '@/data/index';
 import Sound from '@/service/sounds';
-import { useGameStateStore, usePlayerStore } from '@/store';
+import {
+    useGameStateStore,
+    usePlayerStore,
+} from '@/store';
+import {
+    enumCharacter,
+    enumDialog,
+    enumGameState,
+} from '@/types/enums';
+
+import Dialog from './Dialog.vue';
+import PlayerStatus from './PlayerStatus.vue';
 
 const playerStore = usePlayerStore();
 const gameStateStore = useGameStateStore();
@@ -25,16 +48,16 @@ const dialogs = DialogDataList[enumDialog.BattleStart];
 
 // Init
 onMounted(() => {
-	if (!enemy.value.Character) { // 若敵人是第一次初始化，就產生工作型 GKBot
-		playerStore.generateEnemy(enumCharacter.GkbotWorker);
-	} else {
-		playerStore.generateEnemy();
-	}
+    if (!enemy.value.Character) { // 若敵人是第一次初始化，就產生工作型 GKBot
+        playerStore.generateEnemy(enumCharacter.GkbotWorker);
+    } else {
+        playerStore.generateEnemy();
+    }
 });
 
 const startBattle = async () => {
-	await Sound.playSound(Sound.sounds.effect.click);
-	gameStateStore.changeGameState(enumGameState.Battle);
+    await Sound.playSound(Sound.sounds.effect.click);
+    gameStateStore.changeGameState(enumGameState.Battle);
 };
 
 // 選擇要帶入的技術牌

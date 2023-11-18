@@ -1,43 +1,90 @@
 <template>
-  <div id="choose-character">
-    <Dialog :dialogs="dialogs[dialogIndex]" />
-    <template v-if="!dialogEnd">
-      <button type="button" class="w-100 system-btn system-btn-skip" @click="dialogNextToEnd()">
-        {{ $t('button.skip') }}
-      </button>
-      <button type="button" class="w-100 system-btn" @click="dialogNext()">
-        {{ $t('button.next') }}
-      </button>
-    </template>
-    <template v-if="dialogEnd">
-      <Carousel :items-to-show="1" :wrap-around="true" @slide-end="selectCharacter">
-        <Slide v-for="(player, i) in mockPlayerList" :key="i">
-          <div
-            type="button"
-            class="character-choose rounded p-3"
-            :class="{ 'carousel__slide--active': selectedCharacter === i }">
-            <PlayerStatus :player="player" />
-            <p class="m-0">{{ player.Character!.Description }}</p>
-          </div>
-        </Slide>
-        <template #addons>
-          <Navigation />
+    <div id="choose-character">
+        <Dialog :dialogs="dialogs[dialogIndex]" />
+        <template v-if="!dialogEnd">
+            <button
+                type="button"
+                class="w-100 system-btn system-btn-skip"
+                @click="dialogNextToEnd()"
+            >
+                {{ $t('button.skip') }}
+            </button>
+            <button
+                type="button"
+                class="w-100 system-btn"
+                @click="dialogNext()"
+            >
+                {{ $t('button.next') }}
+            </button>
         </template>
-      </Carousel>
-      <button type="button" class="w-100 system-btn" @click="confirmCharacter()">決定</button>
-    </template>
-  </div>
+        <template v-if="dialogEnd">
+            <Carousel
+                :items-to-show="1"
+                :wrap-around="true"
+                @slide-end="selectCharacter"
+            >
+                <Slide
+                    v-for="(player, i) in mockPlayerList"
+                    :key="i"
+                >
+                    <div
+                        type="button"
+                        class="character-choose rounded p-3"
+                        :class="{ 'carousel__slide--active': selectedCharacter === i }"
+                    >
+                        <PlayerStatus :player="player" />
+                        <p class="m-0">
+                            {{ player.Character!.Description }}
+                        </p>
+                    </div>
+                </Slide>
+                <template #addons>
+                    <Navigation />
+                </template>
+            </Carousel>
+            <button
+                type="button"
+                class="w-100 system-btn"
+                @click="confirmCharacter()"
+            >
+                決定
+            </button>
+        </template>
+    </div>
 </template>
 
 <script setup name="ChooseCharacter" lang="ts">
-import { computed, ref, reactive } from 'vue';
-import { Carousel, Slide, Navigation } from 'vue3-carousel';
-import type { Player } from '@/types';
-import { enumGameState, enumDialog } from '@/types/enums';
-import { CharacterDataList, DialogDataList } from '@/data';
+import {
+    computed,
+    reactive,
+    ref,
+} from 'vue';
+
+import {
+    Carousel,
+    Navigation,
+    Slide,
+} from 'vue3-carousel';
+
+import {
+    CharacterDataList,
+    DialogDataList,
+} from '@/data';
 import Sound from '@/service/sounds';
 import Util from '@/service/util';
-import { useGameStateStore, usePlayerStore, useSwitchToggleStore } from '@/store';
+import {
+    useGameStateStore,
+    usePlayerStore,
+    useSwitchToggleStore,
+} from '@/store';
+import type { Player } from '@/types';
+import {
+    enumDialog,
+    enumGameState,
+} from '@/types/enums';
+
+import Dialog from './Dialog.vue';
+import PlayerStatus from './PlayerStatus.vue';
 
 const playerStore = usePlayerStore();
 const switchToggleStore = useSwitchToggleStore();
@@ -49,42 +96,42 @@ const dialogIndex = ref(0);
 const dialogEnd = computed(() => dialogIndex.value === dialogEndIndex);
 
 const dialogNext = async () => {
-	if (dialogIndex.value < dialogEndIndex) {
-		await Sound.playSound(Sound.sounds.effect.click);
-		dialogIndex.value += 1;
-	}
+    if (dialogIndex.value < dialogEndIndex) {
+        await Sound.playSound(Sound.sounds.effect.click);
+        dialogIndex.value += 1;
+    }
 };
 
 const dialogNextToEnd = async () => {
-	await Sound.playSound(Sound.sounds.effect.click);
-	dialogIndex.value = dialogEndIndex;
+    await Sound.playSound(Sound.sounds.effect.click);
+    dialogIndex.value = dialogEndIndex;
 };
 
 // 選擇角色
 const characterList = CharacterDataList.filter((c) => c.Type === 'P');
 const mockPlayerList = characterList.map((c) => reactive({
-	Character: c,
-	CurrentHealth: c.Health,
-	CurrentAttack: c.Attack,
-	CurrentDefense: c.Defense,
-	ExtraAttack: 0,
-	ExtraDefense: 0,
-	Coin: c.Coin,
+    Character: c,
+    CurrentHealth: c.Health,
+    CurrentAttack: c.Attack,
+    CurrentDefense: c.Defense,
+    ExtraAttack: 0,
+    ExtraDefense: 0,
+    Coin: c.Coin,
 }) as Player);
 
 const selectedCharacter = ref(0);
 const selectCharacter = (data: { currentSlideIndex: number; }) => {
-	selectedCharacter.value = data.currentSlideIndex;
+    selectedCharacter.value = data.currentSlideIndex;
 };
 
 const confirmCharacter = async () => {
-	await Sound.playSound(Sound.sounds.effect.click);
-	const character = characterList[selectedCharacter.value];
-	playerStore.selectCharacter(character);
-	switchToggleStore.switchSpinner(true);
-	await Util.sleep(300);
-	gameStateStore.changeGameState(enumGameState.BattleStart);
-	switchToggleStore.switchSpinner(false);
+    await Sound.playSound(Sound.sounds.effect.click);
+    const character = characterList[selectedCharacter.value];
+    playerStore.selectCharacter(character);
+    switchToggleStore.switchSpinner(true);
+    await Util.sleep(300);
+    gameStateStore.changeGameState(enumGameState.BattleStart);
+    switchToggleStore.switchSpinner(false);
 };
 </script>
 

@@ -1,126 +1,218 @@
 <template>
-  <!-- 小型顯示 -->
-  <template v-if="!isMain">
-    <div class="profile-sm" v-if="player.Character">
-      <div class="avatar">
-        <div class="mumble">
-          <Mumble :who="'enemy'" :show-triangle="'down'" />
-        </div>
-        <img :alt="player.Character.Name" :src="player.Character.Avatar">
-      </div>
-
-      <div class="status">
-        <div class="d-flex align-items-center">
-          <p class="name h6 m-0 me-1">{{ player.Character.Name }}</p>
-          <div class="health">
-            <div class="health-inner" :style="{ width: healthPercent + '%' }" />
-            <p class="health-text m-0">{{ player.CurrentHealth }} / {{ player.Character.Health }}</p>
-            <!-- 扣血動畫 -->
-            <p
-              v-if="gameStateStore.gameState === enumGameState.Battle && healthChange !== 0"
-              class="health-change m-0 flow-up">
-              {{ healthChange }}
-            </p>
-          </div>
-        </div>
-
-        <!-- 屬性 -->
-        <div class="attribue w-100">
-          <Icon :url="ImageDataList.icon.attack" />
-          <p class="status-text m-0">{{ player.CurrentAttack }}</p>
-          <p v-if="player.ExtraAttack" class="status-text status-text-extra m-0">(+ {{ player.ExtraAttack }})</p>
-          <Icon :url="ImageDataList.icon.defense" />
-          <p class="status-text m-0">{{ player.CurrentDefense }}</p>
-          <p v-if="player.ExtraDefense" class="status-text status-text-extra m-0">(+ {{ player.ExtraDefense }})</p>
-        </div>
-
-        <!-- 金幣 -->
-        <div class="coin w-100 m-0 d-flex align-items-center" v-if="player.Character.Type === 'P'">
-          <Icon :url="ImageDataList.icon.coin" />
-          <p class="status-text m-0">{{ player.Coin }}</p>
-        </div>
-      </div>
-    </div>
-  </template>
-
-  <!-- 主狀態 -->
-  <template v-if="isMain">
-    <div class="profile-main" v-if="player.Character">
-      <div class="profile-main-inner">
-
-        <div class="avatar">
-          <div class="avatar-inner">
-            <div class="mumble">
-              <Mumble :who="'player'" :show-triangle="'down'" />
+    <!-- 小型顯示 -->
+    <template v-if="!isMain">
+        <div
+            v-if="player.Character"
+            class="profile-sm"
+        >
+            <div class="avatar">
+                <div class="mumble">
+                    <Mumble
+                        :who="'enemy'"
+                        :show-triangle="'down'"
+                    />
+                </div>
+                <img
+                    :alt="player.Character.Name"
+                    :src="player.Character.Avatar"
+                >
             </div>
-            <img :alt="player.Character.Name" :src="player.Character.Avatar">
-          </div>
-          <!-- 裝備 -->
-          <div class="equipments w-100">
-            <!-- Weapon -->
-            <div class="equipment equipment-weapon">
-              <ItemComponent
-                v-if="weaponItem"
-                :player-status="true"
-                :item="weaponItem" />
-            </div>
-            <!-- Armor -->
-            <div class="equipment equipment-armor">
-              <ItemComponent
-                v-if="armorItem"
-                :player-status="true"
-                :item="armorItem" />
-            </div>
-          </div>
-        </div>
 
-        <div class="status">
-          <p class="name w-100 h6 m-0">{{ player.Character.Name }}</p>
-          <div class="health w-100">
-            <div class="health-inner" :style="{ width: healthPercent + '%' }" />
-            <p class="health-text m-0">{{ player.CurrentHealth }} / {{ player.Character.Health }}</p>
-            <!-- 扣血動畫 -->
-            <p v-if="healthChange !== 0" class="health-change m-0 flow-up">{{ healthChange }}</p>
-          </div>
-          <!-- 屬性 -->
-          <div class="attribue w-100">
-            <Icon :url="ImageDataList.icon.attack" />
-            <p class="status-text m-0">{{ player.CurrentAttack }}</p>
-            <p v-if="player.ExtraAttack" class="status-text status-text-extra m-0">(+ {{ player.ExtraAttack }})</p>
-            <Icon :url="ImageDataList.icon.defense" />
-            <p class="status-text m-0">{{ player.CurrentDefense }}</p>
-            <p v-if="player.ExtraDefense" class="status-text status-text-extra m-0">(+ {{ player.ExtraDefense }})</p>
-          </div>
-          <!-- 金幣 -->
-          <div class="coin w-100 m-0 d-flex align-items-center" v-if="player.Character.Type === 'P'">
-            <Icon :url="ImageDataList.icon.coin" />
-            <p class="status-text m-0">{{ player.Coin }}</p>
-            <!-- 獲得螺絲釘動畫 -->
-            <p v-if="coinChange !== 0" class="coin-change m-0 flow-up">+{{ coinChange }}</p>
-          </div>
-        </div>
+            <div class="status">
+                <div class="d-flex align-items-center">
+                    <p class="name h6 m-0 me-1">
+                        {{ player.Character.Name }}
+                    </p>
+                    <div class="health">
+                        <div
+                            class="health-inner"
+                            :style="{ width: healthPercent + '%' }"
+                        />
+                        <p class="health-text m-0">
+                            {{ player.CurrentHealth }} / {{ player.Character.Health }}
+                        </p>
+                        <!-- 扣血動畫 -->
+                        <p
+                            v-if="shouldPlayHealthChange"
+                            class="health-change m-0 flow-up"
+                        >
+                            {{ healthChange }}
+                        </p>
+                    </div>
+                </div>
 
-      </div>
-    </div>
-  </template>
+                <!-- 屬性 -->
+                <div class="attribue w-100">
+                    <Icon :url="ImageDataList.icon.attack" />
+                    <p class="status-text m-0">
+                        {{ player.CurrentAttack }}
+                    </p>
+                    <p
+                        v-if="player.ExtraAttack"
+                        class="status-text status-text-extra m-0"
+                    >
+                        (+ {{ player.ExtraAttack }})
+                    </p>
+                    <Icon :url="ImageDataList.icon.defense" />
+                    <p class="status-text m-0">
+                        {{ player.CurrentDefense }}
+                    </p>
+                    <p
+                        v-if="player.ExtraDefense"
+                        class="status-text status-text-extra m-0"
+                    >
+                        (+ {{ player.ExtraDefense }})
+                    </p>
+                </div>
+
+                <!-- 金幣 -->
+                <div
+                    v-if="player.Character.Type === 'P'"
+                    class="coin w-100 m-0 d-flex align-items-center"
+                >
+                    <Icon :url="ImageDataList.icon.coin" />
+                    <p class="status-text m-0">
+                        {{ player.Coin }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 主狀態 -->
+    <template v-if="isMain">
+        <div
+            v-if="player.Character"
+            class="profile-main"
+        >
+            <div class="profile-main-inner">
+                <div class="avatar">
+                    <div class="avatar-inner">
+                        <div class="mumble">
+                            <Mumble
+                                :who="'player'"
+                                :show-triangle="'down'"
+                            />
+                        </div>
+                        <img
+                            :alt="player.Character.Name"
+                            :src="player.Character.Avatar"
+                        >
+                    </div>
+                    <!-- 裝備 -->
+                    <div class="equipments w-100">
+                        <!-- Weapon -->
+                        <div class="equipment equipment-weapon">
+                            <ItemComponent
+                                v-if="weaponItem"
+                                :player-status="true"
+                                :item="weaponItem"
+                            />
+                        </div>
+                        <!-- Armor -->
+                        <div class="equipment equipment-armor">
+                            <ItemComponent
+                                v-if="armorItem"
+                                :player-status="true"
+                                :item="armorItem"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="status">
+                    <p class="name w-100 h6 m-0">
+                        {{ player.Character.Name }}
+                    </p>
+                    <div class="health w-100">
+                        <div
+                            class="health-inner"
+                            :style="{ width: healthPercent + '%' }"
+                        />
+                        <p class="health-text m-0">
+                            {{ player.CurrentHealth }} / {{ player.Character.Health }}
+                        </p>
+                        <!-- 扣血動畫 -->
+                        <p
+                            v-if="healthChange !== 0"
+                            class="health-change m-0 flow-up"
+                        >
+                            {{ healthChange }}
+                        </p>
+                    </div>
+                    <!-- 屬性 -->
+                    <div class="attribue w-100">
+                        <Icon :url="ImageDataList.icon.attack" />
+                        <p class="status-text m-0">
+                            {{ player.CurrentAttack }}
+                        </p>
+                        <p
+                            v-if="player.ExtraAttack"
+                            class="status-text status-text-extra m-0"
+                        >
+                            (+ {{ player.ExtraAttack }})
+                        </p>
+                        <Icon :url="ImageDataList.icon.defense" />
+                        <p class="status-text m-0">
+                            {{ player.CurrentDefense }}
+                        </p>
+                        <p
+                            v-if="player.ExtraDefense"
+                            class="status-text status-text-extra m-0"
+                        >
+                            (+ {{ player.ExtraDefense }})
+                        </p>
+                    </div>
+                    <!-- 金幣 -->
+                    <div
+                        v-if="player.Character.Type === 'P'"
+                        class="coin w-100 m-0 d-flex align-items-center"
+                    >
+                        <Icon :url="ImageDataList.icon.coin" />
+                        <p class="status-text m-0">
+                            {{ player.Coin }}
+                        </p>
+                        <!-- 獲得螺絲釘動畫 -->
+                        <p
+                            v-if="coinChange !== 0"
+                            class="coin-change m-0 flow-up"
+                        >
+                            +{{ coinChange }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
 </template>
 
 <script setup name="PlayerStatus" lang="ts">
 import {
-	computed, onMounted, ref, watch, toRefs,
+    computed,
+    onMounted,
+    ref,
+    toRefs,
+    watch,
 } from 'vue';
-import { Tooltip } from 'bootstrap';
-import Util from '@/service/util';
-import { Item, Player } from '@/types';
+
 import { ImageDataList } from '@/data';
-import { enumGameState } from '@/types/enums';
+import Util from '@/service/util';
 import { useGameStateStore } from '@/store';
+import {
+    Item,
+    Player,
+} from '@/types';
+import { enumGameState } from '@/types/enums';
+
+import Icon from './Icon.vue';
+import ItemComponent from './ItemComponent.vue';
+import Mumble from './Mumble.vue';
 
 const props = withDefaults(defineProps<{
   player: Player,
   isMain?: boolean
 }>(), {
-	isMain: false,
+    isMain: false,
 });
 
 const { player, isMain } = toRefs(props);
@@ -128,9 +220,14 @@ const { player, isMain } = toRefs(props);
 const gameStateStore = useGameStateStore();
 
 // 生命值變化
-const healthPercent = computed(() => (player.value.CurrentHealth / player.value.Character!.Health) * 100);
+const healthPercent = computed(
+    () => (player.value.CurrentHealth / player.value.Character!.Health) * 100,
+);
 const healthChange = ref(0);
 const lastHealth = ref(0);
+const shouldPlayHealthChange = computed(
+    () => gameStateStore.gameState === enumGameState.Battle && healthChange.value !== 0,
+);
 
 // 螺絲釘變化
 const coinChange = ref(0);
@@ -141,41 +238,37 @@ const armorItem = ref(null as Item | null);
 
 // 更新角色裝備
 const updateWearingItem = () => {
-	weaponItem.value = player.value.WeaponIndex ? player.value.ItemList[player.value.WeaponIndex - 1] : null;
-	armorItem.value = player.value.ArmorIndex ? player.value.ItemList[player.value.ArmorIndex - 1] : null;
+    weaponItem.value = player.value.WeaponIndex
+        ? player.value.ItemList[player.value.WeaponIndex - 1]
+        : null;
+    armorItem.value = player.value.ArmorIndex
+        ? player.value.ItemList[player.value.ArmorIndex - 1]
+        : null;
 };
 
 watch((player.value), async () => {
-	// 監聽生命值變化
-	if (player.value.CurrentHealth !== lastHealth.value) {
-		healthChange.value = player.value.CurrentHealth - lastHealth.value;
-		await Util.sleep(1000);
-		lastHealth.value = player.value.CurrentHealth;
-		healthChange.value = 0;
-	}
-	// 監聽螺絲釘變化
-	if (player.value.Coin !== lastCoin.value) {
-		coinChange.value = player.value.Coin - lastCoin.value;
-		await Util.sleep(1000);
-		lastCoin.value = player.value.Coin;
-		coinChange.value = 0;
-	}
-	// 裝備變化
-	updateWearingItem();
+    // 監聽生命值變化
+    if (player.value.CurrentHealth !== lastHealth.value) {
+        healthChange.value = player.value.CurrentHealth - lastHealth.value;
+        await Util.sleep(1000);
+        lastHealth.value = player.value.CurrentHealth;
+        healthChange.value = 0;
+    }
+    // 監聽螺絲釘變化
+    if (player.value.Coin !== lastCoin.value) {
+        coinChange.value = player.value.Coin - lastCoin.value;
+        await Util.sleep(1000);
+        lastCoin.value = player.value.Coin;
+        coinChange.value = 0;
+    }
+    // 裝備變化
+    updateWearingItem();
 });
 
 onMounted(() => {
-	updateWearingItem();
-	lastHealth.value = player.value.CurrentHealth;
-	lastCoin.value = player.value.Coin;
-	new Tooltip(document.body, {
-		selector: "[data-bs-toggle='tooltip']",
-		delay: {
-			show: 900,
-			hide: 0,
-		},
-		trigger: 'focus',
-	});
+    updateWearingItem();
+    lastHealth.value = player.value.CurrentHealth;
+    lastCoin.value = player.value.Coin;
 });
 
 </script>

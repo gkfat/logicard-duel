@@ -1,14 +1,17 @@
 <template>
-  <div v-if="switchToggleStore.spinnerOpen" id="spinner">
-    <div class="spinner-inner d-flex justify-content-center align-items-center">
-      <div class="lds-ellipsis">
-        <div />
-        <div />
-        <div />
-        <div />
-      </div>
+    <div
+        v-if="switchToggleStore.spinnerOpen"
+        id="spinner"
+    >
+        <div class="spinner-inner d-flex justify-content-center align-items-center">
+            <div class="lds-ellipsis">
+                <div />
+                <div />
+                <div />
+                <div />
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup name="Spinner" lang="ts">

@@ -1,5 +1,8 @@
 import {
-	enumBattleResult, enumItemType, enumMumbleType, enumRarity,
+    enumBattleResult,
+    enumItemType,
+    enumMumbleType,
+    enumRarity,
 } from './enums';
 
 export interface MumbleList {
@@ -49,8 +52,8 @@ export interface Character {
 }
 
 export interface Shop {
-	CardDataList: Item[];
-	ItemList: Item[];
+    CardDataList: Item[];
+    ItemList: Item[];
 }
 
 export interface Player {
@@ -72,10 +75,10 @@ export interface Player {
 export interface RoundRecord {
     /** -1: 未開始 0: 比小 1: 比大 */
     rule: number;
-	enemyCards: [Item | null, Item | null];
-	playerCards: [Item | null, Item | null];
-	result: enumBattleResult;
-	usedCardList: Item[];
+    enemyCards: [Item | null, Item | null];
+    playerCards: [Item | null, Item | null];
+    result: enumBattleResult;
+    usedCardList: Item[];
 }
 
 export default Character;

@@ -1,25 +1,50 @@
 <template>
-  <div id="rank" class="frame" :class="{ 'frame-show': switchToggleStore.rankOpen }">
-    <Dialog :dialogs="dialogs" />
-    <div class="rank-list flex-grow-1">
-      <table v-for="(rank, i) of rankList.slice(1).reverse()" class="table table-sm shadow-sm rounded" :key="i">
-        <tr v-for="(text, ti) of rank" :key="ti">
-          <td class="px-1 w-25">{{ rankList[0][ti] }}</td>
-          <td class="px-1">{{ text }}</td>
-        </tr>
-      </table>
+    <div
+        id="rank"
+        class="frame"
+        :class="{ 'frame-show': switchToggleStore.rankOpen }"
+    >
+        <Dialog :dialogs="dialogs" />
+        <div class="rank-list flex-grow-1">
+            <table
+                v-for="(rank, i) of rankList.slice(1).reverse()"
+                :key="i"
+                class="table table-sm shadow-sm rounded"
+            >
+                <tr
+                    v-for="(text, ti) of rank"
+                    :key="ti"
+                >
+                    <td class="px-1 w-25">
+                        {{ rankList[0][ti] }}
+                    </td>
+                    <td class="px-1">
+                        {{ text }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <button
+            type="button"
+            class="system-btn"
+            @click="closeRank()"
+        >
+            {{ $t('button.close_rank') }}
+        </button>
     </div>
-    <button type="button" class="system-btn" @click="closeRank()">
-      {{ $t('button.close_rank') }}
-    </button>
-  </div>
 </template>
 
 <script setup name="Rank" lang="ts">
 import { computed } from 'vue';
-import { enumDialog } from '@/types/enums';
+
 import { DialogDataList } from '@/data/index';
-import { useRankStore, useSwitchToggleStore } from '@/store';
+import {
+    useRankStore,
+    useSwitchToggleStore,
+} from '@/store';
+import { enumDialog } from '@/types/enums';
+
+import Dialog from './Dialog.vue';
 
 const switchToggleStore = useSwitchToggleStore();
 const rankStore = useRankStore();
@@ -29,7 +54,7 @@ const rankList = computed(() => rankStore.rankList as string[][]);
 
 // 關閉排行榜
 const closeRank = async () => {
-	switchToggleStore.toggle('rank');
+    switchToggleStore.toggle('rank');
 };
 </script>
 

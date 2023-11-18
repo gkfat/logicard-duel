@@ -1,25 +1,45 @@
 <template>
-  <!-- Player -->
-  <template v-if="who === 'player' && playerStore.playerMumbling && playerStore.playerMumbleString.length > 0">
-    <div class="message py-1 px-3 bg-light rounded shadow-sm d-flex align-center">
-      <div v-if="showTriangle === 'up'" class="arrow arrow-up" />
-      <div v-if="showTriangle === 'down'" class="arrow arrow-down" />
-      <p class="m-0">{{ playerStore.playerMumbleString }}</p>
-    </div>
-  </template>
-  <!-- Enemy -->
-  <template v-if="who === 'enemy' && playerStore.enemyMumbling && playerStore.enemyMumbleString.length > 0">
-    <div class="message py-1 px-3 bg-light rounded shadow-sm d-flex align-center">
-      <div v-if="showTriangle === 'up'" class="arrow arrow-up" />
-      <div v-if="showTriangle === 'down'" class="arrow arrow-down" />
-      <p class="m-0">{{ playerStore.enemyMumbleString }}</p>
-    </div>
-  </template>
+    <!-- Player -->
+    <template v-if="showPlayerMumble">
+        <div class="message py-1 px-3 bg-light rounded shadow-sm d-flex align-center">
+            <div
+                v-if="showTriangle === 'up'"
+                class="arrow arrow-up"
+            />
+            <div
+                v-if="showTriangle === 'down'"
+                class="arrow arrow-down"
+            />
+            <p class="m-0">
+                {{ playerStore.playerMumbleString }}
+            </p>
+        </div>
+    </template>
+    <!-- Enemy -->
+    <template v-if="showEnemyMumble">
+        <div class="message py-1 px-3 bg-light rounded shadow-sm d-flex align-center">
+            <div
+                v-if="showTriangle === 'up'"
+                class="arrow arrow-up"
+            />
+            <div
+                v-if="showTriangle === 'down'"
+                class="arrow arrow-down"
+            />
+            <p class="m-0">
+                {{ playerStore.enemyMumbleString }}
+            </p>
+        </div>
+    </template>
 </template>
 
 <script setup name="Mumble" lang="ts">
+import {
+    computed,
+    toRefs,
+} from 'vue';
+
 import { usePlayerStore } from '@/store';
-import { toRefs } from 'vue';
 
 const playerStore = usePlayerStore();
 
@@ -27,11 +47,19 @@ const props = withDefaults(defineProps<{
     who: string,
     showTriangle: string,
 }>(), {
-	who: 'player',
-	showTriangle: 'up',
+    who: 'player',
+    showTriangle: 'up',
 });
 
 const { who, showTriangle } = toRefs(props);
+const showPlayerMumble = computed(
+    () => who.value === 'player' && playerStore.playerMumbling && playerStore.playerMumbleString.length > 0,
+);
+
+const showEnemyMumble = computed(
+    () => who.value === 'enemy' && playerStore.enemyMumbling && playerStore.enemyMumbleString.length > 0,
+);
+
 </script>
 
 <style lang="scss" scoped>

@@ -1,32 +1,47 @@
 <template>
-  <div class="layout d-flex">
-    <ul class="blocks">
-      <li v-for="i in 10" :key="i" />
-    </ul>
-    <Header />
-    <div class="layout-body">
-      <router-view />
+    <div class="layout d-flex">
+        <ul class="blocks">
+            <li
+                v-for="i in 10"
+                :key="i"
+            />
+        </ul>
+        <Header />
+        <div class="layout-body">
+            <router-view />
+        </div>
     </div>
-  </div>
 
-  <Rank />
-  <Backpack />
-  <Shop />
-  <Spinner />
+    <Rank />
+    <Backpack />
+    <Shop />
+    <Spinner />
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { enumSheetName, enumOperation } from './types/enums';
-import { useRankStore, useShopStore } from './store';
+
+import Backpack from './components/Backpack.vue';
+import Header from './components/Header.vue';
+import Rank from './components/Rank.vue';
+import Shop from './components/Shop.vue';
+import Spinner from './components/Spinner.vue';
+import {
+    useRankStore,
+    useShopStore,
+} from './store';
+import {
+    enumOperation,
+    enumSheetName,
+} from './types/enums';
 
 const rankStore = useRankStore();
 const shopStore = useShopStore();
 
 // 初始化排行榜、商店
 onMounted(async () => {
-	await rankStore.fetchData(enumSheetName.Records, enumOperation.Get);
-	shopStore.refreshShop();
+    await rankStore.fetchData(enumSheetName.Records, enumOperation.Get);
+    shopStore.refreshShop();
 });
 </script>
 

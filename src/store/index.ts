@@ -1,13 +1,13 @@
-import useSwitchToggleStore from './switchToggle';
 import useGameStateStore from './gameState';
 import usePlayerStore from './player';
-import useShopStore from './shop';
 import useRankStore from './rank';
+import useShopStore from './shop';
+import useSwitchToggleStore from './switchToggle';
 
 export {
-	useSwitchToggleStore,
-	useGameStateStore,
-	usePlayerStore,
-	useShopStore,
-	useRankStore,
+    useGameStateStore,
+    usePlayerStore,
+    useRankStore,
+    useShopStore,
+    useSwitchToggleStore,
 };
