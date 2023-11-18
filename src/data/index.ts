@@ -18,7 +18,7 @@ export const ShopLimit = {
     Card: 10,
 };
 
-const host = 'https://storage.cloud.google.com/logicard_duel';
+const host = 'https://storage.googleapis.com/logicard_duel';
 const dir = {
     avatars: 'avatars',
     icons: 'icons',

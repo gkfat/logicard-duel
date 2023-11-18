@@ -95,7 +95,7 @@ const battleStart = async () => {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('https://storage.cloud.google.com/logicard_duel/gifs/rest.gif');
+    background-image: url('https://storage.googleapis.com/logicard_duel/gifs/rest.gif');
     background-size: cover;
     background-position-y: 70%;
     background-repeat: no-repeat;

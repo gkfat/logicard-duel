@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax */
-const host = 'https://storage.cloud.google.com/logicard_duel/sounds';
+const host = 'https://storage.googleapis.com/logicard_duel/sounds';
 const urls = {
     effect: {
         click: `${host}/click.wav`,
