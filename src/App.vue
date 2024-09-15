@@ -1,70 +1,33 @@
 <template>
-    <div class="layout d-flex">
-        <ul class="blocks">
-            <li
-                v-for="i in 10"
-                :key="i"
-            />
-        </ul>
-        <Header />
-        <div class="layout-body">
+    <v-app
+        full-height
+        style="max-height: 100vh;"
+        class="bg-transparent overflow-hidden"
+    >
+        <v-container
+            class="fill-height align-start"
+            style="max-width: 500px;"
+        >
+            <ul class="blocks">
+                <li
+                    v-for="i in 10"
+                    :key="i"
+                />
+            </ul>
             <router-view />
-        </div>
-    </div>
+        </v-container>
+    </v-app>
 
-    <Rank />
-    <Backpack />
-    <Shop />
     <Spinner />
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-
-import Backpack from './components/Backpack.vue';
-import Header from './components/Header.vue';
-import Rank from './components/Rank.vue';
-import Shop from './components/Shop.vue';
-import Spinner from './components/Spinner.vue';
-import {
-    useRankStore,
-    useShopStore,
-} from './store';
-import {
-    enumOperation,
-    enumSheetName,
-} from './types/enums';
-
-const rankStore = useRankStore();
-const shopStore = useShopStore();
-
-// 初始化排行榜、商店
-onMounted(async () => {
-    await rankStore.fetchData(enumSheetName.Records, enumOperation.Get);
-    shopStore.refreshShop();
-});
+import Spinner from '@/components/Spinner.vue';
 </script>
-
 <style lang="scss">
-#app {
-  font-size: 16px;
-  line-height: 24px;
-}
-.layout {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  flex-direction: column;
-  &-body {
-    position: relative;
-    height: 90%;
-    padding: 10px 15px 0;
-  }
-}
-.navbar-collapse .nav-item {
-  text-align: center;
+* {
+    font-size: 14px;
+    line-height: 1.5rem;
 }
 
 // 背景動畫
@@ -75,8 +38,8 @@ onMounted(async () => {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: #f6a52c;
   z-index: -1;
+  background-color: rgb(var(--v-theme-primary));
   li {
     position: absolute;
     display: block;

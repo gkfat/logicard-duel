@@ -2,9 +2,10 @@ import { ref } from 'vue';
 
 import { defineStore } from 'pinia';
 
-import Sound from '@/service/sounds';
+import { useSoundStore } from './sound';
 
-const useSwitchToggleStore = defineStore('switchToggle', () => {
+export const useSwitchToggleStore = defineStore('switchToggle', () => {
+    const soundStore = useSoundStore();
     const spinnerOpen = ref(false);
     const rankOpen = ref(false);
     const backpackOpen = ref(false);
@@ -17,7 +18,7 @@ const useSwitchToggleStore = defineStore('switchToggle', () => {
 
     /** 開關元件 */
     const toggle = async (target: 'rank' | 'backpack' | 'shop') => {
-        await Sound.playSound(Sound.sounds.effect.click);
+        await soundStore.playSound(soundStore.sounds.effect.click);
         switch (target) {
         case 'rank':
             rankOpen.value = !rankOpen.value;
@@ -49,4 +50,3 @@ const useSwitchToggleStore = defineStore('switchToggle', () => {
     };
 });
 
-export default useSwitchToggleStore;

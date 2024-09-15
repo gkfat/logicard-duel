@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 
 import { enumGameState } from '@/types/enums';
 
-const useGameStateStore = defineStore('gameState', () => {
+export const useGameStateStore = defineStore('gameState', () => {
     const gameState = ref(enumGameState.Init);
 
     /** 改變遊戲狀態 */
@@ -18,4 +18,3 @@ const useGameStateStore = defineStore('gameState', () => {
     };
 });
 
-export default useGameStateStore;

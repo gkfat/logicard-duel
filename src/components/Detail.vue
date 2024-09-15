@@ -47,12 +47,12 @@
 </template>
 
 <script setup name="Detail" lang="ts">
-import Util from '@/service/util';
-import { Item } from '@/types';
 import {
     enumItemType,
     enumRarity,
-} from '@/types/enums';
+} from '@/enums/game';
+import Util from '@/service/util';
+import { Item } from '@/types';
 
 import Card from './Card.vue';
 import Icon from './Icon.vue';

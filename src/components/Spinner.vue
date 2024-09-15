@@ -1,17 +1,17 @@
 <template>
-    <div
-        v-if="switchToggleStore.spinnerOpen"
-        id="spinner"
+    <v-overlay
+        v-model="switchToggleStore.spinnerOpen"
+        opacity="0.6"
+        persistent
     >
-        <div class="spinner-inner d-flex justify-content-center align-items-center">
-            <div class="lds-ellipsis">
-                <div />
-                <div />
-                <div />
-                <div />
-            </div>
-        </div>
-    </div>
+        <v-row class="ma-0 justify-center align-center fill-height">
+            <v-progress-circular
+                color="primary"
+                size="50"
+                indeterminate
+            />
+        </v-row>
+    </v-overlay>
 </template>
 
 <script setup name="Spinner" lang="ts">
@@ -21,71 +21,8 @@ const switchToggleStore = useSwitchToggleStore();
 </script>
 
 <style scoped lang="scss">
-#spinner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 10;
-  .spinner-inner {
+:deep(.v-overlay__content) {
+    width: 100%;
     height: 100%;
-  }
-}
-.lds-ellipsis {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-}
-.lds-ellipsis div {
-  position: absolute;
-  top: 33px;
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  background: var(--white);
-  animation-timing-function: cubic-bezier(0, 1, 1, 0);
-}
-.lds-ellipsis div:nth-child(1) {
-  left: 8px;
-  animation: lds-ellipsis1 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(2) {
-  left: 8px;
-  animation: lds-ellipsis2 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(3) {
-  left: 32px;
-  animation: lds-ellipsis2 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(4) {
-  left: 56px;
-  animation: lds-ellipsis3 0.6s infinite;
-}
-@keyframes lds-ellipsis1 {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-@keyframes lds-ellipsis3 {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0);
-  }
-}
-@keyframes lds-ellipsis2 {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(24px, 0);
-  }
 }
 </style>

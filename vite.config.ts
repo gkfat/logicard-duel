@@ -3,24 +3,28 @@ import {
     URL,
 } from 'node:url';
 
-// Utilities
 import { defineConfig } from 'vite';
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 
-// Plugins
 import vue from '@vitejs/plugin-vue';
 
-// https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
-        vue(),
+        vue({
+            template: { transformAssetUrls },
+        }),
+        vuetify({
+            autoImport: true,
+            styles: {
+                configFile: 'src/styles/index.scss',
+            },
+        }),
     ],
     define: { 'process.env': {} },
     resolve: {
         alias: [
             { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
         ],
-    },
-    server: {
-        port: 3000,
+        extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue'],
     },
 });

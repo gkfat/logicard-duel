@@ -7,10 +7,7 @@ import {
 } from '@/types/enums';
 
 export default class Util {
-    /** 取得範圍內的任一整數 */
-    static getRandomInt(min: number, max: number) {
-        return Math.floor(Math.random() * (max - min) + min);
-    }
+
 
     /** 取得 0 或 1 */
     static getZeroOrOne() {
