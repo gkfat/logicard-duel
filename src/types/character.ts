@@ -10,12 +10,7 @@ export interface CharacterTemplate {
     description: string;
     backpackLimit: number;
     mumbleList: {
-        [enumMumbleType.General]: string[];
-        [enumMumbleType.PlaceCard]: string[];
-        [enumMumbleType.OpponentPlaceCard]: string[];
-        [enumMumbleType.Hurt]: string[];
-        [enumMumbleType.Attack]: string[];
-        [enumMumbleType.Lose]: string[];
+        [key in enumMumbleType]: string[];
     };
     init: {
         healthRange: [number, number];
@@ -24,9 +19,5 @@ export interface CharacterTemplate {
         cards: enumCard[];
         equips: enumEquip[];
         coin: number;
-    };
-    rewards: {
-        coinRange: [number, number];
-        equips: enumEquip[];
     };
 }

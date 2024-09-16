@@ -1,11 +1,11 @@
 <template>
     <v-btn
         class="pa-0"
-        color="lightgrey"
         icon
         flat
+        variant="plain"
         size="32"
-        style="opacity: 1; z-index: 999;"
+        style="opacity: 1; z-index: 999"
         @click="soundStore.toggleMute()"
     >
         <v-icon
@@ -16,7 +16,7 @@
     </v-btn>
 </template>
 <script lang="ts" setup>
-import useSoundStore from '@/store/sound';
+import { useSoundStore } from '@/store/sound';
 
 const soundStore = useSoundStore();
 </script>

@@ -1,14 +1,9 @@
 import { useOpponentStore } from '@/store/opponent';
 import { useRankStore } from '@/store/rank';
-import { useShareStore } from '@/store/share';
 import { useShopStore } from '@/store/shop';
 import { useSoundStore } from '@/store/sound';
 
 export const boot = async () => {
-    // init share
-    const shareStore = useShareStore();
-    shareStore.init();
-
     // init shop
     const shopStore = useShopStore();
     shopStore.init();

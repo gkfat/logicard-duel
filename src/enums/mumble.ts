@@ -1,8 +1,8 @@
 export enum enumMumbleType {
-    General,
-    PlaceCard,
-    OpponentPlaceCard,
-    Hurt,
-    Attack,
-    Lose,
+    General = 'general',
+    PlaceCard = 'place_card',
+    OpponentPlaceCard = 'opponent_place_card',
+    Hurt = 'hurt',
+    Attack = 'attack',
+    Lose = 'lose',
 }

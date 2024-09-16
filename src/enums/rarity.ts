@@ -1,8 +1,12 @@
 /** 稀有度 */
 export enum enumRarity {
-    None,
-    N,
-    R,
-    SR,
-    SSR,
+    None = 'none',
+    Normal = 'normal',
+    Rare = 'rare',
+    SR = 'sr',
+    SSR = 'ssr',
 }
+
+export const RarityValues = Object.values(enumRarity);
+
+export type RarityValue = (typeof enumRarity)[keyof typeof enumRarity];

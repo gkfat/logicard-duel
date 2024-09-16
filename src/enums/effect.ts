@@ -1,6 +1,9 @@
-
+/** 效果類型 */
 export enum enumEffect {
-    Harm,
-    Defense,
-    Heal,
+    /** 傷害 */
+    Harm = 'harm',
+    /** 防禦 */
+    Defense = 'defense',
+    /** 治療 */
+    Heal = 'heal',
 }

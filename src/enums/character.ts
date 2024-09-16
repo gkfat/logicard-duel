@@ -1,13 +1,19 @@
-
 export enum enumCharacter {
-    Man,
-    Nerd,
-    Broker,
-    Grandma,
-    Artist,
+    Man = 'man',
+    Nerd = 'nerd',
+    Broker = 'broker',
+    Grandma = 'grandma',
+    Artist = 'artist',
 
-    GkbotWorker,
-    GkbotPerform,
-    GkbotAttack,
-    GkbotDefense,
+    GkbotWorker = 'gkbot_worker',
+    GkbotPerform = 'gkbot_perform',
+    GkbotAttack = 'gkbot_attack',
+    GkbotDefense = 'gkbot_defense',
 }
+
+export const OpponentValues = Object.values([
+    enumCharacter.GkbotWorker,
+    enumCharacter.GkbotPerform,
+    enumCharacter.GkbotAttack,
+    enumCharacter.GkbotDefense,
+]);

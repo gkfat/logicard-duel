@@ -1,18 +1,19 @@
-import {
-    createRouter,
-    createWebHistory,
-    RouteRecordRaw,
-} from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
     {
         path: '/',
-        name: 'game',
-        component: () => import('@/views/game-view/GameView.vue'),
+        redirect: '/game',
+        component: () => import('@/layout/AppLayout.vue'),
+        children: [
+            {
+                path: 'game',
+                component: () => import('@/views/GameView.vue'),
+            },
+        ],
     },
     {
         path: '/:catchAll(.*)*',
-        name: 'notfound',
         component: () => import('@/views/error/NotFound.vue'),
     },
 ];

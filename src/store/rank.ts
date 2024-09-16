@@ -2,63 +2,33 @@ import { ref } from 'vue';
 
 import { defineStore } from 'pinia';
 
-import api from '@/service/api';
-
-/**
- * Google Sheet
- */
-export enum enumOperation {
-    Get = 'get',
-    Update = 'update'
-}
-
-export enum enumSheetName {
-    Records = 'records'
-}
+import apiService from '@/api';
+import { Rank } from '@/types/rank';
 
 export const useRankStore = defineStore('rank', () => {
-    const rankList = ref<{
-        time: string | number;
-        character: string | number;
-        attack: string | number;
-        heal: string | number;
-        kill: string | number;
-        live_time: string | number;
-        comment: string | number;
-    }[]>([]);
+    const rankData = ref<Rank[]>([]);
 
-    /** 獲取 API 資料 */
-    const fetchData = async (sheetName: enumSheetName, operation: enumOperation) => {
-        const data = await api.getData(sheetName, operation);
+    /** 獲取排行榜資料 */
+    const getRankData = async () => {
+        const data = await apiService.getData();
 
-        rankList.value = data
-            .slice(1)
-            .reverse()
-            .map((d) => ({
-                time: d[0],
-                character: d[1],
-                attack: d[2],
-                heal: d[3],
-                kill: d[4],
-                live_time: d[5],
-                comment: d[6],
-            }));
+        console.log({ data });
     };
 
-    /** 更新 API 資料 */
-    const updateData = async (sheetName: enumSheetName, operation: enumOperation, data: any) => {
-        await api.updateData(sheetName, operation, data);
+    /** 更新排行榜資料 */
+    const updateRankData = async (data: Rank) => {
+        await apiService.updateData(data);
     };
 
     /** 初始化 */
-    const init = () => {
-
-    }
+    const init = async () => {
+        await getRankData();
+        console.log('rank init');
+    };
 
     return {
-        rankList,
-        fetchData,
-        updateData,
-        init
+        rankData,
+        updateRankData,
+        init,
     };
 });
