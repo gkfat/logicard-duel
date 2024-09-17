@@ -5,11 +5,14 @@
                 v-bind="props"
                 variant="plain"
                 class="rounded-lg border-xl bg-green pa-7"
-                :class="{ 'hovering': isHovering }"
-                style="opacity: 1;"
+                :class="{ hovering: isHovering }"
+                style="opacity: 1"
                 block
                 @click="executeFunction()"
             >
+                <template v-if="parentProps.prependIcon">
+                    <v-icon :icon="parentProps.prependIcon" :size="30" />
+                </template>
                 <p class="text-h5">
                     {{ parentProps.text }}
                 </p>
@@ -20,8 +23,9 @@
 
 <script lang="ts" setup>
 const parentProps = defineProps<{
-   text: string;
-   func: Function;
+    text: string;
+    func: Function;
+    prependIcon?: string;
 }>();
 
 const executeFunction = () => {

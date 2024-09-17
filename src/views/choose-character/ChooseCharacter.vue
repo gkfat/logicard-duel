@@ -11,31 +11,34 @@
 
     <!-- 選擇角色 -->
     <v-col v-if="isDialogEnd" class="pa-0 mt-auto">
-        <v-container class="fill-height px-0">
-            <v-carousel
-                v-model="characterIndex"
-                hide-delimiters
-                height="auto"
-                class="mb-10"
-                :show-arrows="false"
-                :delimiter-icon="'mdi-face-man'"
-                style="height: 300px"
+        <v-carousel
+            v-model="characterIndex"
+            hide-delimiters
+            height="auto"
+            class="my-3 rounded-xl overflow-hidden"
+            :show-arrows="false"
+            :delimiter-icon="'mdi-face-man'"
+            style="height: 300px"
+        >
+            <v-carousel-item
+                v-for="(character, index) in characterList"
+                :key="index"
+                :value="index"
             >
-                <v-carousel-item
-                    v-for="(character, index) in characterList"
-                    :key="index"
-                    :value="index"
-                    class="overflow-y-auto"
-                >
-                    <div class="d-flex justify-center align-center">
-                        <CharacterCard :character="character" />
-                    </div>
-                </v-carousel-item>
-            </v-carousel>
+                <CharacterCard :character="character" />
+            </v-carousel-item>
+        </v-carousel>
 
-            <BtnText :text="'下一位'" :func="nextCharacter" class="mb-3" />
-            <BtnText :text="t('button.confirm')" :func="confirmCharacter" />
-        </v-container>
+        <v-row class="ma-0 ga-3">
+            <v-col class="pa-0">
+                <BtnText :text="'往前'" :func="prevCharacter" />
+            </v-col>
+            <v-col class="pa-0">
+                <BtnText :text="'往後'" :func="nextCharacter" />
+            </v-col>
+        </v-row>
+        <v-spacer class="mb-3" />
+        <BtnText :text="t('button.confirm')" :func="confirmCharacter" />
     </v-col>
 </template>
 
@@ -44,6 +47,7 @@ import { computed, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
+import BtnIcon from '@/components/system/BtnIcon.vue';
 import BtnText from '@/components/system/BtnText.vue';
 import Dialog from '@/components/system/Dialog.vue';
 import { CharacterTemplateList } from '@/data/character-templates';
@@ -98,7 +102,17 @@ const characterList = CharacterTemplateList.filter((c) =>
     availableCharacterTypes.includes(c.type)
 );
 
+const prevCharacter = () => {
+    soundStore.playSound(soundStore.sounds.effect.click);
+    if (characterIndex.value === 0) {
+        characterIndex.value = characterList.length - 1;
+    } else {
+        characterIndex.value -= 1;
+    }
+};
+
 const nextCharacter = () => {
+    soundStore.playSound(soundStore.sounds.effect.click);
     if (characterIndex.value === characterList.length - 1) {
         characterIndex.value = 0;
     } else {

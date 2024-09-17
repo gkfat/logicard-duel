@@ -1,8 +1,5 @@
 import { enumEffect } from '@/enums/effect';
-import {
-    enumEquip,
-    enumEquipPosition,
-} from '@/enums/equip';
+import { enumEquip, enumEquipPosition } from '@/enums/equip';
 import { enumRarity } from '@/enums/rarity';
 import { EquipTemplate } from '@/types/core';
 
@@ -17,9 +14,17 @@ export const EquipTemplateList: EquipTemplate[] = [
         icon: ImageDataList.icon.boxer,
         position: enumEquipPosition.PrimaryHand,
         potentials: {
-            [enumRarity.None]: {
+            [enumRarity.Normal]: {
                 pointRange: [1, 5],
                 priceRange: [30, 40],
+            },
+            [enumRarity.Rare]: {
+                pointRange: [4, 8],
+                priceRange: [60, 80],
+            },
+            [enumRarity.SR]: {
+                pointRange: [10, 15],
+                priceRange: [120, 150],
             },
         },
     },
@@ -31,7 +36,7 @@ export const EquipTemplateList: EquipTemplate[] = [
         icon: ImageDataList.icon.bat,
         position: enumEquipPosition.PrimaryHand,
         potentials: {
-            [enumRarity.None]: {
+            [enumRarity.Normal]: {
                 pointRange: [3, 10],
                 priceRange: [60, 120],
             },
@@ -45,7 +50,7 @@ export const EquipTemplateList: EquipTemplate[] = [
         icon: ImageDataList.icon.gun,
         position: enumEquipPosition.PrimaryHand,
         potentials: {
-            [enumRarity.None]: {
+            [enumRarity.Normal]: {
                 pointRange: [10, 20],
                 priceRange: [300, 500],
             },
@@ -59,7 +64,7 @@ export const EquipTemplateList: EquipTemplate[] = [
         icon: ImageDataList.icon.cloth,
         position: enumEquipPosition.Body,
         potentials: {
-            [enumRarity.None]: {
+            [enumRarity.Normal]: {
                 pointRange: [1, 5],
                 priceRange: [30, 40],
             },
@@ -73,7 +78,7 @@ export const EquipTemplateList: EquipTemplate[] = [
         icon: ImageDataList.icon.bulletproof,
         position: enumEquipPosition.Body,
         potentials: {
-            [enumRarity.None]: {
+            [enumRarity.Normal]: {
                 pointRange: [3, 10],
                 priceRange: [60, 120],
             },
@@ -87,7 +92,7 @@ export const EquipTemplateList: EquipTemplate[] = [
         icon: ImageDataList.icon.armor,
         position: enumEquipPosition.Body,
         potentials: {
-            [enumRarity.None]: {
+            [enumRarity.Normal]: {
                 pointRange: [10, 20],
                 priceRange: [300, 500],
             },

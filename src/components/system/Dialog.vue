@@ -1,15 +1,15 @@
 <template>
     <v-card
-        class="w-100 rounded-xl fill-height border-xl overflow-y-auto"
-        :max-height="parentProps.maxHeight ? parentProps.maxHeight : undefined"
+        class="w-100 rounded-lg fill-height border-lg py-3"
+        :max-height="props.maxHeight"
     >
-        <v-card-title>{{ t('system.dialog') }}</v-card-title>
-        <v-card-text>
+        <v-card-subtitle>{{ t('system.dialog') }}</v-card-subtitle>
+        <v-card-text class="overflow-y-auto py-0">
             <p
-                v-for="(dialog, i) in parentProps.dialogs"
+                v-for="(dialog, i) in props.dialogs"
                 :key="i"
                 class="m-0"
-                :class="{ 'mb-3': i !== parentProps.dialogs.length - 1 }"
+                :class="{ 'mb-3': i !== props.dialogs.length - 1 }"
             >
                 {{ dialog }}
             </p>
@@ -22,12 +22,10 @@ import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 
-const parentProps = defineProps<{
+const props = defineProps<{
     maxHeight?: number;
     dialogs: string[];
 }>();
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

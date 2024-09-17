@@ -32,8 +32,26 @@ const urls: {
 
 export const useSoundStore = defineStore('sound', () => {
     const sounds: {
-        effect: { [key: string]: HTMLAudioElement | null };
-        bgm: { [key: string]: HTMLAudioElement | null };
+        effect: {
+            click: HTMLAudioElement | null;
+            pop: HTMLAudioElement | null;
+            countdown: HTMLAudioElement | null;
+            placeCard: HTMLAudioElement | null;
+            coin: HTMLAudioElement | null;
+            robotHurt: HTMLAudioElement | null;
+            ouch: HTMLAudioElement | null;
+            huh: HTMLAudioElement | null;
+            bell: HTMLAudioElement | null;
+            equip: HTMLAudioElement | null;
+            heal: HTMLAudioElement | null;
+            win: HTMLAudioElement | null;
+        };
+        bgm: {
+            battle: HTMLAudioElement | null;
+            rest: HTMLAudioElement | null;
+            prologue: HTMLAudioElement | null;
+            end: HTMLAudioElement | null;
+        };
     } = {
         effect: {
             click: null,
@@ -167,7 +185,7 @@ export const useSoundStore = defineStore('sound', () => {
     const init = () => {
         loadAssets();
         listenVisibility();
-    }
+    };
 
     return {
         muteMode,
@@ -183,4 +201,3 @@ export const useSoundStore = defineStore('sound', () => {
         init,
     };
 });
-

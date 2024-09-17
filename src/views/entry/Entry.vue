@@ -1,21 +1,30 @@
 <template>
-    <Dialog :max-height="350" :dialogs="dialog" />
+    <v-col cols="12" class="pa-0">
+        <Dialog :max-height="350" :dialogs="dialog" />
+    </v-col>
 
-    <v-row class="justify-center ga-3">
-        <v-col cols="auto" class="pa-0">
-            <BtnIcon :icon="'mdi-github'" :func="openGithub" />
-        </v-col>
-        <v-col cols="auto" class="pa-0">
-            <Rank />
-        </v-col>
-    </v-row>
+    <v-col cols="12" class="pa-0 mt-auto">
+        <v-row class="justify-center ga-3">
+            <v-col cols="auto" class="pa-0">
+                <BtnIcon :icon="'mdi-github'" :func="openGithub" />
+            </v-col>
+            <v-col cols="auto" class="pa-0">
+                <BtnIcon
+                    :icon="'mdi-script-text'"
+                    :func="() => appStore.openDialog('rank')"
+                />
+            </v-col>
+        </v-row>
+    </v-col>
 
-    <BtnText :text="t('game_view.start')" :func="start" />
+    <v-col cols="12" class="pa-0 mt-auto">
+        <BtnText :text="t('game_view.start')" :func="start" />
+    </v-col>
 </template>
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
 
-import Rank from '@/components/rank/Index.vue';
+import Rank from '@/components/rank/Rank.vue';
 import BtnIcon from '@/components/system/BtnIcon.vue';
 import BtnText from '@/components/system/BtnText.vue';
 import Dialog from '@/components/system/Dialog.vue';

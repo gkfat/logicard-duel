@@ -3,14 +3,15 @@
         <template #default="{ isHovering, props }">
             <v-btn
                 v-bind="props"
-                :size=" smAndUp ? 100 : 80"
+                :size="parentProps.size === 'small' ? 40 : 70"
                 variant="plain"
-                class="rounded-xl border-xl bg-green"
+                class="rounded-lg border-xl bg-green"
                 :class="{ 'on-hover': isHovering }"
-                style="opacity: 1;"
+                style="opacity: 1"
+                :block="parentProps.block"
                 @click="executeFunction()"
             >
-                <v-icon :size=" smAndUp ? 60 : 40">
+                <v-icon :size="parentProps.size === 'small' ? 20 : 30">
                     {{ parentProps.icon }}
                 </v-icon>
             </v-btn>
@@ -19,14 +20,13 @@
 </template>
 
 <script lang="ts" setup>
-import { useDisplay } from 'vuetify';
-
 const parentProps = defineProps<{
     icon: string;
     func: Function;
+    block?: boolean;
+    size?: 'small' | 'default';
 }>();
 
-const { smAndUp } = useDisplay();
 const executeFunction = () => {
     parentProps.func();
 };

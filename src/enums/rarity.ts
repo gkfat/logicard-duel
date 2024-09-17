@@ -1,6 +1,5 @@
 /** 稀有度 */
 export enum enumRarity {
-    None = 'none',
     Normal = 'normal',
     Rare = 'rare',
     SR = 'sr',

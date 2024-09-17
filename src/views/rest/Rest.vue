@@ -1,63 +1,141 @@
 <template>
-    <div class="campfire" />
+    <div class="campfire" :style="{ opacity: opacity.current }" />
 
-    <v-col cols="12" class="pa-0 mb-3">
-        <Dialog :dialogs="dialogs" />
-    </v-col>
+    <v-card flat class="bg-transparent fill-height">
+        <v-card-text class="pa-0 mb-3">
+            <Dialog :dialogs="dialogs" :max-height="150" />
+        </v-card-text>
 
-    <v-col cols="12" class="pa-0 mb-3">
-        <PlayerStatus :player="player" />
-    </v-col>
+        <!-- 角色 -->
+        <v-card-text class="pa-0 overflow-y-auto mb-3">
+            <Status></Status>
+        </v-card-text>
 
-    <v-col cols="12" class="pa-0 mt-auto">
-        <v-row class="ma-0 ga-3 justify-center">
-            <!-- 背包 -->
-            <v-col cols="auto" class="pa-0">
-                <Backpack />
-            </v-col>
-            <!-- 排行榜 -->
-            <v-col cols="auto" class="pa-0">
-                <Rank />
-            </v-col>
-            <!-- 商店 -->
-            <v-col cols="auto" class="pa-0">
-                <Shop />
-            </v-col>
-            <v-col cols="12" class="pa-0">
-                <BtnText :text="t('button.next_battle')" :func="battleStart" />
-            </v-col>
-        </v-row>
-    </v-col>
+        <!-- 功能列 -->
+        <v-card-text class="pa-0 mb-3">
+            <v-row class="ma-0 ga-3 justify-center mt-auto">
+                <!-- 背包 -->
+                <v-col class="pa-0">
+                    <BtnIcon
+                        :block="true"
+                        :icon="'mdi-bag-personal'"
+                        :func="() => appStore.openDialog('backpack')"
+                    ></BtnIcon>
+                </v-col>
+                <!-- 排行榜 -->
+                <v-col class="pa-0">
+                    <BtnIcon
+                        :block="true"
+                        :icon="'mdi-script-text'"
+                        :func="() => appStore.openDialog('rank')"
+                    ></BtnIcon>
+                </v-col>
+                <!-- 商店 -->
+                <v-col class="pa-0">
+                    <BtnIcon
+                        :block="true"
+                        :icon="'mdi-cart'"
+                        :func="() => appStore.openDialog('shop')"
+                    ></BtnIcon>
+                </v-col>
+            </v-row>
+        </v-card-text>
+
+        <v-card-actions class="pa-0">
+            <BtnText :text="t('button.next_battle')" :func="battleStart" />
+        </v-card-actions>
+    </v-card>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onBeforeMount, onMounted, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
-import Backpack from '@/components/backpack/Backpack.vue';
-import Rank from '@/components/rank/Index.vue';
-import Shop from '@/components/shop/Index.vue';
+import BtnIcon from '@/components/system/BtnIcon.vue';
+// import Backpack from '@/components/backpack/Backpack.vue';
+// import Rank from '@/components/rank/Rank.vue';
+// import Shop from '@/components/shop/Shop.vue';
 import BtnText from '@/components/system/BtnText.vue';
 import Dialog from '@/components/system/Dialog.vue';
 import { DialogDataList } from '@/data/dialogs';
-import { enumDialog, enumGameState } from '@/enums/game';
-import { useAppStore, usePlayerStore } from '@/store';
-import useSoundStore from '@/store/sound';
+import { enumDialog } from '@/enums/dialog';
+import { enumGameState } from '@/enums/game';
+import { useAppStore } from '@/store/app';
+import { useSoundStore } from '@/store/sound';
+import { sleep } from '@/utils/common';
 
-import PlayerStatus from './components/PlayerStatus.vue';
+import Status from './components/Status.vue';
 
-const playerStore = usePlayerStore();
 const appStore = useAppStore();
 const soundStore = useSoundStore();
 const { t } = useI18n();
-const player = computed(() => playerStore.player);
+
 const dialogs = DialogDataList[enumDialog.Rest];
+
+let opacity = ref({
+    current: 1,
+    max: 1,
+    min: 0.6,
+});
+
+let decreasing = ref(true);
+const BREATHE_TIME = 170;
+
+const intervalChangingBackground = ref<NodeJS.Timeout>();
 
 const battleStart = async () => {
     await soundStore.playSound(soundStore.sounds.effect.click);
     appStore.changeGameState(enumGameState.BattleStart);
 };
+
+const increaseOpacity = () => {
+    intervalChangingBackground.value = setInterval(async () => {
+        if (!decreasing.value) {
+            opacity.value.current += 0.1;
+
+            if (opacity.value.current >= opacity.value.max) {
+                opacity.value.current = opacity.value.max;
+                clearInterval(intervalChangingBackground.value);
+
+                await sleep(BREATHE_TIME * 10);
+
+                // 轉向
+                decreasing.value = true;
+                decreaseOpacity();
+            }
+        }
+    }, BREATHE_TIME);
+};
+
+const decreaseOpacity = () => {
+    intervalChangingBackground.value = setInterval(async () => {
+        if (decreasing.value) {
+            opacity.value.current -= 0.1;
+
+            if (opacity.value.current <= opacity.value.min) {
+                opacity.value.current = opacity.value.min;
+                clearInterval(intervalChangingBackground.value);
+
+                await sleep(BREATHE_TIME * 10);
+
+                // 轉向
+                decreasing.value = false;
+                increaseOpacity();
+            }
+        }
+    }, BREATHE_TIME);
+};
+
+onMounted(async () => {
+    await sleep(3000);
+
+    decreaseOpacity();
+});
+
+onBeforeMount(() => {
+    clearInterval(intervalChangingBackground.value);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -72,5 +150,6 @@ const battleStart = async () => {
     background-position-y: 70%;
     background-repeat: no-repeat;
     z-index: -1;
+    opacity: 0.8;
 }
 </style>

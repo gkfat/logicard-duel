@@ -1,6 +1,4 @@
 <template>
-    <BtnIcon :icon="'mdi-script-text'" :func="openRank" />
-
     <v-bottom-sheet v-model="isOpen" height="90vh">
         <v-card color="skin" class="fill-height rounded-t-xl">
             <v-row class="ma-0 pa-3 ga-3">
@@ -58,7 +56,6 @@ import { computed } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
-import BtnIcon from '@/components/system/BtnIcon.vue';
 import BtnText from '@/components/system/BtnText.vue';
 import Dialog from '@/components/system/Dialog.vue';
 import { DialogDataList } from '@/data/dialogs';
@@ -73,10 +70,6 @@ const rankStore = useRankStore();
 const isOpen = computed(() => appStore.isOpen === 'rank');
 
 const dialogs = DialogDataList[enumDialog.Rank];
-
-const openRank = async () => {
-    appStore.openDialog('rank');
-};
 
 // 關閉排行榜
 const closeRank = async () => {

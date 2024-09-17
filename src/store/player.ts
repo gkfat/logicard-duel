@@ -3,8 +3,10 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 
 import { enumCharacter } from '@/enums/character';
+import { enumEquipPosition } from '@/enums/equip';
 import { enumMumbleType } from '@/enums/mumble';
 import factory from '@/factory';
+import { Equip } from '@/types/core';
 import { Player } from '@/types/player';
 import { getRandomInt, sleep } from '@/utils/common';
 
@@ -72,6 +74,37 @@ export const usePlayerStore = defineStore('player', () => {
         currentPlayer.value!.status.health = mutatedHealth;
     }
 
+    /** 脫掉裝備 */
+    function removeEquipment(position: enumEquipPosition) {
+        if (currentPlayer.value) {
+            const getCurrentEquipment = currentPlayer.value.equipment[position];
+
+            if (getCurrentEquipment) {
+                soundStore.playSound(soundStore.sounds.effect.equip);
+
+                // 脫下現有壯輩
+                getCurrentEquipment.is_equiped = false;
+            }
+        }
+    }
+
+    /** 更換裝備 */
+    function changeEquipment(equip: Equip) {
+        if (currentPlayer.value) {
+            const findEquip = currentPlayer.value.backpack.equips.find(
+                (v) => v.id === equip.id
+            );
+
+            if (findEquip) {
+                removeEquipment(equip.position);
+
+                // 穿上新裝備
+                findEquip.is_equiped = true;
+                currentPlayer.value.equipment[equip.position] = findEquip;
+            }
+        }
+    }
+
     return {
         currentPlayer,
         selectCharacter,
@@ -80,5 +113,7 @@ export const usePlayerStore = defineStore('player', () => {
         mumble,
         decreaseHealth,
         increaseHealth,
+        changeEquipment,
+        removeEquipment,
     };
 });

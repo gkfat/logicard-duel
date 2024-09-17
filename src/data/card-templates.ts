@@ -13,7 +13,7 @@ export const CardTemplateList: CardTemplate[] = [
         description: '一張邏輯牌，上面寫著數字 1。',
         icon: ImageDataList.icon.logoLogicard,
         potentials: {
-            [enumRarity.None]: {
+            [enumRarity.Normal]: {
                 pointRange: [1, 1],
                 priceRange: [2, 2],
             },
@@ -26,7 +26,7 @@ export const CardTemplateList: CardTemplate[] = [
         description: '一張邏輯牌，上面寫著數字 2。',
         icon: ImageDataList.icon.logoLogicard,
         potentials: {
-            [enumRarity.None]: {
+            [enumRarity.Normal]: {
                 pointRange: [2, 2],
                 priceRange: [2, 2],
             },
@@ -39,7 +39,7 @@ export const CardTemplateList: CardTemplate[] = [
         description: '一張邏輯牌，上面寫著數字 3。',
         icon: ImageDataList.icon.logoLogicard,
         potentials: {
-            [enumRarity.None]: {
+            [enumRarity.Normal]: {
                 pointRange: [3, 3],
                 priceRange: [2, 2],
             },
@@ -52,7 +52,7 @@ export const CardTemplateList: CardTemplate[] = [
         description: '一張邏輯牌，上面寫著數字 4。',
         icon: ImageDataList.icon.logoLogicard,
         potentials: {
-            [enumRarity.None]: {
+            [enumRarity.Normal]: {
                 pointRange: [4, 4],
                 priceRange: [2, 2],
             },
@@ -65,7 +65,7 @@ export const CardTemplateList: CardTemplate[] = [
         description: '一張邏輯牌，上面寫著數字 5。',
         icon: ImageDataList.icon.logoLogicard,
         potentials: {
-            [enumRarity.None]: {
+            [enumRarity.Normal]: {
                 pointRange: [5, 5],
                 priceRange: [2, 2],
             },
@@ -78,7 +78,7 @@ export const CardTemplateList: CardTemplate[] = [
         description: '一張邏輯牌，上面寫著數字 6。',
         icon: ImageDataList.icon.logoLogicard,
         potentials: {
-            [enumRarity.None]: {
+            [enumRarity.Normal]: {
                 pointRange: [6, 6],
                 priceRange: [2, 2],
             },
@@ -91,7 +91,7 @@ export const CardTemplateList: CardTemplate[] = [
         description: '一張邏輯牌，上面寫著數字 7。',
         icon: ImageDataList.icon.logoLogicard,
         potentials: {
-            [enumRarity.None]: {
+            [enumRarity.Normal]: {
                 pointRange: [7, 7],
                 priceRange: [2, 2],
             },

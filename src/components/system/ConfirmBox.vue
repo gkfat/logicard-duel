@@ -1,27 +1,32 @@
 <template>
     <v-dialog v-model="openDialog">
         <v-card
-            color="white"
+            color="bluegrey border-white border-lg border-opacity-100 py-3"
             class="rounded-xl"
             variant="flat"
         >
-            <v-card-text>
-                <slot />
-                <v-row class="ma-0 ga-3">
-                    <v-col class="pa-0">
-                        <BtnText
-                            :text="t('button.confirm')"
-                            :func="executeFunction"
-                        />
-                    </v-col>
-                    <v-col class="pa-0">
-                        <BtnText
-                            :text="t('button.cancel')"
-                            :func="() => openDialog = false"
-                        />
-                    </v-col>
-                </v-row>
-            </v-card-text>
+            <v-card-subtitle>
+                {{ t('system.dialog') }}
+            </v-card-subtitle>
+
+            <v-card-title class="text-center py-5">
+                {{ parentProps.message }}
+            </v-card-title>
+
+            <v-row class="ma-0">
+                <v-col cols="12" sm="6" class="pa-1 px-3">
+                    <BtnText
+                        :text="t('button.confirm')"
+                        :func="executeFunction"
+                    />
+                </v-col>
+                <v-col cols="12" sm="6" class="pa-1 px-3">
+                    <BtnText
+                        :text="t('button.cancel')"
+                        :func="() => (openDialog = false)"
+                    />
+                </v-col>
+            </v-row>
         </v-card>
     </v-dialog>
 </template>
@@ -43,6 +48,7 @@ const { t } = useI18n();
 
 const executeFunction = () => {
     parentProps.func();
+    openDialog.value = false;
 };
 
 const show = () => {

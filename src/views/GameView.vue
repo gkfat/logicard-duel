@@ -3,11 +3,11 @@
     <ChooseCharacter
         v-if="appStore.gameState === enumGameState.ChooseCharacter"
     />
-    <!-- <Rest v-if="gameState === enumGameState.Rest" />
-    <BattleStart v-if="gameState === enumGameState.BattleStart" />
-    <Battle v-if="gameState === enumGameState.Battle" />
-    <BattleEnd v-if="gameState === enumGameState.BattleEnd" />
-    <GameOver v-if="gameState === enumGameState.GameEnd" /> -->
+    <Rest v-if="appStore.gameState === enumGameState.Rest" />
+    <!-- <BattleStart v-if="appStore.gameState === enumGameState.BattleStart" /> -->
+    <!-- <Battle v-if="appStore.gameState === enumGameState.Battle" /> -->
+    <!-- <BattleEnd v-if="appStore.gameState === enumGameState.BattleEnd" /> -->
+    <!-- <GameOver v-if="appStore.gameState === enumGameState.GameEnd" /> -->
 </template>
 
 <script setup lang="ts">
@@ -21,9 +21,8 @@ import { useSoundStore } from '@/store/sound';
 // import Battle from '@/views/battle/Battle.vue';
 import ChooseCharacter from '@/views/choose-character/ChooseCharacter.vue';
 import Entry from '@/views/entry/Entry.vue';
-
 // import GameOver from '@/views/game-over/GameOver.vue';
-// import Rest from '@/views/rest/Rest.vue';
+import Rest from '@/views/rest/Rest.vue';
 
 const appStore = useAppStore();
 

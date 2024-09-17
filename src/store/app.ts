@@ -18,9 +18,9 @@ export const useAppStore = defineStore('appStore', () => {
     };
 
     /** 開關 Spinner */
-    const switchSpinner = (target: boolean) => {
+    function switchSpinner(target: boolean) {
         spinnerOpen.value = target;
-    };
+    }
 
     function openDialog(target: 'rank' | 'backpack' | 'shop') {
         soundStore.playSound(soundStore.sounds.effect.click);

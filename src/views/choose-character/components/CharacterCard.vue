@@ -1,38 +1,50 @@
 <template>
-    <v-card flat color="bluegrey" class="rounded-lg border-lg w-100">
+    <v-card
+        flat
+        color="bluegrey"
+        class="rounded-xl border-lg w-100 overflow-y-auto"
+        :max-height="280"
+    >
         <v-card-title class="text-center">
-            <v-avatar size="60" :image="character.avatar"></v-avatar>
+            <v-avatar
+                size="60"
+                :image="character.avatar"
+                color="orange"
+                class="border-lg"
+            ></v-avatar>
         </v-card-title>
 
         <v-card-title class="text-center">
             {{ character.name }}
         </v-card-title>
 
-        <v-card-subtitle class="text-wrap">
+        <v-card-subtitle class="text-wrap text-wrap">
             {{ character.description }}
         </v-card-subtitle>
 
         <v-card-text>
-            <v-row>
-                <v-col cols="4">
+            <p class="text-caption">能力值範圍</p>
+
+            <v-row class="ma-0">
+                <v-col class="pa-1" cols="12">
                     <v-icon color="red" icon="mdi-heart"></v-icon>
                     {{ rangeToText(character.init.healthRange) }}
                 </v-col>
-                <v-col cols="4">
+                <v-col class="pa-1" cols="6">
                     <v-icon color="skin" icon="mdi-sword-cross"></v-icon>
                     {{ rangeToText(character.init.attackRange) }}
                 </v-col>
-                <v-col cols="4">
+                <v-col class="pa-1" cols="6">
                     <v-icon color="skin" icon="mdi-shield"></v-icon>
                     {{ rangeToText(character.init.defenseRange) }}
                 </v-col>
             </v-row>
-            <v-row>
-                <v-col cols="4">
+            <v-row class="ma-0">
+                <v-col class="pa-1" cols="6">
                     <v-icon color="skin" icon="mdi-screw-round-top"></v-icon>
                     {{ character.init.coin }}
                 </v-col>
-                <v-col cols="4">
+                <v-col class="pa-1" cols="6">
                     <v-icon color="skin" icon="mdi-bag-personal"></v-icon>
                     {{ character.backpackLimit }}
                 </v-col>
@@ -46,8 +58,12 @@
                 v-if="character.init.cards.length"
                 class="ma-0 flex-nowrap overflow-x-auto"
             >
-                <v-col class="pa-1" v-for="cardType in character.init.cards">
-                    <Card :card-type="cardType"></Card>
+                <v-col
+                    cols="auto"
+                    class="pa-1"
+                    v-for="cardType in character.init.cards"
+                >
+                    <CardTemplate :card-type="cardType"></CardTemplate>
                 </v-col>
             </v-row>
 
@@ -57,16 +73,23 @@
         <v-card-text>
             <p class="text-caption">初始裝備</p>
 
-            <div v-if="character.init.equips.length">
-                <Equip
+            <v-row
+                v-if="character.init.equips.length"
+                class="ma-0 flex-nowrap overflow-x-auto"
+            >
+                <v-col
+                    cols="auto"
+                    class="pa-1"
                     v-for="equipType in character.init.equips"
-                    :equip-type="equipType"
-                ></Equip>
-            </div>
+                >
+                    <EquipTemplate :equip-type="equipType"></EquipTemplate>
+                </v-col>
+            </v-row>
 
             <em class="text-secondary" v-else>沒有初始裝備，真慘。</em>
         </v-card-text>
     </v-card>
+    <p class="text-caption text-right me-3">＊卡片可往下捲</p>
 </template>
 
 <script lang="ts" setup>
@@ -75,19 +98,13 @@ import { EquipTemplateList } from '@/data/equip-templates';
 import { enumCard } from '@/enums/card';
 import { enumEquip } from '@/enums/equip';
 import { CharacterTemplate } from '@/types/character';
+import { rangeToText } from '@/utils/common';
 
-import Card from './Card.vue';
+import CardTemplate from './CardTemplate.vue';
 import Equip from './Equip.vue';
+import EquipTemplate from './EquipTemplate.vue';
 
 const props = defineProps<{
     character: CharacterTemplate;
 }>();
-
-const rangeToText = (range: [number, number]) => {
-    const [min, max] = range;
-
-    return `${min} ~ ${max}`;
-};
-
-console.log(props.character);
 </script>

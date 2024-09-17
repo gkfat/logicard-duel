@@ -8,15 +8,24 @@
     </v-app>
 
     <!-- 背景動畫 -->
-    <ul class="blocks">
+    <ul class="blocks" v-if="isDisplayBackground">
         <li v-for="i in 10" :key="i" />
     </ul>
-
-    <Spinner />
 </template>
 
 <script setup lang="ts">
-import Spinner from '@/components/Spinner.vue';
+import { computed } from 'vue';
+
+import { enumGameState } from './enums/game';
+import { useAppStore } from './store/app';
+
+const appStore = useAppStore();
+
+const isDisplayBackground = computed(() => {
+    return [enumGameState.Init, enumGameState.ChooseCharacter].includes(
+        appStore.gameState
+    );
+});
 </script>
 <style lang="scss">
 // 背景動畫

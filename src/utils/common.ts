@@ -15,3 +15,10 @@ export const sleep = async (ms: number): Promise<void> => {
         setTimeout(() => resolve(), ms);
     });
 };
+
+/** 範圍轉為字串 */
+export const rangeToText = (range: [number, number]) => {
+    const [min, max] = range;
+
+    return `${min} ~ ${max}`;
+};
