@@ -31,7 +31,10 @@
     ></ConfirmBox>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import Icon from '@/components/common/Icon.vue';
 import ConfirmBox from '@/components/system/ConfirmBox.vue';

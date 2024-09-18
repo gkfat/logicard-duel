@@ -1,8 +1,10 @@
 {
   "recommendations": [
     "lokalise.i18n-ally",
+    "lukas-tr.materialdesignicons-intellisense",
     "antfu.vite",
     "vue.volar",
-    "editorconfig.editorconfig"
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
   ]
 }

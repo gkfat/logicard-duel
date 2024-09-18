@@ -47,7 +47,10 @@
     ></ConfirmBox>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import Icon from '@/components/common/Icon.vue';
 import Rarity from '@/components/common/Rarity.vue';

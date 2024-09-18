@@ -48,7 +48,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, onMounted, ref } from 'vue';
+import {
+    computed,
+    onBeforeMount,
+    onMounted,
+    ref,
+} from 'vue';
 
 import { useI18n } from 'vue-i18n';
 

@@ -5,7 +5,7 @@
                 v-bind="props"
                 variant="plain"
                 class="rounded-lg border-xl bg-green pa-7"
-                :class="{ hovering: isHovering }"
+                :class="{ 'hovering': isHovering }"
                 style="opacity: 1"
                 block
                 @click="executeFunction()"
