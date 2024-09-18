@@ -211,16 +211,16 @@ const placeCardOnTable = async (
 ) => {
     let pos = 0;
     switch (item.ItemType) {
-        case enumItemType.LogiCard:
-            pos = 0;
-            break;
-        case enumItemType.Attack:
-        case enumItemType.Defense:
-        case enumItemType.Heal:
-            pos = 1;
-            break;
-        default:
-            break;
+    case enumItemType.LogiCard:
+        pos = 0;
+        break;
+    case enumItemType.Attack:
+    case enumItemType.Defense:
+    case enumItemType.Heal:
+        pos = 1;
+        break;
+    default:
+        break;
     }
 
     const findPlayerCard = table.value.playerCards[pos];
@@ -229,40 +229,40 @@ const placeCardOnTable = async (
         [enumRoundState.Counting].includes(roundState.value) &&
         countDownRemainSec.value > 0;
     switch (character.Type) {
-        case 'P': // 玩家
-            if (!findPlayerCard && allowTime) {
-                await soundStore.playSound(soundEffects.placeCard);
-                player.value.CardDataList.splice(i, 1);
-                table.value.playerCards[pos] = item;
-                playerStore.mumble('player', enumMumbleType.PlaceCard, 0);
-                if (Util.lottery(box50)) {
-                    playerStore.mumble(
-                        'enemy',
-                        enumMumbleType.EnemyPlaceCard,
-                        0
-                    );
-                }
+    case 'P': // 玩家
+        if (!findPlayerCard && allowTime) {
+            await soundStore.playSound(soundEffects.placeCard);
+            player.value.CardDataList.splice(i, 1);
+            table.value.playerCards[pos] = item;
+            playerStore.mumble('player', enumMumbleType.PlaceCard, 0);
+            if (Util.lottery(box50)) {
+                playerStore.mumble(
+                    'enemy',
+                    enumMumbleType.EnemyPlaceCard,
+                    0
+                );
             }
-            break;
-        case 'B': // 機器人
-            if (!findEnemyCard && allowTime) {
-                await soundStore.playSound(soundEffects.placeCard);
-                enemy.value.CardDataList.splice(i, 1);
-                table.value.enemyCards[pos] = item;
-                if (Util.lottery(box50)) {
-                    playerStore.mumble('enemy', enumMumbleType.PlaceCard, 0);
-                }
-                if (Util.lottery(box50)) {
-                    playerStore.mumble(
-                        'player',
-                        enumMumbleType.EnemyPlaceCard,
-                        0
-                    );
-                }
+        }
+        break;
+    case 'B': // 機器人
+        if (!findEnemyCard && allowTime) {
+            await soundStore.playSound(soundEffects.placeCard);
+            enemy.value.CardDataList.splice(i, 1);
+            table.value.enemyCards[pos] = item;
+            if (Util.lottery(box50)) {
+                playerStore.mumble('enemy', enumMumbleType.PlaceCard, 0);
             }
-            break;
-        default:
-            break;
+            if (Util.lottery(box50)) {
+                playerStore.mumble(
+                    'player',
+                    enumMumbleType.EnemyPlaceCard,
+                    0
+                );
+            }
+        }
+        break;
+    default:
+        break;
     }
 };
 
@@ -274,28 +274,28 @@ const getCardFromTable = async (who: 'player' | 'enemy', pos: number) => {
     const findPlayerCard = table.value.playerCards[pos]!;
     const findEnemyCard = table.value.enemyCards[pos]!;
     switch (who) {
-        case 'player': // 玩家
-            if (allowTime) {
-                await soundStore.playSound(soundEffects.placeCard);
-                player.value.CardDataList.push(findPlayerCard);
-                table.value.playerCards[pos] = null;
-                player.value.CardDataList = Util.sortCardList(
-                    player.value.CardDataList
-                );
-            }
-            break;
-        case 'enemy': // 機器人
-            if (allowTime) {
-                await soundStore.playSound(soundEffects.placeCard);
-                enemy.value.CardDataList.push(findEnemyCard);
-                table.value.enemyCards[pos] = null;
-                enemy.value.CardDataList = Util.sortCardList(
-                    enemy.value.CardDataList
-                );
-            }
-            break;
-        default:
-            break;
+    case 'player': // 玩家
+        if (allowTime) {
+            await soundStore.playSound(soundEffects.placeCard);
+            player.value.CardDataList.push(findPlayerCard);
+            table.value.playerCards[pos] = null;
+            player.value.CardDataList = Util.sortCardList(
+                player.value.CardDataList
+            );
+        }
+        break;
+    case 'enemy': // 機器人
+        if (allowTime) {
+            await soundStore.playSound(soundEffects.placeCard);
+            enemy.value.CardDataList.push(findEnemyCard);
+            table.value.enemyCards[pos] = null;
+            enemy.value.CardDataList = Util.sortCardList(
+                enemy.value.CardDataList
+            );
+        }
+        break;
+    default:
+        break;
     }
 };
 
@@ -308,7 +308,7 @@ const enemyPlaceCardAgain = async () => {
     if (randomSec >= 1000) {
         await Util.sleep(randomSec);
     }
-    // eslint-disable-next-line no-use-before-define
+     
     await enemyPlaceCard([false]);
 };
 
@@ -326,14 +326,14 @@ const enemyPlaceCard = async (replaceCardOdd: boolean[]) => {
     const half = Math.floor(logicards.length / 2);
     let index = 0;
     switch (table.value.rule) {
-        case 0: // 比小
-            index = Util.getRandomInt(0, half);
-            break;
-        case 1: // 比大
-            index = Util.getRandomInt(half, logicards.length - 1);
-            break;
-        default:
-            break;
+    case 0: // 比小
+        index = Util.getRandomInt(0, half);
+        break;
+    case 1: // 比大
+        index = Util.getRandomInt(half, logicards.length - 1);
+        break;
+    default:
+        break;
     }
 
     await placeCardOnTable(
@@ -430,29 +430,29 @@ const dealCard = async (who: string) => {
     const point = Util.getRandomInt(1, 8);
     const card = CardDataList.filter((c) => c.Point === point)[0];
     switch (who) {
-        case 'player':
-            await soundStore.playSound(soundEffects.placeCard);
-            player.value.CardDataList.push(card);
-            player.value.CardDataList = Util.sortCardList(
-                player.value.CardDataList
-            );
-            break;
-        case 'enemy':
-            await soundStore.playSound(soundEffects.placeCard);
-            enemy.value.CardDataList.push(card);
-            enemy.value.CardDataList = Util.sortCardList(
-                enemy.value.CardDataList
-            );
-            break;
-        default:
-            break;
+    case 'player':
+        await soundStore.playSound(soundEffects.placeCard);
+        player.value.CardDataList.push(card);
+        player.value.CardDataList = Util.sortCardList(
+            player.value.CardDataList
+        );
+        break;
+    case 'enemy':
+        await soundStore.playSound(soundEffects.placeCard);
+        enemy.value.CardDataList.push(card);
+        enemy.value.CardDataList = Util.sortCardList(
+            enemy.value.CardDataList
+        );
+        break;
+    default:
+        break;
     }
 };
 
 // 戰鬥開始時雙方各發 5 張數字牌
 const dealCardsTo5 = async () => {
     for (let i = 0; i < 4; i += 1) {
-        // eslint-disable-next-line no-await-in-loop
+         
         await Util.sleep(300);
         const enemyLogiCards = enemy.value.CardDataList.filter(
             (c) => c.ItemType === enumItemType.LogiCard
@@ -482,7 +482,7 @@ const startCountdownInterval = async () => {
             }
         } else {
             clearInterval(countdownInterval);
-            // eslint-disable-next-line no-use-before-define
+             
             await draw();
         }
     }, 1000);
@@ -531,36 +531,36 @@ const draw = async () => {
     // 如果有技術牌
     if (enemyTechCard) {
         switch (enemyTechCard.ItemType) {
-            case enumItemType.Attack: // 增加額外攻擊力
-                enemy.value.ExtraAttack += enemyTechCard.Point;
-                break;
-            case enumItemType.Defense: // 增加額外防禦力
-                enemy.value.ExtraDefense += enemyTechCard.Point;
-                break;
-            case enumItemType.Heal: // 觸發補血
-                await Util.sleep(1000);
-                await soundStore.playSound(soundEffects.heal);
-                playerStore.heal('enemy', enemyTechCard.Point);
-                break;
-            default:
-                break;
+        case enumItemType.Attack: // 增加額外攻擊力
+            enemy.value.ExtraAttack += enemyTechCard.Point;
+            break;
+        case enumItemType.Defense: // 增加額外防禦力
+            enemy.value.ExtraDefense += enemyTechCard.Point;
+            break;
+        case enumItemType.Heal: // 觸發補血
+            await Util.sleep(1000);
+            await soundStore.playSound(soundEffects.heal);
+            playerStore.heal('enemy', enemyTechCard.Point);
+            break;
+        default:
+            break;
         }
     }
     if (playerTechCard) {
         switch (playerTechCard.ItemType) {
-            case enumItemType.Attack: // 增加額外攻擊力
-                player.value.ExtraAttack += playerTechCard.Point;
-                break;
-            case enumItemType.Defense: // 增加額外防禦力
-                player.value.ExtraDefense += playerTechCard.Point;
-                break;
-            case enumItemType.Heal: // 觸發補血
-                await Util.sleep(1000);
-                await soundStore.playSound(soundEffects.heal);
-                playerStore.heal('player', playerTechCard.Point);
-                break;
-            default:
-                break;
+        case enumItemType.Attack: // 增加額外攻擊力
+            player.value.ExtraAttack += playerTechCard.Point;
+            break;
+        case enumItemType.Defense: // 增加額外防禦力
+            player.value.ExtraDefense += playerTechCard.Point;
+            break;
+        case enumItemType.Heal: // 觸發補血
+            await Util.sleep(1000);
+            await soundStore.playSound(soundEffects.heal);
+            playerStore.heal('player', playerTechCard.Point);
+            break;
+        default:
+            break;
         }
     }
     // 更新 store 攻擊力
@@ -595,22 +595,22 @@ const draw = async () => {
     } else if (enemyLogiCard && playerLogiCard) {
         // 都有出牌，比較大小判斷結果
         switch (table.value.rule) {
-            case 0: // 比小
-                if (enemyLogiCard.Point < playerLogiCard.Point) {
-                    result = enumBattleResult.PlayerLose;
-                } else if (enemyLogiCard.Point > playerLogiCard.Point) {
-                    result = enumBattleResult.PlayerWin;
-                }
-                break;
-            case 1: // 比大
-                if (enemyLogiCard.Point > playerLogiCard.Point) {
-                    result = enumBattleResult.PlayerLose;
-                } else if (enemyLogiCard.Point < playerLogiCard.Point) {
-                    result = enumBattleResult.PlayerWin;
-                }
-                break;
-            default:
-                break;
+        case 0: // 比小
+            if (enemyLogiCard.Point < playerLogiCard.Point) {
+                result = enumBattleResult.PlayerLose;
+            } else if (enemyLogiCard.Point > playerLogiCard.Point) {
+                result = enumBattleResult.PlayerWin;
+            }
+            break;
+        case 1: // 比大
+            if (enemyLogiCard.Point > playerLogiCard.Point) {
+                result = enumBattleResult.PlayerLose;
+            } else if (enemyLogiCard.Point < playerLogiCard.Point) {
+                result = enumBattleResult.PlayerWin;
+            }
+            break;
+        default:
+            break;
         }
     }
 
@@ -621,41 +621,41 @@ const draw = async () => {
 
     // 依結果判斷扣血
     switch (result) {
-        case enumBattleResult.PlayerWin:
-            await soundStore.playSound(soundEffects.robotHurt);
-            playerStore.deduction('enemy', enemyDeduction);
-            playerStore.mumble('player', enumMumbleType.Attack, 0);
+    case enumBattleResult.PlayerWin:
+        await soundStore.playSound(soundEffects.robotHurt);
+        playerStore.deduction('enemy', enemyDeduction);
+        playerStore.mumble('player', enumMumbleType.Attack, 0);
 
-            // 更新玩家紀錄
-            player.value.Record.TotalDamage += enemyDeduction;
-            // 30% 機率獲得 1 螺絲釘
-            if (Util.lottery(box30)) {
-                player.value.Coin += 1;
-            }
-            playerStore.updatePlayer('player', player.value);
+        // 更新玩家紀錄
+        player.value.Record.TotalDamage += enemyDeduction;
+        // 30% 機率獲得 1 螺絲釘
+        if (Util.lottery(box30)) {
+            player.value.Coin += 1;
+        }
+        playerStore.updatePlayer('player', player.value);
 
-            // 機器人喃喃自語
-            if (enemy.value.CurrentHealth === 0) {
-                playerStore.mumble('enemy', enumMumbleType.Lose, 0);
-            } else {
-                playerStore.mumble('enemy', enumMumbleType.Hurt, 0);
-            }
-            break;
-        case enumBattleResult.PlayerLose:
-            await soundStore.playSound(soundEffects.ouch);
-            playerStore.deduction('player', playerDeduction);
-            playerStore.mumble('enemy', enumMumbleType.Attack, 0);
+        // 機器人喃喃自語
+        if (enemy.value.CurrentHealth === 0) {
+            playerStore.mumble('enemy', enumMumbleType.Lose, 0);
+        } else {
+            playerStore.mumble('enemy', enumMumbleType.Hurt, 0);
+        }
+        break;
+    case enumBattleResult.PlayerLose:
+        await soundStore.playSound(soundEffects.ouch);
+        playerStore.deduction('player', playerDeduction);
+        playerStore.mumble('enemy', enumMumbleType.Attack, 0);
 
-            // 玩家喃喃自語
-            if (player.value.CurrentHealth === 0) {
-                playerStore.mumble('player', enumMumbleType.Lose, 0);
-            } else {
-                playerStore.mumble('player', enumMumbleType.Hurt, 0);
-            }
-            break;
-        default:
-            await soundStore.playSound(soundEffects.huh);
-            break;
+        // 玩家喃喃自語
+        if (player.value.CurrentHealth === 0) {
+            playerStore.mumble('player', enumMumbleType.Lose, 0);
+        } else {
+            playerStore.mumble('player', enumMumbleType.Hurt, 0);
+        }
+        break;
+    default:
+        await soundStore.playSound(soundEffects.huh);
+        break;
     }
 
     // 紀錄局歷史

@@ -70,16 +70,16 @@ const getTemplate = computed(() => props.equip.template);
 
 const borderColor = computed(() => {
     switch (props.equip.info.rarity) {
-        case enumRarity.Normal:
-            return 'border-white';
-        case enumRarity.Rare:
-            return 'border-secondary';
-        case enumRarity.SR:
-            return 'border-red';
-        case enumRarity.SSR:
-            return 'border-darkamber';
-        default:
-            return 'border-white';
+    case enumRarity.Normal:
+        return 'border-white';
+    case enumRarity.Rare:
+        return 'border-secondary';
+    case enumRarity.SR:
+        return 'border-red';
+    case enumRarity.SSR:
+        return 'border-darkamber';
+    default:
+        return 'border-white';
     }
 });
 

@@ -50,19 +50,28 @@ const props = defineProps<{
 }>();
 
 const getPositionPlaceholder = computed(() => {
+    let placeholder = ImageDataList.icon.placeholderHead;
+
     switch (props.position) {
-        case enumEquipPosition.Head:
-            return ImageDataList.icon.placeholderHead;
-        case enumEquipPosition.PrimaryHand:
-        case enumEquipPosition.SecondaryHand:
-            return ImageDataList.icon.placeholderHand;
-        case enumEquipPosition.Body:
-            return ImageDataList.icon.placeholderBody;
-        case enumEquipPosition.Pants:
-            return ImageDataList.icon.placeholderPants;
-        case enumEquipPosition.Shoes:
-            return ImageDataList.icon.placeholderShoes;
+    case enumEquipPosition.Head:
+        placeholder = ImageDataList.icon.placeholderHead;
+        break;
+    case enumEquipPosition.PrimaryHand:
+    case enumEquipPosition.SecondaryHand:
+        placeholder = ImageDataList.icon.placeholderHand;
+        break;
+    case enumEquipPosition.Body:
+        placeholder =  ImageDataList.icon.placeholderBody;
+        break;
+    case enumEquipPosition.Pants:
+        placeholder =  ImageDataList.icon.placeholderPants;
+        break;
+    case enumEquipPosition.Shoes:
+        placeholder =  ImageDataList.icon.placeholderShoes;
+        break;
     }
+
+    return placeholder
 });
 
 const removeEquipment = () => {

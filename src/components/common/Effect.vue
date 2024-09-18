@@ -29,22 +29,22 @@ const effectIcon = ref('');
 
 onMounted(() => {
     switch (props.effect) {
-        case enumEffect.Harm:
-            effectIcon.value = 'mdi-sword-cross';
-            textColor.value = 'text-white';
-            return;
-        case enumEffect.Defense:
-            effectIcon.value = 'mdi-shield';
-            textColor.value = 'text-info';
-            return;
-        case enumEffect.Heal:
-            effectIcon.value = 'mdi-heart';
-            textColor.value = 'text-red';
-            return;
-        default:
-            effectIcon.value = '';
-            textColor.value = '';
-            return;
+    case enumEffect.Harm:
+        effectIcon.value = 'mdi-sword-cross';
+        textColor.value = 'text-white';
+        return;
+    case enumEffect.Defense:
+        effectIcon.value = 'mdi-shield';
+        textColor.value = 'text-info';
+        return;
+    case enumEffect.Heal:
+        effectIcon.value = 'mdi-heart';
+        textColor.value = 'text-red';
+        return;
+    default:
+        effectIcon.value = '';
+        textColor.value = '';
+        return;
     }
 });
 </script>

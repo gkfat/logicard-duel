@@ -40,16 +40,16 @@
                 <v-col class="py-0 d-flex align-center ga-1" cols="auto">
                     <v-icon color="skin" icon="mdi-sword-cross"></v-icon>
                     {{ player.status.attack }}
-                    <em class="text-darkamber" v-if="extraAttack"
-                        >(+{{ extraAttack }})</em
-                    >
+                    <em class="text-darkamber" v-if="extraAttack">
+                        (+{{ extraAttack }})
+                    </em>
                 </v-col>
                 <v-col class="py-0 d-flex align-center ga-1" cols="auto">
                     <v-icon color="skin" icon="mdi-shield"></v-icon>
                     {{ player.status.defense }}
-                    <em class="text-darkamber" v-if="extraDefense"
-                        >(+{{ extraDefense }})</em
-                    >
+                    <em class="text-darkamber" v-if="extraDefense">
+                        (+{{ extraDefense }})
+                    </em>
                 </v-col>
             </v-row>
 

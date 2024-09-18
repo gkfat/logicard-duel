@@ -85,7 +85,7 @@
             </v-card-subtitle>
 
             <v-card-text>
-                <v-row v-for="rarity in rarityValues">
+                <v-row v-for="(rarity, i) in rarityValues" :key="i">
                     <v-col>
                         <Rarity :rarity="rarity"></Rarity>
                     </v-col>
@@ -98,24 +98,24 @@
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
-
-import { useI18n } from 'vue-i18n';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import Effect from '@/components/common/Effect.vue';
 import Rarity from '@/components/common/Rarity.vue';
 import { CardTemplateList } from '@/data/card-templates';
 import { enumCard } from '@/enums/card';
-import { RarityValue, RarityValues } from '@/enums/rarity';
+import { RarityValue } from '@/enums/rarity';
 import { rangeToText } from '@/utils/common';
 
 import Icon from './Icon.vue';
 
-const { t } = useI18n();
 const isDialogOpen = ref(false);
 
 const props = defineProps<{
-    cardType: enumCard;
+    cardType: enumCard
 }>();
 
 const card = computed(

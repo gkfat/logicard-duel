@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /** 效果類型 */
 export enum enumEffect {
     /** 傷害 */

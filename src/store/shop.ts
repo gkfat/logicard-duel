@@ -18,7 +18,7 @@ export const useShopStore = defineStore('shop', () => {
     });
 
     function init() {
-        Array.from({ length: 10 }).forEach((i) => {
+        Array.from({ length: 10 }).forEach(() => {
             const randomCardType =
                 CardValues[getRandomInt([0, CardValues.length - 1])];
             const card = factory.createCard(randomCardType);

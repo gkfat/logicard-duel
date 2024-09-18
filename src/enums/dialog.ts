@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export enum enumDialog {
     Opening,
     GameStart,
@@ -7,5 +8,5 @@ export enum enumDialog {
     Rank,
     Shop,
     Backpack,
-    GameEnd
+    GameEnd,
 }

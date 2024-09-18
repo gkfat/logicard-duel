@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-syntax */
+ 
 import { ref } from 'vue';
 
 import { defineStore } from 'pinia';

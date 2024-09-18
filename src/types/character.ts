@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { enumCard } from '@/enums/card';
 import { enumCharacter } from '@/enums/character';
 import { enumEquip } from '@/enums/equip';

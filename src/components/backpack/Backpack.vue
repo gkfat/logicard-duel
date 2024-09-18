@@ -11,7 +11,8 @@
                     <v-tabs-window-item value="0">
                         <v-row class="ma-0 ga-1">
                             <v-col
-                                v-for="equip in equips"
+                                v-for="(equip, i) in equips"
+                                :key="i"
                                 class="bg-bluegrey rounded d-flex justify-center align-center"
                             >
                                 <Equip
@@ -26,7 +27,8 @@
                     <v-tabs-window-item value="1">
                         <v-row class="ma-0 justify-center ga-1">
                             <v-col
-                                v-for="card in cards"
+                                v-for="(card, i) in cards"
+                                :key="i"
                                 class="bg-bluegrey rounded d-flex justify-center align-center"
                             >
                                 <Card :card="card"></Card>

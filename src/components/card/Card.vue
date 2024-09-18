@@ -138,11 +138,8 @@ import { useI18n } from 'vue-i18n';
 import Effect from '@/components/common/Effect.vue';
 import Icon from '@/components/common/Icon.vue';
 import Rarity from '@/components/common/Rarity.vue';
-import { CardTemplateList } from '@/data/card-templates';
 import { ImageDataList } from '@/data/images';
-import { enumCard } from '@/enums/card';
 import { Card } from '@/types/core';
-import { Player } from '@/types/player';
 
 const isDialogOpen = ref(false);
 

@@ -61,7 +61,8 @@
                 <v-col
                     cols="auto"
                     class="pa-1"
-                    v-for="cardType in character.init.cards"
+                    v-for="(cardType, i) in character.init.cards"
+                    :key="i"
                 >
                     <CardTemplate :card-type="cardType"></CardTemplate>
                 </v-col>
@@ -80,7 +81,8 @@
                 <v-col
                     cols="auto"
                     class="pa-1"
-                    v-for="equipType in character.init.equips"
+                    v-for="(equipType, i) in character.init.equips"
+                    :key="i"
                 >
                     <EquipTemplate :equip-type="equipType"></EquipTemplate>
                 </v-col>
@@ -93,18 +95,13 @@
 </template>
 
 <script lang="ts" setup>
-import { CardTemplateList } from '@/data/card-templates';
-import { EquipTemplateList } from '@/data/equip-templates';
-import { enumCard } from '@/enums/card';
-import { enumEquip } from '@/enums/equip';
 import { CharacterTemplate } from '@/types/character';
 import { rangeToText } from '@/utils/common';
 
 import CardTemplate from './CardTemplate.vue';
-import Equip from './Equip.vue';
 import EquipTemplate from './EquipTemplate.vue';
 
-const props = defineProps<{
-    character: CharacterTemplate;
+const { character } = defineProps<{
+    character: CharacterTemplate
 }>();
 </script>

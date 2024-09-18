@@ -24,16 +24,16 @@ const props = defineProps<{
 
 const textColor = computed(() => {
     switch (props.rarity) {
-        case enumRarity.Normal:
-            return '';
-        case enumRarity.Rare:
-            return 'text-secondary';
-        case enumRarity.SR:
-            return 'text-red';
-        case enumRarity.SSR:
-            return 'text-darkamber';
-        default:
-            return '';
+    case enumRarity.Normal:
+        return '';
+    case enumRarity.Rare:
+        return 'text-secondary';
+    case enumRarity.SR:
+        return 'text-red';
+    case enumRarity.SSR:
+        return 'text-darkamber';
+    default:
+        return '';
     }
 });
 </script>

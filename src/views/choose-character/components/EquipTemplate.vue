@@ -64,7 +64,7 @@
             </v-card-subtitle>
 
             <v-card-text>
-                <v-row v-for="rarity in rarityValues">
+                <v-row v-for="(rarity, i) in rarityValues" :key="i">
                     <v-col>
                         <Rarity :rarity="rarity"></Rarity>
                     </v-col>
@@ -81,7 +81,10 @@
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import { useI18n } from 'vue-i18n';
 

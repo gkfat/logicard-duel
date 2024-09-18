@@ -49,7 +49,6 @@
 
 <script setup lang="ts">
 import {
-    computed,
     onBeforeMount,
     onMounted,
     ref,
@@ -87,6 +86,7 @@ let opacity = ref({
 let decreasing = ref(true);
 const BREATHE_TIME = 170;
 
+// eslint-disable-next-line no-undef
 const intervalChangingBackground = ref<NodeJS.Timeout>();
 
 const battleStart = async () => {

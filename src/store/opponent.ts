@@ -20,7 +20,7 @@ export const useOpponentStore = defineStore('opponent', () => {
 
     /** 初始化敵人池 */
     function init() {
-        Array.from({ length: 5 }).forEach((i) => {
+        Array.from({ length: 5 }).forEach(() => {
             const randomType =
                 OpponentValues[getRandomInt([0, OpponentValues.length - 1])];
             const opponent = factory.createPlayer(randomType);

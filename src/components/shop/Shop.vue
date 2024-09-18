@@ -13,12 +13,10 @@
                         {{ player.backpack.coin }}
                     </v-col>
                     <v-col class="pa-1 d-flex align-center ga-1" cols="auto">
-                        <v-icon
-                            color="bluegrey"
-                            icon="mdi-bag-personal"
+                        <v-icon    color="bluegrey"
+                                   icon="mdi-bag-personal"
                         ></v-icon>
-                        {{ currentBackpackItems }}/{{
-                            player.character.backpackLimit
+                        {{ currentBackpackItems }}/{{  player.character.backpackLimit
                         }}
                     </v-col>
                 </v-row>
@@ -30,7 +28,8 @@
                     <v-tabs-window-item value="0">
                         <v-row class="ma-0 ga-1">
                             <v-col
-                                v-for="equip in shop.equips"
+                                v-for="(equip, i) in shop.equips"
+                                :key="i"
                                 class="bg-bluegrey rounded d-flex justify-center align-center"
                             >
                                 <Equip
@@ -45,7 +44,8 @@
                     <v-tabs-window-item value="1">
                         <v-row class="ma-0 justify-center ga-1">
                             <v-col
-                                v-for="card in shop.cards"
+                                v-for="(card, i) in shop.cards"
+                                :key="i"
                                 class="bg-bluegrey rounded d-flex justify-center align-center"
                             >
                                 <Card :card="card"></Card>

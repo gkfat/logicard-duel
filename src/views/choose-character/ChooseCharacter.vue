@@ -50,7 +50,6 @@ import {
 
 import { useI18n } from 'vue-i18n';
 
-import BtnIcon from '@/components/system/BtnIcon.vue';
 import BtnText from '@/components/system/BtnText.vue';
 import Dialog from '@/components/system/Dialog.vue';
 import { CharacterTemplateList } from '@/data/character-templates';

@@ -91,20 +91,20 @@ const makeLoot = (type: 'equipment' | 'coin' | 'techCard') => {
     const lootTechCard = remainTechCardList[techCardIndex];
 
     switch (type) {
-        case 'coin':
-            coin.Point = Util.getRandomInt(min, max);
-            lootBox.value.push(coin);
-            break;
-        case 'equipment':
-            lootBox.value.push(lootRewardItem);
-            break;
-        case 'techCard':
-            if (remainTechCardList.length > 0) {
-                lootBox.value.push(lootTechCard);
-            }
-            break;
-        default:
-            break;
+    case 'coin':
+        coin.Point = Util.getRandomInt(min, max);
+        lootBox.value.push(coin);
+        break;
+    case 'equipment':
+        lootBox.value.push(lootRewardItem);
+        break;
+    case 'techCard':
+        if (remainTechCardList.length > 0) {
+            lootBox.value.push(lootTechCard);
+        }
+        break;
+    default:
+        break;
     }
 };
 
@@ -129,20 +129,20 @@ onMounted(() => {
     const updatedPlayer = { ...player.value };
     lootBox.value.forEach((loot) => {
         switch (loot.ItemType) {
-            case enumItemType.Coin:
-                updatedPlayer.Coin += loot.Point;
-                break;
-            case enumItemType.Attack:
-            case enumItemType.Defense:
-            case enumItemType.Heal:
-                updatedPlayer.CardDataList.push(loot);
-                break;
-            case enumItemType.Weapon:
-            case enumItemType.Armor:
-                updatedPlayer.ItemList.push(loot);
-                break;
-            default:
-                break;
+        case enumItemType.Coin:
+            updatedPlayer.Coin += loot.Point;
+            break;
+        case enumItemType.Attack:
+        case enumItemType.Defense:
+        case enumItemType.Heal:
+            updatedPlayer.CardDataList.push(loot);
+            break;
+        case enumItemType.Weapon:
+        case enumItemType.Armor:
+            updatedPlayer.ItemList.push(loot);
+            break;
+        default:
+            break;
         }
     });
 

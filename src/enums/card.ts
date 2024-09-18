@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 export enum enumCard {
     LogiCard1 = 'logicard_1',
     LogiCard2 = 'logicard_2',

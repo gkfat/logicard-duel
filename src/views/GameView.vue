@@ -11,10 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-    computed,
-    watch,
-} from 'vue';
+import { watch } from 'vue';
 
 import { enumGameState } from '@/enums/game';
 import { useAppStore } from '@/store/app';
@@ -34,22 +31,23 @@ const soundStore = useSoundStore();
 watch(
     () => appStore.gameState,
     async () => {
+        let bgm = soundStore.sounds.bgm.prologue;
+
         switch (appStore.gameState) {
-            case enumGameState.ChooseCharacter:
-                await soundStore.playBGM(soundStore.sounds.bgm.prologue);
-                break;
-            case enumGameState.BattleStart:
-                await soundStore.playBGM(soundStore.sounds.bgm.battle);
-                break;
-            case enumGameState.Rest:
-                await soundStore.playBGM(soundStore.sounds.bgm.rest);
-                break;
-            case enumGameState.GameEnd:
-                await soundStore.playBGM(soundStore.sounds.bgm.end);
-                break;
-            default:
-                break;
+        case enumGameState.BattleStart:
+            bgm = soundStore.sounds.bgm.battle;
+            break;
+        case enumGameState.Rest:
+            bgm = soundStore.sounds.bgm.rest;
+            break;
+        case enumGameState.GameEnd:
+            bgm = soundStore.sounds.bgm.end;
+            break;
+        default:
+            break;
         }
+
+        await soundStore.playBGM(bgm);
     }
 );
 </script>
