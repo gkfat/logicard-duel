@@ -1,69 +1,76 @@
 <template>
     <v-bottom-sheet v-model="isOpen" height="90vh">
-        <v-card color="skin" class="fill-height rounded-t-xl">
-            <v-card-text>
-                <Dialog :max-height="120" :dialogs="dialogs" />
-            </v-card-text>
+        <v-card color="skin" class="py-3 rounded-t-xl">
+            <v-row
+                class="ma-0 fill-height flex-column flex-nowrap mx-auto overflow-hidden"
+                :style="{ maxWidth: '500px', maxHeight: '90vh' }"
+            >
+                <v-col cols="auto" class="w-100">
+                    <Dialog :max-height="120" :dialogs="dialogs" />
+                </v-col>
 
-            <v-card-text class="fill-height overflow-y-auto">
-                <v-tabs-window v-model="displayType">
-                    <!-- 裝備 -->
-                    <v-tabs-window-item value="0">
-                        <v-row class="ma-0 ga-1">
-                            <v-col
-                                v-for="(equip, i) in equips"
-                                :key="i"
-                                class="bg-bluegrey rounded d-flex justify-center align-center"
+                <!-- 背包道具 -->
+                <v-col
+                    cols="auto"
+                    class="w-100 overflow-y-auto flex-grow-1"
+                    :style="{ minHeight: '0', maxHeight: '70%' }"
+                >
+                    <div
+                        :style="{
+                            display: 'grid',
+                            gridTemplateColumns:
+                                'repeat(auto-fill, minmax(100px, 1fr))',
+                            gap: '5px',
+                        }"
+                    >
+                        <v-col
+                            v-for="index in player.character.backpackLimit"
+                            :key="index"
+                            class="bg-bluegrey rounded d-flex justify-center align-center"
+                            :style="{
+                                height: '120px',
+                            }"
+                        >
+                            <template
+                                v-if="
+                                    backpackItems[index] &&
+                                    backpackItems[index].type === 'equip'
+                                "
                             >
                                 <Equip
-                                    :equip="equip"
-                                    :position="equip.position"
+                                    :equip="(backpackItems[index].item as EquipType)"
+                                    :size="'small'"
+                                    :position="(backpackItems[index].item as EquipType).position"
                                 ></Equip>
-                            </v-col>
-                        </v-row>
-                    </v-tabs-window-item>
-
-                    <!-- 卡牌 -->
-                    <v-tabs-window-item value="1">
-                        <v-row class="ma-0 justify-center ga-1">
-                            <v-col
-                                v-for="(card, i) in cards"
-                                :key="i"
-                                class="bg-bluegrey rounded d-flex justify-center align-center"
+                            </template>
+                            <template
+                                v-if="
+                                    backpackItems[index] &&
+                                    backpackItems[index].type === 'card'
+                                "
                             >
-                                <Card :card="card"></Card>
-                            </v-col>
-                        </v-row>
-                    </v-tabs-window-item>
-                </v-tabs-window>
-            </v-card-text>
+                                <Card
+                                    :card="(backpackItems[index].item as CardType)"
+                                    :size="'small'"
+                                ></Card>
+                            </template>
+                        </v-col>
+                    </div>
+                </v-col>
 
-            <v-card-text class="py-0">
-                <v-tabs v-model="displayType" grow>
-                    <v-tab value="0">
-                        {{ t('equip') }}
-                    </v-tab>
-                    <v-tab value="1">
-                        {{ t('logicard') }}
-                    </v-tab>
-                </v-tabs>
-            </v-card-text>
-
-            <v-card-actions class="pa-3">
-                <BtnText
-                    :text="t('button.close_backpack')"
-                    :func="closeBackpack"
-                />
-            </v-card-actions>
+                <v-col cols="auto" class="w-100 mt-auto">
+                    <BtnText
+                        :text="t('button.close_backpack')"
+                        :func="closeBackpack"
+                    />
+                </v-col>
+            </v-row>
         </v-card>
     </v-bottom-sheet>
 </template>
 
 <script setup lang="ts">
-import {
-    computed,
-    ref,
-} from 'vue';
+import { computed, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
@@ -76,6 +83,7 @@ import { enumDialog } from '@/enums/dialog';
 import { useAppStore } from '@/store/app';
 import { usePlayerStore } from '@/store/player';
 import { useSoundStore } from '@/store/sound';
+import { Card as CardType, Equip as EquipType } from '@/types/core';
 
 const playerStore = usePlayerStore();
 const appStore = useAppStore();
@@ -84,11 +92,27 @@ const { t } = useI18n();
 
 const dialogs = DialogDataList[enumDialog.Backpack];
 const isOpen = computed(() => appStore.isOpen === 'backpack');
-const displayType = ref(0);
 
 const player = computed(() => playerStore.currentPlayer!);
-const equips = computed(() => player.value.backpack.equips);
-const cards = computed(() => player.value.backpack.cards);
+const backpackItems = computed(() => {
+    const items: { type: 'card' | 'equip'; item: CardType | EquipType }[] = [];
+
+    player.value.backpack.equips.map((equip) => {
+        items.push({
+            type: 'equip',
+            item: equip,
+        });
+    });
+
+    player.value.backpack.cards.map((card) => {
+        items.push({
+            type: 'card',
+            item: card,
+        });
+    });
+
+    return items;
+});
 
 const closeBackpack = async () => {
     appStore.closeDialog();

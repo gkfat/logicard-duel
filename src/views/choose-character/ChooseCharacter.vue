@@ -1,5 +1,5 @@
 <template>
-    <v-row class="ma-0 w-100 flex-column flex-nowrap ga-3" :style="{ maxHeight: '100%' }">
+    <v-row class="w-100 ma-0 ga-3 flex-column">
         <v-col cols="auto" class="pa-0">
             <Dialog :dialogs="dialogs[currentIndex]" />
         </v-col>
@@ -11,35 +11,24 @@
         </v-col>
 
         <!-- 選擇角色 -->
-        <v-col v-if="isDialogEnd" cols="auto" class="pa-0 rounded-lg flex-grow-1 overflow-y-auto" :style="{ maxHeight: '60%'}">
-            <v-carousel
-                v-model="characterIndex"
-                hide-delimiters
-                :show-arrows="false"
-                :delimiter-icon="'mdi-face-man'"
-                height="auto"
-            >
-                <v-carousel-item
+        <v-col v-if="isDialogEnd" cols="auto" class="pa-0">
+            <v-row class="ma-0">
+                <v-col
                     v-for="(character, index) in characterList"
                     :key="index"
-                    :value="index"
+                    cols="6"
+                    class="pa-1"
+                    @click="onSelectCharacter(index)"
                 >
-                    <CharacterCard :character="character" />
-                </v-carousel-item>
-            </v-carousel>
+                    <CharacterCard
+                        :is-selected="currentCharacterIndex === index"
+                        :character="character"
+                    />
+                </v-col>
+            </v-row>
         </v-col>
 
         <v-col v-if="isDialogEnd" cols="auto" class="pa-0 mt-auto">
-            <p class="text-caption text-right me-3">＊卡片可往下捲</p>
-
-            <v-row class="ma-0 ga-3 flex-nowrap">
-                <v-col class="pa-0">
-                    <BtnText :text="''" :prepend-icon="'mdi-chevron-left'" :func="prevCharacter" />
-                </v-col>
-                <v-col class="pa-0">
-                    <BtnText :text="''" :prepend-icon="'mdi-chevron-right'" :func="nextCharacter" />
-                </v-col>
-            </v-row>
             <v-spacer class="mb-3" />
             <BtnText :text="t('button.confirm')" :func="confirmCharacter" />
         </v-col>
@@ -47,10 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-    computed,
-    ref,
-} from 'vue';
+import { computed, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
@@ -92,9 +78,6 @@ const dialogNextToEnd = async () => {
     currentIndex.value = lastIndex;
 };
 
-/** 選擇的角色 index */
-const characterIndex = ref(0);
-
 const availableCharacterTypes = [
     enumCharacter.Man,
     enumCharacter.Nerd,
@@ -108,28 +91,18 @@ const characterList = CharacterTemplateList.filter((c) =>
     availableCharacterTypes.includes(c.type)
 );
 
-const prevCharacter = () => {
-    soundStore.playSound(soundStore.sounds.effect.click);
-    if (characterIndex.value === 0) {
-        characterIndex.value = characterList.length - 1;
-    } else {
-        characterIndex.value -= 1;
-    }
-};
+/** 選擇的角色 index */
+const currentCharacterIndex = ref(0);
 
-const nextCharacter = () => {
-    soundStore.playSound(soundStore.sounds.effect.click);
-    if (characterIndex.value === characterList.length - 1) {
-        characterIndex.value = 0;
-    } else {
-        characterIndex.value += 1;
-    }
+const onSelectCharacter = async (index: number) => {
+    await soundStore.playSound(soundStore.sounds.effect.click);
+    currentCharacterIndex.value = index;
 };
 
 const confirmCharacter = async () => {
     await soundStore.playSound(soundStore.sounds.effect.click);
 
-    const character = characterList[characterIndex.value];
+    const character = characterList[currentCharacterIndex.value];
     playerStore.selectCharacter(character.type);
 
     appStore.switchSpinner(true);

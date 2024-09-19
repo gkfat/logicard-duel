@@ -1,10 +1,10 @@
 <template>
-    <v-row class="w-100 ma-0 flex-column">
+    <v-row class="w-100 ma-0 ga-3 flex-column">
         <v-col cols="auto" class="pa-0">
             <Dialog :max-height="350" :dialogs="dialog" />
         </v-col>
 
-        <v-col cols="auto" class="mt-auto pa-0 pb-3">
+        <v-col cols="auto" class="mt-auto pa-0">
             <v-row class="justify-center ma-0 ga-3">
                 <v-col cols="auto" class="pa-0">
                     <BtnIcon :icon="'mdi-github'" :func="openGithub" />

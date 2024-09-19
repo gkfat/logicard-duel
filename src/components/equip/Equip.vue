@@ -175,10 +175,7 @@
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import {
-    computed,
-    ref,
-} from 'vue';
+import { computed, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
@@ -231,16 +228,16 @@ const getTemplate = computed(() => displayEquip.value?.template);
 
 const borderColor = computed(() => {
     switch (displayEquip.value?.info.rarity) {
-    case enumRarity.Normal:
-        return 'border-white';
-    case enumRarity.Rare:
-        return 'border-secondary';
-    case enumRarity.SR:
-        return 'border-red';
-    case enumRarity.SSR:
-        return 'border-darkamber';
-    default:
-        return 'border-white';
+        case enumRarity.Normal:
+            return 'border-white';
+        case enumRarity.Rare:
+            return 'border-secondary';
+        case enumRarity.SR:
+            return 'border-red';
+        case enumRarity.SSR:
+            return 'border-darkamber';
+        default:
+            return 'border-white';
     }
 });
 
@@ -248,22 +245,22 @@ const getPositionPlaceholder = computed(() => {
     let placeholder = ImageDataList.icon.placeholderHead;
 
     switch (props.position) {
-    case enumEquipPosition.Head:
-        placeholder = ImageDataList.icon.placeholderHead;
-        break;
-    case enumEquipPosition.PrimaryHand:
-    case enumEquipPosition.SecondaryHand:
-        placeholder = ImageDataList.icon.placeholderHand;
-        break;
-    case enumEquipPosition.Body:
-        placeholder = ImageDataList.icon.placeholderBody;
-        break;
-    case enumEquipPosition.Pants:
-        placeholder = ImageDataList.icon.placeholderPants;
-        break;
-    case enumEquipPosition.Shoes:
-        placeholder = ImageDataList.icon.placeholderShoes;
-        break;
+        case enumEquipPosition.Head:
+            placeholder = ImageDataList.icon.placeholderHead;
+            break;
+        case enumEquipPosition.PrimaryHand:
+        case enumEquipPosition.SecondaryHand:
+            placeholder = ImageDataList.icon.placeholderHand;
+            break;
+        case enumEquipPosition.Body:
+            placeholder = ImageDataList.icon.placeholderBody;
+            break;
+        case enumEquipPosition.Pants:
+            placeholder = ImageDataList.icon.placeholderPants;
+            break;
+        case enumEquipPosition.Shoes:
+            placeholder = ImageDataList.icon.placeholderShoes;
+            break;
     }
 
     return placeholder;

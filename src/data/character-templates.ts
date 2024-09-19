@@ -33,7 +33,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         name: '失業的上班族',
         description: '沒什麼特別的，就是個平凡的上班族（aka you）。',
         avatar: ImageDataList.avatar.man,
-        backpackLimit: 10,
+        backpackLimit: 30,
         init: {
             healthRange: [40, 50],
             attackRange: [10, 15],
@@ -98,7 +98,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         description:
             '因為體力不太好沒辦法背太多東西，很重。擁有比較厚的脂肪層，比較不容易受傷。',
         avatar: ImageDataList.avatar.fat,
-        backpackLimit: 15,
+        backpackLimit: 20,
         init: {
             healthRange: [50, 70],
             attackRange: [8, 10],
@@ -147,7 +147,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         name: '股票經紀人',
         description: '末日後依然堅持從事金融交易，深諳致富之道。',
         avatar: ImageDataList.avatar.broker,
-        backpackLimit: 10,
+        backpackLimit: 35,
         init: {
             healthRange: [35, 60],
             attackRange: [12, 18],
@@ -244,7 +244,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         name: '藝術家',
         description: '穿著獨特的大衣，口袋很多。因為有低血糖，比較虛弱。',
         avatar: ImageDataList.avatar.artist,
-        backpackLimit: 10,
+        backpackLimit: 40,
         init: {
             healthRange: [30, 35],
             attackRange: [15, 18],

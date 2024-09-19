@@ -65,7 +65,9 @@
         <v-card
             flat
             color="bluegrey"
-            class="rounded-xl border-xl border-amber border-opacity-100"
+            class="rounded-xl border-xl border-amber border-opacity-100 mx-auto"
+            :max-width="600"
+            :min-width="350"
         >
             <v-card-text class="pb-0">
                 <v-row class="align-center">
@@ -128,10 +130,7 @@
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import {
-    computed,
-    ref,
-} from 'vue';
+import { computed, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 

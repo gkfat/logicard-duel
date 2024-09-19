@@ -2,37 +2,45 @@
     <v-card
         flat
         color="bluegrey"
-        class="border-white border-xl rounded-lg border-opacity-75 overflow-y-auto"
+        class="border-white border-lg rounded-lg border-opacity-75 overflow-y-auto"
     >
-        <v-card-text class="pa-0">
-            <v-row class="justify-space-between ma-0 mb-3">
-                <v-col cols="auto" class="pa-1 d-flex align-center">
+        <v-card-text class="px-0">
+            <v-row class="ma-0 flex-nowrap ga-1 px-3 mb-3">
+                <v-col cols="auto" class="pa-0 d-flex align-center">
                     <v-avatar
                         :size="50"
                         :image="player.character.avatar"
                     ></v-avatar>
-                    <p>{{ player.character.name }}</p>
                 </v-col>
 
-                <v-col cols="auto" class="d-flex align-center">
-                    <v-col class="pa-1 d-flex align-center ga-1" cols="auto">
+                <v-col cols="5" class="pa-0 d-flex align-center">
+                    <div>
+                        <p>{{ player.character.name }}</p>
+                        <p class="text-caption">
+                            {{ player.character.description }}
+                        </p>
+                    </div>
+                </v-col>
+
+                <v-col cols="auto" class="pa-0 ml-auto">
+                    <div class="d-flex align-center ga-1 mb-1">
                         <v-icon
                             color="skin"
                             icon="mdi-screw-round-top"
                         ></v-icon>
-                        {{ player.backpack.coin }}
-                    </v-col>
-                    <v-col class="pa-1 d-flex align-center ga-1" cols="auto">
+                        {{ thousands(player.backpack.coin) }}
+                    </div>
+                    <div class="d-flex align-center ga-1">
                         <v-icon color="skin" icon="mdi-bag-personal"></v-icon>
                         {{ currentBackpackItems }}/{{
                             player.character.backpackLimit
                         }}
-                    </v-col>
+                    </div>
                 </v-col>
             </v-row>
 
             <!-- 狀態值 -->
-            <v-row class="justify-space-between ma-0 mb-3">
+            <v-row class="ma-0 mb-3">
                 <v-col class="py-0 d-flex align-center ga-1" cols="auto">
                     <v-icon color="red" icon="mdi-heart"></v-icon>
                     {{ player.status.health }}/{{ player.status.maxHealth }}
@@ -109,6 +117,7 @@ import Equip from '@/components/equip/Equip.vue';
 import { enumEffect } from '@/enums/effect';
 import { enumEquipPosition } from '@/enums/equip';
 import { usePlayerStore } from '@/store/player';
+import { thousands } from '@/utils/number';
 
 const playerStore = usePlayerStore();
 

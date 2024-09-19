@@ -1,18 +1,18 @@
 <template>
     <div class="campfire" :style="{ opacity: opacity.current }" />
 
-    <v-card flat class="bg-transparent fill-height">
-        <v-card-text class="pa-0 mb-3">
+    <v-row class="w-100 ma-0 ga-3 flex-column">
+        <v-col cols="auto" class="pa-0">
             <Dialog :dialogs="dialogs" :max-height="150" />
-        </v-card-text>
+        </v-col>
 
         <!-- 角色 -->
-        <v-card-text class="pa-0 overflow-y-auto mb-3">
+        <v-col cols="auto" class="pa-0">
             <Status></Status>
-        </v-card-text>
+        </v-col>
 
         <!-- 功能列 -->
-        <v-card-text class="pa-0 mb-3">
+        <v-col cols="auto" class="pa-0 mt-auto">
             <v-row class="ma-0 ga-3 justify-center mt-auto">
                 <!-- 背包 -->
                 <v-col class="pa-0">
@@ -39,20 +39,16 @@
                     ></BtnIcon>
                 </v-col>
             </v-row>
-        </v-card-text>
+        </v-col>
 
-        <v-card-actions class="pa-0">
+        <v-col cols="auto" class="pa-0">
             <BtnText :text="t('button.next_battle')" :func="battleStart" />
-        </v-card-actions>
-    </v-card>
+        </v-col>
+    </v-row>
 </template>
 
 <script setup lang="ts">
-import {
-    onBeforeMount,
-    onMounted,
-    ref,
-} from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
