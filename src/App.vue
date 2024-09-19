@@ -1,7 +1,10 @@
 <template>
     <v-app
         full-height
-        style="max-height: 100vh"
+        :style="{
+            width: '100vw',
+            height: '100vh',
+        }"
         class="bg-transparent overflow-hidden"
     >
         <router-view />

@@ -2,8 +2,7 @@
     <v-card
         flat
         color="bluegrey"
-        class="rounded-xl border-lg w-100 overflow-y-auto"
-        :max-height="280"
+        class="rounded-lg border-lg w-100 overflow-y-auto"
     >
         <v-card-title class="text-center">
             <v-avatar
@@ -91,7 +90,6 @@
             <em class="text-secondary" v-else>沒有初始裝備，真慘。</em>
         </v-card-text>
     </v-card>
-    <p class="text-caption text-right me-3">＊卡片可往下捲</p>
 </template>
 
 <script lang="ts" setup>

@@ -1,25 +1,27 @@
 <template>
-    <v-col cols="12" class="pa-0">
-        <Dialog :max-height="350" :dialogs="dialog" />
-    </v-col>
+    <v-row class="w-100 ma-0 flex-column">
+        <v-col cols="auto" class="pa-0">
+            <Dialog :max-height="350" :dialogs="dialog" />
+        </v-col>
 
-    <v-col cols="12" class="pa-0 mt-auto">
-        <v-row class="justify-center ga-3">
-            <v-col cols="auto" class="pa-0">
-                <BtnIcon :icon="'mdi-github'" :func="openGithub" />
-            </v-col>
-            <v-col cols="auto" class="pa-0">
-                <BtnIcon
-                    :icon="'mdi-script-text'"
-                    :func="() => appStore.openDialog('rank')"
-                />
-            </v-col>
-        </v-row>
-    </v-col>
+        <v-col cols="auto" class="mt-auto pa-0 pb-3">
+            <v-row class="justify-center ma-0 ga-3">
+                <v-col cols="auto" class="pa-0">
+                    <BtnIcon :icon="'mdi-github'" :func="openGithub" />
+                </v-col>
+                <v-col cols="auto" class="pa-0">
+                    <BtnIcon
+                        :icon="'mdi-script-text'"
+                        :func="() => appStore.openDialog('rank')"
+                    />
+                </v-col>
+            </v-row>
+        </v-col>
 
-    <v-col cols="12" class="pa-0 mt-auto">
-        <BtnText :text="t('game_view.start')" :func="start" />
-    </v-col>
+        <v-col cols="auto" class="pa-0">
+            <BtnText :text="t('game_view.start')" :func="start" />
+        </v-col>
+    </v-row>
 </template>
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';

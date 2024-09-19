@@ -57,9 +57,6 @@ import {
 import { useI18n } from 'vue-i18n';
 
 import BtnIcon from '@/components/system/BtnIcon.vue';
-// import Backpack from '@/components/backpack/Backpack.vue';
-// import Rank from '@/components/rank/Rank.vue';
-// import Shop from '@/components/shop/Shop.vue';
 import BtnText from '@/components/system/BtnText.vue';
 import Dialog from '@/components/system/Dialog.vue';
 import { DialogDataList } from '@/data/dialogs';

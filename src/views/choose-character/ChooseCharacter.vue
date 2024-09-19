@@ -1,45 +1,49 @@
 <template>
-    <v-col cols="12" class="pa-0 align-self-stretch">
-        <Dialog :dialogs="dialogs[currentIndex]" />
-    </v-col>
+    <v-row class="ma-0 w-100 flex-column flex-nowrap ga-3" :style="{ maxHeight: '100%' }">
+        <v-col cols="auto" class="pa-0">
+            <Dialog :dialogs="dialogs[currentIndex]" />
+        </v-col>
 
-    <v-col v-if="!isDialogEnd" cols="12" class="pa-0 mt-auto">
-        <BtnText :text="t('button.skip')" :func="dialogNextToEnd" />
-        <v-spacer class="mb-3" />
-        <BtnText :text="t('button.next')" :func="dialogNext" />
-    </v-col>
+        <v-col v-if="!isDialogEnd" cols="auto" class="pa-0 mt-auto">
+            <BtnText :text="t('button.skip')" :func="dialogNextToEnd" />
+            <v-spacer class="mb-3" />
+            <BtnText :text="t('button.next')" :func="dialogNext" />
+        </v-col>
 
-    <!-- 選擇角色 -->
-    <v-col v-if="isDialogEnd" class="pa-0 mt-auto">
-        <v-carousel
-            v-model="characterIndex"
-            hide-delimiters
-            height="auto"
-            class="my-3 rounded-xl overflow-hidden"
-            :show-arrows="false"
-            :delimiter-icon="'mdi-face-man'"
-            style="height: 300px"
-        >
-            <v-carousel-item
-                v-for="(character, index) in characterList"
-                :key="index"
-                :value="index"
+        <!-- 選擇角色 -->
+        <v-col v-if="isDialogEnd" cols="auto" class="pa-0 rounded-lg flex-grow-1 overflow-y-auto" :style="{ maxHeight: '60%'}">
+            <v-carousel
+                v-model="characterIndex"
+                hide-delimiters
+                :show-arrows="false"
+                :delimiter-icon="'mdi-face-man'"
+                height="auto"
             >
-                <CharacterCard :character="character" />
-            </v-carousel-item>
-        </v-carousel>
+                <v-carousel-item
+                    v-for="(character, index) in characterList"
+                    :key="index"
+                    :value="index"
+                >
+                    <CharacterCard :character="character" />
+                </v-carousel-item>
+            </v-carousel>
+        </v-col>
 
-        <v-row class="ma-0 ga-3">
-            <v-col class="pa-0">
-                <BtnText :text="'往前'" :func="prevCharacter" />
-            </v-col>
-            <v-col class="pa-0">
-                <BtnText :text="'往後'" :func="nextCharacter" />
-            </v-col>
-        </v-row>
-        <v-spacer class="mb-3" />
-        <BtnText :text="t('button.confirm')" :func="confirmCharacter" />
-    </v-col>
+        <v-col v-if="isDialogEnd" cols="auto" class="pa-0 mt-auto">
+            <p class="text-caption text-right me-3">＊卡片可往下捲</p>
+
+            <v-row class="ma-0 ga-3 flex-nowrap">
+                <v-col class="pa-0">
+                    <BtnText :text="''" :prepend-icon="'mdi-chevron-left'" :func="prevCharacter" />
+                </v-col>
+                <v-col class="pa-0">
+                    <BtnText :text="''" :prepend-icon="'mdi-chevron-right'" :func="nextCharacter" />
+                </v-col>
+            </v-row>
+            <v-spacer class="mb-3" />
+            <BtnText :text="t('button.confirm')" :func="confirmCharacter" />
+        </v-col>
+    </v-row>
 </template>
 
 <script setup lang="ts">

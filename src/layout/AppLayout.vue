@@ -1,15 +1,21 @@
 <template>
     <div
         class="fill-height d-flex flex-column mx-auto"
-        style="width: 100%; max-width: 500px; max-height: 100vh"
+        :style="{
+            width: '100%',
+            maxWidth: '500px',
+            maxHeight: '100%'
+        }"
     >
         <AppHeader></AppHeader>
 
         <v-container
-            class="fill-height py-0 pb-3 align-start"
-            style="max-height: 100%"
+            class="fill-height py-0 d-flex flex-column flex-nowrap"
+            :style="{
+                maxHeight: 'calc(100% - 50px)',
+            }"
         >
-            <router-view />
+            <router-view class="flex-grow-1" />
         </v-container>
 
         <Rank></Rank>
