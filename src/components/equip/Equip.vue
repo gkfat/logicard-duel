@@ -60,7 +60,7 @@
         </v-col>
     </v-row>
 
-    <v-dialog v-model="isDialogOpen">
+    <v-dialog v-model="isDialogOpen" :max-width="500" :min-width="300">
         <v-card
             flat
             color="bluegrey"

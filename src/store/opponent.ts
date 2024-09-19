@@ -12,6 +12,9 @@ import { useSoundStore } from './sound';
 export const useOpponentStore = defineStore('opponent', () => {
     const soundStore = useSoundStore();
 
+    /** 被擊敗的敵人 */
+    const graves = ref<Player[]>([]);
+
     /** 敵人池 */
     const pool = ref<Player[]>([]);
 
@@ -20,7 +23,9 @@ export const useOpponentStore = defineStore('opponent', () => {
 
     /** 初始化敵人池 */
     function init() {
-        Array.from({ length: 5 }).forEach(() => {
+        // TODO: 初始化一定有工作型
+
+        Array.from({ length: 3 }).forEach(() => {
             const randomType =
                 OpponentValues[getRandomInt([0, OpponentValues.length - 1])];
             const opponent = factory.createPlayer(randomType);

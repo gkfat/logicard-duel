@@ -25,9 +25,11 @@ import { useAppStore } from './store/app';
 const appStore = useAppStore();
 
 const isDisplayBackground = computed(() => {
-    return [enumGameState.Init, enumGameState.ChooseCharacter].includes(
-        appStore.gameState
-    );
+    return [
+        enumGameState.Init,
+        enumGameState.ChooseCharacter,
+        enumGameState.ChooseOpponent,
+    ].includes(appStore.gameState);
 });
 </script>
 <style lang="scss">

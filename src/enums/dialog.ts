@@ -2,7 +2,7 @@
 export enum enumDialog {
     Opening,
     GameStart,
-    BattleStart,
+    ChooseOpponent,
     BattleEnd,
     Rest,
     Rank,

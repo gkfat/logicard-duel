@@ -1,6 +1,6 @@
 <template>
     <v-bottom-sheet v-model="isOpen" height="90vh">
-        <v-card color="skin" class="py-3 rounded-t-xl">
+        <v-card color="skin" class="rounded-t-xl">
             <v-row
                 class="ma-0 fill-height flex-column flex-nowrap mx-auto overflow-hidden"
                 :style="{ maxWidth: '500px', maxHeight: '90vh' }"
@@ -13,7 +13,7 @@
                 <v-col
                     cols="auto"
                     class="w-100 overflow-y-auto flex-grow-1"
-                    :style="{ minHeight: '0', maxHeight: '70%' }"
+                    :style="{ minHeight: '0', maxHeight: '60%' }"
                 >
                     <div
                         :style="{
@@ -97,12 +97,14 @@ const player = computed(() => playerStore.currentPlayer!);
 const backpackItems = computed(() => {
     const items: { type: 'card' | 'equip'; item: CardType | EquipType }[] = [];
 
-    player.value.backpack.equips.map((equip) => {
-        items.push({
-            type: 'equip',
-            item: equip,
+    player.value.backpack.equips
+        .sort((a, b) => b.info.rarity.localeCompare(a.info.rarity))
+        .map((equip) => {
+            items.push({
+                type: 'equip',
+                item: equip,
+            });
         });
-    });
 
     player.value.backpack.cards.map((card) => {
         items.push({

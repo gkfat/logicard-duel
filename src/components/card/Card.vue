@@ -3,19 +3,18 @@
         <v-col cols="12" class="pa-0">
             <v-card
                 flat
-                rounded="lg"
-                class="mx-auto"
+                class="mx-auto rounded-md"
                 :wdith="50"
                 :height="80"
                 :class="props.isCardBack ? 'bg-blue' : 'bg-skin'"
                 :style="getStyles"
                 @click="isDialogOpen = true"
             >
-                <v-row class="ma-0 pa-2 fill-height">
+                <v-row class="ma-0 pa-1 fill-height">
                     <!-- 卡背 -->
                     <v-col
                         v-if="props.isCardBack"
-                        class="pa-0 fill-height border-md border-skin rounded-lg border-opacity-50"
+                        class="pa-0 fill-height border-md border-skin rounded-md border-opacity-50"
                     >
                         <v-row
                             class="ma-0 align-center justify-center fill-height"
@@ -32,7 +31,7 @@
                     <!-- 卡面 -->
                     <v-col
                         v-else
-                        class="pa-0 fill-height border-md border-blue rounded-lg border-opacity-50"
+                        class="pa-0 fill-height border-md border-blue rounded-md border-opacity-50"
                     >
                         <v-row
                             class="ma-0 align-center justify-center fill-height ga-1 pa-1"
@@ -44,10 +43,8 @@
                                 ></Icon>
                             </v-col>
 
-                            <v-col cols="auto" class="pa-0">
-                                <p class="text-caption">
-                                    {{ props.card.template.name }}
-                                </p>
+                            <v-col cols="auto" class="pa-0 text-caption">
+                                {{ props.card.template.name }}
                             </v-col>
                         </v-row>
                     </v-col>
@@ -61,13 +58,11 @@
         </v-col>
     </v-row>
 
-    <v-dialog v-model="isDialogOpen">
+    <v-dialog v-model="isDialogOpen" :max-width="500" :min-width="300">
         <v-card
             flat
             color="bluegrey"
-            class="rounded-xl border-xl border-amber border-opacity-100 mx-auto"
-            :max-width="600"
-            :min-width="350"
+            class="rounded-xl border-xl border-amber border-opacity-100"
         >
             <v-card-text class="pb-0">
                 <v-row class="align-center">
@@ -158,8 +153,8 @@ const getStyles = computed(() => {
     const styles: { [key: string]: string } = {};
 
     if (props.size === 'small') {
-        styles['width'] = '50px';
-        styles['max-width'] = '50px';
+        styles['width'] = '60px';
+        styles['max-width'] = '60px';
         styles['height'] = '80px';
         styles['max-height'] = '80px';
     } else {

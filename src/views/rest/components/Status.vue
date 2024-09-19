@@ -2,7 +2,7 @@
     <v-card
         flat
         color="bluegrey"
-        class="border-white border-lg rounded-lg border-opacity-75 overflow-y-auto"
+        class="border-white border-lg rounded-lg border-opacity-75 overflow-y-auto fill-height"
     >
         <v-card-text class="px-0">
             <v-row class="ma-0 flex-nowrap ga-1 px-3 mb-3">

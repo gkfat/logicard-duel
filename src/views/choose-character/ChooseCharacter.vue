@@ -1,6 +1,6 @@
 <template>
     <v-row class="w-100 ma-0 ga-3 flex-column">
-        <v-col cols="auto" class="pa-0">
+        <v-col cols="auto" class="pa-0 flex-grow-1">
             <Dialog :dialogs="dialogs[currentIndex]" />
         </v-col>
 
@@ -18,7 +18,7 @@
                     :key="index"
                     cols="6"
                     class="pa-1"
-                    @click="onSelectCharacter(index)"
+                    @click="onCharacterSelected(index)"
                 >
                     <CharacterCard
                         :is-selected="currentCharacterIndex === index"
@@ -94,7 +94,7 @@ const characterList = CharacterTemplateList.filter((c) =>
 /** 選擇的角色 index */
 const currentCharacterIndex = ref(0);
 
-const onSelectCharacter = async (index: number) => {
+const onCharacterSelected = async (index: number) => {
     await soundStore.playSound(soundStore.sounds.effect.click);
     currentCharacterIndex.value = index;
 };

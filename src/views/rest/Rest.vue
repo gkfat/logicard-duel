@@ -7,7 +7,7 @@
         </v-col>
 
         <!-- 角色 -->
-        <v-col cols="auto" class="pa-0">
+        <v-col cols="auto" class="pa-0 flex-grow-1">
             <Status></Status>
         </v-col>
 
@@ -42,7 +42,7 @@
         </v-col>
 
         <v-col cols="auto" class="pa-0">
-            <BtnText :text="t('button.next_battle')" :func="battleStart" />
+            <BtnText :text="t('button.next_battle')" :func="goOut" />
         </v-col>
     </v-row>
 </template>
@@ -55,6 +55,7 @@ import { useI18n } from 'vue-i18n';
 import BtnIcon from '@/components/system/BtnIcon.vue';
 import BtnText from '@/components/system/BtnText.vue';
 import Dialog from '@/components/system/Dialog.vue';
+import { useClickSound } from '@/composable/clickSound';
 import { DialogDataList } from '@/data/dialogs';
 import { enumDialog } from '@/enums/dialog';
 import { enumGameState } from '@/enums/game';
@@ -82,9 +83,10 @@ const BREATHE_TIME = 170;
 // eslint-disable-next-line no-undef
 const intervalChangingBackground = ref<NodeJS.Timeout>();
 
-const battleStart = async () => {
-    await soundStore.playSound(soundStore.sounds.effect.click);
-    appStore.changeGameState(enumGameState.BattleStart);
+const goOut = async () => {
+    await useClickSound(() =>
+        appStore.changeGameState(enumGameState.ChooseOpponent)
+    );
 };
 
 const increaseOpacity = () => {

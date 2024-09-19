@@ -82,7 +82,7 @@ export const usePlayerStore = defineStore('player', () => {
             if (getCurrentEquipment) {
                 soundStore.playSound(soundStore.sounds.effect.equip);
 
-                // 脫下現有壯輩
+                // 脫下現有裝備
                 getCurrentEquipment.is_equiped = false;
             }
         }
