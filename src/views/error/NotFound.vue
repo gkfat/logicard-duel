@@ -1,14 +1,13 @@
 <template>
-    <div class="notfound-page container-fluid d-flex justify-content-center align-items-center">
-        <div class="pt-5">
-            <p class="h3 text-center">
-                {{ t('not_found_page.title') }}
-            </p>
-            <p class="h5 text-center">
-                {{ t('not_found_page.description') }}
-            </p>
-        </div>
-    </div>
+    <v-row class="w-100 ma-0 ga-3 flex-column">
+        <v-col cols="auto" class="pa-0">
+            <Dialog :dialogs="dialogs" />
+        </v-col>
+
+        <v-col cols="auto" class="pa-0 mt-auto">
+            <Btn :text="t('button.restart')" :func="restart" />
+        </v-col>
+    </v-row>
 </template>
 
 <script setup lang="ts">
@@ -17,22 +16,23 @@ import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
-import Util from '@/service/util';
-import { useSwitchToggleStore } from '@/store';
+import Btn from '@/components/system/Btn.vue';
+import Dialog from '@/components/system/Dialog.vue';
+import { DialogDataList } from '@/data/dialogs';
+import { enumDialog } from '@/enums/dialog';
+import { useAppStore } from '@/store/app';
 
-const switchToggleStore = useSwitchToggleStore();
 const { t } = useI18n();
 const router = useRouter();
+const appStore = useAppStore();
+
+const dialogs = DialogDataList[enumDialog.Restart];
+
+const restart = () => {
+    router.push('/');
+};
 
 onMounted(async () => {
-    switchToggleStore.switchSpinner(false);
-    await Util.sleep(2000);
-    router.push('/');
+    appStore.switchSpinner(false);
 });
 </script>
-
-<style scoped lang="scss">
-.notfound-page {
-  flex-wrap: wrap;
-}
-</style>

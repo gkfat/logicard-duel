@@ -9,7 +9,7 @@ export default [
   eslintJs.configs.recommended,
   // general
   {
-    files: ["**/*.{js,ts,jsx,tsx,vue}"],
+    files: ["**/*.{js,jsx,tsx}"],
     languageOptions: {
       parserOptions: {
         ecmaVersion: "latest",
@@ -45,10 +45,12 @@ export default [
       },
     },
     rules: {
-      indent: ["error", 4],
-      quotes: ["error", "single"],
-      "vue/html-indent": ["error", 4],
-      "vue/multi-word-component-names": "off",
+      "vue/multi-word-component-names": [
+        "warn",
+        {
+          ignores: ["index"],
+        },
+      ],
     },
   },
 ];

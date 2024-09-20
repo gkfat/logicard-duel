@@ -2,15 +2,14 @@ import { ref } from 'vue';
 
 import { defineStore } from 'pinia';
 
+import { useSoundEffect } from '@/composable/useSoundEffect';
 import { enumGameState } from '@/enums/game';
-
-import { useSoundStore } from './sound';
 
 export const useAppStore = defineStore('appStore', () => {
     const gameState = ref(enumGameState.Init);
     const spinnerOpen = ref(false);
     const isOpen = ref<'rank' | 'backpack' | 'shop' | null>(null);
-    const soundStore = useSoundStore();
+    const { soundClick } = useSoundEffect();
 
     /** 改變遊戲狀態 */
     const changeGameState = (newState: enumGameState) => {
@@ -23,12 +22,12 @@ export const useAppStore = defineStore('appStore', () => {
     }
 
     function openDialog(target: 'rank' | 'backpack' | 'shop') {
-        soundStore.playSound(soundStore.sounds.effect.click);
+        soundClick();
         isOpen.value = target;
     }
 
     function closeDialog() {
-        soundStore.playSound(soundStore.sounds.effect.click);
+        soundClick();
         isOpen.value = null;
     }
 

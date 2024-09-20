@@ -8,7 +8,7 @@
                 :height="80"
                 :class="props.isCardBack ? 'bg-blue' : 'bg-skin'"
                 :style="getStyles"
-                @click="isDialogOpen = true"
+                @click="toggleDialog(true)"
             >
                 <v-row class="ma-0 pa-1 fill-height">
                     <!-- 卡背 -->
@@ -132,12 +132,20 @@ import { useI18n } from 'vue-i18n';
 import Effect from '@/components/common/Effect.vue';
 import Icon from '@/components/common/Icon.vue';
 import Rarity from '@/components/common/Rarity.vue';
+import { useSoundEffect } from '@/composable/useSoundEffect';
 import { ImageDataList } from '@/data/images';
 import { Card } from '@/types/core';
 
 const isDialogOpen = ref(false);
 
 const { t } = useI18n();
+const { soundClick } = useSoundEffect();
+
+const toggleDialog = (target: boolean) => {
+    soundClick();
+    isDialogOpen.value = target;
+};
+
 const props = withDefaults(
     defineProps<{
         card: Card;

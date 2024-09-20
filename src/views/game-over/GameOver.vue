@@ -1,8 +1,5 @@
 <template>
-    <v-col
-        cols="12"
-        class="pa-0 align-self-stretch"
-    >
+    <v-col cols="12" class="pa-0 align-self-stretch">
         <Dialog :dialogs="dialog" />
     </v-col>
 
@@ -25,43 +22,25 @@
         />
     </v-col>
 
-    <v-col
-        cols="12"
-        class="align-self-end"
-    >
-        <BtnText
-            :text="t('game_view.game_end.restart')"
-            :func="restart"
-        />
+    <v-col cols="12" class="align-self-end">
+        <BtnText :text="t('game_view.game_end.restart')" :func="restart" />
     </v-col>
 </template>
 <script lang="ts" setup>
-import {
-    computed,
-    ref,
-    watch,
-} from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
 import BtnText from '@/components/system/BtnText.vue';
 import Dialog from '@/components/system/Dialog.vue';
 import { DialogDataList } from '@/data';
-import {
-    enumDialog,
-    enumOperation,
-    enumSheetName,
-} from '@/enums/game';
+import { enumDialog, enumOperation, enumSheetName } from '@/enums/game';
 import Util from '@/service/util';
-import {
-    usePlayerStore,
-    useRankStore,
-    useSwitchToggleStore,
-} from '@/store';
+import { usePlayerStore, useRankStore, useSwitchToggleStore } from '@/store';
 import { Game } from '@/types';
 
 const { t } = useI18n();
-const dialog = DialogDataList[enumDialog.GameEnd];
+const dialog = DialogDataList[enumDialog.GameOver];
 const switchToggleStore = useSwitchToggleStore();
 const playerStore = usePlayerStore();
 const player = computed<Game.Player>(() => playerStore.player);
@@ -91,7 +70,8 @@ const headers = [
     {
         key: 'survival_time',
         title: t('game_view.game_end.survival_time'),
-        value: (item: Game.Player) => `${item.Record.SurvivalTime} ${t('game_view.game_end.hour')}`,
+        value: (item: Game.Player) =>
+            `${item.Record.SurvivalTime} ${t('game_view.game_end.hour')}`,
     },
 ];
 
@@ -107,7 +87,10 @@ watch(lastWords, () => {
 });
 
 const restart = async () => {
-    const finalLastWords = lastWords.value.length === 0 ? '走的太倉促，沒有留下遺言。' : lastWords.value;
+    const finalLastWords =
+        lastWords.value.length === 0
+            ? '走的太倉促，沒有留下遺言。'
+            : lastWords.value;
     switchToggleStore.switchSpinner(true);
     const data = {
         EndTime: Util.getCurrentDate(),
@@ -118,7 +101,11 @@ const restart = async () => {
         SurvivalTime: `${player.value.Record.SurvivalTime} 小時`,
         LastWords: finalLastWords,
     };
-    await rankStore.updateData(enumSheetName.Records, enumOperation.Update, data);
+    await rankStore.updateData(
+        enumSheetName.Records,
+        enumOperation.Update,
+        data
+    );
     Util.sleep(1000);
     switchToggleStore.switchSpinner(false);
     window.location.reload();

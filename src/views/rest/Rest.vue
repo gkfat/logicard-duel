@@ -16,33 +16,30 @@
             <v-row class="ma-0 ga-3 justify-center mt-auto">
                 <!-- 背包 -->
                 <v-col class="pa-0">
-                    <BtnIcon
-                        :block="true"
+                    <Btn
                         :icon="'mdi-bag-personal'"
                         :func="() => appStore.openDialog('backpack')"
-                    ></BtnIcon>
+                    ></Btn>
                 </v-col>
                 <!-- 排行榜 -->
                 <v-col class="pa-0">
-                    <BtnIcon
-                        :block="true"
+                    <Btn
                         :icon="'mdi-script-text'"
                         :func="() => appStore.openDialog('rank')"
-                    ></BtnIcon>
+                    ></Btn>
                 </v-col>
                 <!-- 商店 -->
                 <v-col class="pa-0">
-                    <BtnIcon
-                        :block="true"
+                    <Btn
                         :icon="'mdi-cart'"
                         :func="() => appStore.openDialog('shop')"
-                    ></BtnIcon>
+                    ></Btn>
                 </v-col>
             </v-row>
         </v-col>
 
         <v-col cols="auto" class="pa-0">
-            <BtnText :text="t('button.next_battle')" :func="goOut" />
+            <Btn :text="t('button.next_battle')" :func="goOut" />
         </v-col>
     </v-row>
 </template>
@@ -52,22 +49,20 @@ import { onBeforeMount, onMounted, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
-import BtnIcon from '@/components/system/BtnIcon.vue';
-import BtnText from '@/components/system/BtnText.vue';
+import Btn from '@/components/system/Btn.vue';
 import Dialog from '@/components/system/Dialog.vue';
-import { useClickSound } from '@/composable/clickSound';
+import { useSoundEffect } from '@/composable/useSoundEffect';
 import { DialogDataList } from '@/data/dialogs';
 import { enumDialog } from '@/enums/dialog';
 import { enumGameState } from '@/enums/game';
 import { useAppStore } from '@/store/app';
-import { useSoundStore } from '@/store/sound';
 import { sleep } from '@/utils/common';
 
 import Status from './components/Status.vue';
 
 const appStore = useAppStore();
-const soundStore = useSoundStore();
 const { t } = useI18n();
+const { soundClick } = useSoundEffect();
 
 const dialogs = DialogDataList[enumDialog.Rest];
 
@@ -84,7 +79,7 @@ const BREATHE_TIME = 170;
 const intervalChangingBackground = ref<NodeJS.Timeout>();
 
 const goOut = async () => {
-    await useClickSound(() =>
+    await soundClick(() =>
         appStore.changeGameState(enumGameState.ChooseOpponent)
     );
 };

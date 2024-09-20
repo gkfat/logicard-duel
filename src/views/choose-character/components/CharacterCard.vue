@@ -2,20 +2,28 @@
     <v-card
         flat
         :color="isSelected ? 'darkgreen' : 'bluegrey'"
-        class="rounded-lg border-xl"
-        @click="isOpenDialog = true"
+        class="rounded-lg border-xl cursor-pointer"
     >
-        <v-row class="ma-0 text-nowarp">
-            <v-col cols="auto">
+        <v-row class="ma-0">
+            <v-col cols="auto" class="py-1 d-flex align-center">
                 <v-avatar
-                    size="60"
+                    size="50"
                     :image="character.avatar"
-                    color="orange"
-                    class="border-lg"
+                    color="darkamber"
+                    class="border-md"
                 ></v-avatar>
             </v-col>
-            <v-col>
-                <p class="text-h6">{{ character.name }}</p>
+
+            <v-col class="py-1 d-flex align-center">
+                <p class="text-body-1">{{ character.name }}</p>
+            </v-col>
+
+            <v-col cols="auto" class="pa-1 px-3 d-flex align-center">
+                <Btn
+                    :icon="'mdi-eye-circle'"
+                    :size="'small'"
+                    :func="() => toggleDialog(true)"
+                ></Btn>
             </v-col>
         </v-row>
     </v-card>
@@ -43,7 +51,7 @@
                 {{ character.description }}
             </v-card-subtitle>
 
-            <v-card-text>
+            <v-card-text class="overflow-y-auto">
                 <p class="text-caption">能力值範圍</p>
 
                 <v-row class="ma-0">
@@ -73,9 +81,9 @@
                         {{ character.backpackLimit }}
                     </v-col>
                 </v-row>
-            </v-card-text>
 
-            <v-card-text>
+                <v-divider class="my-3"></v-divider>
+
                 <p class="text-caption">初始卡牌</p>
 
                 <v-row
@@ -93,9 +101,9 @@
                 </v-row>
 
                 <em class="text-secondary" v-else>沒有初始卡牌，真可憐。</em>
-            </v-card-text>
 
-            <v-card-text>
+                <v-divider class="my-3"></v-divider>
+
                 <p class="text-caption">初始裝備</p>
 
                 <v-row
@@ -114,6 +122,13 @@
 
                 <em class="text-secondary" v-else>沒有初始裝備，真慘。</em>
             </v-card-text>
+
+            <v-card-actions>
+                <Btn
+                    :text="t('button.cancel')"
+                    :func="() => toggleDialog(false)"
+                ></Btn>
+            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
@@ -121,13 +136,24 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
+import { useI18n } from 'vue-i18n';
+
+import Btn from '@/components/system/Btn.vue';
+import { useSoundEffect } from '@/composable/useSoundEffect';
 import { CharacterTemplate } from '@/types/character';
 import { rangeToText } from '@/utils/common';
 
 import CardTemplate from './CardTemplate.vue';
 import EquipTemplate from './EquipTemplate.vue';
 
+const { t } = useI18n();
+const { soundClick } = useSoundEffect();
 const isOpenDialog = ref(false);
+
+const toggleDialog = (target: boolean) => {
+    soundClick();
+    isOpenDialog.value = target;
+};
 
 const { character, isSelected = false } = defineProps<{
     character: CharacterTemplate;

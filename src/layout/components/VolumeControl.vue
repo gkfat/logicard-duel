@@ -6,7 +6,7 @@
         variant="plain"
         size="32"
         style="opacity: 1; z-index: 999"
-        @click="soundStore.toggleMute()"
+        @click="soundStore.toggleMute"
     >
         <v-icon
             :icon="soundStore.muteMode ? 'mdi-volume-off' : 'mdi-volume-high'"

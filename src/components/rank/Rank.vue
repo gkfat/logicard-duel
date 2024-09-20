@@ -45,7 +45,7 @@
                 </v-col>
             </v-row>
             <v-card-actions class="pa-3">
-                <BtnText :text="t('button.close_rank')" :func="closeRank" />
+                <Btn :text="t('button.close_rank')" :func="closeRank" />
             </v-card-actions>
         </v-card>
     </v-bottom-sheet>
@@ -56,7 +56,7 @@ import { computed } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
-import BtnText from '@/components/system/BtnText.vue';
+import Btn from '@/components/system/Btn.vue';
 import Dialog from '@/components/system/Dialog.vue';
 import { DialogDataList } from '@/data/dialogs';
 import { enumDialog } from '@/enums/dialog';

@@ -12,18 +12,11 @@ import {
 
 const baseCards = [
     enumCard.LogiCard1,
-    enumCard.LogiCard1,
-    enumCard.LogiCard2,
     enumCard.LogiCard2,
     enumCard.LogiCard3,
-    enumCard.LogiCard3,
-    enumCard.LogiCard4,
     enumCard.LogiCard4,
     enumCard.LogiCard5,
-    enumCard.LogiCard5,
     enumCard.LogiCard6,
-    enumCard.LogiCard6,
-    enumCard.LogiCard7,
     enumCard.LogiCard7,
 ];
 
@@ -38,24 +31,8 @@ export const CharacterTemplateList: CharacterTemplate[] = [
             healthRange: [40, 50],
             attackRange: [10, 15],
             defenseRange: [3, 5],
-            cards: [
-                ...baseCards,
-                enumCard.GkbotShell,
-                enumCard.Hammer,
-                enumCard.ScrewDriver,
-                enumCard.ScrapMetal,
-            ],
-            equips: [
-                enumEquip.Boxer,
-                enumEquip.Boxer,
-                enumEquip.Boxer,
-                enumEquip.Boxer,
-                enumEquip.Boxer,
-                enumEquip.Boxer,
-                enumEquip.Boxer,
-                enumEquip.Boxer,
-                enumEquip.Cloth,
-            ],
+            cards: [...baseCards],
+            equips: [],
             coin: 0,
         },
         mumbleList: {
@@ -290,7 +267,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
     },
     {
         type: enumCharacter.GkbotWorker,
-        name: 'GKBot 工作型',
+        name: 'GkBot 工作型',
         avatar: ImageDataList.avatar.gkbotWorker,
         description:
             '被生產來做一些基本的事務，例如清潔、搬運、量產等。特色是平板的聲音線。',
@@ -334,7 +311,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
     },
     {
         type: enumCharacter.GkbotPerform,
-        name: 'GKBot 表演型',
+        name: 'GkBot 表演型',
         avatar: ImageDataList.avatar.gkbotPerform,
         backpackLimit: 999,
         description:
@@ -380,7 +357,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
     },
     {
         type: enumCharacter.GkbotAttack,
-        name: 'GKBot 侵略型',
+        name: 'GkBot 侵略型',
         avatar: ImageDataList.avatar.gkbotAttack,
         description: '被生產來進行軍事行動的型號，行動敏捷，知曉一些秘密。',
         backpackLimit: 8,
@@ -434,7 +411,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
     },
     {
         type: enumCharacter.GkbotDefense,
-        name: 'GKBot 防禦型',
+        name: 'GkBot 防禦型',
         avatar: ImageDataList.avatar.gkbotDefense,
         description: '外殼特別堅硬，能夠更有效地防禦攻擊，話很少。',
         backpackLimit: 8,

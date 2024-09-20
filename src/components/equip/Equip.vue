@@ -15,7 +15,7 @@
                     'border-opacity-100': displayEquip,
                 }"
                 class="bg-bluegrey border-md cursor-pointer mx-auto"
-                @click="isDialogOpen = true"
+                @click="toggleDialog(true)"
             >
                 <v-row
                     class="ma-0 justify-center align-center fill-height position-relative"
@@ -182,6 +182,7 @@ import { useI18n } from 'vue-i18n';
 import Effect from '@/components/common/Effect.vue';
 import Icon from '@/components/common/Icon.vue';
 import Rarity from '@/components/common/Rarity.vue';
+import { useSoundEffect } from '@/composable/useSoundEffect';
 import { ImageDataList } from '@/data/images';
 import { enumEquipPosition } from '@/enums/equip';
 import { enumRarity } from '@/enums/rarity';
@@ -192,6 +193,7 @@ import BackpackEquipItem from './components/BackpackEquipItem.vue';
 import RemoveEquipItem from './components/RemoveEquipItem.vue';
 
 const { t } = useI18n();
+const { soundClick } = useSoundEffect();
 const isDialogOpen = ref(false);
 const playerStore = usePlayerStore();
 
@@ -206,6 +208,11 @@ const props = withDefaults(
         isPlayerEquip: false,
     }
 );
+
+const toggleDialog = (target: boolean) => {
+    soundClick();
+    isDialogOpen.value = target;
+};
 
 const frameSize = computed(() => (props.size === 'small' ? 50 : 80));
 const player = computed(() => playerStore.currentPlayer!);
@@ -275,4 +282,3 @@ const getPositionEquips = computed(() => {
         .sort((a, b) => Number(b.is_equiped) - Number(a.is_equiped));
 });
 </script>
-<style lang="scss" scoped></style>

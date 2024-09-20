@@ -5,9 +5,9 @@
         </v-col>
 
         <v-col v-if="!isDialogEnd" cols="auto" class="pa-0 mt-auto">
-            <BtnText :text="t('button.skip')" :func="dialogNextToEnd" />
+            <Btn :text="t('button.skip')" :func="dialogNextToEnd" />
             <v-spacer class="mb-3" />
-            <BtnText :text="t('button.next')" :func="dialogNext" />
+            <Btn :text="t('button.next')" :func="dialogNext" />
         </v-col>
 
         <!-- 選擇角色 -->
@@ -16,8 +16,8 @@
                 <v-col
                     v-for="(character, index) in characterList"
                     :key="index"
-                    cols="6"
-                    class="pa-1"
+                    cols="12"
+                    class="pa-0 mb-1"
                     @click="onCharacterSelected(index)"
                 >
                     <CharacterCard
@@ -30,7 +30,7 @@
 
         <v-col v-if="isDialogEnd" cols="auto" class="pa-0 mt-auto">
             <v-spacer class="mb-3" />
-            <BtnText :text="t('button.confirm')" :func="confirmCharacter" />
+            <Btn :text="t('button.confirm')" :func="confirmCharacter" />
         </v-col>
     </v-row>
 </template>
@@ -40,8 +40,9 @@ import { computed, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
-import BtnText from '@/components/system/BtnText.vue';
+import Btn from '@/components/system/Btn.vue';
 import Dialog from '@/components/system/Dialog.vue';
+import { useSoundEffect } from '@/composable/useSoundEffect';
 import { CharacterTemplateList } from '@/data/character-templates';
 import { DialogDataList } from '@/data/dialogs';
 import { enumCharacter } from '@/enums/character';
@@ -49,14 +50,13 @@ import { enumDialog } from '@/enums/dialog';
 import { enumGameState } from '@/enums/game';
 import { useAppStore } from '@/store/app';
 import { usePlayerStore } from '@/store/player';
-import { useSoundStore } from '@/store/sound';
 import { sleep } from '@/utils/common';
 
 import CharacterCard from './components/CharacterCard.vue';
 
 const playerStore = usePlayerStore();
 const appStore = useAppStore();
-const soundStore = useSoundStore();
+const { soundClick } = useSoundEffect();
 const { t } = useI18n();
 
 const dialogs = DialogDataList[enumDialog.GameStart];
@@ -67,14 +67,14 @@ const isDialogEnd = computed(() => currentIndex.value === lastIndex);
 /** 下一頁 */
 const dialogNext = async () => {
     if (currentIndex.value < lastIndex) {
-        await soundStore.playSound(soundStore.sounds.effect.click);
+        await soundClick();
         currentIndex.value += 1;
     }
 };
 
 /** 跳過 */
 const dialogNextToEnd = async () => {
-    await soundStore.playSound(soundStore.sounds.effect.click);
+    await soundClick();
     currentIndex.value = lastIndex;
 };
 
@@ -95,12 +95,13 @@ const characterList = CharacterTemplateList.filter((c) =>
 const currentCharacterIndex = ref(0);
 
 const onCharacterSelected = async (index: number) => {
-    await soundStore.playSound(soundStore.sounds.effect.click);
+    await soundClick();
+
     currentCharacterIndex.value = index;
 };
 
 const confirmCharacter = async () => {
-    await soundStore.playSound(soundStore.sounds.effect.click);
+    await soundClick();
 
     const character = characterList[currentCharacterIndex.value];
     playerStore.selectCharacter(character.type);

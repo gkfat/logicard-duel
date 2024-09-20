@@ -108,6 +108,10 @@ export const CardTemplateList: CardTemplate[] = [
                 pointRange: [3, 5],
                 priceRange: [20, 30],
             },
+            [enumRarity.Rare]: {
+                pointRange: [5, 9],
+                priceRange: [30, 50],
+            },
         },
     },
     {
@@ -120,6 +124,10 @@ export const CardTemplateList: CardTemplate[] = [
             [enumRarity.Normal]: {
                 pointRange: [8, 13],
                 priceRange: [35, 50],
+            },
+            [enumRarity.Rare]: {
+                pointRange: [10, 15],
+                priceRange: [60, 80],
             },
         },
     },
@@ -134,6 +142,10 @@ export const CardTemplateList: CardTemplate[] = [
                 pointRange: [7, 10],
                 priceRange: [20, 30],
             },
+            [enumRarity.Rare]: {
+                pointRange: [9, 12],
+                priceRange: [40, 55],
+            },
         },
     },
     {
@@ -146,6 +158,10 @@ export const CardTemplateList: CardTemplate[] = [
             [enumRarity.Normal]: {
                 pointRange: [10, 15],
                 priceRange: [35, 50],
+            },
+            [enumRarity.Rare]: {
+                pointRange: [14, 20],
+                priceRange: [70, 95],
             },
         },
     },

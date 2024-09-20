@@ -1,13 +1,13 @@
 <template>
     <v-card
-        class="w-100 rounded-lg fill-height border-lg py-3"
+        class="w-100 rounded-lg fill-height border-lg"
         :max-height="props.maxHeight"
     >
-        <v-card-text class="text-info py-1">
+        <v-card-text class="text-grey py-1">
             {{ t('system.dialog') }}
         </v-card-text>
 
-        <v-card-text class="overflow-y-auto py-0">
+        <v-card-text class="overflow-y-auto py-1">
             <p
                 v-for="(dialog, i) in props.dialogs"
                 :key="i"

@@ -8,5 +8,6 @@ export enum enumDialog {
     Rank,
     Shop,
     Backpack,
-    GameEnd,
+    GameOver,
+    Restart,
 }

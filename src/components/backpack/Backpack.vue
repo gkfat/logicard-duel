@@ -1,9 +1,9 @@
 <template>
-    <v-bottom-sheet v-model="isOpen" height="90vh">
+    <v-bottom-sheet v-model="isOpen" height="95vh">
         <v-card color="skin" class="rounded-t-xl">
             <v-row
                 class="ma-0 fill-height flex-column flex-nowrap mx-auto overflow-hidden"
-                :style="{ maxWidth: '500px', maxHeight: '90vh' }"
+                :style="{ maxWidth: '500px', maxHeight: '95vh' }"
             >
                 <v-col cols="auto" class="w-100">
                     <Dialog :max-height="120" :dialogs="dialogs" />
@@ -59,7 +59,7 @@
                 </v-col>
 
                 <v-col cols="auto" class="w-100 mt-auto">
-                    <BtnText
+                    <Btn
                         :text="t('button.close_backpack')"
                         :func="closeBackpack"
                     />
@@ -70,24 +70,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
 import Card from '@/components/card/Card.vue';
 import Equip from '@/components/equip/Equip.vue';
-import BtnText from '@/components/system/BtnText.vue';
+import Btn from '@/components/system/Btn.vue';
 import Dialog from '@/components/system/Dialog.vue';
 import { DialogDataList } from '@/data/dialogs';
 import { enumDialog } from '@/enums/dialog';
 import { useAppStore } from '@/store/app';
 import { usePlayerStore } from '@/store/player';
-import { useSoundStore } from '@/store/sound';
 import { Card as CardType, Equip as EquipType } from '@/types/core';
 
 const playerStore = usePlayerStore();
 const appStore = useAppStore();
-const soundStore = useSoundStore();
 const { t } = useI18n();
 
 const dialogs = DialogDataList[enumDialog.Backpack];
@@ -97,14 +95,16 @@ const player = computed(() => playerStore.currentPlayer!);
 const backpackItems = computed(() => {
     const items: { type: 'card' | 'equip'; item: CardType | EquipType }[] = [];
 
-    player.value.backpack.equips
-        .sort((a, b) => b.info.rarity.localeCompare(a.info.rarity))
-        .map((equip) => {
-            items.push({
-                type: 'equip',
-                item: equip,
-            });
+    const equips = player.value.backpack.equips
+        .slice()
+        .sort((a, b) => b.info.rarity.localeCompare(a.info.rarity));
+
+    equips.map((equip) => {
+        items.push({
+            type: 'equip',
+            item: equip,
         });
+    });
 
     player.value.backpack.cards.map((card) => {
         items.push({

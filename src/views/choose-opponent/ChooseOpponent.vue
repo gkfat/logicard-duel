@@ -22,33 +22,30 @@
         </v-col>
 
         <v-col cols="auto" class="pa-0 mt-auto">
-            <BtnText :text="t('button.battle')" :func="startBattle" />
+            <Btn :text="t('button.battle')" :func="startBattle" />
         </v-col>
     </v-row>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
-import PlayerStatus from '@/components/player-status/PlayerStatus.vue';
-import BtnText from '@/components/system/BtnText.vue';
+import Btn from '@/components/system/Btn.vue';
 import Dialog from '@/components/system/Dialog.vue';
+import { useSoundEffect } from '@/composable/useSoundEffect';
 import { DialogDataList } from '@/data/dialogs';
 import { enumDialog } from '@/enums/dialog';
 import { enumGameState } from '@/enums/game';
 import { useAppStore } from '@/store/app';
 import { useOpponentStore } from '@/store/opponent';
-import { usePlayerStore } from '@/store/player';
-import { useSoundStore } from '@/store/sound';
 
 import OpponentCard from './components/OpponentCard.vue';
 
 const { t } = useI18n();
-const soundStore = useSoundStore();
-const playerStore = usePlayerStore();
 const opponentStore = useOpponentStore();
+const { soundClick } = useSoundEffect();
 const appStore = useAppStore();
 const dialogs = DialogDataList[enumDialog.ChooseOpponent];
 
@@ -56,18 +53,24 @@ const dialogs = DialogDataList[enumDialog.ChooseOpponent];
 const currentOpponentIndex = ref(0);
 
 const onOpponentSelected = async (index: number) => {
-    await soundStore.playSound(soundStore.sounds.effect.click);
+    await soundClick();
     currentOpponentIndex.value = index;
 };
 
 const startBattle = async () => {
-    await soundStore.playSound(soundStore.sounds.effect.click);
+    await soundClick();
+
+    // 決定敵人
+    opponentStore.currentOpponent =
+        opponentStore.pool[currentOpponentIndex.value];
+
     appStore.changeGameState(enumGameState.Battle);
 };
 
 onMounted(() => {
-    // 檢查若 pool 少於 2 隻則生成
+    // 檢查若 pool 少於 3 隻則生成
+    if (opponentStore.pool.length < 3) {
+        opponentStore.refillPool();
+    }
 });
 </script>
-
-<style lang="scss" scoped></style>

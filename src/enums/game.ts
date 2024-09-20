@@ -7,7 +7,7 @@ export enum enumGameState {
     // BattleStart,
     Battle,
     BattleEnd,
-    GameEnd,
+    GameOver,
 }
 
 export enum enumRoundState {

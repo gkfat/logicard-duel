@@ -2,6 +2,7 @@ import { ref } from 'vue';
 
 import { defineStore } from 'pinia';
 
+import { useSoundEffect } from '@/composable/useSoundEffect';
 import { enumCharacter } from '@/enums/character';
 import { enumEquipPosition } from '@/enums/equip';
 import { enumMumbleType } from '@/enums/mumble';
@@ -10,10 +11,8 @@ import { Equip } from '@/types/core';
 import { Player } from '@/types/player';
 import { getRandomInt, sleep } from '@/utils/common';
 
-import { useSoundStore } from './sound';
-
 export const usePlayerStore = defineStore('player', () => {
-    const soundStore = useSoundStore();
+    const { soundEquip, soundPop } = useSoundEffect();
     const currentPlayer = ref<Player>();
 
     // 喃喃自語
@@ -40,7 +39,7 @@ export const usePlayerStore = defineStore('player', () => {
             currentPlayer.value!.character.mumbleList[mumbleType];
 
         if (mumbleList.length > 0 && !isMumbling.value) {
-            await soundStore.playSound(soundStore.sounds.effect.pop);
+            soundPop();
 
             const randomIndex = getRandomInt([0, mumbleList.length - 1]);
             isMumbling.value = true;
@@ -80,7 +79,7 @@ export const usePlayerStore = defineStore('player', () => {
             const getCurrentEquipment = currentPlayer.value.equipment[position];
 
             if (getCurrentEquipment) {
-                soundStore.playSound(soundStore.sounds.effect.equip);
+                soundEquip();
 
                 // 脫下現有裝備
                 getCurrentEquipment.is_equiped = false;
