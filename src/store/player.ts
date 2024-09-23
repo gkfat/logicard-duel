@@ -7,16 +7,25 @@ import { enumCharacter } from '@/enums/character';
 import { enumEquipPosition } from '@/enums/equip';
 import { enumMumbleType } from '@/enums/mumble';
 import factory from '@/factory';
-import { Equip } from '@/types/core';
+import { Card, Equip } from '@/types/core';
 import { Player } from '@/types/player';
 import { getRandomInt, sleep } from '@/utils/common';
+import { drawLots } from '@/utils/lottery';
+
+import { useAppStore } from './app';
 
 export const usePlayerStore = defineStore('player', () => {
-    const { soundEquip, soundPop } = useSoundEffect();
+    const appStore = useAppStore();
+    const { soundPlaceCard, soundEquip, soundPop } = useSoundEffect();
     const currentPlayer = ref<Player>();
 
-    // 喃喃自語
-    const isMumbling = ref(false);
+    /** 手牌 */
+    const handCards = ref<Card[]>([]);
+    /** 桌牌 */
+    const tableCard = ref<Card>();
+
+    /** 喃喃自語 */
+    const keepMumbling = ref(false);
     const mumbleContent = ref('');
 
     /** 選擇角色 */
@@ -25,31 +34,57 @@ export const usePlayerStore = defineStore('player', () => {
     };
 
     const clearMumble = () => {
-        isMumbling.value = false;
         mumbleContent.value = '';
     };
 
-    /** 玩家喃喃自語 */
-    async function mumble(mumbleType: enumMumbleType, delay: number) {
-        if (delay === 0) {
-            clearMumble();
+    /** 產生一句喃喃自語 */
+    async function randomMumble(
+        mumbleType: enumMumbleType,
+        force: boolean = false
+    ) {
+        // 決定是否要喃喃自語
+        const isGoingToMumble = force || drawLots();
+
+        if (isGoingToMumble) {
+            // 如果有前一句就延遲一下後再說話
+            if (mumbleContent.value.length) {
+                await sleep(1000);
+            }
+
+            const mumbleList =
+                currentPlayer.value!.character.mumbleList[mumbleType];
+
+            if (mumbleList.length > 0) {
+                soundPop();
+
+                const randomIndex = getRandomInt([0, mumbleList.length - 1]);
+                mumbleContent.value = mumbleList[randomIndex];
+
+                // 5 秒後關閉
+                await sleep(5000);
+                clearMumble();
+            }
         }
 
-        const mumbleList =
-            currentPlayer.value!.character.mumbleList[mumbleType];
+        // 循環
+        if (keepMumbling.value) {
+            const randomSeconds = getRandomInt([3, 8]);
+            await sleep(randomSeconds * 1000);
 
-        if (mumbleList.length > 0 && !isMumbling.value) {
-            soundPop();
-
-            const randomIndex = getRandomInt([0, mumbleList.length - 1]);
-            isMumbling.value = true;
-            mumbleContent.value = mumbleList[randomIndex];
-
-            // 5 秒後關閉
-            await sleep(5000);
-
-            clearMumble();
+            randomMumble(mumbleType);
         }
+    }
+
+    /** 喃喃自語循環 */
+    async function startMumble() {
+        keepMumbling.value = true;
+
+        randomMumble(enumMumbleType.General);
+    }
+
+    function stopMumble() {
+        keepMumbling.value = false;
+        clearMumble();
     }
 
     /** 扣血 */
@@ -104,15 +139,84 @@ export const usePlayerStore = defineStore('player', () => {
         }
     }
 
+    /** 抽牌 */
+    async function drawCard() {
+        const getCards: Card[] = [];
+
+        Array.from({ length: appStore.ENV.handCardMaxLimit }).forEach(() => {
+            const { cards } = currentPlayer.value!.backpack;
+            const randomIndex = getRandomInt([0, cards.length - 1]);
+
+            const getCard = cards[randomIndex];
+
+            const unReachedLimit =
+                getCards.length + handCards.value.length <
+                appStore.ENV.handCardMaxLimit;
+
+            if (getCard && unReachedLimit) {
+                getCards.push(getCard);
+                cards.splice(randomIndex, 1);
+            }
+        });
+
+        for (const card of getCards) {
+            await soundPlaceCard();
+            handCards.value.push(card);
+            await sleep(300);
+        }
+    }
+
+    /** 出牌 */
+    async function placeCard(card: Card) {
+        // 若桌上有牌，先收回
+        if (tableCard.value !== undefined) {
+            const _card = { ...tableCard.value };
+
+            handCards.value.push(_card);
+
+            tableCard.value = undefined;
+        }
+
+        if (tableCard.value === undefined) {
+            await soundPlaceCard();
+
+            handCards.value = handCards.value.filter((v) => v.id !== card.id);
+
+            tableCard.value = { ...card };
+        }
+    }
+
+    /** 收回牌 */
+    async function recallCard() {
+        if (tableCard.value !== undefined) {
+            await soundPlaceCard();
+
+            const card = { ...tableCard.value };
+
+            handCards.value.push(card);
+
+            tableCard.value = undefined;
+        }
+    }
+
     return {
         currentPlayer,
         selectCharacter,
-        isMumbling,
+
         mumbleContent,
-        mumble,
+        randomMumble,
+        startMumble,
+        stopMumble,
+
         decreaseHealth,
         increaseHealth,
         changeEquipment,
         removeEquipment,
+
+        handCards,
+        tableCard,
+        drawCard,
+        placeCard,
+        recallCard,
     };
 });

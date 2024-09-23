@@ -210,7 +210,6 @@ const props = withDefaults(
 );
 
 const toggleDialog = (target: boolean) => {
-    soundClick();
     isDialogOpen.value = target;
 };
 

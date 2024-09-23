@@ -59,7 +59,10 @@ const appStore = useAppStore();
 const { soundClick } = useSoundEffect();
 const { t } = useI18n();
 
-const dialogs = DialogDataList[enumDialog.GameStart];
+const dialogs = [
+    DialogDataList[enumDialog.Opening],
+    ...DialogDataList[enumDialog.GameStart],
+];
 const lastIndex = dialogs.length - 1;
 const currentIndex = ref(0);
 const isDialogEnd = computed(() => currentIndex.value === lastIndex);

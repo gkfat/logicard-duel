@@ -3,48 +3,47 @@
         <v-col cols="12" class="pa-0">
             <v-card
                 flat
-                class="mx-auto rounded-md"
-                :wdith="50"
-                :height="80"
-                :class="props.isCardBack ? 'bg-blue' : 'bg-skin'"
+                class="mx-auto border-white border-sm border-opacity-25 rounded-md"
+                :class="isCardBack ? 'bg-blue' : 'bg-skin'"
                 :style="getStyles"
                 @click="toggleDialog(true)"
             >
                 <v-row class="ma-0 pa-1 fill-height">
                     <!-- 卡背 -->
-                    <v-col
-                        v-if="props.isCardBack"
-                        class="pa-0 fill-height border-md border-skin rounded-md border-opacity-50"
-                    >
+                    <v-col v-if="isCardBack" class="pa-0 fill-height">
                         <v-row
                             class="ma-0 align-center justify-center fill-height"
                         >
-                            <v-col cols="auto" class="pa-1">
-                                <Icon
-                                    :size="props.size === 'small' ? 24 : 36"
-                                    :url="ImageDataList.icon.cardbackLogicard"
-                                />
-                            </v-col>
+                            <Icon
+                                :size="getIconSize"
+                                :url="ImageDataList.icon.cardbackLogicard"
+                            />
                         </v-row>
                     </v-col>
 
                     <!-- 卡面 -->
                     <v-col
                         v-else
-                        class="pa-0 fill-height border-md border-blue rounded-md border-opacity-50"
+                        class="pa-0 fill-height border-md border-blue rounded border-opacity-50"
                     >
                         <v-row
                             class="ma-0 align-center justify-center fill-height ga-1 pa-1"
                         >
                             <v-col cols="auto" class="pa-0">
                                 <Icon
-                                    :size="props.size === 'small' ? 24 : 36"
-                                    :url="props.card.template.icon"
+                                    :size="getIconSize"
+                                    :url="card.template.icon"
                                 ></Icon>
                             </v-col>
 
-                            <v-col cols="auto" class="pa-0 text-caption">
-                                {{ props.card.template.name }}
+                            <v-col
+                                cols="auto"
+                                class="pa-0 text-caption"
+                                :style="{
+                                    fontSize: '0.5rem !important',
+                                }"
+                            >
+                                {{ card.template.name }}
                             </v-col>
                         </v-row>
                     </v-col>
@@ -52,12 +51,13 @@
             </v-card>
         </v-col>
 
-        <v-col cols="auto" class="pa-0 text-center">
-            <Rarity :rarity="props.card.info.rarity"></Rarity>
+        <v-col cols="auto" class="pa-0 text-center" v-if="showRarity">
+            <Rarity :rarity="card.info.rarity"></Rarity>
             <!-- 稀有度 -->
         </v-col>
     </v-row>
 
+    <!-- Detail -->
     <v-dialog v-model="isDialogOpen" :max-width="500" :min-width="300">
         <v-card
             flat
@@ -68,7 +68,7 @@
                 <v-row class="align-center">
                     <!-- 效果 -->
                     <v-col cols="auto" class="ml-auto">
-                        <Effect :effect="props.card.template.effect"></Effect>
+                        <Effect :effect="card.template.effect"></Effect>
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -89,11 +89,11 @@
                                 <v-col cols="12" class="pa-0 text-center">
                                     <Icon
                                         :size="50"
-                                        :url="props.card.template.icon"
+                                        :url="card.template.icon"
                                     ></Icon>
                                 </v-col>
                                 <v-col cols="12" class="pa-0 text-center">
-                                    {{ props.card.template.name }}
+                                    {{ card.template.name }}
                                 </v-col>
                             </v-row>
                         </v-col>
@@ -102,25 +102,29 @@
             </v-card-text>
 
             <!-- 稀有度 -->
-            <Rarity :rarity="props.card.info.rarity"></Rarity>
+            <Rarity :rarity="card.info.rarity"></Rarity>
 
             <v-card-title class="text-center">
-                {{ props.card.template.name }}
+                {{ card.template.name }}
             </v-card-title>
 
             <v-card-subtitle class="text-center text-wrap">
-                {{ props.card.template.description }}
+                {{ card.template.description }}
             </v-card-subtitle>
 
             <v-card-text>
                 <!-- 點數 -->
                 <v-row class="justify-center">
                     <v-col cols="auto" class="text-h6">
-                        {{ t(`effect.${props.card.template.effect}`) }}
-                        + {{ props.card.info.point }}
+                        {{ t(`effect.${card.template.effect}`) }}
+                        + {{ card.info.point }}
                     </v-col>
                 </v-row>
             </v-card-text>
+
+            <v-card-actions v-if="$slots.actions">
+                <slot name="actions"></slot>
+            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
@@ -141,37 +145,63 @@ const isDialogOpen = ref(false);
 const { t } = useI18n();
 const { soundClick } = useSoundEffect();
 
+const {
+    card,
+    size = 'default',
+    isCardBack = false,
+    showRarity = false,
+    showDetail = true,
+} = defineProps<{
+    card: Card;
+    isCardBack?: boolean;
+    size?: 'x-small' | 'small' | 'default';
+    showRarity?: boolean;
+    showDetail?: boolean;
+}>();
+
 const toggleDialog = (target: boolean) => {
-    soundClick();
-    isDialogOpen.value = target;
+    if (showDetail) {
+        isDialogOpen.value = target;
+    }
 };
 
-const props = withDefaults(
-    defineProps<{
-        card: Card;
-        isCardBack?: boolean;
-        size?: 'small' | 'default';
-    }>(),
-    {
-        isCardBack: false,
-    }
-);
-
 const getStyles = computed(() => {
-    const styles: { [key: string]: string } = {};
+    // default
+    const styles: { [key: string]: string } = {
+        width: '80px',
+        'max-width': '80px',
+        height: '120px',
+        'max-height': '120px,',
+    };
 
-    if (props.size === 'small') {
-        styles['width'] = '60px';
+    if (size === 'x-small') {
+        styles.width = '30px';
+        styles['max-width'] = '30px';
+        styles.height = '40px';
+        styles['max-height'] = '40px';
+    } else if (size === 'small') {
+        styles.width = '60px';
         styles['max-width'] = '60px';
-        styles['height'] = '80px';
+        styles.height = '80px';
         styles['max-height'] = '80px';
-    } else {
-        styles['width'] = '80px';
-        styles['max-width'] = '80px';
-        styles['height'] = '120px';
-        styles['max-height'] = '120px';
     }
 
     return styles;
+});
+
+const getIconSize = computed(() => {
+    // default
+    let iconSize = 36;
+
+    if (size === 'x-small') {
+        iconSize = 14;
+    } else if (size === 'small') {
+        iconSize = 24;
+    }
+    return iconSize;
+});
+
+defineExpose({
+    toggleDialog,
 });
 </script>

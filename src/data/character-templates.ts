@@ -32,7 +32,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
             attackRange: [10, 15],
             defenseRange: [3, 5],
             cards: [...baseCards],
-            equips: [],
+            equips: [enumEquip.Bat, enumEquip.Armor],
             coin: 0,
         },
         mumbleList: {

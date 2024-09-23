@@ -5,7 +5,29 @@ import { defineStore } from 'pinia';
 import { useSoundEffect } from '@/composable/useSoundEffect';
 import { enumGameState } from '@/enums/game';
 
+interface EnvironmentVariables {
+    readonly appTitle: string;
+    readonly appVersion: string;
+    readonly appDescription: string;
+    readonly ogTitle: string;
+    readonly ogImage: string;
+    readonly ogDescription: string;
+    readonly countdownSeconds: number;
+    readonly handCardMaxLimit: number;
+}
+
 export const useAppStore = defineStore('appStore', () => {
+    const ENV = ref<EnvironmentVariables>({
+        appTitle: '',
+        appVersion: '',
+        appDescription: '',
+        ogTitle: '',
+        ogImage: '',
+        ogDescription: '',
+        countdownSeconds: 0,
+        handCardMaxLimit: 0,
+    });
+
     const gameState = ref(enumGameState.Init);
     const spinnerOpen = ref(false);
     const isOpen = ref<'rank' | 'backpack' | 'shop' | null>(null);
@@ -32,6 +54,7 @@ export const useAppStore = defineStore('appStore', () => {
     }
 
     return {
+        ENV,
         gameState,
         changeGameState,
         spinnerOpen,

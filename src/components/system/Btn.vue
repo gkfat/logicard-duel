@@ -10,6 +10,7 @@
                     'border-xl rounded-lg pa-7': size === 'default',
                     'border-md rounded-md pa-3': size === 'small',
                 }"
+                :disabled="disabled"
                 block
                 @click="func()"
             >
@@ -34,11 +35,13 @@ const {
     func,
     icon,
     size = 'default',
+    disabled = false,
 } = defineProps<{
     text?: string;
     func: Function;
     icon?: string;
     size?: 'small' | 'default';
+    disabled?: boolean;
 }>();
 </script>
 

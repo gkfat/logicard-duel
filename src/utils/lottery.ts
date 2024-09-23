@@ -1,3 +1,15 @@
+import { getRandomInt } from './common';
+
+/**
+ * 抽籤, 回傳中或不中
+ */
+export const drawLots = () => {
+    /** 50% 機率 */
+    const isPositive = getRandomInt([1, 2]) === 2;
+
+    return isPositive;
+};
+
 /** 製作抽獎箱，輸入權重 */
 export const makeLotteryBox = (weight: number): boolean[] => {
     const box: boolean[] = [];

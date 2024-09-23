@@ -1,4 +1,3 @@
- 
 import { ref } from 'vue';
 
 import { defineStore } from 'pinia';
@@ -79,6 +78,9 @@ export const useSoundStore = defineStore('sound', () => {
     const loadedAssets = ref(0);
     const nowPlaying = ref<HTMLAudioElement | null>();
 
+    /** 是否在視窗內 */
+    const isVisible = ref(true);
+
     /** 靜音模式 */
     const muteMode = ref(false);
 
@@ -118,7 +120,7 @@ export const useSoundStore = defineStore('sound', () => {
     };
 
     const playSound = async (audio: HTMLAudioElement | null) => {
-        if (!muteMode.value && audio) {
+        if (isVisible.value && !muteMode.value && audio) {
             audio.currentTime = 0;
             audio.volume = 1;
             await audio.play();
@@ -138,7 +140,7 @@ export const useSoundStore = defineStore('sound', () => {
 
         nowPlaying.value = audio;
 
-        if (!muteMode.value && audio) {
+        if (isVisible.value && !muteMode.value && audio) {
             audio.currentTime = 0;
             audio.volume = 0.5;
             audio.loop = true;
@@ -174,8 +176,10 @@ export const useSoundStore = defineStore('sound', () => {
     const listenVisibility = () => {
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'hidden') {
+                isVisible.value = false;
                 pauseAllSounds();
             } else {
+                isVisible.value = true;
                 resume();
             }
         });

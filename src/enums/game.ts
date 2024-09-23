@@ -9,17 +9,3 @@ export enum enumGameState {
     BattleEnd,
     GameOver,
 }
-
-export enum enumRoundState {
-    Start,
-    Counting,
-    Duel,
-    Settle,
-}
-
-export enum enumBattleResult {
-    Init,
-    Draw,
-    PlayerWin,
-    PlayerLose,
-}

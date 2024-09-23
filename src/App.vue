@@ -17,12 +17,31 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 
 import { enumGameState } from './enums/game';
 import { useAppStore } from './store/app';
 
 const appStore = useAppStore();
+
+const setEnv = async () => {
+    appStore.ENV = {
+        appTitle: import.meta.env.VITE_APP_TITLE ?? 'Logicard Duel!',
+        appVersion: import.meta.env.VITE_APP_VERSION ?? 'unreleased',
+        appDescription:
+            import.meta.env.VITE_APP_DESCRIPTION ??
+            '你能在反叛機器人 GkBot 的肆虐下生存多久？',
+        ogTitle: import.meta.env.VITE_APP_OG_TITLE ?? 'Logicard Duel!',
+        ogImage:
+            import.meta.env.VITE_APP_OG_IMAGE ??
+            'https://logicard-duel.pages.dev/ogimage.png',
+        ogDescription:
+            import.meta.env.VITE_APP_OG_DESCRIPTION ??
+            '你能在反叛機器人 GkBot 的肆虐下生存多久？',
+        countdownSeconds: Number(import.meta.env.VITE_COUNTDOWN_SECONDS) ?? 60,
+        handCardMaxLimit: Number(import.meta.env.VITE_HANDCARD_MAX_LIMIT) ?? 7,
+    };
+};
 
 const isDisplayBackground = computed(() => {
     return [
@@ -30,6 +49,10 @@ const isDisplayBackground = computed(() => {
         enumGameState.ChooseCharacter,
         enumGameState.ChooseOpponent,
     ].includes(appStore.gameState);
+});
+
+onMounted(() => {
+    setEnv();
 });
 </script>
 <style lang="scss">

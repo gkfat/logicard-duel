@@ -24,7 +24,7 @@
                         }"
                     >
                         <v-col
-                            v-for="index in player.character.backpackLimit"
+                            v-for="(, index) in player.character.backpackLimit"
                             :key="index"
                             class="bg-bluegrey rounded d-flex justify-center align-center"
                             :style="{
@@ -92,6 +92,7 @@ const dialogs = DialogDataList[enumDialog.Backpack];
 const isOpen = computed(() => appStore.isOpen === 'backpack');
 
 const player = computed(() => playerStore.currentPlayer!);
+
 const backpackItems = computed(() => {
     const items: { type: 'card' | 'equip'; item: CardType | EquipType }[] = [];
 

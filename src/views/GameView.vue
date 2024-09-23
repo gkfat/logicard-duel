@@ -43,6 +43,9 @@ watch(
             case enumGameState.GameOver:
                 bgmEnd();
                 break;
+            case enumGameState.Battle:
+                bgmBattle();
+                break;
             default:
                 await bgmPrologue();
                 break;

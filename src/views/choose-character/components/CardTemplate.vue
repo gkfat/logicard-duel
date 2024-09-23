@@ -5,7 +5,7 @@
                 v-bind="hoverProps"
                 :class="{ floating: isHovering }"
                 flat
-                rounded="lg"
+                rounded="md"
                 :wdith="60"
                 :height="80"
                 :min-width="60"
@@ -16,9 +16,25 @@
             >
                 <v-row class="ma-0 pa-1 fill-height">
                     <v-col
-                        class="pa-1 fill-height border-md border-blue rounded-lg border-opacity-50"
+                        class="pa-0 fill-height border-md border-blue rounded-md border-opacity-50"
                     >
-                        <p class="text-caption">{{ card.name }}</p>
+                        <v-row
+                            class="ma-0 align-center justify-center fill-height ga-1 pa-1"
+                        >
+                            <v-col cols="auto" class="pa-0">
+                                <Icon :size="24" :url="card.icon"></Icon>
+                            </v-col>
+
+                            <v-col
+                                cols="auto"
+                                class="pa-0 text-caption"
+                                :style="{
+                                    fontSize: '0.5rem !important',
+                                }"
+                            >
+                                {{ card.name }}
+                            </v-col>
+                        </v-row>
                     </v-col>
                 </v-row>
             </v-card>
@@ -98,10 +114,7 @@
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import {
-    computed,
-    ref,
-} from 'vue';
+import { computed, ref } from 'vue';
 
 import Effect from '@/components/common/Effect.vue';
 import Rarity from '@/components/common/Rarity.vue';
@@ -115,7 +128,7 @@ import Icon from './Icon.vue';
 const isDialogOpen = ref(false);
 
 const props = defineProps<{
-    cardType: enumCard
+    cardType: enumCard;
 }>();
 
 const card = computed(
