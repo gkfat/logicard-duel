@@ -1,9 +1,9 @@
-import pluginVue from "eslint-plugin-vue";
-import globals from "globals";
-import tsEslint from "typescript-eslint";
-import vueParser from "vue-eslint-parser";
+import pluginVue from 'eslint-plugin-vue';
+import globals from 'globals';
+import tsEslint from 'typescript-eslint';
+import vueParser from 'vue-eslint-parser';
 
-import eslintJs from "@eslint/js";
+import eslintJs from '@eslint/js';
 
 export default [
   eslintJs.configs.recommended,
@@ -45,12 +45,7 @@ export default [
       },
     },
     rules: {
-      "vue/multi-word-component-names": [
-        "warn",
-        {
-          ignores: ["index"],
-        },
-      ],
+      "vue/multi-word-component-names": ["off"],
     },
   },
 ];

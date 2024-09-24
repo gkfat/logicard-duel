@@ -1,14 +1,27 @@
-import { ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import { defineStore } from 'pinia';
 
 import { useSoundEffect } from '@/composable/useSoundEffect';
-import { enumCharacter, OpponentValues } from '@/enums/character';
+import {
+    enumCharacter,
+    OpponentValues,
+} from '@/enums/character';
+import { enumEffect } from '@/enums/effect';
 import { enumMumbleType } from '@/enums/mumble';
 import factory from '@/factory';
-import { Card } from '@/types/core';
+import {
+    Card,
+    Equip,
+} from '@/types/core';
 import { Player } from '@/types/player';
-import { getRandomInt, sleep } from '@/utils/common';
+import {
+    getRandomInt,
+    sleep,
+} from '@/utils/common';
 import { drawLots } from '@/utils/lottery';
 
 import { useAppStore } from './app';
@@ -17,7 +30,7 @@ import { useBattleStore } from './battle';
 export const useOpponentStore = defineStore('opponent', () => {
     const appStore = useAppStore();
     const battleStore = useBattleStore();
-    const { soundPlaceCard, soundPop } = useSoundEffect();
+    const { soundPlaceCard, soundPop, soundOpponentHurt } = useSoundEffect();
 
     /** 被擊敗的敵人 */
     const defeatedOpponents = ref<Player[]>([]);
@@ -28,6 +41,31 @@ export const useOpponentStore = defineStore('opponent', () => {
     /** 目前敵人 */
     const currentOpponent = ref<Player>();
 
+    /**
+     * 額外狀態值(裝備)
+     */
+    const extraStatus = computed(() => {
+        // 找到已裝備的裝備
+        const findEquips = currentOpponent.value!.backpack.equips.filter(
+            (v) => v.is_equiped
+        );
+
+        const findWeapons = findEquips.filter(
+            (v) => v.template.effect === enumEffect.Harm
+        );
+        const findArmors = findEquips.filter(
+            (v) => v.template.effect === enumEffect.Defense
+        );
+
+        const calcPoint = (equips: Equip[]) =>
+            equips.reduce((num, equip) => num + equip.info.point, 0);
+
+        return {
+            attack: calcPoint(findWeapons),
+            defense: calcPoint(findArmors),
+        };
+    });
+
     /** 喃喃自語 */
     const keepMumbling = ref(false);
     const mumbleContent = ref('');
@@ -36,6 +74,29 @@ export const useOpponentStore = defineStore('opponent', () => {
     const handCards = ref<Card[]>([]);
     /** 敵人桌牌 */
     const tableCard = ref<Card>();
+
+    /** 扣血 */
+    function decreaseHealth(point: number) {
+        soundOpponentHurt();
+
+        const { health } = currentOpponent.value!.status;
+
+        // 若血量小於 0 就直接歸零
+        const mutatedHealth = health - point < 0 ? 0 : health - point;
+
+        currentOpponent.value!.status.health = mutatedHealth;
+    }
+
+    /** 補血 */
+    function increaseHealth(point: number) {
+        const { health, maxHealth } = currentOpponent.value!.status;
+
+        // 不得超過血量上限
+        const mutatedHealth =
+            health + point > maxHealth ? maxHealth : health + point;
+
+        currentOpponent.value!.status.health = mutatedHealth;
+    }
 
     /** 補滿敵人池 */
     function refillPool() {
@@ -106,7 +167,7 @@ export const useOpponentStore = defineStore('opponent', () => {
 
     /** 敵人出牌邏輯 */
     async function logicPlaceCard() {
-        const randomSeconds = getRandomInt([0, battleStore.remainSeconds]);
+        const randomSeconds = getRandomInt([3, battleStore.remainSeconds]);
         await sleep(randomSeconds);
 
         // 若還有手牌就隨機出一張
@@ -196,7 +257,11 @@ export const useOpponentStore = defineStore('opponent', () => {
     return {
         pool,
         currentOpponent,
+        extraStatus,
         defeatedOpponents,
+
+        decreaseHealth,
+        increaseHealth,
 
         mumbleContent,
         randomMumble,

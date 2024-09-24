@@ -1,23 +1,59 @@
-import { ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import { defineStore } from 'pinia';
 
 import { useSoundEffect } from '@/composable/useSoundEffect';
 import { enumCharacter } from '@/enums/character';
+import { enumEffect } from '@/enums/effect';
 import { enumEquipPosition } from '@/enums/equip';
 import { enumMumbleType } from '@/enums/mumble';
 import factory from '@/factory';
-import { Card, Equip } from '@/types/core';
+import {
+    Card,
+    Equip,
+} from '@/types/core';
 import { Player } from '@/types/player';
-import { getRandomInt, sleep } from '@/utils/common';
+import {
+    getRandomInt,
+    sleep,
+} from '@/utils/common';
 import { drawLots } from '@/utils/lottery';
 
 import { useAppStore } from './app';
 
 export const usePlayerStore = defineStore('player', () => {
     const appStore = useAppStore();
-    const { soundPlaceCard, soundEquip, soundPop } = useSoundEffect();
+    const { soundPlaceCard, soundEquip, soundPop, soundPlayerHurt } =
+        useSoundEffect();
     const currentPlayer = ref<Player>();
+
+    /**
+     * 額外狀態值(裝備)
+     */
+    const extraStatus = computed(() => {
+        // 找到已裝備的裝備
+        const findEquips = currentPlayer.value!.backpack.equips.filter(
+            (v) => v.is_equiped
+        );
+
+        const findWeapons = findEquips.filter(
+            (v) => v.template.effect === enumEffect.Harm
+        );
+        const findArmors = findEquips.filter(
+            (v) => v.template.effect === enumEffect.Defense
+        );
+
+        const calcPoint = (equips: Equip[]) =>
+            equips.reduce((num, equip) => num + equip.info.point, 0);
+
+        return {
+            attack: calcPoint(findWeapons),
+            defense: calcPoint(findArmors),
+        };
+    });
 
     /** 手牌 */
     const handCards = ref<Card[]>([]);
@@ -89,6 +125,8 @@ export const usePlayerStore = defineStore('player', () => {
 
     /** 扣血 */
     function decreaseHealth(point: number) {
+        soundPlayerHurt();
+
         const { health } = currentPlayer.value!.status;
 
         // 若血量小於 0 就直接歸零
@@ -201,6 +239,7 @@ export const usePlayerStore = defineStore('player', () => {
 
     return {
         currentPlayer,
+        extraStatus,
         selectCharacter,
 
         mumbleContent,

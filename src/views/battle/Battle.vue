@@ -23,19 +23,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
-
-import { useI18n } from 'vue-i18n';
+import {
+    computed,
+    onMounted,
+    watch,
+} from 'vue';
 
 import { useSoundEffect } from '@/composable/useSoundEffect';
 import { enumRoundPhase } from '@/enums/battle';
+import { enumEffect } from '@/enums/effect';
 import { enumGameState } from '@/enums/game';
 import { enumMumbleType } from '@/enums/mumble';
 import { useAppStore } from '@/store/app';
 import { useBattleStore } from '@/store/battle';
 import { useOpponentStore } from '@/store/opponent';
 import { usePlayerStore } from '@/store/player';
-import { Player } from '@/types/player';
 import { sleep } from '@/utils/common';
 
 import RoundNotification from './components/RoundNotification.vue';
@@ -45,7 +47,6 @@ import OpponentSeat from './opponent/OpponentSeat.vue';
 import PlayerHandCards from './player/PlayerHandCards.vue';
 import PlayerSeat from './player/PlayerSeat.vue';
 
-const { t } = useI18n();
 const playerStore = usePlayerStore();
 const opponentStore = useOpponentStore();
 const appStore = useAppStore();
@@ -53,8 +54,63 @@ const battleStore = useBattleStore();
 
 const { soundCountdown } = useSoundEffect();
 
-const player = computed<Player>(() => playerStore.currentPlayer!);
-const opponent = computed<Player>(() => opponentStore.currentOpponent!);
+const player = computed(() => playerStore.currentPlayer!);
+const playerExtraStatus = computed(() => playerStore.extraStatus);
+const playerAttempt = computed(() => battleStore.playerAttempt);
+const playerTableCardPoint = computed(
+    () => playerStore.tableCard?.info.point ?? 0
+);
+const playerBaseAttack = computed(
+    () => player.value.status.attack + playerExtraStatus.value.attack
+);
+const playerBaseDefense = computed(
+    () => player.value.status.defense + playerExtraStatus.value.defense
+);
+
+const playerRoundStatus = computed(() => {
+    const attack =
+        playerAttempt.value === enumEffect.Harm
+            ? playerBaseAttack.value + playerTableCardPoint.value
+            : playerBaseAttack.value;
+    const defense =
+        playerAttempt.value === enumEffect.Defense
+            ? playerBaseDefense.value + playerTableCardPoint.value
+            : playerBaseDefense.value;
+
+    return {
+        attack,
+        defense,
+    };
+});
+
+const opponentRoundStatus = computed(() => {
+    const attack =
+        opponentAttempt.value === enumEffect.Harm
+            ? opponentBaseAttack.value + opponentTableCardPoint.value
+            : opponentBaseAttack.value;
+    const defense =
+        opponentAttempt.value === enumEffect.Defense
+            ? opponentBaseDefense.value + opponentTableCardPoint.value
+            : opponentBaseDefense.value;
+
+    return {
+        attack,
+        defense,
+    };
+});
+
+const opponent = computed(() => opponentStore.currentOpponent!);
+const opponentExtraStatus = computed(() => opponentStore.extraStatus);
+const opponentAttempt = computed(() => battleStore.opponentAttempt);
+const opponentTableCardPoint = computed(
+    () => opponentStore.tableCard?.info.point ?? 0
+);
+const opponentBaseAttack = computed(
+    () => opponent.value.status.attack + opponentExtraStatus.value.attack
+);
+const opponentBaseDefense = computed(
+    () => opponent.value.status.defense + opponentExtraStatus.value.defense
+);
 
 /** 局階段 */
 const roundPhase = computed(() => battleStore.roundPhase);
@@ -85,21 +141,61 @@ const startCountdown = () => {
     }, 1000);
 };
 
-/** 判斷要重新開始或結束 */
-const judgeResult = async () => {
+/** 結算 */
+const settle = async () => {
     if (player.value.status.health === 0) {
+        // 玩家沒血, game over
         playerStore.randomMumble(enumMumbleType.Lose, true);
 
         await sleep(3000);
         appStore.changeGameState(enumGameState.GameOver);
     } else if (opponent.value.status.health === 0) {
+        // 敵人沒血, battle end
         opponentStore.randomMumble(enumMumbleType.Lose, true);
 
         await sleep(3000);
         appStore.changeGameState(enumGameState.BattleEnd);
-    } else {
-        await sleep(3000);
-        battleStore.changeRoundPhase(enumRoundPhase.RoundStart);
+    }
+};
+
+/** 開牌 */
+const duel = async () => {
+    // 若玩家為攻擊狀態則先攻, 否則跳過
+    if (playerAttempt.value === enumEffect.Harm) {
+        // 玩家攻擊力 - 敵人防禦力
+        const opponentDeduction =
+            playerRoundStatus.value.attack - opponentRoundStatus.value.defense;
+
+        if (opponentDeduction > 0) {
+            console.log('敵人扣血: ', opponentDeduction);
+            playerStore.randomMumble(enumMumbleType.Attack, true);
+            opponentStore.randomMumble(enumMumbleType.Hurt, true);
+            await sleep(1000);
+            // 敵人扣血
+            opponentStore.decreaseHealth(opponentDeduction);
+            await sleep(1000);
+            settle();
+        }
+    }
+
+    await sleep(1000);
+
+    // 敵人攻擊
+    if (opponentAttempt.value === enumEffect.Harm) {
+        // 敵人攻擊力 - 玩家防禦力
+        const playerDeduction =
+            opponentRoundStatus.value.attack - playerRoundStatus.value.defense;
+
+        if (playerDeduction > 0) {
+            console.log('玩家扣血: ', playerDeduction);
+            opponentStore.randomMumble(enumMumbleType.Attack, true);
+            await sleep(1000);
+            // 玩家扣血
+            playerStore.decreaseHealth(playerDeduction);
+            playerStore.randomMumble(enumMumbleType.Hurt, true);
+            await sleep(1000);
+            settle();
+        }
     }
 };
 
@@ -137,20 +233,22 @@ watch(
                 opponentStore.logicPlaceCard();
                 break;
             case enumRoundPhase.Duel: // 開牌
-                await sleep(15000);
+                playerStore.stopMumble();
+                opponentStore.stopMumble();
+                await sleep(1500);
 
+                await duel();
+
+                await sleep(3000);
                 battleStore.changeRoundPhase(enumRoundPhase.Settle);
                 break;
             case enumRoundPhase.Settle: // 結算
-                await sleep(3000);
+                await battleStore.clearTable();
                 battleStore.changeRoundPhase(enumRoundPhase.RoundEnd);
                 break;
             case enumRoundPhase.RoundEnd: // 局結束
                 await sleep(1000);
-                await battleStore.clearTable();
-                playerStore.stopMumble();
-                opponentStore.stopMumble();
-                judgeResult();
+                battleStore.changeRoundPhase(enumRoundPhase.RoundStart);
                 break;
         }
     }

@@ -9,15 +9,7 @@
                 :class="{
                     'mx-2': displayInSector,
                 }"
-                :style="
-                    displayInSector
-                        ? {
-                              transform: `rotate(${
-                                  (i - (handCards.length - 1) / 2) * 8
-                              }deg) translateY(${calcTranslateY(i)}px)`,
-                          }
-                        : ''
-                "
+                :style="displayInSector ? calcCardStyle(i) : ''"
             >
                 <Card
                     :ref="(el) => (cardRefs[i] = el)"
@@ -46,7 +38,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import Card from '@/components/card/Card.vue';
 import Btn from '@/components/system/Btn.vue';
@@ -86,14 +81,14 @@ const isAbleToPlaceCard = computed(
         battleStore.remainSeconds > 0
 );
 
-const calcTranslateY = (i: number) => {
-    const distance = (handCards.length - 1 - i) * 10;
-    const centerIndex = Math.floor(handCards.length / 2);
-    const centerDistance = (handCards.length - 1 - centerIndex) * 10;
-
-    return i === centerIndex
-        ? 3
-        : Math.abs(Math.abs(distance) - Math.abs(centerDistance));
+/** 計算弧形排列 */
+const calcCardStyle = (i: number) => {
+    const middleIndex = Math.floor(handCards.length / 2);
+    /** 偏差值 */
+    const deviation = i - middleIndex;
+    const deg = deviation * 1.5 * 7;
+    const y = Math.abs(deviation) * Math.abs(deviation) * 5;
+    return `transform: rotate(${deg}deg) translateY(${y}px)`;
 };
 
 const closeDetail = (index: number) => {

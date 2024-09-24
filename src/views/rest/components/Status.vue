@@ -48,15 +48,15 @@
                 <v-col class="py-0 d-flex align-center ga-1" cols="auto">
                     <v-icon color="skin" icon="mdi-sword-cross"></v-icon>
                     {{ player.status.attack }}
-                    <em class="text-darkamber" v-if="extraAttack">
-                        (+{{ extraAttack }})
+                    <em class="text-darkamber" v-if="extraStatus.attack">
+                        (+{{ extraStatus.attack }})
                     </em>
                 </v-col>
                 <v-col class="py-0 d-flex align-center ga-1" cols="auto">
                     <v-icon color="skin" icon="mdi-shield"></v-icon>
                     {{ player.status.defense }}
-                    <em class="text-darkamber" v-if="extraDefense">
-                        (+{{ extraDefense }})
+                    <em class="text-darkamber" v-if="extraStatus.defense">
+                        (+{{ extraStatus.defense }})
                     </em>
                 </v-col>
             </v-row>
@@ -114,32 +114,13 @@
 import { computed } from 'vue';
 
 import Equip from '@/components/equip/Equip.vue';
-import { enumEffect } from '@/enums/effect';
 import { enumEquipPosition } from '@/enums/equip';
 import { usePlayerStore } from '@/store/player';
 import { thousands } from '@/utils/number';
 
 const playerStore = usePlayerStore();
-
 const player = computed(() => playerStore.currentPlayer!);
-
-const extraAttack = computed(() => {
-    const findEquips = player.value.backpack.equips.filter(
-        (v) => v.template.effect === enumEffect.Harm && v.is_equiped
-    );
-    const point = findEquips.reduce((num, equip) => num + equip.info.point, 0);
-
-    return point;
-});
-
-const extraDefense = computed(() => {
-    const findEquips = player.value.backpack.equips.filter(
-        (v) => v.template.effect === enumEffect.Defense && v.is_equiped
-    );
-    const point = findEquips.reduce((num, equip) => num + equip.info.point, 0);
-
-    return point;
-});
+const extraStatus = computed(() => playerStore.extraStatus);
 
 const currentBackpackItems = computed(() => {
     const result =

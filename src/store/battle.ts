@@ -1,8 +1,12 @@
-import { ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import { defineStore } from 'pinia';
 
 import { enumRoundPhase } from '@/enums/battle';
+import { enumEffect } from '@/enums/effect';
 import { Card } from '@/types/core';
 
 import { useAppStore } from './app';
@@ -13,8 +17,27 @@ export const useBattleStore = defineStore('battle', () => {
     const appStore = useAppStore();
     const playerStore = usePlayerStore();
     const opponentStore = useOpponentStore();
+
     const remainSeconds = ref(0);
     const roundPhase = ref(enumRoundPhase.BeforeRound);
+
+    /** 玩家傾向 */
+    const playerAttempt = computed(() => {
+        if (playerStore.tableCard?.template.effect === enumEffect.Defense) {
+            return enumEffect.Defense;
+        }
+
+        return enumEffect.Harm;
+    });
+
+    /** 敵人傾向 */
+    const opponentAttempt = computed(() => {
+        if (opponentStore.tableCard?.template.effect === enumEffect.Defense) {
+            return enumEffect.Defense;
+        }
+
+        return enumEffect.Harm;
+    });
 
     /** 用過的牌堆 */
     const cardStacks = ref<Card[]>([]);
@@ -54,6 +77,9 @@ export const useBattleStore = defineStore('battle', () => {
         remainSeconds,
         roundPhase,
         cardStacks,
+        playerAttempt,
+        opponentAttempt,
+
         resetRemainSeconds,
         resetBattle,
         changeRoundPhase,

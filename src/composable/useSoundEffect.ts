@@ -27,6 +27,16 @@ export const useSoundEffect = () => {
         executeFunction(fn);
     };
 
+    const soundPlayerHurt = async (fn?: Function) => {
+        await soundStore.playSound(soundStore.sounds.effect.playerHurt);
+        executeFunction(fn);
+    };
+
+    const soundOpponentHurt = async (fn?: Function) => {
+        await soundStore.playSound(soundStore.sounds.effect.opponentHurt);
+        executeFunction(fn);
+    };
+
     const soundPlaceCard = async (fn?: Function) => {
         await soundStore.playSound(soundStore.sounds.effect.placeCard);
         executeFunction(fn);
@@ -63,6 +73,8 @@ export const useSoundEffect = () => {
         soundPop,
         soundCountdown,
         soundPlaceCard,
+        soundPlayerHurt,
+        soundOpponentHurt,
 
         bgmPrologue,
         bgmBattle,

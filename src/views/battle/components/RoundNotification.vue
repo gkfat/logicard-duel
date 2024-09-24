@@ -26,7 +26,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import {
+    computed,
+    ref,
+    watch,
+} from 'vue';
 
 import { enumRoundPhase } from '@/enums/battle';
 import { useBattleStore } from '@/store/battle';
@@ -46,7 +50,7 @@ const resetPosition = () => {
 };
 
 watch(
-    () => roundPhase,
+    () => roundPhase.value,
     async () => {
         switch (roundPhase.value) {
             case enumRoundPhase.RoundStart: // 開始
@@ -68,6 +72,8 @@ watch(
         }
 
         if (isVisible.value) {
+            await sleep(100);
+
             slideIn.value = true;
 
             await sleep(2000);

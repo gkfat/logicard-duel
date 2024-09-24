@@ -13,8 +13,8 @@ const urls: {
         countdown: `${host}/countdown.wav`,
         placeCard: `${host}/placeCard.wav`,
         coin: `${host}/coin.mp3`,
-        robotHurt: `${host}/robotHurt.wav`,
-        ouch: `${host}/ouch.wav`,
+        opponentHurt: `${host}/robotHurt.wav`,
+        playerHurt: `${host}/ouch.wav`,
         huh: `${host}/huh.wav`,
         bell: `${host}/bell.wav`,
         equip: `${host}/equip.wav`,
@@ -37,8 +37,8 @@ export const useSoundStore = defineStore('sound', () => {
             countdown: HTMLAudioElement | null;
             placeCard: HTMLAudioElement | null;
             coin: HTMLAudioElement | null;
-            robotHurt: HTMLAudioElement | null;
-            ouch: HTMLAudioElement | null;
+            opponentHurt: HTMLAudioElement | null;
+            playerHurt: HTMLAudioElement | null;
             huh: HTMLAudioElement | null;
             bell: HTMLAudioElement | null;
             equip: HTMLAudioElement | null;
@@ -58,8 +58,8 @@ export const useSoundStore = defineStore('sound', () => {
             countdown: null,
             placeCard: null,
             coin: null,
-            robotHurt: null,
-            ouch: null,
+            opponentHurt: null,
+            playerHurt: null,
             huh: null,
             bell: null,
             equip: null,

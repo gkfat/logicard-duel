@@ -29,10 +29,10 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         backpackLimit: 30,
         init: {
             healthRange: [40, 50],
-            attackRange: [10, 15],
+            attackRange: [2, 5],
             defenseRange: [3, 5],
             cards: [...baseCards],
-            equips: [enumEquip.Bat, enumEquip.Armor],
+            equips: [],
             coin: 0,
         },
         mumbleList: {
@@ -78,7 +78,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         backpackLimit: 20,
         init: {
             healthRange: [50, 70],
-            attackRange: [8, 10],
+            attackRange: [2, 5],
             defenseRange: [5, 8],
             cards: [...baseCards],
             equips: [],
@@ -127,7 +127,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         backpackLimit: 35,
         init: {
             healthRange: [35, 60],
-            attackRange: [12, 18],
+            attackRange: [3, 7],
             defenseRange: [4, 7],
             cards: [...baseCards],
             equips: [],
@@ -178,7 +178,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         backpackLimit: 20,
         init: {
             healthRange: [20, 25],
-            attackRange: [6, 10],
+            attackRange: [1, 10],
             defenseRange: [1, 3],
             cards: [...baseCards],
             equips: [],
@@ -224,7 +224,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         backpackLimit: 40,
         init: {
             healthRange: [30, 35],
-            attackRange: [15, 18],
+            attackRange: [1, 3],
             defenseRange: [2, 5],
             cards: [...baseCards],
             equips: [],
@@ -273,8 +273,8 @@ export const CharacterTemplateList: CharacterTemplate[] = [
             '被生產來做一些基本的事務，例如清潔、搬運、量產等。特色是平板的聲音線。',
         backpackLimit: 999,
         init: {
-            healthRange: [30, 35],
-            attackRange: [8, 12],
+            healthRange: [40, 50],
+            attackRange: [5, 7],
             defenseRange: [1, 3],
             cards: [...baseCards, enumCard.ScrewDriver],
             equips: [enumEquip.Boxer, enumEquip.Cloth],
@@ -318,7 +318,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
             '被生產來與人互動，多作為看護或保姆，有安裝 DLC 的版本甚至能擔任教師。特色是能模擬人類的情感，有時會講笑話或唱歌。',
         init: {
             healthRange: [35, 40],
-            attackRange: [12, 15],
+            attackRange: [8, 12],
             defenseRange: [2, 5],
             cards: [...baseCards, enumCard.ScrewDriver],
             equips: [enumEquip.Boxer, enumEquip.Cloth, enumEquip.Bat],
@@ -363,8 +363,8 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         backpackLimit: 8,
         init: {
             healthRange: [40, 50],
-            attackRange: [18, 25],
-            defenseRange: [2, 8],
+            attackRange: [15, 20],
+            defenseRange: [5, 10],
             cards: [...baseCards, enumCard.GkbotShell],
             equips: [
                 enumEquip.Boxer,

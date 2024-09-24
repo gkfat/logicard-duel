@@ -48,8 +48,11 @@
                                     icon="mdi-sword-cross"
                                 ></v-icon>
                                 {{ opponent.status.attack }}
-                                <em class="text-darkamber" v-if="extraAttack">
-                                    (+{{ extraAttack }})
+                                <em
+                                    class="text-darkamber"
+                                    v-if="extraStatus.attack"
+                                >
+                                    (+{{ extraStatus.attack }})
                                 </em>
                             </v-col>
                         </v-col>
@@ -62,8 +65,11 @@
                             >
                                 <v-icon color="skin" icon="mdi-shield"></v-icon>
                                 {{ opponent.status.defense }}
-                                <em class="text-darkamber" v-if="extraDefense">
-                                    (+{{ extraDefense }})
+                                <em
+                                    class="text-darkamber"
+                                    v-if="extraStatus.defense"
+                                >
+                                    (+{{ extraStatus.defense }})
                                 </em>
                             </v-col>
                         </v-col>
@@ -79,12 +85,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 
-import Equip from '@/components/equip/Equip.vue';
-import { enumEffect } from '@/enums/effect';
-import { enumEquipPosition } from '@/enums/equip';
 import { useOpponentStore } from '@/store/opponent';
-import { usePlayerStore } from '@/store/player';
-import { thousands } from '@/utils/number';
 
 import MumbleBubble from '../components/MumbleBubble.vue';
 
@@ -92,26 +93,9 @@ const opponentStore = useOpponentStore();
 
 const opponent = computed(() => opponentStore.currentOpponent!);
 const mumbleContent = computed(() => opponentStore.mumbleContent);
+const extraStatus = computed(() => opponentStore.extraStatus);
 
 const currentHealthPercent = computed(
     () => (opponent.value.status.health / opponent.value.status.maxHealth) * 100
 );
-
-const extraAttack = computed(() => {
-    const findEquips = opponent.value.backpack.equips.filter(
-        (v) => v.template.effect === enumEffect.Harm && v.is_equiped
-    );
-    const point = findEquips.reduce((num, equip) => num + equip.info.point, 0);
-
-    return point;
-});
-
-const extraDefense = computed(() => {
-    const findEquips = opponent.value.backpack.equips.filter(
-        (v) => v.template.effect === enumEffect.Defense && v.is_equiped
-    );
-    const point = findEquips.reduce((num, equip) => num + equip.info.point, 0);
-
-    return point;
-});
 </script>
