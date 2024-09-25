@@ -7,93 +7,36 @@ import { ImageDataList } from './images';
 
 export const CardTemplateList: CardTemplate[] = [
     {
-        type: enumCard.LogiCard1,
+        type: enumCard.LogiCardAttack,
         effect: enumEffect.Harm,
-        name: 'LogiCard 1',
-        description: '一張邏輯牌，上面寫著數字 1。',
+        name: 'LogiCard',
+        description: '一張攻擊型邏輯牌。',
         icon: ImageDataList.icon.logoLogicard,
         potentials: {
             [enumRarity.Normal]: {
-                pointRange: [1, 1],
-                priceRange: [2, 2],
+                pointRange: [1, 3],
+                priceRange: [2, 8],
+            },
+            [enumRarity.Rare]: {
+                pointRange: [3, 7],
+                priceRange: [10, 15],
             },
         },
     },
     {
-        type: enumCard.LogiCard2,
-        effect: enumEffect.Harm,
-        name: 'LogiCard 2',
-        description: '一張邏輯牌，上面寫著數字 2。',
+        type: enumCard.LogiCardDefense,
+        effect: enumEffect.Defense,
+        name: 'LogiCard',
+        description: '一張防禦型邏輯牌。',
         icon: ImageDataList.icon.logoLogicard,
         potentials: {
             [enumRarity.Normal]: {
-                pointRange: [2, 2],
-                priceRange: [2, 2],
+                pointRange: [1, 3],
+                priceRange: [2, 8],
             },
-        },
-    },
-    {
-        type: enumCard.LogiCard3,
-        effect: enumEffect.Harm,
-        name: 'LogiCard 3',
-        description: '一張邏輯牌，上面寫著數字 3。',
-        icon: ImageDataList.icon.logoLogicard,
-        potentials: {
-            [enumRarity.Normal]: {
-                pointRange: [3, 3],
-                priceRange: [2, 2],
-            },
-        },
-    },
-    {
-        type: enumCard.LogiCard4,
-        effect: enumEffect.Harm,
-        name: 'LogiCard 4',
-        description: '一張邏輯牌，上面寫著數字 4。',
-        icon: ImageDataList.icon.logoLogicard,
-        potentials: {
-            [enumRarity.Normal]: {
-                pointRange: [4, 4],
-                priceRange: [2, 2],
-            },
-        },
-    },
-    {
-        type: enumCard.LogiCard5,
-        effect: enumEffect.Harm,
-        name: 'LogiCard 5',
-        description: '一張邏輯牌，上面寫著數字 5。',
-        icon: ImageDataList.icon.logoLogicard,
-        potentials: {
-            [enumRarity.Normal]: {
-                pointRange: [5, 5],
-                priceRange: [2, 2],
-            },
-        },
-    },
-    {
-        type: enumCard.LogiCard6,
-        effect: enumEffect.Harm,
-        name: 'LogiCard 6',
-        description: '一張邏輯牌，上面寫著數字 6。',
-        icon: ImageDataList.icon.logoLogicard,
-        potentials: {
-            [enumRarity.Normal]: {
-                pointRange: [6, 6],
-                priceRange: [2, 2],
-            },
-        },
-    },
-    {
-        type: enumCard.LogiCard7,
-        effect: enumEffect.Harm,
-        name: 'LogiCard 7',
-        description: '一張邏輯牌，上面寫著數字 7。',
-        icon: ImageDataList.icon.logoLogicard,
-        potentials: {
-            [enumRarity.Normal]: {
-                pointRange: [7, 7],
-                priceRange: [2, 2],
+            [enumRarity.Rare]: {
+                pointRange: [3, 7],
+                priceRange: [10, 15],
             },
         },
     },

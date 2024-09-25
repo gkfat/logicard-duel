@@ -4,7 +4,7 @@
             <v-card
                 flat
                 class="mx-auto border-white border-sm border-opacity-25 rounded-md"
-                :class="isCardBack ? 'bg-blue' : 'bg-skin'"
+                :color="isCardBack ? 'bluegrey' : 'skin'"
                 :style="getStyles"
                 @click="toggleDialog(true)"
             >
@@ -24,7 +24,8 @@
                     <!-- 卡面 -->
                     <v-col
                         v-else
-                        class="pa-0 fill-height border-md border-blue rounded border-opacity-50"
+                        class="pa-0 fill-height border-md rounded border-opacity-50"
+                        :class="`border-${theme}`"
                     >
                         <v-row
                             class="ma-0 align-center justify-center fill-height ga-1 pa-1"
@@ -34,6 +35,17 @@
                                     :size="getIconSize"
                                     :url="card.template.icon"
                                 ></Icon>
+                                <div
+                                    class="position-absolute"
+                                    style="
+                                        top: 0;
+                                        right: 5px;
+                                        bottom: 0;
+                                        z-index: 1;
+                                    "
+                                >
+                                    +{{ card.info.point }}
+                                </div>
                             </v-col>
 
                             <v-col
@@ -79,11 +91,13 @@
                     rounded="lg"
                     :width="120"
                     :height="160"
-                    class="bg-skin mx-auto"
+                    color="skin"
+                    :class="`border-${theme}`"
+                    class="mx-auto"
                 >
                     <v-row class="ma-0 pa-1 fill-height">
                         <v-col
-                            class="pa-0 fill-height border-md border-blue rounded-lg border-opacity-50 d-flex flex-wrap"
+                            class="pa-0 fill-height border-md rounded-lg border-opacity-50 d-flex flex-wrap"
                         >
                             <v-row class="ma-0 justify-center align-center">
                                 <v-col cols="12" class="pa-0 text-center">
@@ -129,7 +143,10 @@
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
@@ -138,12 +155,13 @@ import Icon from '@/components/common/Icon.vue';
 import Rarity from '@/components/common/Rarity.vue';
 import { useSoundEffect } from '@/composable/useSoundEffect';
 import { ImageDataList } from '@/data/images';
+import { enumEffect } from '@/enums/effect';
 import { Card } from '@/types/core';
 
 const isDialogOpen = ref(false);
+const { soundClick } = useSoundEffect();
 
 const { t } = useI18n();
-const { soundClick } = useSoundEffect();
 
 const {
     card,
@@ -159,7 +177,12 @@ const {
     showDetail?: boolean;
 }>();
 
+const theme = computed(() =>
+    card.template.effect === enumEffect.Harm ? 'red' : 'blue'
+);
+
 const toggleDialog = (target: boolean) => {
+    soundClick();
     if (showDetail) {
         isDialogOpen.value = target;
     }

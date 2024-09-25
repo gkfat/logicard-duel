@@ -1,12 +1,13 @@
 <template>
-    <v-icon :size="props.size">
-        <v-img :src="props.url" />
+    <v-icon :size="size" :color="color">
+        <v-img :src="url" />
     </v-icon>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+const { url, size, color } = defineProps<{
     url: string;
     size: number;
+    color?: string;
 }>();
 </script>

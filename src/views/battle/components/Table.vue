@@ -22,22 +22,45 @@
 
             <!-- 牌 -->
             <v-row class="ma-0 justify-center ga-3">
-                <v-col cols="auto" class="pa-0">
-                    <template v-if="table.opponentCard">
-                        <Card
-                            :card="table.opponentCard"
-                            :is-card-back="!shouldOpenCard"
-                            :show-detail="false"
-                            :show-rarity="false"
-                        ></Card>
-                    </template>
+                <v-col cols="5" class="pa-0">
+                    <p>
+                        {{ opponentStroe.currentOpponent?.character.name }}
+                    </p>
+                    <em
+                        >Atk:
+                        {{
+                            isHideOpponentStatus
+                                ? '-'
+                                : opponentRoundStatus.attack
+                        }}
+                        Def:
+                        {{
+                            isHideOpponentStatus
+                                ? '-'
+                                : opponentRoundStatus.attack
+                        }}</em
+                    >
+
+                    <Card
+                        v-if="table.opponentCard"
+                        :card="table.opponentCard"
+                        :is-card-back="!shouldOpenCard"
+                        :show-detail="false"
+                        :show-rarity="false"
+                    ></Card>
                 </v-col>
 
-                <v-col cols="auto" class="pa-0">
+                <v-col cols="5" class="pa-0">
+                    <p>{{ playerStore.currentPlayer?.character.name }}</p>
+                    <em
+                        >Atk: {{ playerRoundStatus.attack }} Def:
+                        {{ playerRoundStatus.defense }}</em
+                    >
+
                     <v-btn
-                        flat
-                        class="fill-height pa-0"
                         v-if="table.playerCard"
+                        flat
+                        class="bg-transparent pa-0"
                         @click="playerStore.recallCard"
                     >
                         <Card
@@ -64,7 +87,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import {
+    computed,
+    ref,
+    watch,
+} from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
@@ -82,6 +109,16 @@ const { t } = useI18n();
 const battleStore = useBattleStore();
 
 const roundPhase = computed(() => battleStore.roundPhase);
+
+interface RoundStatus {
+    attack: number;
+    defense: number;
+}
+
+const { playerRoundStatus, opponentRoundStatus } = defineProps<{
+    playerRoundStatus: RoundStatus;
+    opponentRoundStatus: RoundStatus;
+}>();
 
 /** 是否顯示倒數計時器 */
 const isShowCountdown = computed(
@@ -102,6 +139,10 @@ const table = computed(() => {
         opponentCard,
     };
 });
+
+const isHideOpponentStatus = computed(
+    () => roundPhase.value < enumRoundPhase.Duel
+);
 
 watch(
     () => roundPhase.value,

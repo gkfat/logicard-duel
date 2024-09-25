@@ -11,12 +11,13 @@
                 :min-width="60"
                 :max-width="60"
                 style="transition: all 0.3s"
-                class="bg-skin cursor-pointer"
-                @click="isDialogOpen = true"
+                color="skin"
+                @click="openDialog"
             >
                 <v-row class="ma-0 pa-1 fill-height">
                     <v-col
-                        class="pa-0 fill-height border-md border-blue rounded-md border-opacity-50"
+                        class="pa-0 fill-height border-md rounded-md border-opacity-50"
+                        :class="`border-${theme}`"
                     >
                         <v-row
                             class="ma-0 align-center justify-center fill-height ga-1 pa-1"
@@ -60,11 +61,12 @@
                             rounded="lg"
                             :width="120"
                             :height="160"
-                            class="bg-skin"
+                            color="skin"
                         >
                             <v-row class="ma-0 pa-1 fill-height">
                                 <v-col
-                                    class="pa-0 fill-height border-md border-blue rounded-lg border-opacity-50 d-flex flex-wrap"
+                                    class="pa-0 fill-height border-md rounded-lg border-opacity-50 d-flex flex-wrap"
+                                    :class="`border-${theme}`"
                                 >
                                     <v-row
                                         class="ma-0 justify-center align-center"
@@ -114,17 +116,23 @@
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import Effect from '@/components/common/Effect.vue';
 import Rarity from '@/components/common/Rarity.vue';
+import { useSoundEffect } from '@/composable/useSoundEffect';
 import { CardTemplateList } from '@/data/card-templates';
 import { enumCard } from '@/enums/card';
+import { enumEffect } from '@/enums/effect';
 import { RarityValue } from '@/enums/rarity';
 import { rangeToText } from '@/utils/common';
 
 import Icon from './Icon.vue';
 
+const { soundClick } = useSoundEffect();
 const isDialogOpen = ref(false);
 
 const props = defineProps<{
@@ -135,9 +143,18 @@ const card = computed(
     () => CardTemplateList.find((v) => v.type === props.cardType)!
 );
 
+const theme = computed(() =>
+    card.value.effect === enumEffect.Harm ? 'red' : 'blue'
+);
+
 const rarityValues = computed(
     () => Object.keys(card.value.potentials) as RarityValue[]
 );
+
+const openDialog = async () => {
+    await soundClick();
+    isDialogOpen.value = true;
+};
 </script>
 <style lang="scss" scoped>
 .floating {

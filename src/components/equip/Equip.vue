@@ -175,7 +175,10 @@
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
@@ -210,6 +213,7 @@ const props = withDefaults(
 );
 
 const toggleDialog = (target: boolean) => {
+    soundClick();
     isDialogOpen.value = target;
 };
 

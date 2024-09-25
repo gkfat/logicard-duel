@@ -32,7 +32,7 @@ export const vuetify = createVuetify({
                     darkred: '#c8411c',
                     amber: colors.amber.darken1,
                     darkamber: colors.amber.darken3,
-                    blue: '#3d405b',
+                    blue: colors.blue.darken1,
                     green: '#81b29a',
                     darkgreen: '#52856c',
                     skin: '#f2cc8f',

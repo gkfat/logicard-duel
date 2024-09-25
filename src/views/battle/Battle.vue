@@ -9,7 +9,10 @@
         </v-col>
 
         <v-col cols="auto" class="pa-0 flex-grow-1">
-            <Table></Table>
+            <Table
+                :player-round-status="playerRoundStatus"
+                :opponent-round-status="opponentRoundStatus"
+            ></Table>
         </v-col>
 
         <v-col cols="auto" class="pa-0 mt-auto">
@@ -26,6 +29,7 @@
 import {
     computed,
     onMounted,
+    ref,
     watch,
 } from 'vue';
 
@@ -118,13 +122,17 @@ const roundPhase = computed(() => battleStore.roundPhase);
 /** 倒數計時 */
 const remainSeconds = computed(() => battleStore.remainSeconds);
 
+const isCountingDown = ref(false);
+
 /** 倒數計時結束 */
 const endCountdown = () => {
-    battleStore.changeRoundPhase(enumRoundPhase.Duel);
+    isCountingDown.value = false;
 };
 
 /** 開始倒數計時 */
 const startCountdown = () => {
+    isCountingDown.value = true;
+
     // 重置倒數計時
     battleStore.resetRemainSeconds();
 
@@ -199,6 +207,20 @@ const duel = async () => {
     }
 };
 
+/** 倒數計時結束後轉換局狀態 */
+watch(
+    () => isCountingDown.value,
+    async () => {
+        if (
+            roundPhase.value === enumRoundPhase.Main &&
+            isCountingDown.value === false
+        ) {
+            await sleep(1000);
+            battleStore.changeRoundPhase(enumRoundPhase.Duel);
+        }
+    }
+);
+
 /** 階段 control flow */
 watch(
     () => roundPhase.value,
@@ -216,7 +238,8 @@ watch(
                 break;
             case enumRoundPhase.Draw: // 發牌
                 await sleep(1000);
-                // 背包卡牌抽 3 張進手牌
+
+                // 從背包補充手牌
                 playerStore.drawCard();
                 opponentStore.drawCard();
 

@@ -11,13 +11,12 @@ import {
 } from './mumble-list';
 
 const baseCards = [
-    enumCard.LogiCard1,
-    enumCard.LogiCard2,
-    enumCard.LogiCard3,
-    enumCard.LogiCard4,
-    enumCard.LogiCard5,
-    enumCard.LogiCard6,
-    enumCard.LogiCard7,
+    enumCard.LogiCardAttack,
+    enumCard.LogiCardAttack,
+    enumCard.LogiCardAttack,
+    enumCard.LogiCardDefense,
+    enumCard.LogiCardDefense,
+    enumCard.LogiCardDefense,
 ];
 
 export const CharacterTemplateList: CharacterTemplate[] = [
@@ -29,7 +28,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         backpackLimit: 30,
         init: {
             healthRange: [40, 50],
-            attackRange: [2, 5],
+            attackRange: [5, 10],
             defenseRange: [3, 5],
             cards: [...baseCards],
             equips: [],
@@ -78,7 +77,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         backpackLimit: 20,
         init: {
             healthRange: [50, 70],
-            attackRange: [2, 5],
+            attackRange: [5, 8],
             defenseRange: [5, 8],
             cards: [...baseCards],
             equips: [],
@@ -127,7 +126,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         backpackLimit: 35,
         init: {
             healthRange: [35, 60],
-            attackRange: [3, 7],
+            attackRange: [7, 12],
             defenseRange: [4, 7],
             cards: [...baseCards],
             equips: [],
@@ -178,8 +177,8 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         backpackLimit: 20,
         init: {
             healthRange: [20, 25],
-            attackRange: [1, 10],
-            defenseRange: [1, 3],
+            attackRange: [5, 10],
+            defenseRange: [2, 4],
             cards: [...baseCards],
             equips: [],
             coin: 30,
@@ -224,7 +223,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         backpackLimit: 40,
         init: {
             healthRange: [30, 35],
-            attackRange: [1, 3],
+            attackRange: [7, 9],
             defenseRange: [2, 5],
             cards: [...baseCards],
             equips: [],
