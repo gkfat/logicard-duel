@@ -6,9 +6,11 @@
         <v-col cols="auto" class="pa-0 mr-auto">
             v {{ appStore.ENV.appVersion }}
         </v-col>
+
         <v-col cols="auto" class="pa-0 text-center font-weight-bold">
             {{ appStore.ENV.appTitle }}
         </v-col>
+
         <v-col cols="auto" class="pa-0 ml-auto">
             <VolumeControl />
         </v-col>

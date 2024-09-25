@@ -4,63 +4,41 @@
             flat
             color="darkgreen"
             class="rounded-lg border-white border-lg border-opacity-50 fill-height mx-auto"
-            :max-width="350"
         >
-            <v-row class="ma-0 pa-1 align-center">
-                <v-col cols="auto" class="pa-1">
-                    {{ t(`battle.round_state.${roundPhase}`) }}
-                </v-col>
+            <v-card-text class="py-1">
+                {{ t(`battle.round_state.${roundPhase}`) }}
+            </v-card-text>
 
-                <!-- Clock -->
-                <v-col cols="auto" class="pa-1 ml-auto">
-                    <Countdown
-                        v-if="isShowCountdown"
-                        :remain-seconds="remainSeconds"
-                    ></Countdown>
-                </v-col>
-            </v-row>
+            <!-- 數值計算 -->
+            <v-card-text class="py-0" v-if="shouldDuel">
+                <em class="text-caption">{{
+                    `玩家攻擊力(${playerRoundStatus.attack}) - 敵人防禦力(${opponentRoundStatus.defense}) = `
+                }}</em>
+                <em class="text-skin">{{ playerDeduction }}</em>
+                <br />
+                <em class="text-caption">{{
+                    `敵人攻擊力(${opponentRoundStatus.attack}) - 玩家防禦力(${playerRoundStatus.defense}) = `
+                }}</em>
+                <em class="text-red">{{ opponentDeduction }}</em>
+            </v-card-text>
 
             <!-- 牌 -->
-            <v-row class="ma-0 justify-center ga-3">
-                <v-col cols="5" class="pa-0">
-                    <p>
-                        {{ opponentStroe.currentOpponent?.character.name }}
-                    </p>
-                    <em
-                        >Atk:
-                        {{
-                            isHideOpponentStatus
-                                ? '-'
-                                : opponentRoundStatus.attack
-                        }}
-                        Def:
-                        {{
-                            isHideOpponentStatus
-                                ? '-'
-                                : opponentRoundStatus.attack
-                        }}</em
-                    >
-
+            <v-row class="ma-0 justify-center pa-3">
+                <v-col cols="5" class="pa-0 d-flex justify-center align-center">
                     <Card
                         v-if="table.opponentCard"
                         :card="table.opponentCard"
-                        :is-card-back="!shouldOpenCard"
+                        :is-card-back="!shouldDuel"
                         :show-detail="false"
                         :show-rarity="false"
                     ></Card>
                 </v-col>
 
-                <v-col cols="5" class="pa-0">
-                    <p>{{ playerStore.currentPlayer?.character.name }}</p>
-                    <em
-                        >Atk: {{ playerRoundStatus.attack }} Def:
-                        {{ playerRoundStatus.defense }}</em
-                    >
-
+                <v-col cols="5" class="pa-0 d-flex justify-center align-center">
                     <v-btn
                         v-if="table.playerCard"
                         flat
-                        class="bg-transparent pa-0"
+                        class="pa-0 bg-transparent fill-height d-flex justify-center align-center"
                         @click="playerStore.recallCard"
                     >
                         <Card
@@ -73,9 +51,23 @@
             </v-row>
         </v-card>
 
-        <!-- 牌堆 -->
+        <!-- 倒數計時 -->
         <div
             class="position-absolute"
+            :style="{
+                right: '10px',
+                top: '10px',
+            }"
+        >
+            <Countdown
+                v-if="isShowCountdown"
+                :remain-seconds="remainSeconds"
+            ></Countdown>
+        </div>
+
+        <!-- 牌堆 -->
+        <div
+            class="position-absolute d-flex justify-center align-center"
             :style="{
                 right: 0,
                 bottom: '-15px',
@@ -87,11 +79,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-    computed,
-    ref,
-    watch,
-} from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
@@ -120,12 +108,22 @@ const { playerRoundStatus, opponentRoundStatus } = defineProps<{
     opponentRoundStatus: RoundStatus;
 }>();
 
+const playerDeduction = computed(
+    () => playerRoundStatus.attack - opponentRoundStatus.defense
+);
+
+const opponentDeduction = computed(
+    () => opponentRoundStatus.attack - playerRoundStatus.defense
+);
+
 /** 是否顯示倒數計時器 */
 const isShowCountdown = computed(
     () => roundPhase.value === enumRoundPhase.Main
 );
 const remainSeconds = computed(() => battleStore.remainSeconds);
-const shouldOpenCard = ref(false);
+
+/** 是否對決 */
+const shouldDuel = ref(false);
 
 const playerStore = usePlayerStore();
 const opponentStroe = useOpponentStore();
@@ -140,21 +138,17 @@ const table = computed(() => {
     };
 });
 
-const isHideOpponentStatus = computed(
-    () => roundPhase.value < enumRoundPhase.Duel
-);
-
 watch(
     () => roundPhase.value,
     async () => {
         if (roundPhase.value === enumRoundPhase.Duel) {
-            await sleep(1000);
-            shouldOpenCard.value = true;
+            await sleep(1500);
+            shouldDuel.value = true;
         }
 
         if (roundPhase.value === enumRoundPhase.RoundEnd) {
-            await sleep(1000);
-            shouldOpenCard.value = false;
+            await sleep(500);
+            shouldDuel.value = false;
         }
     }
 );

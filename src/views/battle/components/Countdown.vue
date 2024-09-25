@@ -4,11 +4,8 @@
         theme="red"
         color="red"
         :width="3"
-        :size="20"
+        :size="30"
     >
-        <!-- <template #default>
-            <p>{{ remainSeconds }}</p>
-        </template> -->
     </v-progress-circular>
 </template>
 <script lang="ts" setup>

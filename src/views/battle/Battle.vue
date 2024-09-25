@@ -1,7 +1,7 @@
 <template>
     <div class="battlefield"></div>
 
-    <v-row class="w-100 ma-0 ga-3 flex-column">
+    <v-row class="w-100 ma-0 flex-column">
         <v-col cols="auto" class="pa-0">
             <OpponentSeat></OpponentSeat>
             <v-spacer class="mb-1"></v-spacer>
@@ -26,12 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-    computed,
-    onMounted,
-    ref,
-    watch,
-} from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 import { useSoundEffect } from '@/composable/useSoundEffect';
 import { enumRoundPhase } from '@/enums/battle';
@@ -182,7 +177,7 @@ const duel = async () => {
             // 敵人扣血
             opponentStore.decreaseHealth(opponentDeduction);
             await sleep(1000);
-            settle();
+            await settle();
         }
     }
 
@@ -202,7 +197,7 @@ const duel = async () => {
             playerStore.decreaseHealth(playerDeduction);
             playerStore.randomMumble(enumMumbleType.Hurt, true);
             await sleep(1000);
-            settle();
+            await settle();
         }
     }
 };
@@ -267,6 +262,7 @@ watch(
                 break;
             case enumRoundPhase.Settle: // 結算
                 await battleStore.clearTable();
+                await sleep(1000);
                 battleStore.changeRoundPhase(enumRoundPhase.RoundEnd);
                 break;
             case enumRoundPhase.RoundEnd: // 局結束

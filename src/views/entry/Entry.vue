@@ -7,6 +7,9 @@
             <v-col
                 cols="12"
                 class="pa-0 text-center mt-auto text-h3 font-weight-bold font-italic"
+                :class="{
+                    float1: true,
+                }"
                 :style="{
                     paddingRight: '80px !important',
                 }"
@@ -15,6 +18,9 @@
             <v-col
                 cols="12"
                 class="pa-0 text-center mb-auto text-h2 font-weight-bold font-italic"
+                :class="{
+                    float2: true,
+                }"
                 :style="{
                     paddingLeft: '120px !important',
                 }"
@@ -42,12 +48,15 @@
     </v-row>
 </template>
 <script lang="ts" setup>
+import { onMounted, ref } from 'vue';
+
 import { useI18n } from 'vue-i18n';
 
 import Btn from '@/components/system/Btn.vue';
 import { useSoundEffect } from '@/composable/useSoundEffect';
 import { enumGameState } from '@/enums/game';
 import { useAppStore } from '@/store/app';
+import { sleep } from '@/utils/common';
 
 const { t } = useI18n();
 const appStore = useAppStore();
@@ -67,4 +76,42 @@ const start = async () => {
 
     appStore.switchSpinner(false);
 };
+
+onMounted(async () => {
+    await sleep(1500);
+});
 </script>
+<style lang="scss" scoped>
+.float1 {
+    animation: float1 3s ease-in-out infinite;
+}
+
+.float2 {
+    animation: float2 2.5s ease-in-out infinite;
+    animation-delay: 0.5s;
+}
+
+@keyframes float1 {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes float2 {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+</style>

@@ -1,27 +1,15 @@
-import {
-    computed,
-    ref,
-} from 'vue';
+import { computed, ref } from 'vue';
 
 import { defineStore } from 'pinia';
 
 import { useSoundEffect } from '@/composable/useSoundEffect';
-import {
-    enumCharacter,
-    OpponentValues,
-} from '@/enums/character';
+import { enumCharacter, OpponentValues } from '@/enums/character';
 import { enumEffect } from '@/enums/effect';
 import { enumMumbleType } from '@/enums/mumble';
 import factory from '@/factory';
-import {
-    Card,
-    Equip,
-} from '@/types/core';
+import { Card, Equip } from '@/types/core';
 import { Player } from '@/types/player';
-import {
-    getRandomInt,
-    sleep,
-} from '@/utils/common';
+import { getRandomInt, sleep } from '@/utils/common';
 import { drawLots } from '@/utils/lottery';
 
 import { useAppStore } from './app';
@@ -167,7 +155,8 @@ export const useOpponentStore = defineStore('opponent', () => {
 
     /** 敵人出牌邏輯 */
     async function logicPlaceCard() {
-        const randomSeconds = getRandomInt([3, battleStore.remainSeconds]);
+        const randomSeconds =
+            getRandomInt([3, battleStore.remainSeconds]) * 1000;
         await sleep(randomSeconds);
 
         // 若還有手牌就隨機出一張

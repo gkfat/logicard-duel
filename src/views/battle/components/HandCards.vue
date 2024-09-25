@@ -1,13 +1,19 @@
 <template>
     <v-card flat class="bg-transparent">
-        <v-row class="ma-0 pb-7 align-center flex-nowrap justify-center">
+        <v-row
+            class="ma-0 pb-3 align-center flex-nowrap justify-center"
+            :style="{
+                transform: displayInSector ? 'translateY(-20px)' : undefined,
+            }"
+            :class="{ 'py-5': displayInSector }"
+        >
             <v-col
                 v-for="(card, i) in handCards"
                 :key="i"
                 cols="1"
                 class="pa-0 card-container"
                 :class="{
-                    'mx-2': displayInSector,
+                    'mx-3': displayInSector,
                 }"
                 :style="displayInSector ? calcCardStyle(i) : ''"
             >
@@ -38,10 +44,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-    computed,
-    ref,
-} from 'vue';
+import { computed, ref } from 'vue';
 
 import Card from '@/components/card/Card.vue';
 import Btn from '@/components/system/Btn.vue';

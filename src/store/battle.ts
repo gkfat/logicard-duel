@@ -1,7 +1,4 @@
-import {
-    computed,
-    ref,
-} from 'vue';
+import { computed, ref } from 'vue';
 
 import { defineStore } from 'pinia';
 
@@ -60,7 +57,7 @@ export const useBattleStore = defineStore('battle', () => {
     /** 清理桌面 */
     async function clearTable() {
         const playerCard = playerStore.tableCard;
-        const opponentCard = playerStore.tableCard;
+        const opponentCard = opponentStore.tableCard;
 
         if (playerCard) {
             cardStacks.value.push(playerCard);
