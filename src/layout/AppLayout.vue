@@ -1,28 +1,24 @@
 <template>
     <div
-        class="fill-height d-flex flex-column mx-auto"
+        class="fill-height d-flex flex-column align-center mx-auto"
         :style="{
             width: '100%',
+            height: '100%',
             maxWidth: '500px',
-            maxHeight: '100%'
+            maxHeight: '700px',
         }"
     >
         <AppHeader></AppHeader>
 
-        <v-container
-            class="fill-height py-0 d-flex flex-column flex-nowrap"
-            :style="{
-                maxHeight: 'calc(100% - 50px)',
-            }"
-        >
+        <v-container class="fill-height py-0 d-flex flex-column flex-nowrap">
             <router-view class="flex-grow-1" />
         </v-container>
-
-        <Rank></Rank>
-        <Backpack></Backpack>
-        <Shop></Shop>
-        <Spinner />
     </div>
+
+    <Rank></Rank>
+    <Backpack></Backpack>
+    <Shop></Shop>
+    <Spinner />
 </template>
 
 <script setup>

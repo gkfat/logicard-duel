@@ -1,7 +1,7 @@
 <template>
     <div class="battlefield"></div>
 
-    <v-row class="w-100 ma-0 flex-column">
+    <v-row class="w-100 ma-0 flex-column pb-3">
         <v-col cols="auto" class="pa-0">
             <OpponentSeat></OpponentSeat>
             <v-spacer class="mb-1"></v-spacer>
@@ -164,7 +164,10 @@ const settle = async () => {
 /** 開牌 */
 const duel = async () => {
     // 若玩家為攻擊狀態則先攻, 否則跳過
-    if (playerAttempt.value === enumEffect.Harm) {
+    if (
+        playerAttempt.value === enumEffect.Harm &&
+        roundPhase.value === enumRoundPhase.Duel
+    ) {
         // 玩家攻擊力 - 敵人防禦力
         const opponentDeduction =
             playerRoundStatus.value.attack - opponentRoundStatus.value.defense;
@@ -176,7 +179,7 @@ const duel = async () => {
             await sleep(1000);
             // 敵人扣血
             opponentStore.decreaseHealth(opponentDeduction);
-            await sleep(1000);
+            await sleep(500);
             await settle();
         }
     }
@@ -184,7 +187,10 @@ const duel = async () => {
     await sleep(1000);
 
     // 敵人攻擊
-    if (opponentAttempt.value === enumEffect.Harm) {
+    if (
+        opponentAttempt.value === enumEffect.Harm &&
+        roundPhase.value === enumRoundPhase.Duel
+    ) {
         // 敵人攻擊力 - 玩家防禦力
         const playerDeduction =
             opponentRoundStatus.value.attack - playerRoundStatus.value.defense;
@@ -196,7 +202,7 @@ const duel = async () => {
             // 玩家扣血
             playerStore.decreaseHealth(playerDeduction);
             playerStore.randomMumble(enumMumbleType.Hurt, true);
-            await sleep(1000);
+            await sleep(500);
             await settle();
         }
     }

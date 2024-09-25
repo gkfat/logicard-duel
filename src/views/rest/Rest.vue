@@ -1,7 +1,7 @@
 <template>
     <div class="campfire" :style="{ opacity: opacity.current }" />
 
-    <v-row class="w-100 ma-0 ga-3 flex-column">
+    <v-row class="w-100 ma-0 ga-3 flex-column pb-3">
         <v-col cols="auto" class="pa-0">
             <Dialog :dialogs="dialogs" :max-height="150" />
         </v-col>

@@ -33,7 +33,7 @@
                         ></Btn>
                         <Btn
                             v-else
-                            :text="'關閉'"
+                            :text="'現在無法出牌'"
                             :func="() => closeDetail(i)"
                         ></Btn>
                     </template>

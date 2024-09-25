@@ -273,10 +273,10 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         backpackLimit: 999,
         init: {
             healthRange: [40, 50],
-            attackRange: [5, 7],
+            attackRange: [3, 6],
             defenseRange: [1, 3],
             cards: [...baseCards, enumCard.ScrewDriver],
-            equips: [enumEquip.Boxer, enumEquip.Cloth],
+            equips: [enumEquip.Boxer],
             coin: 10,
         },
         mumbleList: {

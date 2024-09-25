@@ -1,5 +1,5 @@
 <template>
-    <v-row class="w-100 ma-0 ga-3 flex-column">
+    <v-row class="w-100 ma-0 ga-3 flex-column pb-3">
         <v-col cols="auto" class="pa-0 flex-grow-1">
             <Dialog :dialogs="dialogs[currentIndex]" />
         </v-col>

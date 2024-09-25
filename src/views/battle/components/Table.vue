@@ -23,32 +23,40 @@
             </v-card-text>
 
             <!-- 牌 -->
-            <v-row class="ma-0 justify-center pa-3">
-                <v-col cols="5" class="pa-0 d-flex justify-center align-center">
-                    <Card
-                        v-if="table.opponentCard"
-                        :card="table.opponentCard"
-                        :is-card-back="!shouldDuel"
-                        :show-detail="false"
-                        :show-rarity="false"
-                    ></Card>
-                </v-col>
-
-                <v-col cols="5" class="pa-0 d-flex justify-center align-center">
-                    <v-btn
-                        v-if="table.playerCard"
-                        flat
-                        class="pa-0 bg-transparent fill-height d-flex justify-center align-center"
-                        @click="playerStore.recallCard"
+            <v-card-text>
+                <v-row class="ma-0 justify-center">
+                    <v-col
+                        cols="5"
+                        class="pa-0 d-flex justify-center align-center"
                     >
                         <Card
-                            :card="table.playerCard"
+                            v-if="table.opponentCard"
+                            :card="table.opponentCard"
+                            :is-card-back="!shouldDuel"
                             :show-detail="false"
                             :show-rarity="false"
                         ></Card>
-                    </v-btn>
-                </v-col>
-            </v-row>
+                    </v-col>
+
+                    <v-col
+                        cols="5"
+                        class="pa-0 d-flex justify-center align-center"
+                    >
+                        <v-btn
+                            v-if="table.playerCard"
+                            flat
+                            class="pa-0 bg-transparent fill-height d-flex justify-center align-center"
+                            @click="playerStore.recallCard"
+                        >
+                            <Card
+                                :card="table.playerCard"
+                                :show-detail="false"
+                                :show-rarity="false"
+                            ></Card>
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </v-card-text>
         </v-card>
 
         <!-- 倒數計時 -->

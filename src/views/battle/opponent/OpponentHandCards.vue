@@ -18,9 +18,5 @@ import HandCards from '../components/HandCards.vue';
 
 const opponentStore = useOpponentStore();
 
-const handCards = computed(() => {
-    return opponentStore.handCards
-        .slice()
-        .sort((a, b) => a.info.point - b.info.point);
-});
+const handCards = computed(() => opponentStore.handCards.slice());
 </script>

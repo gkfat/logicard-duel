@@ -18,9 +18,5 @@ import HandCards from '../components/HandCards.vue';
 
 const playerStore = usePlayerStore();
 
-const handCards = computed(() => {
-    return playerStore.handCards
-        .slice()
-        .sort((a, b) => a.info.point - b.info.point);
-});
+const handCards = computed(() => playerStore.handCards.slice());
 </script>
