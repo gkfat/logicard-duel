@@ -1,5 +1,5 @@
 <template>
-    <Entry v-if="appStore.gameState === enumGameState.Init" />
+    <Entry v-if="appStore.gameState === enumGameState.Initialized" />
     <ChooseCharacter
         v-if="appStore.gameState === enumGameState.ChooseCharacter"
     />

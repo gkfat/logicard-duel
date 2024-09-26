@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 export enum enumGameState {
-    Init,
+    Booting,
+    Initialized,
     ChooseCharacter,
     Rest,
     ChooseOpponent,

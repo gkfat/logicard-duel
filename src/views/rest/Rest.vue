@@ -80,9 +80,9 @@ const BREATHE_INTERVAL_MILISECONDS = 150;
 const intervalChangingBackground = ref<NodeJS.Timeout>();
 
 const goOut = async () => {
-    await soundClick(() =>
-        appStore.changeGameState(enumGameState.ChooseOpponent)
-    );
+    await soundClick();
+
+    appStore.changeGameState(enumGameState.ChooseOpponent);
 };
 
 const increaseOpacity = () => {

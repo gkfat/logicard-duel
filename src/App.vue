@@ -7,7 +7,37 @@
         }"
         class="bg-transparent overflow-hidden"
     >
-        <router-view />
+        <!-- 載入動畫 -->
+        <template v-if="isBooting">
+            <v-card flat color="darkgrey" class="w-100 fill-height">
+                <v-row
+                    class="ma-0 align-center fill-height mx-auto"
+                    :style="{
+                        maxWidth: '350px',
+                    }"
+                >
+                    <v-col cols="12">
+                        <p class="text-h6 text-center">
+                            載入中...
+                            <em class="text-caption">{{ bootingPercent }} %</em>
+                        </p>
+
+                        <v-spacer class="my-3"></v-spacer>
+
+                        <v-progress-linear
+                            class="w-100 rounded-xl"
+                            color="skin"
+                            :model-value="bootingPercent"
+                            :height="10"
+                        />
+                    </v-col>
+                </v-row>
+            </v-card>
+        </template>
+
+        <template v-else>
+            <router-view />
+        </template>
     </v-app>
 
     <!-- 背景動畫 -->
@@ -17,15 +47,18 @@
 </template>
 
 <script setup lang="ts">
-import {
-    computed,
-    onMounted,
-} from 'vue';
+import { computed, onMounted } from 'vue';
 
 import { enumGameState } from './enums/game';
 import { useAppStore } from './store/app';
 
 const appStore = useAppStore();
+const isBooting = computed(() => appStore.gameState === enumGameState.Booting);
+const bootProcess = computed(() => appStore.bootProcess);
+const bootingPercent = computed(() => {
+    const { totalTasks, doneTasks } = bootProcess.value;
+    return (doneTasks / totalTasks) * 100;
+});
 
 const setEnv = async () => {
     appStore.ENV = {
@@ -48,7 +81,7 @@ const setEnv = async () => {
 
 const isDisplayBackground = computed(() => {
     return [
-        enumGameState.Init,
+        enumGameState.Initialized,
         enumGameState.ChooseCharacter,
         enumGameState.ChooseOpponent,
     ].includes(appStore.gameState);
