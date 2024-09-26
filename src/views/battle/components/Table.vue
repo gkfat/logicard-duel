@@ -36,6 +36,18 @@
                             :show-detail="false"
                             :show-rarity="false"
                         ></Card>
+
+                        <v-card
+                            v-else
+                            flat
+                            class="bg-transparent"
+                            :width="80"
+                            :height="120"
+                        >
+                            <v-card-title class="text-wrap"
+                                >赤手空拳</v-card-title
+                            >
+                        </v-card>
                     </v-col>
 
                     <v-col
@@ -54,6 +66,18 @@
                                 :show-rarity="false"
                             ></Card>
                         </v-btn>
+
+                        <v-card
+                            v-else
+                            flat
+                            class="bg-transparent"
+                            :width="80"
+                            :height="120"
+                        >
+                            <v-card-title class="text-wrap"
+                                >赤手空拳</v-card-title
+                            >
+                        </v-card>
                     </v-col>
                 </v-row>
             </v-card-text>

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 樣板實例化時，隨機產生稀有度，依稀有度初始化數值
 - 新增 useSoundEffect，用 composable 方式呼叫音效
 - 新增初始化遊戲載入動畫
+- Google App Scripts 新增 post 方法，現在可以儲存玩家細節資料了
 
 ### Changed
 

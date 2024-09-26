@@ -4,7 +4,14 @@
             <v-row class="ma-0 pa-3 ga-3">
                 <Dialog :max-height="150" :dialogs="dialogs" />
 
-                <v-col cols="12" class="pa-0 mx-auto">
+                <v-col
+                    cols="auto"
+                    class="pa-0 mx-auto"
+                    :style="{
+                        width: '100%',
+                        maxWidth: '500px',
+                    }"
+                >
                     <v-carousel
                         v-if="rankStore.rankData.length > 0"
                         :height="300"
@@ -18,22 +25,37 @@
                             <v-card class="rounded" color="darkgrey rounded-lg">
                                 <v-card-text>
                                     <v-row>
-                                        <!-- 成佛日期 -->
                                         <v-col cols="3"> 成佛日期 </v-col>
                                         <v-col cols="9" class="text-primary">
                                             {{ humanReadable(data.endDate) }}
                                         </v-col>
 
-                                        <!-- 玩家名稱 -->
                                         <v-col cols="3"> 玩家名稱 </v-col>
                                         <v-col cols="9" class="text-primary">
                                             {{ data.playerName }}
                                         </v-col>
 
-                                        <!-- 遺言 -->
                                         <v-col cols="3"> 遺言 </v-col>
                                         <v-col cols="9" class="text-primary">
                                             {{ data.lastWords }}
+                                        </v-col>
+
+                                        <v-col cols="3"> 角色 </v-col>
+                                        <v-col cols="9" class="text-primary">
+                                            {{ data.player.character.name }}
+                                            <v-avatar
+                                                :size="40"
+                                                :image="
+                                                    data.player.character.avatar
+                                                "
+                                                color="darkamber"
+                                                class="border-white border-md border-opacity-75"
+                                            ></v-avatar>
+                                        </v-col>
+
+                                        <v-col cols="3"> 戰鬥場數 </v-col>
+                                        <v-col cols="9" class="text-primary">
+                                            {{ data.player.records.length }}
                                         </v-col>
                                     </v-row>
                                 </v-card-text>

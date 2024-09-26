@@ -4,20 +4,38 @@ import { defineStore } from 'pinia';
 
 import apiService from '@/api';
 import { Rank } from '@/types/rank';
+import { humanReadable } from '@/utils/time';
 
 export const useRankStore = defineStore('rank', () => {
     const rankData = ref<Rank[]>([]);
 
     /** 獲取排行榜資料 */
     const getRankData = async () => {
-        const data = await apiService.getData();
+        const { data } = await apiService.getData();
 
-        console.log({ data });
+        // 移除標題列
+        data.splice(0, 1);
+
+        rankData.value = data.map((_data) => {
+            const [endDate, playerName, player, lastWords] = _data;
+
+            return {
+                endDate: humanReadable(JSON.parse(endDate)),
+                playerName: JSON.parse(playerName),
+                player: JSON.parse(player),
+                lastWords: JSON.parse(lastWords),
+            };
+        });
     };
 
     /** 更新排行榜資料 */
-    const updateRankData = async (data: Rank) => {
-        await apiService.updateData(data);
+    const updateRankData = async (req: Rank) => {
+        try {
+            const { data } = await apiService.updateData(req);
+            console.log({ data });
+        } catch (e) {
+            console.error(e);
+        }
     };
 
     /** 初始化 */

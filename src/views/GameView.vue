@@ -9,7 +9,7 @@
     />
     <Battle v-if="appStore.gameState === enumGameState.Battle" />
     <!-- <BattleEnd v-if="appStore.gameState === enumGameState.BattleEnd" /> -->
-    <!-- <GameOver v-if="appStore.gameState === enumGameState.GameOver" /> -->
+    <GameOver v-if="appStore.gameState === enumGameState.GameOver" />
 </template>
 
 <script setup lang="ts">
@@ -22,7 +22,7 @@ import { useAppStore } from '@/store/app';
 import Battle from '@/views/battle/Battle.vue';
 import ChooseCharacter from '@/views/choose-character/ChooseCharacter.vue';
 import Entry from '@/views/entry/Entry.vue';
-// import GameOver from '@/views/game-over/GameOver.vue';
+import GameOver from '@/views/game-over/GameOver.vue';
 import Rest from '@/views/rest/Rest.vue';
 
 import ChooseOpponent from './choose-opponent/ChooseOpponent.vue';
@@ -34,20 +34,19 @@ watch(
     () => appStore.gameState,
     async () => {
         switch (appStore.gameState) {
-            case enumGameState.ChooseOpponent:
-                bgmBattle();
+            case enumGameState.ChooseCharacter:
+                bgmPrologue();
                 break;
             case enumGameState.Rest:
                 bgmRest();
                 break;
+            case enumGameState.ChooseOpponent:
+                bgmBattle();
+                break;
             case enumGameState.GameOver:
                 bgmEnd();
                 break;
-            case enumGameState.Battle:
-                bgmBattle();
-                break;
             default:
-                await bgmPrologue();
                 break;
         }
     }

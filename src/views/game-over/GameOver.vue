@@ -1,113 +1,135 @@
 <template>
-    <v-col cols="12" class="pa-0 align-self-stretch">
-        <Dialog :dialogs="dialog" />
-    </v-col>
+    <div class="rip" />
+    <div class="bg" />
 
-    <v-col cols="12">
-        <v-data-table
-            :headers="headers"
-            :items="[player]"
-            class="rounded-lg mb-3"
-        >
-            <template #bottom />
-        </v-data-table>
+    <v-row class="w-100 ma-0 ga-3 flex-column pb-3">
+        <v-col cols="auto" class="pa-0">
+            <Dialog :dialogs="dialogs" />
+        </v-col>
 
-        <v-text-field
-            v-model="lastWords"
-            type="text"
-            variant="outlined"
-            class="bg-white rounded mb-3"
-            hide-details
-            :placeholder="t('game_view.game_end.leave_message')"
-        />
-    </v-col>
+        <v-col cols="auto" class="pa-0 mt-auto mb-3">
+            <v-data-table
+                :headers="headers"
+                :items="[player]"
+                class="rounded-lg mb-3"
+            >
+                <template #bottom />
+            </v-data-table>
 
-    <v-col cols="12" class="align-self-end">
-        <BtnText :text="t('game_view.game_end.restart')" :func="restart" />
-    </v-col>
+            <v-text-field
+                v-model="playerName"
+                type="text"
+                variant="outlined"
+                class="bg-white rounded-lg mb-3"
+                hide-details
+                placeholder="玩家姓名"
+            />
+
+            <v-text-field
+                v-model="lastWords"
+                type="text"
+                variant="outlined"
+                class="bg-white rounded-lg mb-3"
+                hide-details
+                placeholder="留下遺言"
+                @update:model-value="onLastWordsChange"
+            />
+        </v-col>
+
+        <v-col cols="auto" class="pa-0">
+            <Btn :text="t('game_view.game_end.restart')" :func="restart" />
+        </v-col>
+    </v-row>
 </template>
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
-import BtnText from '@/components/system/BtnText.vue';
+import Btn from '@/components/system/Btn.vue';
 import Dialog from '@/components/system/Dialog.vue';
-import { DialogDataList } from '@/data';
-import { enumDialog, enumOperation, enumSheetName } from '@/enums/game';
-import Util from '@/service/util';
-import { usePlayerStore, useRankStore, useSwitchToggleStore } from '@/store';
-import { Game } from '@/types';
+import { DialogDataList } from '@/data/dialogs';
+import { enumDialog } from '@/enums/dialog';
+import { useAppStore } from '@/store/app';
+import { usePlayerStore } from '@/store/player';
+import { useRankStore } from '@/store/rank';
+import { Player } from '@/types/player';
+import { Rank } from '@/types/rank';
+import { createDate } from '@/utils/time';
 
 const { t } = useI18n();
-const dialog = DialogDataList[enumDialog.GameOver];
-const switchToggleStore = useSwitchToggleStore();
+const dialogs = DialogDataList[enumDialog.GameOver];
+const appStore = useAppStore();
 const playerStore = usePlayerStore();
-const player = computed<Game.Player>(() => playerStore.player);
+const player = computed(() => playerStore.currentPlayer!);
 const rankStore = useRankStore();
 
 const headers = [
     {
         key: 'name',
         title: t('game_view.game_end.name'),
-        value: (item: Game.Player) => item.Character?.Name,
-    },
-    {
-        key: 'total_damage',
-        title: t('game_view.game_end.total_damage'),
-        value: (item: Game.Player) => item.Record.TotalDamage,
-    },
-    {
-        key: 'total_heal',
-        title: t('game_view.game_end.total_heal'),
-        value: (item: Game.Player) => item.Record.TotalHeal,
-    },
-    {
-        key: 'defeat_bots',
-        title: t('game_view.game_end.defeat_bots'),
-        value: (item: Game.Player) => item.Record.DefeatBots,
-    },
-    {
-        key: 'survival_time',
-        title: t('game_view.game_end.survival_time'),
-        value: (item: Game.Player) =>
-            `${item.Record.SurvivalTime} ${t('game_view.game_end.hour')}`,
+        value: (item: Player) => item.character.name,
     },
 ];
 
 /**
  * 玩家留下紀錄
  */
+const playerName = ref('');
 const lastWords = ref('');
-watch(lastWords, () => {
-    lastWords.value = lastWords.value.trim();
-    if (lastWords.value.length > 20) {
-        lastWords.value = lastWords.value.substring(0, 20);
+
+const onLastWordsChange = () => {
+    const value = lastWords.value.trim();
+
+    if (value.length > 20) {
+        lastWords.value = value.substring(0, 20);
+    } else {
+        lastWords.value = value;
     }
-});
+};
 
 const restart = async () => {
-    const finalLastWords =
-        lastWords.value.length === 0
-            ? '走的太倉促，沒有留下遺言。'
-            : lastWords.value;
-    switchToggleStore.switchSpinner(true);
-    const data = {
-        EndTime: Util.getCurrentDate(),
-        Character: player.value.Character!.Name,
-        TotalDamage: player.value.Record.TotalDamage,
-        TotalHeal: player.value.Record.TotalHeal,
-        DefeatBots: player.value.Record.DefeatBots,
-        SurvivalTime: `${player.value.Record.SurvivalTime} 小時`,
-        LastWords: finalLastWords,
+    const data: Rank = {
+        endDate: createDate().toISOString(),
+        playerName:
+            playerName.value.length === 0 ? '匿名玩家' : playerName.value,
+        player: player.value,
+        lastWords:
+            lastWords.value.length === 0
+                ? '走的太倉促，沒有留下遺言。'
+                : lastWords.value,
     };
-    await rankStore.updateData(
-        enumSheetName.Records,
-        enumOperation.Update,
-        data
-    );
-    Util.sleep(1000);
-    switchToggleStore.switchSpinner(false);
+
+    appStore.switchSpinner(true);
+
+    await rankStore.updateRankData(data);
+
+    appStore.switchSpinner(false);
     window.location.reload();
 };
 </script>
+
+<style lang="scss" scoped>
+.bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #363d4d;
+    z-index: -2;
+}
+
+.rip {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHIyN2d4MDlpMnY4OTk4cjYwZDhneWltdHV0aWxxbXlibHg1endlYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/FnhxsYbm63T5POxvTf/giphy.gif');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+</style>

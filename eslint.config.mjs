@@ -1,15 +1,15 @@
-import pluginVue from 'eslint-plugin-vue';
-import globals from 'globals';
-import tsEslint from 'typescript-eslint';
-import vueParser from 'vue-eslint-parser';
+import pluginVue from "eslint-plugin-vue";
+import globals from "globals";
+import tsEslint from "typescript-eslint";
+import vueParser from "vue-eslint-parser";
 
-import eslintJs from '@eslint/js';
+import eslintJs from "@eslint/js";
 
 export default [
   eslintJs.configs.recommended,
   // general
   {
-    files: ["**/*.{js,jsx,tsx}"],
+    files: ["src/**/*.{js,jsx,tsx}"],
     languageOptions: {
       parserOptions: {
         ecmaVersion: "latest",
@@ -37,7 +37,7 @@ export default [
   // vue
   ...pluginVue.configs["flat/essential"],
   {
-    files: ["**/*.vue"],
+    files: ["src/**/*.vue"],
     languageOptions: {
       parser: vueParser,
       parserOptions: {

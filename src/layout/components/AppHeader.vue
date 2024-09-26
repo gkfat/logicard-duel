@@ -27,8 +27,10 @@ import VolumeControl from './VolumeControl.vue';
 const appStore = useAppStore();
 
 const isUseWhiteText = computed(() => {
-    return [enumGameState.Rest, enumGameState.Battle].includes(
-        appStore.gameState
-    );
+    return [
+        enumGameState.Rest,
+        enumGameState.Battle,
+        enumGameState.GameOver,
+    ].includes(appStore.gameState);
 });
 </script>
