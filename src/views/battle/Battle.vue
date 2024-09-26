@@ -37,7 +37,7 @@ import { useAppStore } from '@/store/app';
 import { useBattleStore } from '@/store/battle';
 import { useOpponentStore } from '@/store/opponent';
 import { usePlayerStore } from '@/store/player';
-import { sleep } from '@/utils/common';
+import { sleepSeconds } from '@/utils/common';
 
 import RoundNotification from './components/RoundNotification.vue';
 import Table from './components/Table.vue';
@@ -150,13 +150,13 @@ const settle = async () => {
         // 玩家沒血, game over
         playerStore.randomMumble(enumMumbleType.Lose, true);
 
-        await sleep(3000);
+        await sleepSeconds(3);
         appStore.changeGameState(enumGameState.GameOver);
     } else if (opponent.value.status.health === 0) {
         // 敵人沒血, battle end
         opponentStore.randomMumble(enumMumbleType.Lose, true);
 
-        await sleep(3000);
+        await sleepSeconds(3);
         appStore.changeGameState(enumGameState.BattleEnd);
     }
 };
@@ -176,15 +176,15 @@ const duel = async () => {
             console.log('敵人扣血: ', opponentDeduction);
             playerStore.randomMumble(enumMumbleType.Attack, true);
             opponentStore.randomMumble(enumMumbleType.Hurt, true);
-            await sleep(1000);
+            await sleepSeconds(1);
             // 敵人扣血
             opponentStore.decreaseHealth(opponentDeduction);
-            await sleep(500);
+            await sleepSeconds(0.5);
             await settle();
         }
     }
 
-    await sleep(1000);
+    await sleepSeconds(1);
 
     // 敵人攻擊
     if (
@@ -198,11 +198,11 @@ const duel = async () => {
         if (playerDeduction > 0) {
             console.log('玩家扣血: ', playerDeduction);
             opponentStore.randomMumble(enumMumbleType.Attack, true);
-            await sleep(1000);
+            await sleepSeconds(1);
             // 玩家扣血
             playerStore.decreaseHealth(playerDeduction);
             playerStore.randomMumble(enumMumbleType.Hurt, true);
-            await sleep(500);
+            await sleepSeconds(0.5);
             await settle();
         }
     }
@@ -216,7 +216,7 @@ watch(
             roundPhase.value === enumRoundPhase.Main &&
             isCountingDown.value === false
         ) {
-            await sleep(1000);
+            await sleepSeconds(1);
             battleStore.changeRoundPhase(enumRoundPhase.Duel);
         }
     }
@@ -234,21 +234,21 @@ watch(
                 playerStore.startMumble();
                 opponentStore.startMumble();
 
-                await sleep(3000);
+                await sleepSeconds(3);
                 battleStore.changeRoundPhase(enumRoundPhase.Draw);
                 break;
             case enumRoundPhase.Draw: // 發牌
-                await sleep(1000);
+                await sleepSeconds(1);
 
                 // 從背包補充手牌
                 playerStore.drawCard();
                 opponentStore.drawCard();
 
-                await sleep(3000);
+                await sleepSeconds(3);
                 battleStore.changeRoundPhase(enumRoundPhase.Main);
                 break;
             case enumRoundPhase.Main: // 出牌
-                await sleep(2000);
+                await sleepSeconds(2);
 
                 // 倒數計時
                 startCountdown();
@@ -259,20 +259,20 @@ watch(
             case enumRoundPhase.Duel: // 開牌
                 playerStore.stopMumble();
                 opponentStore.stopMumble();
-                await sleep(1500);
+                await sleepSeconds(1.5);
 
                 await duel();
 
-                await sleep(3000);
+                await sleepSeconds(3);
                 battleStore.changeRoundPhase(enumRoundPhase.Settle);
                 break;
             case enumRoundPhase.Settle: // 結算
                 await battleStore.clearTable();
-                await sleep(1000);
+                await sleepSeconds(1);
                 battleStore.changeRoundPhase(enumRoundPhase.RoundEnd);
                 break;
             case enumRoundPhase.RoundEnd: // 局結束
-                await sleep(1000);
+                await sleepSeconds(1);
                 battleStore.changeRoundPhase(enumRoundPhase.RoundStart);
                 break;
         }
@@ -280,7 +280,7 @@ watch(
 );
 
 onMounted(async () => {
-    await sleep(3000);
+    await sleepSeconds(3);
 
     battleStore.resetBattle();
     battleStore.changeRoundPhase(enumRoundPhase.RoundStart);

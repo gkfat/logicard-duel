@@ -48,15 +48,12 @@
     </v-row>
 </template>
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
-
 import { useI18n } from 'vue-i18n';
 
 import Btn from '@/components/system/Btn.vue';
 import { useSoundEffect } from '@/composable/useSoundEffect';
 import { enumGameState } from '@/enums/game';
 import { useAppStore } from '@/store/app';
-import { sleep } from '@/utils/common';
 
 const { t } = useI18n();
 const appStore = useAppStore();
@@ -76,10 +73,6 @@ const start = async () => {
 
     appStore.switchSpinner(false);
 };
-
-onMounted(async () => {
-    await sleep(1500);
-});
 </script>
 <style lang="scss" scoped>
 .float1 {

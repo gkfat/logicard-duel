@@ -17,7 +17,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import {
+    computed,
+    onMounted,
+} from 'vue';
 
 import { enumGameState } from './enums/game';
 import { useAppStore } from './store/app';

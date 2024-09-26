@@ -26,15 +26,11 @@
 </template>
 
 <script lang="ts" setup>
-import {
-    computed,
-    ref,
-    watch,
-} from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import { enumRoundPhase } from '@/enums/battle';
 import { useBattleStore } from '@/store/battle';
-import { sleep } from '@/utils/common';
+import { sleepSeconds } from '@/utils/common';
 
 const battleStore = useBattleStore();
 const roundPhase = computed(() => battleStore.roundPhase);
@@ -72,15 +68,15 @@ watch(
         }
 
         if (isVisible.value) {
-            await sleep(100);
+            await sleepSeconds(1);
 
             slideIn.value = true;
 
-            await sleep(2000);
+            await sleepSeconds(2);
 
             slideOut.value = true;
 
-            await sleep(600);
+            await sleepSeconds(1);
 
             resetPosition();
         }

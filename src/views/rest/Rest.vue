@@ -56,7 +56,7 @@ import { DialogDataList } from '@/data/dialogs';
 import { enumDialog } from '@/enums/dialog';
 import { enumGameState } from '@/enums/game';
 import { useAppStore } from '@/store/app';
-import { sleep } from '@/utils/common';
+import { sleepSeconds } from '@/utils/common';
 
 import Status from './components/Status.vue';
 
@@ -73,7 +73,8 @@ let opacity = ref({
 });
 
 let decreasing = ref(true);
-const BREATHE_TIME = 170;
+const BREATHE_SECOONDS = 1.5;
+const BREATHE_INTERVAL_MILISECONDS = 150;
 
 // eslint-disable-next-line no-undef
 const intervalChangingBackground = ref<NodeJS.Timeout>();
@@ -93,14 +94,14 @@ const increaseOpacity = () => {
                 opacity.value.current = opacity.value.max;
                 clearInterval(intervalChangingBackground.value);
 
-                await sleep(BREATHE_TIME * 10);
+                await sleepSeconds(BREATHE_SECOONDS);
 
                 // 轉向
                 decreasing.value = true;
                 decreaseOpacity();
             }
         }
-    }, BREATHE_TIME);
+    }, BREATHE_INTERVAL_MILISECONDS);
 };
 
 const decreaseOpacity = () => {
@@ -112,18 +113,18 @@ const decreaseOpacity = () => {
                 opacity.value.current = opacity.value.min;
                 clearInterval(intervalChangingBackground.value);
 
-                await sleep(BREATHE_TIME * 10);
+                await sleepSeconds(BREATHE_SECOONDS);
 
                 // 轉向
                 decreasing.value = false;
                 increaseOpacity();
             }
         }
-    }, BREATHE_TIME);
+    }, BREATHE_INTERVAL_MILISECONDS);
 };
 
 onMounted(async () => {
-    await sleep(3000);
+    await sleepSeconds(3);
 
     decreaseOpacity();
 });

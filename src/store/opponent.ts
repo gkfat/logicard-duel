@@ -9,7 +9,7 @@ import { enumMumbleType } from '@/enums/mumble';
 import factory from '@/factory';
 import { Card, Equip } from '@/types/core';
 import { Player } from '@/types/player';
-import { getRandomInt, sleep } from '@/utils/common';
+import { getRandomInt, sleepSeconds } from '@/utils/common';
 import { drawLots } from '@/utils/lottery';
 
 import { useAppStore } from './app';
@@ -118,7 +118,7 @@ export const useOpponentStore = defineStore('opponent', () => {
         for (const card of getCards) {
             await soundPlaceCard();
             handCards.value.push(card);
-            await sleep(300);
+            await sleepSeconds(0.3);
         }
     }
 
@@ -155,9 +155,8 @@ export const useOpponentStore = defineStore('opponent', () => {
 
     /** 敵人出牌邏輯 */
     async function logicPlaceCard() {
-        const randomSeconds =
-            getRandomInt([3, battleStore.remainSeconds]) * 1000;
-        await sleep(randomSeconds);
+        const randomSeconds = getRandomInt([3, battleStore.remainSeconds]);
+        await sleepSeconds(randomSeconds);
 
         // 若還有手牌就隨機出一張
         if (handCards.value.length > 0) {
@@ -191,7 +190,7 @@ export const useOpponentStore = defineStore('opponent', () => {
         if (isGoingToMumble) {
             // 如果有前一句就延遲一下後再說話
             if (mumbleContent.value.length) {
-                await sleep(1000);
+                await sleepSeconds(1);
             }
 
             const mumbleList =
@@ -204,7 +203,7 @@ export const useOpponentStore = defineStore('opponent', () => {
                 mumbleContent.value = mumbleList[randomIndex];
 
                 // 5 秒後關閉
-                await sleep(5000);
+                await sleepSeconds(5);
                 clearMumble();
             }
         }
@@ -212,7 +211,7 @@ export const useOpponentStore = defineStore('opponent', () => {
         // 循環
         if (keepMumbling.value) {
             const randomSeconds = getRandomInt([3, 8]);
-            await sleep(randomSeconds * 1000);
+            await sleepSeconds(randomSeconds);
 
             randomMumble(mumbleType);
         }

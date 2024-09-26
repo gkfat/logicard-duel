@@ -50,7 +50,7 @@ import { enumDialog } from '@/enums/dialog';
 import { enumGameState } from '@/enums/game';
 import { useAppStore } from '@/store/app';
 import { usePlayerStore } from '@/store/player';
-import { sleep } from '@/utils/common';
+import { sleepSeconds } from '@/utils/common';
 
 import CharacterCard from './components/CharacterCard.vue';
 
@@ -111,7 +111,7 @@ const confirmCharacter = async () => {
 
     appStore.switchSpinner(true);
 
-    await sleep(300);
+    await sleepSeconds(0.3);
 
     appStore.switchSpinner(false);
 

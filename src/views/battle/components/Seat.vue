@@ -21,7 +21,7 @@
                         class="pa-0 d-flex align-center flex-wrap flex-grow-1 ga-3"
                     >
                         <!-- 生命值 -->
-                        <v-col cols="12" class="pa-0">
+                        <v-col cols="12" class="pa-0 position-relative">
                             <v-progress-linear
                                 class="w-100 rounded-xl"
                                 color="red"
@@ -35,6 +35,23 @@
                                     </p>
                                 </template>
                             </v-progress-linear>
+
+                            <!-- 血量變化動畫 -->
+                            <div
+                                v-if="mutatedHealth !== 0"
+                                class="position-absolute"
+                                :class="{
+                                    'health-change': mutatedHealth !== 0,
+                                    'text-red': mutatedHealth < 0,
+                                    'text-green': mutatedHealth > 0,
+                                }"
+                                :style="{
+                                    top: 0,
+                                    right: 0,
+                                }"
+                            >
+                                {{ mutatedHealth }}
+                            </div>
                         </v-col>
 
                         <!-- 攻擊 -->
@@ -83,10 +100,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 
-import { usePlayerStore } from '@/store/player';
 import { Player } from '@/types/player';
+import { sleepSeconds } from '@/utils/common';
 
 import MumbleBubble from '../components/MumbleBubble.vue';
 
@@ -99,4 +116,38 @@ const { player, mumbleContent, extraStatus } = defineProps<{
 const currentHealthPercent = computed(
     () => (player.status.health / player.status.maxHealth) * 100
 );
+
+/** 上一次變化的後血量 */
+const lastHealth = ref(player.status.health);
+
+/** 血量變化 */
+const mutatedHealth = ref(0);
+
+/** 播放扣血動畫 */
+watch(
+    () => player.status.health,
+    async () => {
+        mutatedHealth.value = player.status.health - lastHealth.value;
+
+        await sleepSeconds(1);
+
+        mutatedHealth.value = 0;
+    }
+);
 </script>
+
+<style lang="scss" scoped>
+.health-change {
+    animation: healthChange 1s ease-out;
+    animation-delay: 0.3s;
+}
+
+@keyframes healthChange {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-20px);
+    }
+}
+</style>

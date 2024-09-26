@@ -10,9 +10,9 @@ export const getZeroOrOne = () => {
 };
 
 /** Sleep 效果 */
-export const sleep = async (ms: number): Promise<void> => {
+export const sleepSeconds = async (second: number): Promise<void> => {
     await new Promise<void>((resolve) => {
-        setTimeout(() => resolve(), ms);
+        setTimeout(() => resolve(), second * 1000);
     });
 };
 

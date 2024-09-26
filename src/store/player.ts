@@ -1,7 +1,4 @@
-import {
-    computed,
-    ref,
-} from 'vue';
+import { computed, ref } from 'vue';
 
 import { defineStore } from 'pinia';
 
@@ -11,15 +8,9 @@ import { enumEffect } from '@/enums/effect';
 import { enumEquipPosition } from '@/enums/equip';
 import { enumMumbleType } from '@/enums/mumble';
 import factory from '@/factory';
-import {
-    Card,
-    Equip,
-} from '@/types/core';
+import { Card, Equip } from '@/types/core';
 import { Player } from '@/types/player';
-import {
-    getRandomInt,
-    sleep,
-} from '@/utils/common';
+import { getRandomInt, sleepSeconds } from '@/utils/common';
 import { drawLots } from '@/utils/lottery';
 
 import { useAppStore } from './app';
@@ -84,7 +75,7 @@ export const usePlayerStore = defineStore('player', () => {
         if (isGoingToMumble) {
             // 如果有前一句就延遲一下後再說話
             if (mumbleContent.value.length) {
-                await sleep(1000);
+                await sleepSeconds(1);
             }
 
             const mumbleList =
@@ -97,7 +88,7 @@ export const usePlayerStore = defineStore('player', () => {
                 mumbleContent.value = mumbleList[randomIndex];
 
                 // 5 秒後關閉
-                await sleep(5000);
+                await sleepSeconds(5);
                 clearMumble();
             }
         }
@@ -105,7 +96,7 @@ export const usePlayerStore = defineStore('player', () => {
         // 循環
         if (keepMumbling.value) {
             const randomSeconds = getRandomInt([3, 8]);
-            await sleep(randomSeconds * 1000);
+            await sleepSeconds(randomSeconds);
 
             randomMumble(mumbleType);
         }
@@ -200,7 +191,7 @@ export const usePlayerStore = defineStore('player', () => {
         for (const card of getCards) {
             await soundPlaceCard();
             handCards.value.push(card);
-            await sleep(300);
+            await sleepSeconds(0.3);
         }
     }
 

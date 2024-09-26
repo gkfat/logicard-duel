@@ -96,7 +96,7 @@ import { enumRoundPhase } from '@/enums/battle';
 import { useBattleStore } from '@/store/battle';
 import { useOpponentStore } from '@/store/opponent';
 import { usePlayerStore } from '@/store/player';
-import { sleep } from '@/utils/common';
+import { sleepSeconds } from '@/utils/common';
 
 import CardStack from './CardStack.vue';
 import Countdown from './Countdown.vue';
@@ -150,12 +150,12 @@ watch(
     () => roundPhase.value,
     async () => {
         if (roundPhase.value === enumRoundPhase.Duel) {
-            await sleep(1500);
+            await sleepSeconds(1.5);
             shouldDuel.value = true;
         }
 
         if (roundPhase.value === enumRoundPhase.RoundEnd) {
-            await sleep(500);
+            await sleepSeconds(1.5);
             shouldDuel.value = false;
         }
     }
