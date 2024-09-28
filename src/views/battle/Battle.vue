@@ -2,13 +2,13 @@
     <div class="battlefield"></div>
 
     <v-row class="w-100 ma-0 flex-column pb-3">
-        <v-col cols="auto" class="pa-0">
+        <v-col cols="auto" class="pa-0 mb-5">
             <OpponentSeat></OpponentSeat>
-            <v-spacer class="mb-1"></v-spacer>
-            <OpponentHandCards></OpponentHandCards>
         </v-col>
 
-        <v-col cols="auto" class="pa-0 flex-grow-1">
+        <v-col cols="auto" class="pa-0">
+            <OpponentHandCards></OpponentHandCards>
+            <v-spacer></v-spacer>
             <Table
                 :player-round-status="playerRoundStatus"
                 :opponent-round-status="opponentRoundStatus"
@@ -17,7 +17,6 @@
 
         <v-col cols="auto" class="pa-0 mt-auto">
             <PlayerHandCards></PlayerHandCards>
-            <v-spacer class="mb-3"></v-spacer>
             <PlayerSeat></PlayerSeat>
         </v-col>
     </v-row>
@@ -56,9 +55,7 @@ const { soundCountdown } = useSoundEffect();
 const player = computed(() => playerStore.currentPlayer!);
 const playerExtraStatus = computed(() => playerStore.extraStatus);
 const playerAttempt = computed(() => battleStore.playerAttempt);
-const playerTableCardPoint = computed(
-    () => playerStore.tableCard?.info.point ?? 0
-);
+const playerTableCard = computed(() => playerStore.tableCard);
 const playerBaseAttack = computed(
     () => player.value.status.attack + playerExtraStatus.value.attack
 );
@@ -66,50 +63,62 @@ const playerBaseDefense = computed(
     () => player.value.status.defense + playerExtraStatus.value.defense
 );
 
-const playerRoundStatus = computed(() => {
-    const attack =
-        playerAttempt.value === enumEffect.Harm
-            ? playerBaseAttack.value + playerTableCardPoint.value
-            : playerBaseAttack.value;
-    const defense =
-        playerAttempt.value === enumEffect.Defense
-            ? playerBaseDefense.value + playerTableCardPoint.value
-            : playerBaseDefense.value;
-
-    return {
-        attack,
-        defense,
-    };
-});
-
-const opponentRoundStatus = computed(() => {
-    const attack =
-        opponentAttempt.value === enumEffect.Harm
-            ? opponentBaseAttack.value + opponentTableCardPoint.value
-            : opponentBaseAttack.value;
-    const defense =
-        opponentAttempt.value === enumEffect.Defense
-            ? opponentBaseDefense.value + opponentTableCardPoint.value
-            : opponentBaseDefense.value;
-
-    return {
-        attack,
-        defense,
-    };
-});
-
 const opponent = computed(() => opponentStore.currentOpponent!);
 const opponentExtraStatus = computed(() => opponentStore.extraStatus);
 const opponentAttempt = computed(() => battleStore.opponentAttempt);
-const opponentTableCardPoint = computed(
-    () => opponentStore.tableCard?.info.point ?? 0
-);
+const opponentTableCard = computed(() => opponentStore.tableCard);
 const opponentBaseAttack = computed(
     () => opponent.value.status.attack + opponentExtraStatus.value.attack
 );
 const opponentBaseDefense = computed(
     () => opponent.value.status.defense + opponentExtraStatus.value.defense
 );
+
+/** 玩家本局數值 */
+const playerRoundStatus = computed(() => {
+    let attack = playerBaseAttack.value;
+    let defense = playerBaseDefense.value;
+
+    if (playerTableCard.value) {
+        const { point } = playerTableCard.value.info;
+        switch (playerTableCard.value.template.effect) {
+            case enumEffect.Harm:
+                attack += point;
+                break;
+            case enumEffect.Defense:
+                defense += point;
+                break;
+        }
+    }
+
+    return {
+        attack,
+        defense,
+    };
+});
+
+/** 敵人本局數值 */
+const opponentRoundStatus = computed(() => {
+    let attack = opponentBaseAttack.value;
+    let defense = opponentBaseDefense.value;
+
+    if (opponentTableCard.value) {
+        const { point } = opponentTableCard.value.info;
+        switch (opponentTableCard.value.template.effect) {
+            case enumEffect.Harm:
+                attack += point;
+                break;
+            case enumEffect.Defense:
+                defense += point;
+                break;
+        }
+    }
+
+    return {
+        attack,
+        defense,
+    };
+});
 
 /** 局階段 */
 const roundPhase = computed(() => battleStore.roundPhase);
@@ -165,6 +174,7 @@ const settle = async () => {
 const duel = async () => {
     // 若玩家為攻擊狀態則先攻, 否則跳過
     if (
+        player.value.status.health > 0 &&
         playerAttempt.value === enumEffect.Harm &&
         roundPhase.value === enumRoundPhase.Duel
     ) {
@@ -173,7 +183,6 @@ const duel = async () => {
             playerRoundStatus.value.attack - opponentRoundStatus.value.defense;
 
         if (opponentDeduction > 0) {
-            console.log('敵人扣血: ', opponentDeduction);
             playerStore.randomMumble(enumMumbleType.Attack, true);
             opponentStore.randomMumble(enumMumbleType.Hurt, true);
             await sleepSeconds(1);
@@ -188,6 +197,7 @@ const duel = async () => {
 
     // 敵人攻擊
     if (
+        opponent.value.status.health > 0 &&
         opponentAttempt.value === enumEffect.Harm &&
         roundPhase.value === enumRoundPhase.Duel
     ) {
@@ -196,7 +206,6 @@ const duel = async () => {
             opponentRoundStatus.value.attack - playerRoundStatus.value.defense;
 
         if (playerDeduction > 0) {
-            console.log('玩家扣血: ', playerDeduction);
             opponentStore.randomMumble(enumMumbleType.Attack, true);
             await sleepSeconds(1);
             // 玩家扣血
@@ -248,7 +257,7 @@ watch(
                 battleStore.changeRoundPhase(enumRoundPhase.Main);
                 break;
             case enumRoundPhase.Main: // 出牌
-                await sleepSeconds(2);
+                await sleepSeconds(1);
 
                 // 倒數計時
                 startCountdown();
@@ -259,7 +268,7 @@ watch(
             case enumRoundPhase.Duel: // 開牌
                 playerStore.stopMumble();
                 opponentStore.stopMumble();
-                await sleepSeconds(1.5);
+                await sleepSeconds(2);
 
                 await duel();
 

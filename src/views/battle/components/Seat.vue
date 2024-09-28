@@ -6,17 +6,127 @@
     >
         <v-card-text>
             <v-row class="ma-0 ga-3">
-                <v-col cols="12" sm="8" class="pa-0 d-flex align-center ga-3">
+                <v-col cols="12" sm="8" class="pa-0 d-flex align-center ga-5">
                     <!-- Avatar -->
-                    <v-col cols="auto" class="pa-0 d-flex align-center">
+                    <v-col
+                        cols="auto"
+                        class="pa-1 d-flex justify-center align-center position-relative"
+                    >
                         <v-avatar
                             :size="60"
                             :image="player.character.avatar"
                             color="darkamber"
                             class="border-white border-md border-opacity-75"
                         ></v-avatar>
+
+                        <!-- 頭 -->
+                        <div
+                            class="position-absolute"
+                            :style="{ top: '-10px', left: '-10px' }"
+                        >
+                            <Equip
+                                :equip="
+                                    player.equipment[enumEquipPosition.Head]
+                                "
+                                :position="enumEquipPosition.Head"
+                                :is-player-equip="false"
+                                :show-rarity="false"
+                                :show-detail="false"
+                                :size="'x-small'"
+                            ></Equip>
+                        </div>
+
+                        <!-- 主武器 -->
+                        <div
+                            class="position-absolute"
+                            :style="{ top: '28%', left: '-10px' }"
+                        >
+                            <Equip
+                                :equip="
+                                    player.equipment[
+                                        enumEquipPosition.PrimaryHand
+                                    ]
+                                "
+                                :position="enumEquipPosition.PrimaryHand"
+                                :is-player-equip="false"
+                                :show-rarity="false"
+                                :show-detail="false"
+                                :size="'x-small'"
+                            ></Equip>
+                        </div>
+
+                        <!-- 副武器 -->
+                        <div
+                            class="position-absolute"
+                            :style="{ top: '28%', right: '-10px' }"
+                        >
+                            <Equip
+                                :equip="
+                                    player.equipment[
+                                        enumEquipPosition.SecondaryHand
+                                    ]
+                                "
+                                :position="enumEquipPosition.SecondaryHand"
+                                :is-player-equip="false"
+                                :show-rarity="false"
+                                :show-detail="false"
+                                :size="'x-small'"
+                            ></Equip>
+                        </div>
+
+                        <!-- 身體 -->
+                        <div
+                            class="position-absolute"
+                            :style="{ bottom: '-10px', left: '-10px' }"
+                        >
+                            <Equip
+                                :equip="
+                                    player.equipment[enumEquipPosition.Body]
+                                "
+                                :position="enumEquipPosition.Body"
+                                :is-player-equip="false"
+                                :show-rarity="false"
+                                :show-detail="false"
+                                :size="'x-small'"
+                            ></Equip>
+                        </div>
+
+                        <!-- 褲子 -->
+                        <div
+                            class="position-absolute"
+                            :style="{ bottom: '-10px', left: '30%' }"
+                        >
+                            <Equip
+                                :equip="
+                                    player.equipment[enumEquipPosition.Pants]
+                                "
+                                :position="enumEquipPosition.Pants"
+                                :is-player-equip="false"
+                                :show-rarity="false"
+                                :show-detail="false"
+                                :size="'x-small'"
+                            ></Equip>
+                        </div>
+
+                        <!-- 鞋子 -->
+                        <div
+                            class="position-absolute"
+                            :style="{ bottom: '-10px', right: '-10px' }"
+                        >
+                            <Equip
+                                :equip="
+                                    player.equipment[enumEquipPosition.Shoes]
+                                "
+                                :position="enumEquipPosition.Shoes"
+                                :is-player-equip="false"
+                                :show-rarity="false"
+                                :show-detail="false"
+                                :size="'x-small'"
+                            ></Equip>
+                        </div>
                     </v-col>
 
+                    <!-- 狀態值 -->
                     <v-col
                         class="pa-0 d-flex align-center flex-wrap flex-grow-1 ga-3"
                     >
@@ -55,40 +165,48 @@
                         </v-col>
 
                         <!-- 攻擊 -->
-                        <v-col cols="auto" class="pa-0">
-                            <v-col
-                                class="pa-0 d-flex align-center ga-1"
-                                cols="auto"
+                        <v-col
+                            cols="auto"
+                            class="pa-0 d-flex align-center ga-1"
+                        >
+                            <v-icon
+                                color="skin"
+                                icon="mdi-sword-cross"
+                            ></v-icon>
+                            {{ player.status.attack }}
+                            <em
+                                class="text-darkamber"
+                                v-if="extraStatus.attack"
                             >
-                                <v-icon
-                                    color="skin"
-                                    icon="mdi-sword-cross"
-                                ></v-icon>
-                                {{ player.status.attack }}
-                                <em
-                                    class="text-darkamber"
-                                    v-if="extraStatus.attack"
-                                >
-                                    (+{{ extraStatus.attack }})
-                                </em>
-                            </v-col>
+                                (+{{ extraStatus.attack }})
+                            </em>
                         </v-col>
 
                         <!-- 防禦 -->
-                        <v-col cols="auto" class="pa-0">
-                            <v-col
-                                class="pa-0 d-flex align-center ga-1"
-                                cols="auto"
+                        <v-col
+                            cols="auto"
+                            class="pa-0 d-flex align-center ga-1"
+                        >
+                            <v-icon color="skin" icon="mdi-shield"></v-icon>
+                            {{ player.status.defense }}
+                            <em
+                                class="text-darkamber"
+                                v-if="extraStatus.defense"
                             >
-                                <v-icon color="skin" icon="mdi-shield"></v-icon>
-                                {{ player.status.defense }}
-                                <em
-                                    class="text-darkamber"
-                                    v-if="extraStatus.defense"
-                                >
-                                    (+{{ extraStatus.defense }})
-                                </em>
-                            </v-col>
+                                (+{{ extraStatus.defense }})
+                            </em>
+                        </v-col>
+
+                        <!-- 背包剩餘牌 -->
+                        <v-col
+                            cols="auto"
+                            class="pa-0 d-flex align-center ga-1"
+                        >
+                            <v-icon
+                                color="skin"
+                                icon="mdi-cards-playing"
+                            ></v-icon>
+                            {{ player.backpack.cards.length }}
                         </v-col>
                     </v-col>
                 </v-col>
@@ -100,8 +218,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import {
+    computed,
+    ref,
+    watch,
+} from 'vue';
 
+import Equip from '@/components/equip/Equip.vue';
+import { enumEquipPosition } from '@/enums/equip';
 import { Player } from '@/types/player';
 import { sleepSeconds } from '@/utils/common';
 

@@ -1,34 +1,22 @@
 <template>
-    <div class="position-relative fill-height">
+    <div class="position-relative">
         <v-card
             flat
             color="darkgreen"
             class="rounded-lg border-white border-lg border-opacity-50 fill-height mx-auto"
         >
-            <v-card-text class="py-1">
-                {{ t(`battle.round_state.${roundPhase}`) }}
-            </v-card-text>
-
-            <!-- 數值計算 -->
-            <v-card-text class="py-0" v-if="shouldDuel">
-                <em class="text-caption">{{
-                    `玩家攻擊力(${playerRoundStatus.attack}) - 敵人防禦力(${opponentRoundStatus.defense}) = `
-                }}</em>
-                <em class="text-skin">{{ playerDeduction }}</em>
-                <br />
-                <em class="text-caption">{{
-                    `敵人攻擊力(${opponentRoundStatus.attack}) - 玩家防禦力(${playerRoundStatus.defense}) = `
-                }}</em>
-                <em class="text-red">{{ opponentDeduction }}</em>
+            <v-card-text class="d-flex align-center justify-space-between">
+                <p>{{ t(`battle.round_state.${roundPhase}`) }}</p>
+                <Countdown
+                    v-if="isShowCountdown"
+                    :remain-seconds="remainSeconds"
+                ></Countdown>
             </v-card-text>
 
             <!-- 牌 -->
-            <v-card-text>
+            <v-card-text class="py-1" :style="{ height: '130px' }">
                 <v-row class="ma-0 justify-center">
-                    <v-col
-                        cols="5"
-                        class="pa-0 d-flex justify-center align-center"
-                    >
+                    <v-col cols="5" class="pa-0 d-flex justify-center">
                         <Card
                             v-if="table.opponentCard"
                             :card="table.opponentCard"
@@ -50,10 +38,7 @@
                         </v-card>
                     </v-col>
 
-                    <v-col
-                        cols="5"
-                        class="pa-0 d-flex justify-center align-center"
-                    >
+                    <v-col cols="5" class="pa-0 d-flex justify-center">
                         <v-btn
                             v-if="table.playerCard"
                             flat
@@ -81,6 +66,55 @@
                     </v-col>
                 </v-row>
             </v-card-text>
+
+            <!-- 局系統文字 -->
+            <v-card-text
+                class="py-1"
+                :style="{ height: '70px', minHeight: '70px' }"
+            >
+                <!-- 無牌可發 -->
+                <template v-if="emptyBackpack">
+                    <p>背包沒有牌了。接下來用拳頭吧。</p>
+                </template>
+
+                <!-- 決鬥 -->
+                <template v-if="shouldDuel">
+                    <p v-if="playerAttempt === enumEffect.Harm">
+                        你發起
+                        <em class="text-amber">{{
+                            playerRoundStatus.attack
+                        }}</em>
+                        的攻擊！敵人受到了
+                        <em class="text-amber">{{ opponentDeduction }}</em>
+                        點傷害。
+                    </p>
+                    <p v-if="opponentAttempt === enumEffect.Defense">
+                        敵人採取防禦。
+                    </p>
+
+                    <p v-if="opponentAttempt === enumEffect.Harm">
+                        敵人發起
+                        <em class="text-amber">{{
+                            opponentRoundStatus.attack
+                        }}</em>
+                        的攻擊！你受到了
+                        <em class="text-amber">{{ playerDeduction }}</em>
+                        點傷害。
+                    </p>
+                    <p v-if="playerAttempt === enumEffect.Defense">
+                        你採取防禦。
+                    </p>
+
+                    <p
+                        v-if="
+                            playerAttempt === enumEffect.Defense &&
+                            opponentAttempt === enumEffect.Defense
+                        "
+                    >
+                        本回合沒有任何人類或機器人受到傷害。
+                    </p>
+                </template>
+            </v-card-text>
         </v-card>
 
         <!-- 倒數計時 -->
@@ -90,12 +124,7 @@
                 right: '10px',
                 top: '10px',
             }"
-        >
-            <Countdown
-                v-if="isShowCountdown"
-                :remain-seconds="remainSeconds"
-            ></Countdown>
-        </div>
+        ></div>
 
         <!-- 牌堆 -->
         <div
@@ -117,6 +146,7 @@ import { useI18n } from 'vue-i18n';
 
 import Card from '@/components/card/Card.vue';
 import { enumRoundPhase } from '@/enums/battle';
+import { enumEffect } from '@/enums/effect';
 import { useBattleStore } from '@/store/battle';
 import { useOpponentStore } from '@/store/opponent';
 import { usePlayerStore } from '@/store/player';
@@ -127,6 +157,8 @@ import Countdown from './Countdown.vue';
 
 const { t } = useI18n();
 const battleStore = useBattleStore();
+const playerStore = usePlayerStore();
+const opponentStroe = useOpponentStore();
 
 const roundPhase = computed(() => battleStore.roundPhase);
 
@@ -140,12 +172,15 @@ const { playerRoundStatus, opponentRoundStatus } = defineProps<{
     opponentRoundStatus: RoundStatus;
 }>();
 
+const playerAttempt = computed(() => battleStore.playerAttempt);
+const opponentAttempt = computed(() => battleStore.opponentAttempt);
+
 const playerDeduction = computed(
-    () => playerRoundStatus.attack - opponentRoundStatus.defense
+    () => opponentRoundStatus.attack - playerRoundStatus.defense
 );
 
 const opponentDeduction = computed(
-    () => opponentRoundStatus.attack - playerRoundStatus.defense
+    () => playerRoundStatus.attack - opponentRoundStatus.defense
 );
 
 /** 是否顯示倒數計時器 */
@@ -157,8 +192,12 @@ const remainSeconds = computed(() => battleStore.remainSeconds);
 /** 是否對決 */
 const shouldDuel = ref(false);
 
-const playerStore = usePlayerStore();
-const opponentStroe = useOpponentStore();
+const emptyBackpack = computed(() => {
+    return (
+        roundPhase.value === enumRoundPhase.Draw &&
+        playerStore.currentPlayer?.backpack.cards.length === 0
+    );
+});
 
 const table = computed(() => {
     const playerCard = playerStore.tableCard;
@@ -174,12 +213,11 @@ watch(
     () => roundPhase.value,
     async () => {
         if (roundPhase.value === enumRoundPhase.Duel) {
-            await sleepSeconds(1.5);
+            await sleepSeconds(0.5);
             shouldDuel.value = true;
         }
 
-        if (roundPhase.value === enumRoundPhase.RoundEnd) {
-            await sleepSeconds(1.5);
+        if (roundPhase.value === enumRoundPhase.Settle) {
             shouldDuel.value = false;
         }
     }

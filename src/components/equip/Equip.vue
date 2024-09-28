@@ -4,45 +4,59 @@
             <v-card
                 flat
                 rounded="lg"
-                :wdith="frameSize"
-                :height="frameSize"
-                :min-width="frameSize"
-                :max-width="frameSize"
-                :max-heiht="frameSize"
-                :min-height="frameSize"
                 :class="{
                     [borderColor]: true,
                     'border-opacity-100': displayEquip,
                 }"
+                :style="getStyles"
                 class="bg-bluegrey border-md cursor-pointer mx-auto"
                 @click="toggleDialog(true)"
             >
                 <v-row
                     class="ma-0 justify-center align-center fill-height position-relative"
                 >
-                    <v-col cols="auto">
+                    <v-col cols="auto" class="pa-0">
                         <!-- equip -->
                         <template v-if="displayEquip && getTemplate">
-                            <Icon :size="24" :url="getTemplate.icon"></Icon>
-
-                            <div
-                                class="position-absolute"
-                                style="
-                                    top: 0;
-                                    right: 5px;
-                                    bottom: 0;
-                                    z-index: 1;
-                                "
+                            <v-row
+                                class="ma-0 align-center justify-center fill-height ga-1 pa-1"
                             >
-                                +{{ displayEquip.info.point }}
-                            </div>
+                                <v-col cols="auto" class="pa-0">
+                                    <Icon
+                                        :size="getIconSize"
+                                        :url="getTemplate.icon"
+                                    ></Icon>
+                                    <div
+                                        class="position-absolute"
+                                        style="
+                                            top: 0;
+                                            right: 5px;
+                                            bottom: 0;
+                                            z-index: 1;
+                                        "
+                                    >
+                                        +{{ displayEquip.info.point }}
+                                    </div>
+                                </v-col>
+
+                                <v-col
+                                    v-if="size !== 'x-small'"
+                                    cols="auto"
+                                    class="pa-0 text-caption"
+                                    :style="{
+                                        fontSize: '0.5rem !important',
+                                    }"
+                                >
+                                    {{ getTemplate.name }}
+                                </v-col>
+                            </v-row>
                         </template>
 
                         <!-- no equip -->
                         <template v-else>
                             <Icon
                                 style="opacity: 0.2"
-                                :size="24"
+                                :size="getIconSize"
                                 :url="getPositionPlaceholder"
                             ></Icon>
                         </template>
@@ -51,12 +65,11 @@
             </v-card>
         </v-col>
 
-        <v-col cols="auto" class="pa-0 text-center">
+        <v-col cols="auto" class="pa-0 text-center" v-if="showRarity">
             <Rarity
                 v-if="displayEquip && getTemplate"
                 :rarity="displayEquip.info.rarity"
             ></Rarity>
-            <em v-else>None</em>
         </v-col>
     </v-row>
 
@@ -90,7 +103,10 @@
                     <!-- Icon -->
                     <v-row class="justify-center">
                         <v-col cols="auto">
-                            <Icon :size="50" :url="getTemplate.icon"></Icon>
+                            <Icon
+                                :size="getIconSize"
+                                :url="getTemplate.icon"
+                            ></Icon>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -126,7 +142,7 @@
                             <v-chip
                                 label
                                 color="amber"
-                                :text="t(`equip_position.${props.position}`)"
+                                :text="t(`equip_position.${position}`)"
                             ></v-chip>
                         </v-col>
                     </v-row>
@@ -146,7 +162,7 @@
                 </v-card-subtitle>
             </template>
 
-            <v-card-text v-if="props.isPlayerEquip">
+            <v-card-text v-if="isPlayerEquip">
                 <p class="mb-1">可裝備列表</p>
                 <v-row
                     v-if="getPositionEquips.length"
@@ -154,9 +170,7 @@
                 >
                     <!-- 脫下裝備 -->
                     <v-col cols="auto" class="pa-0">
-                        <RemoveEquipItem
-                            :position="props.position"
-                        ></RemoveEquipItem>
+                        <RemoveEquipItem :position="position"></RemoveEquipItem>
                     </v-col>
 
                     <v-col
@@ -200,38 +214,41 @@ const { soundClick } = useSoundEffect();
 const isDialogOpen = ref(false);
 const playerStore = usePlayerStore();
 
-const props = withDefaults(
-    defineProps<{
-        equip: Equip | null;
-        position: enumEquipPosition;
-        isPlayerEquip?: boolean;
-        size?: 'small' | 'default';
-    }>(),
-    {
-        isPlayerEquip: false,
-    }
-);
+const {
+    equip,
+    position,
+    isPlayerEquip = false,
+    showRarity = true,
+    size = 'default',
+    showDetail = true,
+} = defineProps<{
+    equip: Equip | null;
+    position: enumEquipPosition;
+    isPlayerEquip?: boolean;
+    showRarity?: boolean;
+    size?: 'x-small' | 'small' | 'default';
+    showDetail?: boolean;
+}>();
 
 const toggleDialog = (target: boolean) => {
     soundClick();
-    isDialogOpen.value = target;
+    if (showDetail) {
+        isDialogOpen.value = target;
+    }
 };
 
-const frameSize = computed(() => (props.size === 'small' ? 50 : 80));
 const player = computed(() => playerStore.currentPlayer!);
 
 const displayEquip = computed(() => {
-    if (props.isPlayerEquip) {
-        if (props.equip) {
-            return player.value.backpack.equips.find(
-                (v) => v.id === props.equip!.id
-            );
+    if (isPlayerEquip) {
+        if (equip) {
+            return player.value.backpack.equips.find((v) => v.id === equip!.id);
         }
 
-        return player.value.equipment[props.position];
+        return player.value.equipment[position];
     }
 
-    return props.equip;
+    return equip;
 });
 
 const getTemplate = computed(() => displayEquip.value?.template);
@@ -251,10 +268,46 @@ const borderColor = computed(() => {
     }
 });
 
+const getStyles = computed(() => {
+    // default
+    const styles: { [key: string]: string } = {
+        width: '80px',
+        'max-width': '80px',
+        height: '80px',
+        'max-height': '80px,',
+    };
+
+    if (size === 'x-small') {
+        styles.width = '30px';
+        styles['max-width'] = '30px';
+        styles.height = '30px';
+        styles['max-height'] = '30px';
+    } else if (size === 'small') {
+        styles.width = '50px';
+        styles['max-width'] = '50px';
+        styles.height = '50px';
+        styles['max-height'] = '50px';
+    }
+
+    return styles;
+});
+
+const getIconSize = computed(() => {
+    // default
+    let iconSize = 36;
+
+    if (size === 'x-small') {
+        iconSize = 14;
+    } else if (size === 'small') {
+        iconSize = 24;
+    }
+    return iconSize;
+});
+
 const getPositionPlaceholder = computed(() => {
     let placeholder = ImageDataList.icon.placeholderHead;
 
-    switch (props.position) {
+    switch (position) {
         case enumEquipPosition.Head:
             placeholder = ImageDataList.icon.placeholderHead;
             break;
@@ -278,9 +331,7 @@ const getPositionPlaceholder = computed(() => {
 
 const getPositionEquips = computed(() => {
     return playerStore
-        .currentPlayer!.backpack.equips.filter(
-            (v) => v.position === props.position
-        )
+        .currentPlayer!.backpack.equips.filter((v) => v.position === position)
         .sort((a, b) => b.info.rarity.localeCompare(a.info.rarity))
         .sort((a, b) => Number(b.is_equiped) - Number(a.is_equiped));
 });

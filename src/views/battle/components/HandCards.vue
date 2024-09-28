@@ -1,19 +1,13 @@
 <template>
     <v-card flat class="bg-transparent">
-        <v-row
-            class="ma-0 pb-3 align-center flex-nowrap justify-center"
-            :style="{
-                transform: displayInSector ? 'translateY(-20px)' : undefined,
-            }"
-            :class="{ 'py-5': displayInSector }"
-        >
+        <v-row class="ma-0 align-center flex-nowrap justify-center">
             <v-col
                 v-for="(card, i) in handCards"
                 :key="i"
                 cols="1"
                 class="pa-0 card-container"
                 :class="{
-                    'mx-3': displayInSector,
+                    'mx-3': displayInSector && cardSize !== 'x-small',
                 }"
                 :style="displayInSector ? calcCardStyle(i) : ''"
             >

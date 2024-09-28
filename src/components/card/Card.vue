@@ -3,7 +3,8 @@
         <v-col cols="12" class="pa-0">
             <v-card
                 flat
-                class="mx-auto border-white border-sm border-opacity-25 rounded-md"
+                rounded="md"
+                class="mx-auto border-white border-sm border-opacity-25"
                 :color="isCardBack ? 'bluegrey' : 'skin'"
                 :style="getStyles"
                 @click="toggleDialog(true)"
@@ -49,6 +50,7 @@
                             </v-col>
 
                             <v-col
+                                v-if="size !== 'x-small'"
                                 cols="auto"
                                 class="pa-0 text-caption"
                                 :style="{

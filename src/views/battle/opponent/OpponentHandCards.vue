@@ -5,7 +5,7 @@
         :card-size="'x-small'"
         :is-card-back="true"
         :show-card-detail="false"
-        :display-in-sector="false"
+        :display-in-sector="true"
     ></HandCards>
 </template>
 

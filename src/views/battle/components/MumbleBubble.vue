@@ -5,8 +5,10 @@
         position="absolute"
         location-strategy="connected"
         target="parent"
-        top
-        right
+        :location="'top left'"
+        :offset="[-40, 10]"
+        :max-width="250"
+        :min-width="100"
     >
         <p class="text-caption">{{ mumbleContent }}</p>
     </v-snackbar>
