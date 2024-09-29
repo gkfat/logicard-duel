@@ -2,22 +2,36 @@
     <div class="battlefield"></div>
 
     <v-row class="w-100 ma-0 flex-column pb-3">
-        <v-col cols="auto" class="pa-0 mb-5">
-            <OpponentSeat></OpponentSeat>
-        </v-col>
-
         <v-col cols="auto" class="pa-0">
-            <OpponentHandCards></OpponentHandCards>
-            <v-spacer></v-spacer>
-            <Table
-                :player-round-status="playerRoundStatus"
-                :opponent-round-status="opponentRoundStatus"
-            ></Table>
-        </v-col>
+            <div>
+                <!-- 敵人 -->
+                <OpponentSeat></OpponentSeat>
+                <OpponentHandCards
+                    :style="{ transform: 'translateY(-20px)', height: '40px' }"
+                ></OpponentHandCards>
+            </div>
 
-        <v-col cols="auto" class="pa-0 mt-auto">
-            <PlayerHandCards></PlayerHandCards>
-            <PlayerSeat></PlayerSeat>
+            <!-- 牌桌 -->
+            <div :style="{ transform: 'translateY(-20px)' }">
+                <Table
+                    :player-round-status="playerRoundStatus"
+                    :opponent-round-status="opponentRoundStatus"
+                ></Table>
+            </div>
+
+            <!-- 玩家 -->
+            <div
+                :style="{
+                    transform: 'translateY(-40px)',
+                }"
+            >
+                <PlayerHandCards
+                    :style="{
+                        height: '80px',
+                    }"
+                ></PlayerHandCards>
+                <PlayerSeat></PlayerSeat>
+            </div>
         </v-col>
     </v-row>
 

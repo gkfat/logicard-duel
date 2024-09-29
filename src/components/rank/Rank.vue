@@ -43,14 +43,11 @@
                                         <v-col cols="3"> 角色 </v-col>
                                         <v-col cols="9" class="text-primary">
                                             {{ data.player.character.name }}
-                                            <v-avatar
-                                                :size="40"
-                                                :image="
-                                                    data.player.character.avatar
+                                            <PlayerAvatar
+                                                :character="
+                                                    data.player.character
                                                 "
-                                                color="darkamber"
-                                                class="border-white border-md border-opacity-75"
-                                            ></v-avatar>
+                                            ></PlayerAvatar>
                                         </v-col>
 
                                         <v-col cols="3"> 戰鬥場數 </v-col>
@@ -78,6 +75,7 @@ import { computed } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
+import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
 import Btn from '@/components/system/Btn.vue';
 import Dialog from '@/components/system/Dialog.vue';
 import { DialogDataList } from '@/data/dialogs';

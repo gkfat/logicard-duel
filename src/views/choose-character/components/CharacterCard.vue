@@ -6,12 +6,7 @@
     >
         <v-row class="ma-0">
             <v-col cols="auto" class="py-1 d-flex align-center">
-                <v-avatar
-                    size="50"
-                    :image="character.avatar"
-                    color="darkamber"
-                    class="border-md"
-                ></v-avatar>
+                <PlayerAvatar :character="character"></PlayerAvatar>
             </v-col>
 
             <v-col class="py-1 d-flex align-center">
@@ -35,12 +30,7 @@
             class="rounded-lg border-lg w-100 overflow-y-auto"
         >
             <v-card-title class="text-center">
-                <v-avatar
-                    size="60"
-                    :image="character.avatar"
-                    color="orange"
-                    class="border-lg"
-                ></v-avatar>
+                <PlayerAvatar :character="character"></PlayerAvatar>
             </v-card-title>
 
             <v-card-title class="text-center">
@@ -138,6 +128,7 @@ import { ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
+import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
 import Btn from '@/components/system/Btn.vue';
 import { useSoundEffect } from '@/composable/useSoundEffect';
 import { CharacterTemplate } from '@/types/character';

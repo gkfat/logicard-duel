@@ -3,8 +3,8 @@
         flat
         color="darkgrey"
         class="border-white border-lg rounded-lg border-opacity-75 position-relative"
-        :width="65"
-        :height="65"
+        :width="60"
+        :height="60"
     >
         <div
             v-for="(card, i) in cardStacks"
@@ -13,7 +13,9 @@
             :style="{
                 top: '50%',
                 left: '50%',
-                transform: `translateX(-${50 - i}%) translateY(-${50 + i}%)`,
+                transform: `translateX(-${48 - i * 5}%) translateY(-${
+                    50 + i * 5
+                }%)`,
             }"
         >
             <Card
@@ -27,12 +29,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 
 import Card from '@/components/card/Card.vue';
 import { useBattleStore } from '@/store/battle';
-import { useOpponentStore } from '@/store/opponent';
-import { usePlayerStore } from '@/store/player';
 
 const battleStore = useBattleStore();
 

@@ -6,12 +6,7 @@
     >
         <v-row class="ma-0">
             <v-col cols="auto" class="py-1 d-flex align-center">
-                <v-avatar
-                    size="50"
-                    :image="character.avatar"
-                    color="darkamber"
-                    class="border-md"
-                ></v-avatar>
+                <PlayerAvatar :character="character"></PlayerAvatar>
             </v-col>
 
             <v-col class="py-1 d-flex align-center">
@@ -22,6 +17,7 @@
 </template>
 
 <script lang="ts" setup>
+import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
 import { CharacterTemplate } from '@/types/character';
 
 const { character, isSelected = false } = defineProps<{

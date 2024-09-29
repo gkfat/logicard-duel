@@ -130,7 +130,7 @@
         <div
             class="position-absolute d-flex justify-center align-center"
             :style="{
-                right: 0,
+                right: '-10px',
                 bottom: '-15px',
             }"
         >

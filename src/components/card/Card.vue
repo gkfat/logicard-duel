@@ -4,7 +4,7 @@
             <v-card
                 flat
                 rounded="md"
-                class="mx-auto border-white border-sm border-opacity-25"
+                class="mx-auto border-thin border-darkgrey border-opacity-100"
                 :color="isCardBack ? 'bluegrey' : 'skin'"
                 :style="getStyles"
                 @click="toggleDialog(true)"
@@ -145,10 +145,7 @@
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import {
-    computed,
-    ref,
-} from 'vue';
+import { computed, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 

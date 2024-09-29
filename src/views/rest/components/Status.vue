@@ -5,24 +5,28 @@
         class="border-white border-lg rounded-lg border-opacity-75 overflow-y-auto fill-height"
     >
         <v-card-text class="px-0">
-            <v-row class="ma-0 flex-nowrap ga-1 px-3 mb-3">
+            <v-row class="ma-0 ga-1 px-3 mb-3">
                 <v-col cols="auto" class="pa-0 d-flex align-center">
-                    <v-avatar
-                        :size="50"
-                        :image="player.character.avatar"
-                    ></v-avatar>
+                    <PlayerAvatar :character="player.character"></PlayerAvatar>
                 </v-col>
 
-                <v-col cols="5" class="pa-0 d-flex align-center">
+                <v-col
+                    cols="auto"
+                    class="pa-0 d-flex flex-grow-1 align-center"
+                    :style="{ maxWidth: '150px' }"
+                >
                     <div>
-                        <p>{{ player.character.name }}</p>
-                        <p class="text-caption">
-                            {{ player.character.description }}
+                        <p class="text-h6 text-darkamber">
+                            {{ player.character.name }}
                         </p>
+                        <em class="text-caption text-wrap">
+                            {{ player.character.description }}
+                        </em>
                     </div>
                 </v-col>
 
                 <v-col cols="auto" class="pa-0 ml-auto">
+                    <!-- 錢 -->
                     <div class="d-flex align-center ga-1 mb-1">
                         <v-icon
                             color="skin"
@@ -30,11 +34,17 @@
                         ></v-icon>
                         {{ thousands(player.backpack.coin) }}
                     </div>
-                    <div class="d-flex align-center ga-1">
+                    <!-- 背包數量 -->
+                    <div class="d-flex align-center ga-1 mb-1">
                         <v-icon color="skin" icon="mdi-bag-personal"></v-icon>
                         {{ currentBackpackItems }}/{{
                             player.character.backpackLimit
                         }}
+                    </div>
+                    <!-- 卡牌數量 -->
+                    <div class="d-flex align-center ga-1">
+                        <v-icon color="skin" icon="mdi-cards-playing"></v-icon>
+                        {{ player.backpack.cards.length }}
                     </div>
                 </v-col>
             </v-row>
@@ -113,6 +123,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 
+import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
 import Equip from '@/components/equip/Equip.vue';
 import { enumEquipPosition } from '@/enums/equip';
 import { usePlayerStore } from '@/store/player';

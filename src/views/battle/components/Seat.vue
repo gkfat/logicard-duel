@@ -12,118 +12,9 @@
                         cols="auto"
                         class="pa-1 d-flex justify-center align-center position-relative"
                     >
-                        <v-avatar
-                            :size="60"
-                            :image="player.character.avatar"
-                            color="darkamber"
-                            class="border-white border-md border-opacity-75"
-                        ></v-avatar>
-
-                        <!-- 頭 -->
-                        <div
-                            class="position-absolute"
-                            :style="{ top: '-10px', left: '-10px' }"
-                        >
-                            <Equip
-                                :equip="
-                                    player.equipment[enumEquipPosition.Head]
-                                "
-                                :position="enumEquipPosition.Head"
-                                :is-player-equip="false"
-                                :show-rarity="false"
-                                :show-detail="false"
-                                :size="'x-small'"
-                            ></Equip>
-                        </div>
-
-                        <!-- 主武器 -->
-                        <div
-                            class="position-absolute"
-                            :style="{ top: '28%', left: '-10px' }"
-                        >
-                            <Equip
-                                :equip="
-                                    player.equipment[
-                                        enumEquipPosition.PrimaryHand
-                                    ]
-                                "
-                                :position="enumEquipPosition.PrimaryHand"
-                                :is-player-equip="false"
-                                :show-rarity="false"
-                                :show-detail="false"
-                                :size="'x-small'"
-                            ></Equip>
-                        </div>
-
-                        <!-- 副武器 -->
-                        <div
-                            class="position-absolute"
-                            :style="{ top: '28%', right: '-10px' }"
-                        >
-                            <Equip
-                                :equip="
-                                    player.equipment[
-                                        enumEquipPosition.SecondaryHand
-                                    ]
-                                "
-                                :position="enumEquipPosition.SecondaryHand"
-                                :is-player-equip="false"
-                                :show-rarity="false"
-                                :show-detail="false"
-                                :size="'x-small'"
-                            ></Equip>
-                        </div>
-
-                        <!-- 身體 -->
-                        <div
-                            class="position-absolute"
-                            :style="{ bottom: '-10px', left: '-10px' }"
-                        >
-                            <Equip
-                                :equip="
-                                    player.equipment[enumEquipPosition.Body]
-                                "
-                                :position="enumEquipPosition.Body"
-                                :is-player-equip="false"
-                                :show-rarity="false"
-                                :show-detail="false"
-                                :size="'x-small'"
-                            ></Equip>
-                        </div>
-
-                        <!-- 褲子 -->
-                        <div
-                            class="position-absolute"
-                            :style="{ bottom: '-10px', left: '30%' }"
-                        >
-                            <Equip
-                                :equip="
-                                    player.equipment[enumEquipPosition.Pants]
-                                "
-                                :position="enumEquipPosition.Pants"
-                                :is-player-equip="false"
-                                :show-rarity="false"
-                                :show-detail="false"
-                                :size="'x-small'"
-                            ></Equip>
-                        </div>
-
-                        <!-- 鞋子 -->
-                        <div
-                            class="position-absolute"
-                            :style="{ bottom: '-10px', right: '-10px' }"
-                        >
-                            <Equip
-                                :equip="
-                                    player.equipment[enumEquipPosition.Shoes]
-                                "
-                                :position="enumEquipPosition.Shoes"
-                                :is-player-equip="false"
-                                :show-rarity="false"
-                                :show-detail="false"
-                                :size="'x-small'"
-                            ></Equip>
-                        </div>
+                        <PlayerAvatar
+                            :character="player.character"
+                        ></PlayerAvatar>
                     </v-col>
 
                     <!-- 狀態值 -->
@@ -208,6 +99,89 @@
                             ></v-icon>
                             {{ player.backpack.cards.length }}
                         </v-col>
+
+                        <!-- 裝備 -->
+                        <v-col cols="12" class="pa-0 d-flex align-center ga-1">
+                            <!-- 頭 -->
+                            <Equip
+                                :equip="
+                                    player.equipment[enumEquipPosition.Head]
+                                "
+                                :position="enumEquipPosition.Head"
+                                :is-player-equip="false"
+                                :show-rarity="false"
+                                :show-detail="false"
+                                :size="'x-small'"
+                            ></Equip>
+
+                            <!-- 主武器 -->
+
+                            <Equip
+                                :equip="
+                                    player.equipment[
+                                        enumEquipPosition.PrimaryHand
+                                    ]
+                                "
+                                :position="enumEquipPosition.PrimaryHand"
+                                :is-player-equip="false"
+                                :show-rarity="false"
+                                :show-detail="false"
+                                :size="'x-small'"
+                            ></Equip>
+
+                            <!-- 副武器 -->
+
+                            <Equip
+                                :equip="
+                                    player.equipment[
+                                        enumEquipPosition.SecondaryHand
+                                    ]
+                                "
+                                :position="enumEquipPosition.SecondaryHand"
+                                :is-player-equip="false"
+                                :show-rarity="false"
+                                :show-detail="false"
+                                :size="'x-small'"
+                            ></Equip>
+
+                            <!-- 身體 -->
+
+                            <Equip
+                                :equip="
+                                    player.equipment[enumEquipPosition.Body]
+                                "
+                                :position="enumEquipPosition.Body"
+                                :is-player-equip="false"
+                                :show-rarity="false"
+                                :show-detail="false"
+                                :size="'x-small'"
+                            ></Equip>
+
+                            <!-- 褲子 -->
+
+                            <Equip
+                                :equip="
+                                    player.equipment[enumEquipPosition.Pants]
+                                "
+                                :position="enumEquipPosition.Pants"
+                                :is-player-equip="false"
+                                :show-rarity="false"
+                                :show-detail="false"
+                                :size="'x-small'"
+                            ></Equip>
+
+                            <!-- 鞋子 -->
+                            <Equip
+                                :equip="
+                                    player.equipment[enumEquipPosition.Shoes]
+                                "
+                                :position="enumEquipPosition.Shoes"
+                                :is-player-equip="false"
+                                :show-rarity="false"
+                                :show-detail="false"
+                                :size="'x-small'"
+                            ></Equip>
+                        </v-col>
                     </v-col>
                 </v-col>
             </v-row>
@@ -218,12 +192,9 @@
 </template>
 
 <script lang="ts" setup>
-import {
-    computed,
-    ref,
-    watch,
-} from 'vue';
+import { computed, ref, watch } from 'vue';
 
+import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
 import Equip from '@/components/equip/Equip.vue';
 import { enumEquipPosition } from '@/enums/equip';
 import { Player } from '@/types/player';
