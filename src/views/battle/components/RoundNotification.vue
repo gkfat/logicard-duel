@@ -1,28 +1,33 @@
 <template>
-    <v-card
-        v-if="isVisible"
-        flat
-        class="round-notification bg-transparent"
+    <div
         :class="{
-            'slide-in': slideIn,
-            'slide-out': slideOut,
+            'opacity-0': !isVisible,
+            'opacity-75': isVisible,
         }"
-        :width="150"
+        class="position-absolute bg-primary d-flex justify-center align-center"
+        :style="{
+            top: '40%',
+            left: 0,
+            right: 0,
+            height: '100px',
+            transition: 'all 0.3s',
+        }"
     >
-        <v-divider
-            class="text-white opacity-100 my-1"
-            :thickness="1"
-        ></v-divider>
-
-        <v-card-text class="text-white text-center text-h5 text-nowrap">{{
-            message
-        }}</v-card-text>
-
-        <v-divider
-            class="text-white opacity-100 my-1"
-            :thickness="1"
-        ></v-divider>
-    </v-card>
+        <v-card
+            flat
+            class="round-notification bg-transparent"
+            :class="{
+                'slide-in': slideIn,
+                'slide-out': slideOut,
+            }"
+            :width="200"
+        >
+            <v-card-title
+                class="text-darkgrey font-italic text-center text-h4 text-nowrap"
+                >{{ message }}</v-card-title
+            >
+        </v-card>
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -34,13 +39,12 @@ import { sleepSeconds } from '@/utils/common';
 
 const battleStore = useBattleStore();
 const roundPhase = computed(() => battleStore.roundPhase);
-const isVisible = ref(true);
+const isVisible = ref(false);
 const slideIn = ref(false);
 const slideOut = ref(false);
 const message = ref('');
 
 const resetPosition = () => {
-    isVisible.value = false;
     slideOut.value = false;
     slideIn.value = false;
 };
@@ -67,18 +71,22 @@ watch(
                 break;
         }
 
-        if (isVisible.value) {
-            await sleepSeconds(1);
+        await sleepSeconds(0.5);
 
+        if (isVisible.value) {
             slideIn.value = true;
 
-            await sleepSeconds(2);
+            await sleepSeconds(1);
 
             slideOut.value = true;
 
-            await sleepSeconds(1);
+            await sleepSeconds(0.5);
 
-            resetPosition();
+            isVisible.value = false;
+
+            setTimeout(() => {
+                resetPosition();
+            }, 2000);
         }
     }
 );
@@ -86,11 +94,12 @@ watch(
 
 <style scoped>
 .round-notification {
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: -120%;
     transform: translateY(-50%);
     transition: left 0.5s ease;
+    z-index: 2;
 }
 
 /* 當顯示時，將其移動到中間 */

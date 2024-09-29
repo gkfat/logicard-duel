@@ -4,7 +4,11 @@
             <v-card
                 flat
                 rounded="md"
-                class="mx-auto border-thin border-darkgrey border-opacity-100"
+                class="mx-auto border-thin border-opacity-75"
+                :class="{
+                    'border-darkgrey': !isCardBack,
+                    'border-white': isCardBack,
+                }"
                 :color="isCardBack ? 'bluegrey' : 'skin'"
                 :style="getStyles"
                 @click="toggleDialog(true)"

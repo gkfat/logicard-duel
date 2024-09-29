@@ -1,8 +1,7 @@
 <template>
     <v-progress-circular
         :model-value="percent"
-        theme="red"
-        color="red"
+        color="amber"
         :width="3"
         :size="30"
     >

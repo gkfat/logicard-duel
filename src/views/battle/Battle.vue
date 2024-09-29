@@ -239,7 +239,6 @@ watch(
             roundPhase.value === enumRoundPhase.Main &&
             isCountingDown.value === false
         ) {
-            await sleepSeconds(1);
             battleStore.changeRoundPhase(enumRoundPhase.Duel);
         }
     }
@@ -271,7 +270,7 @@ watch(
                 battleStore.changeRoundPhase(enumRoundPhase.Main);
                 break;
             case enumRoundPhase.Main: // 出牌
-                await sleepSeconds(1);
+                await sleepSeconds(3);
 
                 // 倒數計時
                 startCountdown();
@@ -282,7 +281,8 @@ watch(
             case enumRoundPhase.Duel: // 開牌
                 playerStore.stopMumble();
                 opponentStore.stopMumble();
-                await sleepSeconds(2);
+
+                await sleepSeconds(3);
 
                 await duel();
 

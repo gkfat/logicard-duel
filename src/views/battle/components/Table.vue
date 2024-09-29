@@ -5,8 +5,13 @@
             color="darkgreen"
             class="rounded-lg border-white border-lg border-opacity-50 fill-height mx-auto"
         >
-            <v-card-text class="d-flex align-center justify-space-between">
-                <p>{{ t(`battle.round_state.${roundPhase}`) }}</p>
+            <v-card-text
+                class="d-flex align-center justify-space-between"
+                :style="{ height: '60px' }"
+            >
+                <p class="text-h6 text-skin">
+                    {{ t(`battle.round_state.${roundPhase}`) }}
+                </p>
                 <Countdown
                     v-if="isShowCountdown"
                     :remain-seconds="remainSeconds"
@@ -213,7 +218,7 @@ watch(
     () => roundPhase.value,
     async () => {
         if (roundPhase.value === enumRoundPhase.Duel) {
-            await sleepSeconds(0.5);
+            await sleepSeconds(2.5);
             shouldDuel.value = true;
         }
 
