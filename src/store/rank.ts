@@ -32,7 +32,6 @@ export const useRankStore = defineStore('rank', () => {
     const updateRankData = async (req: Rank) => {
         try {
             const { data } = await apiService.updateData(req);
-            console.log({ data });
         } catch (e) {
             console.error(e);
         }

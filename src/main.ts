@@ -24,6 +24,6 @@ const app = createApp(App);
 
 registerPlugins(app);
 
-await boot();
-
-app.mount('#app');
+boot().then(() => {
+    app.mount('#app');
+});
