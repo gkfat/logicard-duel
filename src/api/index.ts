@@ -2,7 +2,10 @@ import axios, { AxiosError } from 'axios';
 
 import { Rank } from '@/types/rank';
 
-const baseUrl = `/api`;
+const baseUrl =
+    import.meta.env.MODE === 'production'
+        ? import.meta.env.VITE_API_URL
+        : '/api';
 
 const errorHandler = async (error: AxiosError) => {
     if (error.isAxiosError) {
