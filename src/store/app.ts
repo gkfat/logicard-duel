@@ -93,10 +93,7 @@ export const useAppStore = defineStore('appStore', () => {
                 Number(import.meta.env.VITE_HANDCARD_MAX_LIMIT) ?? 7,
             shopRefreshMinutes:
                 Number(import.meta.env.VITE_SHOP_REFRESH_MINUTES) ?? 10,
-            apiUrl:
-                import.meta.env.MODE === 'production'
-                    ? import.meta.env.VITE_API_URL
-                    : '/api',
+            apiUrl: import.meta.env.VITE_API_URL,
         };
     }
 
