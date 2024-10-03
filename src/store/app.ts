@@ -21,6 +21,7 @@ interface EnvironmentVariables {
     readonly countdownSeconds: number;
     readonly handCardMaxLimit: number;
     readonly shopRefreshMinutes: number;
+    readonly apiUrl: string;
 }
 
 export const useAppStore = defineStore('appStore', () => {
@@ -34,6 +35,7 @@ export const useAppStore = defineStore('appStore', () => {
         countdownSeconds: 0,
         handCardMaxLimit: 0,
         shopRefreshMinutes: 0,
+        apiUrl: '',
     });
 
     const gameState = ref(enumGameState.Booting);
@@ -91,6 +93,10 @@ export const useAppStore = defineStore('appStore', () => {
                 Number(import.meta.env.VITE_HANDCARD_MAX_LIMIT) ?? 7,
             shopRefreshMinutes:
                 Number(import.meta.env.VITE_SHOP_REFRESH_MINUTES) ?? 10,
+            apiUrl:
+                import.meta.env.MODE === 'production'
+                    ? import.meta.env.VITE_API_URL
+                    : '/api',
         };
     }
 
