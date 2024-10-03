@@ -3,68 +3,59 @@ import { useSoundStore } from '@/store/sound';
 export const useSoundEffect = () => {
     const soundStore = useSoundStore();
 
-    const executeFunction = (fn?: Function) => {
-        if (fn && typeof fn === 'function') {
-            fn();
-        }
-    };
-
     /** 點擊聲 */
-    const soundClick = async (fn?: Function) => {
+    const soundClick = async () => {
         await soundStore.playSound(soundStore.sounds.effect.click);
-        executeFunction(fn);
     };
 
     /** 裝備聲 */
-    const soundEquip = async (fn?: Function) => {
+    const soundEquip = async () => {
         await soundStore.playSound(soundStore.sounds.effect.equip);
-        executeFunction(fn);
     };
 
     /** 波聲 */
-    const soundPop = async (fn?: Function) => {
+    const soundPop = async () => {
         await soundStore.playSound(soundStore.sounds.effect.pop);
-        executeFunction(fn);
     };
 
-    const soundPlayerHurt = async (fn?: Function) => {
+    const soundPlayerHurt = async () => {
         await soundStore.playSound(soundStore.sounds.effect.playerHurt);
-        executeFunction(fn);
     };
 
-    const soundOpponentHurt = async (fn?: Function) => {
+    const soundOpponentHurt = async () => {
         await soundStore.playSound(soundStore.sounds.effect.opponentHurt);
-        executeFunction(fn);
     };
 
-    const soundPlaceCard = async (fn?: Function) => {
+    const soundPlaceCard = async () => {
         await soundStore.playSound(soundStore.sounds.effect.placeCard);
-        executeFunction(fn);
     };
 
-    const soundCountdown = async (fn?: Function) => {
+    const soundCountdown = async () => {
         await soundStore.playSound(soundStore.sounds.effect.countdown);
-        executeFunction(fn);
     };
 
-    const bgmPrologue = async (fn?: Function) => {
+    const soundWin = async () => {
+        await soundStore.playSound(soundStore.sounds.effect.win);
+    };
+
+    const soundCoin = async () => {
+        await soundStore.playSound(soundStore.sounds.effect.coin);
+    };
+
+    const bgmPrologue = async () => {
         await soundStore.playBGM(soundStore.sounds.bgm.prologue);
-        executeFunction(fn);
     };
 
-    const bgmRest = async (fn?: Function) => {
+    const bgmRest = async () => {
         await soundStore.playBGM(soundStore.sounds.bgm.rest);
-        executeFunction(fn);
     };
 
-    const bgmEnd = async (fn?: Function) => {
+    const bgmEnd = async () => {
         await soundStore.playBGM(soundStore.sounds.bgm.end);
-        executeFunction(fn);
     };
 
-    const bgmBattle = async (fn?: Function) => {
+    const bgmBattle = async () => {
         await soundStore.playBGM(soundStore.sounds.bgm.battle);
-        executeFunction(fn);
     };
 
     return {
@@ -75,6 +66,8 @@ export const useSoundEffect = () => {
         soundPlaceCard,
         soundPlayerHurt,
         soundOpponentHurt,
+        soundWin,
+        soundCoin,
 
         bgmPrologue,
         bgmBattle,

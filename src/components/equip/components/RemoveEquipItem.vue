@@ -2,16 +2,16 @@
     <v-card
         flat
         rounded="lg"
-        :wdith="60"
-        :height="60"
-        :min-width="60"
-        :max-width="60"
-        :max-heiht="60"
-        :min-height="60"
+        :wdith="50"
+        :height="50"
+        :min-width="50"
+        :max-width="50"
+        :max-heiht="50"
+        :min-height="50"
         class="bg-darkgrey border-white border-md border-opacity-25 cursor-pointer"
     >
         <v-row class="ma-0 justify-center align-center fill-height">
-            <v-col cols="auto" @click="confirmBoxRef?.show()">
+            <v-col cols="auto" class="pa-0" @click="confirmBoxRef?.show()">
                 <Icon
                     style="opacity: 0.2"
                     :size="30"
@@ -53,25 +53,25 @@ const getPositionPlaceholder = computed(() => {
     let placeholder = ImageDataList.icon.placeholderHead;
 
     switch (props.position) {
-    case enumEquipPosition.Head:
-        placeholder = ImageDataList.icon.placeholderHead;
-        break;
-    case enumEquipPosition.PrimaryHand:
-    case enumEquipPosition.SecondaryHand:
-        placeholder = ImageDataList.icon.placeholderHand;
-        break;
-    case enumEquipPosition.Body:
-        placeholder =  ImageDataList.icon.placeholderBody;
-        break;
-    case enumEquipPosition.Pants:
-        placeholder =  ImageDataList.icon.placeholderPants;
-        break;
-    case enumEquipPosition.Shoes:
-        placeholder =  ImageDataList.icon.placeholderShoes;
-        break;
+        case enumEquipPosition.Head:
+            placeholder = ImageDataList.icon.placeholderHead;
+            break;
+        case enumEquipPosition.PrimaryHand:
+        case enumEquipPosition.SecondaryHand:
+            placeholder = ImageDataList.icon.placeholderHand;
+            break;
+        case enumEquipPosition.Body:
+            placeholder = ImageDataList.icon.placeholderBody;
+            break;
+        case enumEquipPosition.Pants:
+            placeholder = ImageDataList.icon.placeholderPants;
+            break;
+        case enumEquipPosition.Shoes:
+            placeholder = ImageDataList.icon.placeholderShoes;
+            break;
     }
 
-    return placeholder
+    return placeholder;
 });
 
 const removeEquipment = () => {

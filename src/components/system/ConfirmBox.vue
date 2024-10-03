@@ -47,8 +47,9 @@ const closeDialog = () => {
     openDialog.value = false;
 };
 
-const executeFunction = () => {
-    soundClick(func);
+const executeFunction = async () => {
+    await soundClick();
+    func();
     openDialog.value = false;
 };
 

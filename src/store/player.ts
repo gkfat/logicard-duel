@@ -9,16 +9,19 @@ import { enumEquipPosition } from '@/enums/equip';
 import { enumMumbleType } from '@/enums/mumble';
 import factory from '@/factory';
 import { Card, Equip } from '@/types/core';
-import { Player } from '@/types/player';
+import { GameRecord, Player } from '@/types/player';
 import { getRandomInt, sleepSeconds } from '@/utils/common';
+import { getSalePrice } from '@/utils/item';
 import { drawLots } from '@/utils/lottery';
+import { createDate } from '@/utils/time';
 
 import { useAppStore } from './app';
 
 export const usePlayerStore = defineStore('player', () => {
     const appStore = useAppStore();
-    const { soundPlaceCard, soundEquip, soundPop, soundPlayerHurt } =
+    const { soundPlaceCard, soundEquip, soundPop, soundPlayerHurt, soundCoin } =
         useSoundEffect();
+
     const currentPlayer = ref<Player>();
 
     /**
@@ -94,7 +97,7 @@ export const usePlayerStore = defineStore('player', () => {
         }
 
         // 循環
-        if (keepMumbling.value) {
+        if (!force && keepMumbling.value) {
             const randomSeconds = getRandomInt([3, 8]);
             await sleepSeconds(randomSeconds);
 
@@ -147,6 +150,8 @@ export const usePlayerStore = defineStore('player', () => {
 
                 // 脫下現有裝備
                 getCurrentEquipment.is_equiped = false;
+
+                currentPlayer.value.equipment[position] = null;
             }
         }
     }
@@ -154,12 +159,18 @@ export const usePlayerStore = defineStore('player', () => {
     /** 更換裝備 */
     function changeEquipment(equip: Equip) {
         if (currentPlayer.value) {
+            const getCurrentEquipment =
+                currentPlayer.value.equipment[equip.position];
             const findEquip = currentPlayer.value.backpack.equips.find(
                 (v) => v.id === equip.id
             );
 
             if (findEquip) {
-                removeEquipment(equip.position);
+                if (getCurrentEquipment) {
+                    removeEquipment(equip.position);
+                }
+
+                soundEquip();
 
                 // 穿上新裝備
                 findEquip.is_equiped = true;
@@ -228,6 +239,117 @@ export const usePlayerStore = defineStore('player', () => {
         }
     }
 
+    /** 將桌上手牌清理乾淨 */
+    async function clearTableCards() {
+        if (currentPlayer.value) {
+            currentPlayer.value.backpack.cards = [
+                ...currentPlayer.value.backpack.cards,
+                ...handCards.value,
+            ];
+
+            handCards.value = [];
+        }
+    }
+
+    /** 收集戰利品鏍絲釘 */
+    async function collectCoin(amount: number) {
+        if (currentPlayer.value) {
+            currentPlayer.value.backpack.coin += amount;
+        }
+    }
+
+    /** 收集戰利品卡牌 */
+    async function collectCard(card: Card) {
+        if (currentPlayer.value) {
+            await soundEquip();
+            currentPlayer.value.backpack.cards.unshift(card);
+        }
+    }
+
+    /** 收集戰利品裝備 */
+    async function collectEquip(equip: Equip) {
+        if (currentPlayer.value) {
+            await soundEquip();
+            equip.is_equiped = false;
+            currentPlayer.value.backpack.equips.unshift(equip);
+        }
+    }
+
+    /** 丟棄戰利品卡牌 */
+    async function dropCard(card: Card) {
+        if (currentPlayer.value) {
+            await soundPlaceCard();
+            currentPlayer.value.backpack.cards.unshift(card);
+        }
+    }
+
+    /** 丟棄戰利品裝備 */
+    async function dropEquip(equip: Equip) {
+        if (currentPlayer.value) {
+            await soundEquip();
+            currentPlayer.value.backpack.equips.unshift(equip);
+        }
+    }
+
+    /** 買入裝備 */
+    async function buyEquip(item: Equip) {
+        const { price } = item.info;
+
+        if (currentPlayer.value) {
+            await soundCoin();
+            currentPlayer.value.backpack.coin -= price;
+            currentPlayer.value.backpack.equips.push(item);
+        }
+    }
+
+    /** 買入卡牌 */
+    async function buyCard(item: Card) {
+        const { price } = item.info;
+
+        if (currentPlayer.value) {
+            await soundCoin();
+            currentPlayer.value.backpack.coin -= price;
+            currentPlayer.value.backpack.cards.push(item);
+        }
+    }
+
+    /** 賣出道具 */
+    async function sellItem(type: 'card' | 'equip', item: Card | Equip) {
+        const price = getSalePrice(item);
+        const { id } = item;
+
+        if (currentPlayer.value) {
+            const findIndex = currentPlayer.value.backpack.equips.findIndex(
+                (v) => v.id === id
+            );
+            const pool =
+                type === 'equip'
+                    ? currentPlayer.value.backpack.equips
+                    : currentPlayer.value.backpack.cards;
+            pool.splice(findIndex, 1);
+            await soundCoin();
+            currentPlayer.value.backpack.coin += price;
+        }
+    }
+
+    /** 新增一筆紀錄 */
+    async function createRecord(opponent: Player) {
+        if (currentPlayer.value) {
+            const newRecord: GameRecord = {
+                id: currentPlayer.value.records.length + 1,
+                opponent,
+                battleStartAt: createDate().toDate(),
+                battleEndAt: null,
+                cardsUsed: 0,
+                harm: 0,
+                damaged: 0,
+                defense: 0,
+                heal: 0,
+            };
+            currentPlayer.value.records.push(newRecord);
+        }
+    }
+
     return {
         currentPlayer,
         extraStatus,
@@ -248,5 +370,18 @@ export const usePlayerStore = defineStore('player', () => {
         drawCard,
         placeCard,
         recallCard,
+        clearTableCards,
+        sellItem,
+
+        createRecord,
+
+        buyCard,
+        buyEquip,
+
+        collectCoin,
+        collectCard,
+        collectEquip,
+        dropCard,
+        dropEquip,
     };
 });

@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 新增 useSoundEffect，用 composable 方式呼叫音效
 - 新增初始化遊戲載入動畫
 - Google App Scripts 新增 post 方法，現在可以儲存玩家細節資料了
+- 現在商店每 10 分鐘會更新一次商品了
+- 現在會紀錄戰鬥結果了
 
 ### Changed
 
@@ -22,8 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 優化稀有度系統/裝備系統
 - 建立 factory，優化產生玩家與物品方式
 - 重構樣式：配色/按鈕/卡牌/裝備/卡牌/玩家狀態/系統提示框
-- 重構 layout：主畫面/排行榜/選角/背包/商店/選擇敵人
-- 重構戰鬥流程與邏輯
+- 重構 layout：主畫面/排行榜/選角/背包/商店/選擇敵人/戰鬥/戰鬥結束
 - 邏輯牌功能修改為攻擊型/防禦型
 
 ## [v0.2.3] - 2023-08-25

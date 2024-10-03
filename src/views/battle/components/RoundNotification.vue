@@ -1,10 +1,11 @@
 <template>
     <div
+        v-if="isShow"
         :class="{
             'opacity-0': !isVisible,
             'opacity-75': isVisible,
         }"
-        class="position-absolute bg-primary d-flex justify-center align-center"
+        class="border position-absolute bg-primary d-flex justify-center align-center"
         :style="{
             top: '40%',
             left: 0,
@@ -39,6 +40,7 @@ import { sleepSeconds } from '@/utils/common';
 
 const battleStore = useBattleStore();
 const roundPhase = computed(() => battleStore.roundPhase);
+const isShow = ref(false);
 const isVisible = ref(false);
 const slideIn = ref(false);
 const slideOut = ref(false);
@@ -71,7 +73,9 @@ watch(
                 break;
         }
 
-        await sleepSeconds(0.5);
+        isShow.value = true;
+
+        await sleepSeconds(0.3);
 
         if (isVisible.value) {
             slideIn.value = true;
@@ -83,6 +87,10 @@ watch(
             await sleepSeconds(0.5);
 
             isVisible.value = false;
+
+            await sleepSeconds(0.5);
+
+            isShow.value = false;
 
             setTimeout(() => {
                 resetPosition();

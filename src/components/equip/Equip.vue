@@ -49,13 +49,29 @@
                                 >
                                     {{ getTemplate.name }}
                                 </v-col>
+
+                                <div
+                                    v-if="
+                                        displayEquip.is_equiped && showIsEquiped
+                                    "
+                                    class="position-absolute bg-bluegrey opacity-70 d-flex justify-center align-center"
+                                    style="
+                                        top: 0;
+                                        left: 0;
+                                        right: 0;
+                                        bottom: 0;
+                                        z-index: 1;
+                                    "
+                                >
+                                    已裝備
+                                </div>
                             </v-row>
                         </template>
 
                         <!-- no equip -->
                         <template v-else>
                             <Icon
-                                style="opacity: 0.2"
+                                :style="{ opacity: '0.2' }"
                                 :size="getIconSize"
                                 :url="getPositionPlaceholder"
                             ></Icon>
@@ -70,6 +86,7 @@
                 v-if="displayEquip && getTemplate"
                 :rarity="displayEquip.info.rarity"
             ></Rarity>
+            <Rarity v-else :rarity="enumRarity.None"></Rarity>
         </v-col>
     </v-row>
 
@@ -103,10 +120,7 @@
                     <!-- Icon -->
                     <v-row class="justify-center">
                         <v-col cols="auto">
-                            <Icon
-                                :size="getIconSize"
-                                :url="getTemplate.icon"
-                            ></Icon>
+                            <Icon :size="36" :url="getTemplate.icon"></Icon>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -160,6 +174,8 @@
                 <v-card-subtitle class="text-center text-wrap">
                     沒穿任何東西。
                 </v-card-subtitle>
+
+                <v-card-text></v-card-text>
             </template>
 
             <v-card-text v-if="isPlayerEquip">
@@ -185,14 +201,15 @@
 
                 <em class="text-secondary" v-else>沒有裝備，真慘。</em>
             </v-card-text>
+
+            <v-card-actions v-if="$slots.actions">
+                <slot name="actions"></slot>
+            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import {
-    computed,
-    ref,
-} from 'vue';
+import { computed, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
@@ -218,16 +235,34 @@ const {
     equip,
     position,
     isPlayerEquip = false,
-    showRarity = true,
+    showRarity = false,
     size = 'default',
     showDetail = true,
+    showIsEquiped = false,
 } = defineProps<{
     equip: Equip | null;
     position: enumEquipPosition;
+    /**
+     * 是否是玩家的裝備，會顯示可裝備列表
+     * @default false
+     */
     isPlayerEquip?: boolean;
+    /**
+     * 是否顯示稀有度
+     * @default false
+     */
     showRarity?: boolean;
     size?: 'x-small' | 'small' | 'default';
+    /**
+     * 是否顯示細節
+     * @default true
+     */
     showDetail?: boolean;
+    /**
+     * 是否顯示裝備中
+     * @default false
+     */
+    showIsEquiped?: boolean;
 }>();
 
 const toggleDialog = (target: boolean) => {
@@ -241,17 +276,14 @@ const player = computed(() => playerStore.currentPlayer!);
 
 const displayEquip = computed(() => {
     if (isPlayerEquip) {
-        if (equip) {
-            return player.value.backpack.equips.find((v) => v.id === equip!.id);
+        if (player.value) {
+            return player.value.equipment[position];
         }
-
-        return player.value.equipment[position];
     }
 
     return equip;
 });
-
-const getTemplate = computed(() => displayEquip.value?.template);
+const getTemplate = computed(() => equip?.template);
 
 const borderColor = computed(() => {
     switch (displayEquip.value?.info.rarity) {
@@ -299,7 +331,7 @@ const getIconSize = computed(() => {
     if (size === 'x-small') {
         iconSize = 14;
     } else if (size === 'small') {
-        iconSize = 24;
+        iconSize = 20;
     }
     return iconSize;
 });
@@ -334,5 +366,9 @@ const getPositionEquips = computed(() => {
         .currentPlayer!.backpack.equips.filter((v) => v.position === position)
         .sort((a, b) => b.info.rarity.localeCompare(a.info.rarity))
         .sort((a, b) => Number(b.is_equiped) - Number(a.is_equiped));
+});
+
+defineExpose({
+    toggleDialog,
 });
 </script>

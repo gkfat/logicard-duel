@@ -59,31 +59,31 @@ import { enumRarity } from '@/enums/rarity';
 import { usePlayerStore } from '@/store/player';
 import { Equip } from '@/types/core';
 
-const props = defineProps<{
+const { equip } = defineProps<{
     equip: Equip;
 }>();
 
 const confirmBoxRef = ref<typeof ConfirmBox>();
 const playerStore = usePlayerStore();
 
-const getTemplate = computed(() => props.equip.template);
+const getTemplate = computed(() => equip.template);
 
 const borderColor = computed(() => {
-    switch (props.equip.info.rarity) {
-    case enumRarity.Normal:
-        return 'border-white';
-    case enumRarity.Rare:
-        return 'border-secondary';
-    case enumRarity.SR:
-        return 'border-red';
-    case enumRarity.SSR:
-        return 'border-darkamber';
-    default:
-        return 'border-white';
+    switch (equip.info.rarity) {
+        case enumRarity.Normal:
+            return 'border-white';
+        case enumRarity.Rare:
+            return 'border-secondary';
+        case enumRarity.SR:
+            return 'border-red';
+        case enumRarity.SSR:
+            return 'border-darkamber';
+        default:
+            return 'border-white';
     }
 });
 
 const changeEquipment = () => {
-    playerStore.changeEquipment(props.equip);
+    playerStore.changeEquipment(equip);
 };
 </script>

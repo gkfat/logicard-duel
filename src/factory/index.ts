@@ -3,9 +3,18 @@ import { CharacterTemplateList } from '@/data/character-templates';
 import { EquipTemplateList } from '@/data/equip-templates';
 import { enumCard } from '@/enums/card';
 import { enumCharacter } from '@/enums/character';
-import { enumEquip, enumEquipPosition } from '@/enums/equip';
-import { enumRarity, RarityValue } from '@/enums/rarity';
-import { Card, Equip } from '@/types/core';
+import {
+    enumEquip,
+    enumEquipPosition,
+} from '@/enums/equip';
+import {
+    enumRarity,
+    RarityValue,
+} from '@/enums/rarity';
+import {
+    Card,
+    Equip,
+} from '@/types/core';
 import { Player } from '@/types/player';
 import { getRandomInt } from '@/utils/common';
 import { createDate } from '@/utils/time';

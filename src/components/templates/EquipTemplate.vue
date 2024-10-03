@@ -14,7 +14,7 @@
                 :min-height="80"
                 style="transition: all 0.3s"
                 class="bg-bluegrey border-amber border-lg border-opacity-100 cursor-pointer"
-                @click="isDialogOpen = true"
+                @click="openDialog"
             >
                 <v-row class="ma-0 justify-center align-center fill-height">
                     <v-col cols="auto">
@@ -81,23 +81,21 @@
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import {
-    computed,
-    ref,
-} from 'vue';
+import { computed, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
 import Effect from '@/components/common/Effect.vue';
+import Icon from '@/components/common/Icon.vue';
 import Rarity from '@/components/common/Rarity.vue';
+import { useSoundEffect } from '@/composable/useSoundEffect';
 import { EquipTemplateList } from '@/data/equip-templates';
 import { enumEquip } from '@/enums/equip';
 import { RarityValue } from '@/enums/rarity';
 import { rangeToText } from '@/utils/common';
 
-import Icon from './Icon.vue';
-
 const { t } = useI18n();
+const { soundClick } = useSoundEffect();
 const isDialogOpen = ref(false);
 
 const props = defineProps<{
@@ -111,6 +109,11 @@ const getTemplate = computed(
 const rarityValues = computed(
     () => Object.keys(getTemplate.value.potentials) as RarityValue[]
 );
+
+const openDialog = async () => {
+    await soundClick();
+    isDialogOpen.value = true;
+};
 </script>
 <style lang="scss" scoped>
 .floating {

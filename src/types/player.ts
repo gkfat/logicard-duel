@@ -5,17 +5,18 @@ import { CharacterTemplate } from './character';
 import { Card, Equip } from './core';
 
 export interface GameRecord {
+    id: number;
     opponent: Player;
     /** 戰鬥開始時間 */
     battleStartAt: Date;
     /** 戰鬥結束時間 */
-    battleEndAt: Date;
+    battleEndAt: Date | null;
     /** 使用了幾張卡牌 */
     cardsUsed: number;
     /** 產生攻擊點數 */
     harm: number;
     /** 受到傷害點數 */
-    damage: number;
+    damaged: number;
     /** 防禦點數 */
     defense: number;
     /** 治療點數 */

@@ -8,7 +8,7 @@
         v-if="appStore.gameState === enumGameState.ChooseOpponent"
     />
     <Battle v-if="appStore.gameState === enumGameState.Battle" />
-    <!-- <BattleEnd v-if="appStore.gameState === enumGameState.BattleEnd" /> -->
+    <BattleEnd v-if="appStore.gameState === enumGameState.BattleEnd" />
     <GameOver v-if="appStore.gameState === enumGameState.GameOver" />
 </template>
 
@@ -18,7 +18,7 @@ import { watch } from 'vue';
 import { useSoundEffect } from '@/composable/useSoundEffect';
 import { enumGameState } from '@/enums/game';
 import { useAppStore } from '@/store/app';
-// import BattleEnd from '@/views/battle-end/BattleEnd.vue';
+import BattleEnd from '@/views/battle-end/BattleEnd.vue';
 import Battle from '@/views/battle/Battle.vue';
 import ChooseCharacter from '@/views/choose-character/ChooseCharacter.vue';
 import Entry from '@/views/entry/Entry.vue';

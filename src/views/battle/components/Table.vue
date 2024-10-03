@@ -47,14 +47,15 @@
                         <v-btn
                             v-if="table.playerCard"
                             flat
-                            class="pa-0 bg-transparent fill-height d-flex justify-center align-center"
+                            class="pa-0 bg-transparent fill-height d-flex justify-center"
                             @click="playerStore.recallCard"
                         >
                             <Card
                                 :card="table.playerCard"
                                 :show-detail="false"
                                 :show-rarity="false"
-                            ></Card>
+                            >
+                            </Card>
                         </v-btn>
 
                         <v-card

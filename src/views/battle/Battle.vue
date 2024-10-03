@@ -51,6 +51,7 @@ import { useBattleStore } from '@/store/battle';
 import { useOpponentStore } from '@/store/opponent';
 import { usePlayerStore } from '@/store/player';
 import { sleepSeconds } from '@/utils/common';
+import { createDate } from '@/utils/time';
 
 import RoundNotification from './components/RoundNotification.vue';
 import Table from './components/Table.vue';
@@ -64,7 +65,7 @@ const opponentStore = useOpponentStore();
 const appStore = useAppStore();
 const battleStore = useBattleStore();
 
-const { soundCountdown } = useSoundEffect();
+const { soundCountdown, soundWin } = useSoundEffect();
 
 const player = computed(() => playerStore.currentPlayer!);
 const playerExtraStatus = computed(() => playerStore.extraStatus);
@@ -76,6 +77,13 @@ const playerBaseAttack = computed(
 const playerBaseDefense = computed(
     () => player.value.status.defense + playerExtraStatus.value.defense
 );
+
+/** 本局戰鬥紀錄 */
+const battleRecord = computed(() => {
+    return player.value.records.find(
+        (v) => v.opponent.id === opponent.value.id
+    )!;
+});
 
 const opponent = computed(() => opponentStore.currentOpponent!);
 const opponentExtraStatus = computed(() => opponentStore.extraStatus);
@@ -167,6 +175,16 @@ const startCountdown = () => {
     }, 1000);
 };
 
+/** 結束戰鬥 */
+const endBattle = async () => {
+    // 紀錄時間
+    battleRecord.value.battleEndAt = createDate().toDate();
+
+    await playerStore.clearTableCards();
+    await opponentStore.clearTableCards();
+    battleStore.resetBattle();
+};
+
 /** 結算 */
 const settle = async () => {
     if (player.value.status.health === 0) {
@@ -174,12 +192,16 @@ const settle = async () => {
         playerStore.randomMumble(enumMumbleType.Lose, true);
 
         await sleepSeconds(3);
+        await endBattle();
         appStore.changeGameState(enumGameState.GameOver);
     } else if (opponent.value.status.health === 0) {
         // 敵人沒血, battle end
         opponentStore.randomMumble(enumMumbleType.Lose, true);
 
         await sleepSeconds(3);
+        await soundWin();
+        await sleepSeconds(1);
+        await endBattle();
         appStore.changeGameState(enumGameState.BattleEnd);
     }
 };
@@ -197,6 +219,9 @@ const duel = async () => {
             playerRoundStatus.value.attack - opponentRoundStatus.value.defense;
 
         if (opponentDeduction > 0) {
+            // 紀錄攻擊力
+            battleRecord.value.harm += opponentDeduction;
+
             playerStore.randomMumble(enumMumbleType.Attack, true);
             opponentStore.randomMumble(enumMumbleType.Hurt, true);
             await sleepSeconds(1);
@@ -219,7 +244,19 @@ const duel = async () => {
         const playerDeduction =
             opponentRoundStatus.value.attack - playerRoundStatus.value.defense;
 
+        // 紀錄防禦力
+        if (
+            playerRoundStatus.value.defense < opponentRoundStatus.value.attack
+        ) {
+            battleRecord.value.defense += playerRoundStatus.value.defense;
+        } else {
+            battleRecord.value.defense += opponentRoundStatus.value.attack;
+        }
+
         if (playerDeduction > 0) {
+            // 紀錄受傷害
+            battleRecord.value.damaged += playerDeduction;
+
             opponentStore.randomMumble(enumMumbleType.Attack, true);
             await sleepSeconds(1);
             // 玩家扣血
@@ -290,6 +327,11 @@ watch(
                 battleStore.changeRoundPhase(enumRoundPhase.Settle);
                 break;
             case enumRoundPhase.Settle: // 結算
+                // 紀錄使用牌數
+                if (playerTableCard.value) {
+                    battleRecord.value.cardsUsed += 1;
+                }
+
                 await battleStore.clearTable();
                 await sleepSeconds(1);
                 battleStore.changeRoundPhase(enumRoundPhase.RoundEnd);
@@ -304,6 +346,8 @@ watch(
 
 onMounted(async () => {
     await sleepSeconds(3);
+
+    playerStore.createRecord(opponent.value);
 
     battleStore.resetBattle();
     battleStore.changeRoundPhase(enumRoundPhase.RoundStart);

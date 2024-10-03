@@ -45,6 +45,7 @@ export const ImageDataList = {
         bulletproof: `${prefix_icons}/bulletproof.png`,
         player: `${prefix_icons}/player.png`,
         shop: `${prefix_icons}/shop.png`,
+        pokerCard: `${prefix_icons}/poker-cards.png`,
         placeholderHead: `${prefix_icons}/placeholder_head.png`,
         placeholderBody: `${prefix_icons}/placeholder_body.png`,
         placeholderHand: `${prefix_icons}/placeholder_hand.png`,

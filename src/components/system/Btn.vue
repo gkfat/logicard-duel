@@ -6,6 +6,7 @@
                 variant="plain"
                 :class="{
                     'bg-green opacity-100': true,
+                    'text-green bg-darkgreen': disabled,
                     hovering: isHovering,
                     'border-xl rounded-lg pa-7': size === 'default',
                     'border-md rounded-md pa-3': size === 'small',

@@ -153,6 +153,18 @@ export const useOpponentStore = defineStore('opponent', () => {
         }
     }
 
+    /** 將桌上手牌清理乾淨 */
+    async function clearTableCards() {
+        if (currentOpponent.value) {
+            currentOpponent.value.backpack.cards = [
+                ...currentOpponent.value.backpack.cards,
+                ...handCards.value,
+            ];
+
+            handCards.value = [];
+        }
+    }
+
     /** 敵人出牌邏輯 */
     async function logicPlaceCard() {
         const randomSeconds = getRandomInt([3, battleStore.remainSeconds]);
@@ -169,6 +181,12 @@ export const useOpponentStore = defineStore('opponent', () => {
                 battleStore.remainSeconds > 3 && drawLots();
             if (shouldRePlaceCard) {
                 await recallCard();
+
+                const randomThinkingSeconds = getRandomInt([
+                    0,
+                    battleStore.remainSeconds,
+                ]);
+                await sleepSeconds(randomThinkingSeconds);
 
                 await logicPlaceCard();
             }
@@ -229,6 +247,60 @@ export const useOpponentStore = defineStore('opponent', () => {
         clearMumble();
     }
 
+    /** 收集戰利品卡牌 */
+    async function collectCard(card: Card) {
+        if (currentOpponent.value) {
+            currentOpponent.value.backpack.cards.unshift(card);
+        }
+    }
+
+    /** 收集戰利品裝備 */
+    async function collectEquip(equip: Equip) {
+        if (currentOpponent.value) {
+            currentOpponent.value.backpack.equips.unshift(equip);
+        }
+    }
+
+    /** 丟棄戰利品卡牌 */
+    async function dropCard(card: Card) {
+        if (currentOpponent.value) {
+            const findIndex = currentOpponent.value.backpack.cards.findIndex(
+                (item) => item.id === card.id
+            );
+
+            if (findIndex !== -1) {
+                currentOpponent.value.backpack.cards.splice(findIndex, 1);
+            }
+        }
+    }
+
+    /** 丟棄戰利品裝備 */
+    async function dropEquip(equip: Equip) {
+        if (currentOpponent.value) {
+            const findIndex = currentOpponent.value.backpack.equips.findIndex(
+                (item) => item.id === equip.id
+            );
+
+            if (findIndex !== -1) {
+                currentOpponent.value.backpack.equips.splice(findIndex, 1);
+            }
+        }
+    }
+
+    /** 清理目前的敵人 */
+    async function clearOpponent() {
+        if (currentOpponent.value) {
+            const findIndex = pool.value.findIndex(
+                (v) => v.id === currentOpponent.value?.id
+            );
+            if (findIndex !== -1) {
+                defeatedOpponents.value.push(currentOpponent.value);
+                pool.value.splice(findIndex, 1);
+                currentOpponent.value = undefined;
+            }
+        }
+    }
+
     /** 初始化敵人池 */
     function init() {
         // 初始化一定有工作型
@@ -261,9 +333,16 @@ export const useOpponentStore = defineStore('opponent', () => {
         drawCard,
         placeCard,
         recallCard,
+        clearTableCards,
         logicPlaceCard,
+
+        collectCard,
+        collectEquip,
+        dropCard,
+        dropEquip,
 
         refillPool,
         init,
+        clearOpponent,
     };
 });

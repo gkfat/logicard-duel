@@ -1,6 +1,6 @@
 <template>
     <v-avatar
-        size="50"
+        :size="50"
         :image="character.avatar"
         color="darkamber"
         class="border-md"

@@ -12,7 +12,7 @@
                 :style="displayInSector ? calcCardStyle(i) : ''"
             >
                 <Card
-                    :ref="(el) => (cardRefs[i] = el)"
+                    :ref="(el) => /** @ts-ignore */ (cardRefs[i] = el)"
                     :card="card"
                     :size="cardSize"
                     :is-card-back="isCardBack"
@@ -38,7 +38,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import Card from '@/components/card/Card.vue';
 import Btn from '@/components/system/Btn.vue';

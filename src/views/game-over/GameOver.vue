@@ -8,31 +8,35 @@
         </v-col>
 
         <v-col cols="auto" class="pa-0 mt-auto mb-3">
-            <v-data-table
+            <!-- <v-data-table
                 :headers="headers"
                 :items="[player]"
                 class="rounded-lg mb-3"
             >
                 <template #bottom />
-            </v-data-table>
+            </v-data-table> -->
 
+            <p class="text-white mb-3">玩家姓名(10 字內)</p>
             <v-text-field
                 v-model="playerName"
                 type="text"
-                variant="outlined"
-                class="bg-white rounded-lg mb-3"
+                class="bg-white rounded-xl pb-3 px-3 mb-3"
+                variant="plain"
                 hide-details
-                placeholder="玩家姓名"
+                placeholder="玩家姓名(10 字內)"
+                persistent-placeholder
+                @change="onPlayerNameChange"
             />
 
+            <p class="text-white mb-3">留下遺言(20 字內)</p>
             <v-text-field
                 v-model="lastWords"
                 type="text"
-                variant="outlined"
-                class="bg-white rounded-lg mb-3"
+                class="bg-white rounded-xl pb-3 px-3 mb-3"
+                variant="plain"
                 hide-details
-                placeholder="留下遺言"
-                @update:model-value="onLastWordsChange"
+                placeholder="留下遺言(20 字內)"
+                @change="onLastWordsChange"
             />
         </v-col>
 
@@ -78,6 +82,16 @@ const headers = [
 const playerName = ref('');
 const lastWords = ref('');
 
+const onPlayerNameChange = () => {
+    const value = playerName.value.trim();
+
+    if (value.length > 10) {
+        playerName.value = value.substring(0, 10);
+    } else {
+        playerName.value = value;
+    }
+};
+
 const onLastWordsChange = () => {
     const value = lastWords.value.trim();
 
@@ -116,7 +130,7 @@ const restart = async () => {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #363d4d;
+    background-color: #373c4d;
     z-index: -2;
 }
 
@@ -126,6 +140,7 @@ const restart = async () => {
     left: 0;
     right: 0;
     bottom: 0;
+    transform: translateY(-40px) scale(0.8);
     background-image: url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHIyN2d4MDlpMnY4OTk4cjYwZDhneWltdHV0aWxxbXlibHg1endlYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/FnhxsYbm63T5POxvTf/giphy.gif');
     background-size: contain;
     background-position: center;

@@ -4,13 +4,13 @@
             <Dialog :dialogs="dialogs" />
         </v-col>
 
-        <v-col cols="auto" class="pa-0">
-            <v-row class="ma-0">
+        <v-col cols="auto" class="pa-0 flex-grow-1">
+            <v-row class="ma-0 justify-center align-center fill-height ga-3">
                 <v-col
                     v-for="(opponent, index) in opponentStore.pool"
                     :key="index"
-                    cols="12"
-                    class="pa-1"
+                    cols="auto"
+                    class="pa-0"
                     @click="onOpponentSelected(index)"
                 >
                     <OpponentCard
@@ -28,7 +28,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import {
+    onMounted,
+    ref,
+    watch,
+} from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
@@ -67,7 +71,9 @@ const startBattle = async () => {
     appStore.changeGameState(enumGameState.Battle);
 };
 
-onMounted(() => {
+onMounted(async () => {
+    await opponentStore.clearOpponent();
+
     // 檢查若 pool 少於 3 隻則生成
     if (opponentStore.pool.length < 3) {
         opponentStore.refillPool();

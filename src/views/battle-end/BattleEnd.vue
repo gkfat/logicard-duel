@@ -1,176 +1,88 @@
 <template>
-    <v-col cols="12" class="pa-0 align-self-stretch">
-        <Dialog :dialogs="dialogs" />
-    </v-col>
+    <div class="battleend"></div>
 
-    <!-- 戰利品 -->
-    <v-col cols="12" class="pa-0 align-self-stretch">
-        <p class="text-h6 text-center">
-            {{ t('battle_end.loot') }}
-        </p>
-        <p>
-            {{ t('coin') }}：{{ player.Coin }}｜ {{ t('item') }}：{{
-                player.ItemList.length + '／' + player.Character!.ItemLimit
-            }}
-        </p>
-    </v-col>
+    <v-row class="w-100 ma-0 ga-3 flex-column pb-3">
+        <v-col cols="auto" class="pa-0">
+            <Dialog :dialogs="dialogs" />
+        </v-col>
 
-    <v-col cols="12" class="pa-0 align-self-stretch">
-        <v-row class="ma-0 ga-3">
-            <v-col
-                v-for="(item, i) in lootBox"
-                :key="i"
-                cols="auto"
-                class="pa-0"
-            >
-                <Item :item="item" />
-            </v-col>
-        </v-row>
-    </v-col>
+        <v-col cols="auto" class="pa-0">
+            <CoinStatus></CoinStatus>
+        </v-col>
 
-    <!-- 沒有多餘空間 -->
-    <BtnText v-if="noSpace" :text="t('button.tidy')" :func="openBackpack" />
-    <BtnText v-else :text="t('button.rest')" :func="goRest" />
+        <v-col cols="auto" class="pa-0">
+            <Loots></Loots>
+            <v-spacer class="my-3"></v-spacer>
+            <PlayerItems></PlayerItems>
+        </v-col>
+
+        <v-col cols="auto" class="pa-0 mt-auto">
+            <Btn
+                :disabled="isDisabledGoRest"
+                :text="isDisabledGoRest ? '背包太重了！' : '回到避難所'"
+                :func="goRest"
+            />
+        </v-col>
+    </v-row>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-
-import { useI18n } from 'vue-i18n';
-
-import Item from '@/components/Item.vue';
-import BtnText from '@/components/system/BtnText.vue';
-import Dialog from '@/components/system/Dialog.vue';
-import { DialogDataList, ItemDataList } from '@/data';
-import { enumDialog, enumGameState, enumItemType } from '@/enums/game';
-import Util from '@/service/util';
 import {
-    useAppStore,
-    usePlayerStore,
-    useShopStore,
-    useSwitchToggleStore,
-} from '@/store';
-import useSoundStore from '@/store/sound';
-import { Game } from '@/types';
+    computed,
+    onMounted,
+} from 'vue';
 
-const { t } = useI18n();
-const playerStore = usePlayerStore();
-const shopStore = useShopStore();
+import CoinStatus from '@/components/common/CoinStatus.vue';
+import Btn from '@/components/system/Btn.vue';
+import Dialog from '@/components/system/Dialog.vue';
+import { useSoundEffect } from '@/composable/useSoundEffect';
+import { DialogDataList } from '@/data/dialogs';
+import { enumDialog } from '@/enums/dialog';
+import { enumGameState } from '@/enums/game';
+import { useAppStore } from '@/store/app';
+import { useOpponentStore } from '@/store/opponent';
+import { usePlayerStore } from '@/store/player';
+
+import Loots from './components/Loots.vue';
+import PlayerItems from './components/PlayerItems.vue';
+
 const appStore = useAppStore();
-const soundStore = useSoundStore();
-const switchToggleStore = useSwitchToggleStore();
+const opponentStore = useOpponentStore();
+const playerStore = usePlayerStore();
+const player = computed(() => playerStore.currentPlayer!);
 
-const player = computed<Game.Player>(() => playerStore.player);
-const enemy = computed<Game.Player>(() => playerStore.enemy);
-const lootBox = ref<Game.Item[]>([]);
-const noSpace = computed(
-    () => player.value.ItemList.length > player.value.Character!.ItemLimit
-);
+const { soundClick } = useSoundEffect();
+
 const dialogs = DialogDataList[enumDialog.BattleEnd];
-const box80 = Util.makeLotteryBox(80);
-const box50 = Util.makeLotteryBox(50);
-const box30 = Util.makeLotteryBox(30);
-
-// 產生戰利品
-const makeLoot = (type: 'equipment' | 'coin' | 'techCard') => {
-    const enemyCharacter = enemy.value.Character!;
-    const min = enemyCharacter.RewardCoin![0];
-    const max = enemyCharacter.RewardCoin![1];
-    const coin = ItemDataList.find(
-        (item) => item.ItemType === enumItemType.Coin
-    )!;
-    const rewardItemIndex = Util.getRandomInt(
-        0,
-        enemyCharacter.RewardItemList!.length - 1
-    );
-    const lootRewardItem = enemyCharacter.RewardItemList![rewardItemIndex];
-    const remainTechCardList = enemy.value.CardDataList.filter(
-        (c) => c.ItemType !== enumItemType.LogiCard
-    );
-    const techCardIndex = Util.getRandomInt(0, remainTechCardList.length - 1);
-    const lootTechCard = remainTechCardList[techCardIndex];
-
-    switch (type) {
-    case 'coin':
-        coin.Point = Util.getRandomInt(min, max);
-        lootBox.value.push(coin);
-        break;
-    case 'equipment':
-        lootBox.value.push(lootRewardItem);
-        break;
-    case 'techCard':
-        if (remainTechCardList.length > 0) {
-            lootBox.value.push(lootTechCard);
-        }
-        break;
-    default:
-        break;
-    }
-};
-
-onMounted(() => {
-    makeLoot('coin'); // 判斷獲得金幣
-
-    if (Util.lottery(box80) && !noSpace.value) {
-        // 80% 機率獲得一件戰利品
-        makeLoot('equipment');
-    }
-
-    if (Util.lottery(box30) && !noSpace.value) {
-        // 30% 機率獲得第二件戰利品
-        makeLoot('equipment');
-    }
-
-    if (Util.lottery(box50)) {
-        // 50% 機率獲得一張 Gkbot 剩餘的技術牌
-        makeLoot('techCard');
-    }
-
-    const updatedPlayer = { ...player.value };
-    lootBox.value.forEach((loot) => {
-        switch (loot.ItemType) {
-        case enumItemType.Coin:
-            updatedPlayer.Coin += loot.Point;
-            break;
-        case enumItemType.Attack:
-        case enumItemType.Defense:
-        case enumItemType.Heal:
-            updatedPlayer.CardDataList.push(loot);
-            break;
-        case enumItemType.Weapon:
-        case enumItemType.Armor:
-            updatedPlayer.ItemList.push(loot);
-            break;
-        default:
-            break;
-        }
-    });
-
-    // 更新玩家
-    playerStore.updatePlayer('player', updatedPlayer);
-
-    // 更新商店
-    shopStore.refreshShop();
-});
-
-// 打開背包
-const openBackpack = async () => {
-    switchToggleStore.toggle('backpack');
-};
 
 const goRest = async () => {
-    await soundStore.playSound(soundStore.sounds.effect.click);
+    await soundClick();
     appStore.changeGameState(enumGameState.Rest);
 };
-</script>
 
+const isDisabledGoRest = computed(() => {
+    const equips = player.value.backpack.equips.length;
+    const cards = player.value.backpack.cards.length;
+
+    return equips + cards > player.value.character.backpackLimit;
+});
+
+onMounted(() => {
+    playerStore.collectCoin(opponentStore.currentOpponent!.backpack.coin);
+});
+</script>
 <style lang="scss" scoped>
-#battle-end {
-    height: 100%;
-    gap: 15px;
-}
-.items-container {
-    overflow-y: scroll;
-    gap: 10px;
+.battleend {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('https://storage.googleapis.com/logicard_duel/gifs/rest.gif');
+    background-size: cover;
+    background-position-y: 70%;
+    background-repeat: no-repeat;
+    z-index: -1;
+    opacity: 0.8;
 }
 </style>

@@ -60,10 +60,7 @@
                             cols="auto"
                             class="pa-0 d-flex align-center ga-1"
                         >
-                            <v-icon
-                                color="skin"
-                                icon="mdi-sword-cross"
-                            ></v-icon>
+                            <IconAttack></IconAttack>
                             {{ player.status.attack }}
                             <em
                                 class="text-darkamber"
@@ -78,7 +75,7 @@
                             cols="auto"
                             class="pa-0 d-flex align-center ga-1"
                         >
-                            <v-icon color="skin" icon="mdi-shield"></v-icon>
+                            <IconDefense></IconDefense>
                             {{ player.status.defense }}
                             <em
                                 class="text-darkamber"
@@ -93,10 +90,7 @@
                             cols="auto"
                             class="pa-0 d-flex align-center ga-1"
                         >
-                            <v-icon
-                                color="skin"
-                                icon="mdi-cards-playing"
-                            ></v-icon>
+                            <IconPokerCard></IconPokerCard>
                             {{ player.backpack.cards.length }}
                         </v-col>
 
@@ -207,6 +201,9 @@ import { computed, ref, watch } from 'vue';
 
 import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
 import Equip from '@/components/equip/Equip.vue';
+import IconAttack from '@/components/icons/IconAttack.vue';
+import IconDefense from '@/components/icons/IconDefense.vue';
+import IconPokerCard from '@/components/icons/IconPokerCard.vue';
 import { enumEquipPosition } from '@/enums/equip';
 import { Player } from '@/types/player';
 import { sleepSeconds } from '@/utils/common';

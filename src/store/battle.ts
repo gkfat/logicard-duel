@@ -1,4 +1,7 @@
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import { defineStore } from 'pinia';
 
@@ -44,11 +47,6 @@ export const useBattleStore = defineStore('battle', () => {
         remainSeconds.value = appStore.ENV.countdownSeconds;
     }
 
-    /** 重置戰鬥 */
-    function resetBattle() {
-        roundPhase.value = enumRoundPhase.BeforeRound;
-    }
-
     /** 改變局階段 */
     function changeRoundPhase(phase: enumRoundPhase) {
         roundPhase.value = phase;
@@ -68,6 +66,13 @@ export const useBattleStore = defineStore('battle', () => {
             cardStacks.value.push(opponentCard);
             opponentStore.tableCard = undefined;
         }
+    }
+
+    /** 重置戰鬥 */
+    function resetBattle() {
+        clearTable();
+        cardStacks.value = [];
+        roundPhase.value = enumRoundPhase.BeforeRound;
     }
 
     return {

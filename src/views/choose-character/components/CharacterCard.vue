@@ -15,7 +15,7 @@
 
             <v-col cols="auto" class="pa-1 px-3 d-flex align-center">
                 <Btn
-                    :icon="'mdi-eye-circle'"
+                    :icon="'mdi-eye'"
                     :size="'small'"
                     :func="() => toggleDialog(true)"
                 ></Btn>
@@ -46,28 +46,25 @@
 
                 <v-row class="ma-0">
                     <v-col class="pa-1" cols="12">
-                        <v-icon color="red" icon="mdi-heart"></v-icon>
+                        <IconHeal></IconHeal>
                         {{ rangeToText(character.init.healthRange) }}
                     </v-col>
                     <v-col class="pa-1" cols="6">
-                        <v-icon color="skin" icon="mdi-sword-cross"></v-icon>
+                        <IconAttack></IconAttack>
                         {{ rangeToText(character.init.attackRange) }}
                     </v-col>
                     <v-col class="pa-1" cols="6">
-                        <v-icon color="skin" icon="mdi-shield"></v-icon>
+                        <IconDefense></IconDefense>
                         {{ rangeToText(character.init.defenseRange) }}
                     </v-col>
                 </v-row>
                 <v-row class="ma-0">
                     <v-col class="pa-1" cols="6">
-                        <v-icon
-                            color="skin"
-                            icon="mdi-screw-round-top"
-                        ></v-icon>
+                        <IconCoin></IconCoin>
                         {{ character.init.coin }}
                     </v-col>
                     <v-col class="pa-1" cols="6">
-                        <v-icon color="skin" icon="mdi-bag-personal"></v-icon>
+                        <IconBackpack></IconBackpack>
                         {{ character.backpackLimit }}
                     </v-col>
                 </v-row>
@@ -129,13 +126,17 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
+import IconAttack from '@/components/icons/IconAttack.vue';
+import IconBackpack from '@/components/icons/IconBackpack.vue';
+import IconCoin from '@/components/icons/IconCoin.vue';
+import IconDefense from '@/components/icons/IconDefense.vue';
+import IconHeal from '@/components/icons/IconHeal.vue';
 import Btn from '@/components/system/Btn.vue';
+import CardTemplate from '@/components/templates/CardTemplate.vue';
+import EquipTemplate from '@/components/templates/EquipTemplate.vue';
 import { useSoundEffect } from '@/composable/useSoundEffect';
 import { CharacterTemplate } from '@/types/character';
 import { rangeToText } from '@/utils/common';
-
-import CardTemplate from './CardTemplate.vue';
-import EquipTemplate from './EquipTemplate.vue';
 
 const { t } = useI18n();
 const { soundClick } = useSoundEffect();

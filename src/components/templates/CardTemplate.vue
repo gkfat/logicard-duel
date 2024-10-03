@@ -116,12 +116,10 @@
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import {
-    computed,
-    ref,
-} from 'vue';
+import { computed, ref } from 'vue';
 
 import Effect from '@/components/common/Effect.vue';
+import Icon from '@/components/common/Icon.vue';
 import Rarity from '@/components/common/Rarity.vue';
 import { useSoundEffect } from '@/composable/useSoundEffect';
 import { CardTemplateList } from '@/data/card-templates';
@@ -129,8 +127,6 @@ import { enumCard } from '@/enums/card';
 import { enumEffect } from '@/enums/effect';
 import { RarityValue } from '@/enums/rarity';
 import { rangeToText } from '@/utils/common';
-
-import Icon from './Icon.vue';
 
 const { soundClick } = useSoundEffect();
 const isDialogOpen = ref(false);
