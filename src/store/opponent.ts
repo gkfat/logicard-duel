@@ -1,15 +1,27 @@
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import { defineStore } from 'pinia';
 
 import { useSoundEffect } from '@/composable/useSoundEffect';
-import { enumCharacter, OpponentValues } from '@/enums/character';
+import {
+    enumCharacter,
+    OpponentValues,
+} from '@/enums/character';
 import { enumEffect } from '@/enums/effect';
 import { enumMumbleType } from '@/enums/mumble';
 import factory from '@/factory';
-import { Card, Equip } from '@/types/core';
+import {
+    Card,
+    Equip,
+} from '@/types/core';
 import { Player } from '@/types/player';
-import { getRandomInt, sleepSeconds } from '@/utils/common';
+import {
+    getRandomInt,
+    sleepSeconds,
+} from '@/utils/common';
 import { drawLots } from '@/utils/lottery';
 
 import { useAppStore } from './app';
@@ -98,27 +110,20 @@ export const useOpponentStore = defineStore('opponent', () => {
 
     /** 抽牌 */
     async function drawCard() {
-        const getCards: Card[] = [];
+        const { cards } = currentOpponent.value!.backpack;
+        const reachedLimit = handCards.value.length >= appStore.ENV.handCardMaxLimit;
 
-        Array.from({ length: appStore.ENV.handCardMaxLimit }).forEach(() => {
-            const { cards } = currentOpponent.value!.backpack;
+        if (cards.length > 0 && !reachedLimit) {
             const randomIndex = getRandomInt([0, cards.length - 1]);
-
             const getCard = cards[randomIndex];
-            const unReachedLimit =
-                getCards.length + handCards.value.length <
-                appStore.ENV.handCardMaxLimit;
 
-            if (getCard && unReachedLimit) {
-                getCards.push(getCard);
+            if (getCard) {
+                await soundPlaceCard();
+                handCards.value.push(getCard);
                 cards.splice(randomIndex, 1);
+                await sleepSeconds(0.3);
+                await drawCard();
             }
-        });
-
-        for (const card of getCards) {
-            await soundPlaceCard();
-            handCards.value.push(card);
-            await sleepSeconds(0.3);
         }
     }
 
