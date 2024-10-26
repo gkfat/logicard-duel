@@ -323,13 +323,15 @@ export const usePlayerStore = defineStore('player', () => {
         const { id } = item;
 
         if (currentPlayer.value) {
-            const findIndex = currentPlayer.value.backpack.equips.findIndex(
-                (v) => v.id === id
-            );
             const pool =
                 type === 'equip'
                     ? currentPlayer.value.backpack.equips
                     : currentPlayer.value.backpack.cards;
+
+            const findIndex = pool.findIndex(
+                (v) => v.id === id
+            );
+
             pool.splice(findIndex, 1);
             await soundCoin();
             currentPlayer.value.backpack.coin += price;
