@@ -54,9 +54,11 @@ import Btn from '@/components/system/Btn.vue';
 import { useSoundEffect } from '@/composable/useSoundEffect';
 import { enumGameState } from '@/enums/game';
 import { useAppStore } from '@/store/app';
+import { useSoundStore } from '@/store/sound';
 
 const { t } = useI18n();
 const appStore = useAppStore();
+const soundStore = useSoundStore()
 const { soundClick } = useSoundEffect();
 
 const openGithub = async () => {
@@ -66,6 +68,7 @@ const openGithub = async () => {
 
 const start = async () => {
     appStore.switchSpinner(true);
+    soundStore.playAllInMute();
 
     await soundClick();
 

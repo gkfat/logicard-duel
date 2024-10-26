@@ -185,6 +185,29 @@ export const useSoundStore = defineStore('sound', () => {
         });
     };
 
+    const playAllInMute = () => {
+        const soundEffectKeys = Object.keys(urls.effect);
+        const soundBgmKeys = Object.keys(urls.bgm);
+
+        soundEffectKeys.forEach((key) => {
+            const audio: HTMLAudioElement | null = sounds.effect[key];
+            if (audio) {
+                audio.volume = 0;
+                audio.play()
+                pause(audio)
+            }
+        })
+
+        soundBgmKeys.forEach((key) => {
+            const audio: HTMLAudioElement | null = sounds.bgm[key];
+            if (audio) {
+                audio.volume = 0;
+                audio.play()
+                pause(audio)
+            }
+        })
+    }
+
     /** 初始化 */
     const init = () => {
         loadAssets();
@@ -203,5 +226,6 @@ export const useSoundStore = defineStore('sound', () => {
         toggleMute,
         listenVisibility,
         init,
+        playAllInMute,
     };
 });
