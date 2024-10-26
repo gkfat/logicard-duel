@@ -122,7 +122,6 @@ export const useSoundStore = defineStore('sound', () => {
     const playSound = async (audio: HTMLAudioElement | null) => {
         if (isVisible.value && !muteMode.value && audio) {
             audio.currentTime = 0;
-            audio.muted = false;
             audio.volume = 1;
             await audio.play();
         }
@@ -199,6 +198,8 @@ export const useSoundStore = defineStore('sound', () => {
                 audio.play();
                 setTimeout(() => {
                     audio.pause();
+                    audio.volume = 1;
+                    audio.muted = false;
                 }, 5);
             }
         })
@@ -211,6 +212,8 @@ export const useSoundStore = defineStore('sound', () => {
                 audio.play();
                 setTimeout(() => {
                     audio.pause();
+                    audio.volume = 0.5;
+                    audio.muted = false;
                 }, 5);
             }
         })
