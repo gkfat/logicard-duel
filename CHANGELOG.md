@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.3] - 2024-10-28
+
+### Changed
+
+- 調整遊戲節奏
+
+### Fixed
+
+- 修正 mobile 版播放音效權限問題
+- 修正賣東西 bug
+- 修正戰利品丟棄道具 bug
+
 ## [v0.3.2] - 2024-10-25
 
 ### Fixed
