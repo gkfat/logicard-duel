@@ -39,7 +39,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import {
+    computed,
+    onMounted,
+    ref,
+    watch,
+} from 'vue';
 
 import { useSoundEffect } from '@/composable/useSoundEffect';
 import { enumRoundPhase } from '@/enums/battle';
@@ -293,7 +298,7 @@ watch(
                 playerStore.startMumble();
                 opponentStore.startMumble();
 
-                await sleepSeconds(3);
+                await sleepSeconds(2);
                 battleStore.changeRoundPhase(enumRoundPhase.Draw);
                 break;
             case enumRoundPhase.Draw: // 發牌
@@ -303,11 +308,11 @@ watch(
                 playerStore.drawCard();
                 opponentStore.drawCard();
 
-                await sleepSeconds(3);
+                await sleepSeconds(2);
                 battleStore.changeRoundPhase(enumRoundPhase.Main);
                 break;
             case enumRoundPhase.Main: // 出牌
-                await sleepSeconds(3);
+                await sleepSeconds(2);
 
                 // 倒數計時
                 startCountdown();
@@ -319,11 +324,11 @@ watch(
                 playerStore.stopMumble();
                 opponentStore.stopMumble();
 
-                await sleepSeconds(3);
+                await sleepSeconds(2);
 
                 await duel();
 
-                await sleepSeconds(3);
+                await sleepSeconds(2);
                 battleStore.changeRoundPhase(enumRoundPhase.Settle);
                 break;
             case enumRoundPhase.Settle: // 結算
