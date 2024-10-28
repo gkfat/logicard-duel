@@ -282,16 +282,24 @@ export const usePlayerStore = defineStore('player', () => {
     /** 丟棄戰利品卡牌 */
     async function dropCard(card: Card) {
         if (currentPlayer.value) {
-            await soundPlaceCard();
-            currentPlayer.value.backpack.cards.unshift(card);
+            const findIndex = currentPlayer.value?.backpack.cards.findIndex((v) => v.id === card.id);
+
+            if (findIndex !== -1) {
+                await soundPlaceCard();
+                currentPlayer.value.backpack.cards.splice(findIndex, 1);
+            }
         }
     }
 
     /** 丟棄戰利品裝備 */
     async function dropEquip(equip: Equip) {
         if (currentPlayer.value) {
-            await soundEquip();
-            currentPlayer.value.backpack.equips.unshift(equip);
+            const findIndex = currentPlayer.value?.backpack.equips.findIndex((v) => v.id === equip.id);
+
+            if (findIndex !== -1) {
+                await soundEquip();
+                currentPlayer.value.backpack.equips.splice(findIndex, 1);
+            }
         }
     }
 
