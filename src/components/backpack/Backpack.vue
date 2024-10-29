@@ -10,7 +10,7 @@
                 </v-col>
 
                 <v-col cols="auto" class="py-0">
-                    <CoinStatus :theme="'dark'"></CoinStatus>
+                    <CoinStatus :theme="'dark'"/>
                 </v-col>
 
                 <!-- 背包道具 -->
@@ -91,13 +91,13 @@
         ref="changeEquipRef"
         :message="'是否更換裝備？'"
         :func="changeEquipment"
-    ></ConfirmBox>
+    />
 
     <ConfirmBox
         ref="sellItemRef"
         :message="'是否賣出？'"
         :func="sellItem"
-    ></ConfirmBox>
+    />
 </template>
 
 <script setup lang="ts">

@@ -24,12 +24,12 @@
                             v-if="isAbleToPlaceCard"
                             :text="'出牌'"
                             :func="() => placeCard(i)"
-                        ></Btn>
+                        />
                         <Btn
                             v-else
                             :text="'現在無法出牌'"
                             :func="() => closeDetail(i)"
-                        ></Btn>
+                        />
                     </template>
                 </Card>
             </v-col>

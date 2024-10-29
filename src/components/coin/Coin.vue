@@ -15,7 +15,7 @@
                             :size="getIconSize"
                             :color="'skin'"
                             :icon="'mdi-screw-round-top'"
-                        ></Icon>
+                        />
 
                         <div
                             class="position-absolute"

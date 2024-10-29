@@ -19,7 +19,7 @@
                             v-for="(data, i) in rankData"
                             :key="i"
                             :data="data"
-                        ></RankCard>
+                        />
                     </template>
 
                     <template v-else>

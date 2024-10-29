@@ -4,8 +4,7 @@
         color="amber"
         :width="3"
         :size="30"
-    >
-    </v-progress-circular>
+    />
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue';

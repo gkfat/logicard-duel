@@ -1,5 +1,5 @@
 <template>
-    <div class="battleend"></div>
+    <div class="battleend"/>
 
     <v-row class="w-100 ma-0 ga-3 flex-column pb-3">
         <v-col cols="auto" class="pa-0">
@@ -7,13 +7,13 @@
         </v-col>
 
         <v-col cols="auto" class="pa-0">
-            <CoinStatus></CoinStatus>
+            <CoinStatus/>
         </v-col>
 
         <v-col cols="auto" class="pa-0">
-            <Loots></Loots>
-            <v-spacer class="my-3"></v-spacer>
-            <PlayerItems></PlayerItems>
+            <Loots/>
+            <v-spacer class="my-3"/>
+            <PlayerItems/>
         </v-col>
 
         <v-col cols="auto" class="pa-0 mt-auto">

@@ -8,16 +8,16 @@
             maxHeight: '700px',
         }"
     >
-        <AppHeader></AppHeader>
+        <AppHeader/>
 
         <v-container class="fill-height py-0 d-flex flex-column flex-nowrap">
             <router-view class="flex-grow-1" />
         </v-container>
     </div>
 
-    <Rank></Rank>
-    <Backpack></Backpack>
-    <Shop></Shop>
+    <Rank/>
+    <Backpack/>
+    <Shop/>
     <Spinner />
 </template>
 

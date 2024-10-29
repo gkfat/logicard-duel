@@ -6,7 +6,7 @@
         :is-card-back="false"
         :show-card-detail="true"
         :display-in-sector="true"
-    ></HandCards>
+    />
 </template>
 
 <script lang="ts" setup>

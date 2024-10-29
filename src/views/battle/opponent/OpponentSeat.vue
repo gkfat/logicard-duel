@@ -3,7 +3,7 @@
         :player="opponent"
         :mumble-content="mumbleContent"
         :extra-status="extraStatus"
-    ></Seat>
+    />
 </template>
 
 <script lang="ts" setup>

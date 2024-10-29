@@ -1,5 +1,5 @@
 <template>
-    <Icon :url="ImageDataList.icon.heal" :size="18"></Icon>
+    <Icon :url="ImageDataList.icon.heal" :size="18"/>
 </template>
 <script lang="ts" setup>
 import Icon from '@/components/common/Icon.vue';

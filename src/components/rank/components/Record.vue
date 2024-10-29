@@ -1,6 +1,6 @@
 <template>
     <v-card flat class="bg-transparent mb-3">
-        <PlayerAvatar :character="record.opponent.character"></PlayerAvatar>
+        <PlayerAvatar :character="record.opponent.character"/>
         <p class="my-3">
             對手 {{ record.id }}
             <span class="text-amber mx-1">
@@ -26,7 +26,7 @@
             </v-col>
         </v-row>
 
-        <v-divider></v-divider>
+        <v-divider/>
     </v-card>
 </template>
 <script lang="ts" setup>

@@ -1,14 +1,14 @@
 <template>
-    <div class="battlefield"></div>
+    <div class="battlefield"/>
 
     <v-row class="w-100 ma-0 flex-column pb-3">
         <v-col cols="auto" class="pa-0">
             <div>
                 <!-- 敵人 -->
-                <OpponentSeat></OpponentSeat>
+                <OpponentSeat/>
                 <OpponentHandCards
                     :style="{ transform: 'translateY(-20px)', height: '40px' }"
-                ></OpponentHandCards>
+                />
             </div>
 
             <!-- 牌桌 -->
@@ -16,7 +16,7 @@
                 <Table
                     :player-round-status="playerRoundStatus"
                     :opponent-round-status="opponentRoundStatus"
-                ></Table>
+                />
             </div>
 
             <!-- 玩家 -->
@@ -29,13 +29,13 @@
                     :style="{
                         height: '80px',
                     }"
-                ></PlayerHandCards>
-                <PlayerSeat></PlayerSeat>
+                />
+                <PlayerSeat/>
             </div>
         </v-col>
     </v-row>
 
-    <RoundNotification></RoundNotification>
+    <RoundNotification/>
 </template>
 
 <script setup lang="ts">

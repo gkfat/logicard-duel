@@ -9,7 +9,7 @@
         <!-- 螺絲釘 -->
         <ItemBox :size="'x-small'">
             <template #item>
-                <Coin :point="backpack.coin" :size="'x-small'"></Coin>
+                <Coin :point="backpack.coin" :size="'x-small'"/>
             </template>
         </ItemBox>
 
@@ -22,7 +22,7 @@
                     :size="'x-small'"
                 >
                     <template #actions>
-                        <Btn :text="'搜集'" :func="() => collectCard(i)"></Btn>
+                        <Btn :text="'搜集'" :func="() => collectCard(i)"/>
                     </template>
                 </Card>
             </template>
@@ -42,7 +42,7 @@
                     :size="'x-small'"
                 >
                     <template #actions>
-                        <Btn :text="'搜集'" :func="() => collectEquip(i)"></Btn>
+                        <Btn :text="'搜集'" :func="() => collectEquip(i)"/>
                     </template>
                 </Equip>
             </template>

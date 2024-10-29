@@ -7,7 +7,7 @@
         <v-card-text class="px-0">
             <v-row class="ma-0 ga-1 px-3 mb-3">
                 <v-col cols="auto" class="pa-0 d-flex align-center">
-                    <PlayerAvatar :character="player.character"></PlayerAvatar>
+                    <PlayerAvatar :character="player.character"/>
                 </v-col>
 
                 <v-col
@@ -28,19 +28,19 @@
                 <v-col cols="auto" class="pa-0 ml-auto">
                     <!-- 錢 -->
                     <div class="d-flex align-center ga-1 mb-1">
-                        <IconCoin></IconCoin>
+                        <IconCoin/>
                         {{ thousands(player.backpack.coin) }}
                     </div>
                     <!-- 背包數量 -->
                     <div class="d-flex align-center ga-1 mb-1">
-                        <IconBackpack></IconBackpack>
+                        <IconBackpack/>
                         {{ currentBackpackItems }}/{{
                             player.character.backpackLimit
                         }}
                     </div>
                     <!-- 卡牌數量 -->
                     <div class="d-flex align-center ga-1">
-                        <IconPokerCard></IconPokerCard>
+                        <IconPokerCard/>
                         {{ player.backpack.cards.length }}
                     </div>
                 </v-col>
@@ -49,18 +49,18 @@
             <!-- 狀態值 -->
             <v-row class="ma-0 mb-3">
                 <v-col class="py-0 d-flex align-center ga-1" cols="auto">
-                    <IconHeal></IconHeal>
+                    <IconHeal/>
                     {{ player.status.health }}/{{ player.status.maxHealth }}
                 </v-col>
                 <v-col class="py-0 d-flex align-center ga-1" cols="auto">
-                    <IconAttack></IconAttack>
+                    <IconAttack/>
                     {{ player.status.attack }}
                     <em class="text-darkamber" v-if="extraStatus.attack">
                         (+{{ extraStatus.attack }})
                     </em>
                 </v-col>
                 <v-col class="py-0 d-flex align-center ga-1" cols="auto">
-                    <IconDefense></IconDefense>
+                    <IconDefense/>
                     {{ player.status.defense }}
                     <em class="text-darkamber" v-if="extraStatus.defense">
                         (+{{ extraStatus.defense }})
@@ -79,7 +79,7 @@
                         :is-player-equip="true"
                         :show-rarity="true"
                         :size="'small'"
-                    ></Equip>
+                    />
                 </v-col>
                 <v-col class="pa-0">
                     <Equip
@@ -88,7 +88,7 @@
                         :is-player-equip="true"
                         :show-rarity="true"
                         :size="'small'"
-                    ></Equip>
+                    />
                 </v-col>
                 <v-col class="pa-0">
                     <Equip
@@ -97,7 +97,7 @@
                         :is-player-equip="true"
                         :show-rarity="true"
                         :size="'small'"
-                    ></Equip>
+                    />
                 </v-col>
                 <v-col class="pa-0">
                     <Equip
@@ -106,7 +106,7 @@
                         :is-player-equip="true"
                         :show-rarity="true"
                         :size="'small'"
-                    ></Equip>
+                    />
                 </v-col>
                 <v-col class="pa-0">
                     <Equip
@@ -115,7 +115,7 @@
                         :is-player-equip="true"
                         :show-rarity="true"
                         :size="'small'"
-                    ></Equip>
+                    />
                 </v-col>
                 <v-col class="pa-0">
                     <Equip
@@ -124,7 +124,7 @@
                         :is-player-equip="true"
                         :show-rarity="true"
                         :size="'small'"
-                    ></Equip>
+                    />
                 </v-col>
             </v-row>
 
@@ -134,7 +134,7 @@
                         :text="'自盡'"
                         :size="'small'"
                         :func="() => openConfirmBox"
-                    ></Btn>
+                    />
                 </v-col>
             </v-row>
         </v-card-text>
@@ -144,7 +144,7 @@
         ref="confirmBoxRef"
         :message="'確定要自盡？此路一去不回頭'"
         :func="goGameOver"
-    ></ConfirmBox>
+    />
 </template>
 
 <script lang="ts" setup>

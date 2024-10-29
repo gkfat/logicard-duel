@@ -25,7 +25,7 @@
                                     <Icon
                                         :size="getIconSize"
                                         :url="getTemplate.icon"
-                                    ></Icon>
+                                    />
                                     <div
                                         class="position-absolute"
                                         style="
@@ -74,7 +74,7 @@
                                 :style="{ opacity: '0.2' }"
                                 :size="getIconSize"
                                 :url="getPositionPlaceholder"
-                            ></Icon>
+                            />
                         </template>
                     </v-col>
                 </v-row>
@@ -85,8 +85,8 @@
             <Rarity
                 v-if="displayEquip && getTemplate"
                 :rarity="displayEquip.info.rarity"
-            ></Rarity>
-            <Rarity v-else :rarity="enumRarity.None"></Rarity>
+            />
+            <Rarity v-else :rarity="enumRarity.None"/>
         </v-col>
     </v-row>
 
@@ -108,25 +108,25 @@
                                 :text="
                                     t(`equip_position.${displayEquip.position}`)
                                 "
-                            ></v-chip>
+                            />
                         </v-col>
 
                         <!-- 效果 -->
                         <v-col cols="auto" class="ml-auto">
-                            <Effect :effect="getTemplate.effect"></Effect>
+                            <Effect :effect="getTemplate.effect"/>
                         </v-col>
                     </v-row>
 
                     <!-- Icon -->
                     <v-row class="justify-center">
                         <v-col cols="auto">
-                            <Icon :size="36" :url="getTemplate.icon"></Icon>
+                            <Icon :size="36" :url="getTemplate.icon"/>
                         </v-col>
                     </v-row>
                 </v-card-text>
 
                 <!-- 稀有度 -->
-                <Rarity :rarity="displayEquip.info.rarity"></Rarity>
+                <Rarity :rarity="displayEquip.info.rarity"/>
 
                 <v-card-title class="text-center">
                     {{ getTemplate.name }}
@@ -157,7 +157,7 @@
                                 label
                                 color="amber"
                                 :text="t(`equip_position.${position}`)"
-                            ></v-chip>
+                            />
                         </v-col>
                     </v-row>
 
@@ -166,7 +166,7 @@
                             <Icon
                                 :size="50"
                                 :url="getPositionPlaceholder"
-                            ></Icon>
+                            />
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -175,7 +175,7 @@
                     沒穿任何東西。
                 </v-card-subtitle>
 
-                <v-card-text></v-card-text>
+                <v-card-text/>
             </template>
 
             <v-card-text v-if="isPlayerEquip">
@@ -186,7 +186,7 @@
                 >
                     <!-- 脫下裝備 -->
                     <v-col cols="auto" class="pa-0">
-                        <RemoveEquipItem :position="position"></RemoveEquipItem>
+                        <RemoveEquipItem :position="position"/>
                     </v-col>
 
                     <v-col
@@ -195,7 +195,7 @@
                         class="pa-0"
                         cols="auto"
                     >
-                        <BackpackEquipItem :equip="item"></BackpackEquipItem>
+                        <BackpackEquipItem :equip="item"/>
                     </v-col>
                 </v-row>
 
@@ -203,7 +203,7 @@
             </v-card-text>
 
             <v-card-actions v-if="$slots.actions">
-                <slot name="actions"></slot>
+                <slot name="actions"/>
             </v-card-actions>
         </v-card>
     </v-dialog>

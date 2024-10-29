@@ -15,7 +15,7 @@
                     :size="'x-small'"
                 >
                     <template #actions>
-                        <Btn :text="'丟棄'" :func="() => dropCard(i)"></Btn>
+                        <Btn :text="'丟棄'" :func="() => dropCard(i)"/>
                     </template>
                 </Card>
             </template>
@@ -36,7 +36,7 @@
                     :show-is-equiped="true"
                 >
                     <template #actions>
-                        <Btn :text="'丟棄'" :func="() => dropEquip(i)"></Btn>
+                        <Btn :text="'丟棄'" :func="() => dropEquip(i)"/>
                     </template>
                 </Equip>
             </template>

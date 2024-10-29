@@ -6,7 +6,7 @@
     >
         <v-row class="ma-0">
             <v-col cols="auto" class="py-1 d-flex align-center">
-                <PlayerAvatar :character="character"></PlayerAvatar>
+                <PlayerAvatar :character="character"/>
             </v-col>
 
             <v-col class="py-1 d-flex align-center">
@@ -18,7 +18,7 @@
                     :icon="'mdi-eye'"
                     :size="'small'"
                     :func="() => toggleDialog(true)"
-                ></Btn>
+                />
             </v-col>
         </v-row>
     </v-card>
@@ -30,7 +30,7 @@
             class="rounded-lg border-lg w-100 overflow-y-auto"
         >
             <v-card-title class="text-center">
-                <PlayerAvatar :character="character"></PlayerAvatar>
+                <PlayerAvatar :character="character"/>
             </v-card-title>
 
             <v-card-title class="text-center">
@@ -46,30 +46,30 @@
 
                 <v-row class="ma-0">
                     <v-col class="pa-1" cols="12">
-                        <IconHeal></IconHeal>
+                        <IconHeal/>
                         {{ rangeToText(character.init.healthRange) }}
                     </v-col>
                     <v-col class="pa-1" cols="6">
-                        <IconAttack></IconAttack>
+                        <IconAttack/>
                         {{ rangeToText(character.init.attackRange) }}
                     </v-col>
                     <v-col class="pa-1" cols="6">
-                        <IconDefense></IconDefense>
+                        <IconDefense/>
                         {{ rangeToText(character.init.defenseRange) }}
                     </v-col>
                 </v-row>
                 <v-row class="ma-0">
                     <v-col class="pa-1" cols="6">
-                        <IconCoin></IconCoin>
+                        <IconCoin/>
                         {{ character.init.coin }}
                     </v-col>
                     <v-col class="pa-1" cols="6">
-                        <IconBackpack></IconBackpack>
+                        <IconBackpack/>
                         {{ character.backpackLimit }}
                     </v-col>
                 </v-row>
 
-                <v-divider class="my-3"></v-divider>
+                <v-divider class="my-3"/>
 
                 <p class="text-caption">初始卡牌</p>
 
@@ -83,13 +83,13 @@
                         v-for="(cardType, i) in character.init.cards"
                         :key="i"
                     >
-                        <CardTemplate :card-type="cardType"></CardTemplate>
+                        <CardTemplate :card-type="cardType"/>
                     </v-col>
                 </v-row>
 
                 <em class="text-secondary" v-else>沒有初始卡牌，真可憐。</em>
 
-                <v-divider class="my-3"></v-divider>
+                <v-divider class="my-3"/>
 
                 <p class="text-caption">初始裝備</p>
 
@@ -103,7 +103,7 @@
                         v-for="(equipType, i) in character.init.equips"
                         :key="i"
                     >
-                        <EquipTemplate :equip-type="equipType"></EquipTemplate>
+                        <EquipTemplate :equip-type="equipType"/>
                     </v-col>
                 </v-row>
 
@@ -114,7 +114,7 @@
                 <Btn
                     :text="t('button.cancel')"
                     :func="() => toggleDialog(false)"
-                ></Btn>
+                />
             </v-card-actions>
         </v-card>
     </v-dialog>

@@ -16,7 +16,7 @@
                     style="opacity: 0.2"
                     :size="30"
                     :url="getPositionPlaceholder"
-                ></Icon>
+                />
             </v-col>
         </v-row>
     </v-card>
@@ -28,7 +28,7 @@
         ref="confirmBoxRef"
         :message="'是否脫掉裝備？'"
         :func="removeEquipment"
-    ></ConfirmBox>
+    />
 </template>
 <script lang="ts" setup>
 import {

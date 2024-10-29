@@ -5,7 +5,7 @@
         class="rounded-lg border-xl cursor-pointer"
     >
         <v-card-text class="text-center">
-            <PlayerAvatar :character="character"></PlayerAvatar>
+            <PlayerAvatar :character="character"/>
 
             <p class="w-100 mt-3">
                 {{ character.name }}

@@ -3,7 +3,7 @@
         :player="player"
         :mumble-content="mumbleContent"
         :extra-status="extraStatus"
-    ></Seat>
+    />
 </template>
 
 <script lang="ts" setup>

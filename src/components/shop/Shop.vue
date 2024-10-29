@@ -18,7 +18,7 @@
                             humanReadableSeconds(shopStore.remainSeconds)
                         }}
                     </p>
-                    <CoinStatus :theme="'dark'"></CoinStatus>
+                    <CoinStatus :theme="'dark'"/>
                 </v-col>
 
                 <v-col
@@ -53,14 +53,14 @@
                                                         )
                                                     "
                                                     :func="() => buyEquip(i)"
-                                                ></Btn>
+                                                />
                                             </template>
                                         </Equip>
                                     </template>
                                     <template #price>
                                         <PriceTag
                                             :price="equip.info.price"
-                                        ></PriceTag>
+                                        />
                                     </template>
                                 </ItemBox>
                             </v-row>
@@ -91,14 +91,14 @@
                                                         )
                                                     "
                                                     :func="() => buyCard(i)"
-                                                ></Btn>
+                                                />
                                             </template>
                                         </Card>
                                     </template>
                                     <template #price>
                                         <PriceTag
                                             :price="card.info.price"
-                                        ></PriceTag>
+                                        />
                                     </template>
                                 </ItemBox>
                             </v-row>

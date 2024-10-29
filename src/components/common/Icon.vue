@@ -1,6 +1,5 @@
 <template>
-    <v-icon v-if="icon" :color="color" :size="size" :icon="icon" :style="style">
-    </v-icon>
+    <v-icon v-if="icon" :color="color" :size="size" :icon="icon" :style="style"/>
 
     <v-icon v-if="url" :color="color" :size="size" :style="style">
         <v-img :src="url" />

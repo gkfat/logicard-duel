@@ -23,7 +23,7 @@
                             class="ma-0 align-center justify-center fill-height ga-1 pa-1"
                         >
                             <v-col cols="auto" class="pa-0">
-                                <Icon :size="24" :url="card.icon"></Icon>
+                                <Icon :size="24" :url="card.icon"/>
                             </v-col>
 
                             <v-col
@@ -51,7 +51,7 @@
             <v-card-text>
                 <v-row class="justify-end">
                     <v-col cols="auto">
-                        <Effect :effect="card.effect"></Effect>
+                        <Effect :effect="card.effect"/>
                     </v-col>
                 </v-row>
                 <v-row class="justify-center">
@@ -78,7 +78,7 @@
                                             <Icon
                                                 :size="50"
                                                 :url="card.icon"
-                                            ></Icon>
+                                            />
                                         </v-col>
                                         <v-col
                                             cols="12"
@@ -105,7 +105,7 @@
             <v-card-text>
                 <v-row v-for="(rarity, i) in rarityValues" :key="i">
                     <v-col>
-                        <Rarity :rarity="rarity"></Rarity>
+                        <Rarity :rarity="rarity"/>
                     </v-col>
                     <v-col>
                         {{ rangeToText(card.potentials[rarity]!.pointRange) }}

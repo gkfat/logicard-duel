@@ -8,7 +8,7 @@
 
         <!-- 角色 -->
         <v-col cols="auto" class="pa-0 flex-grow-1">
-            <Status></Status>
+            <Status/>
         </v-col>
 
         <!-- 功能列 -->
@@ -19,21 +19,21 @@
                     <Btn
                         :icon="'mdi-bag-personal'"
                         :func="() => appStore.openDialog('backpack')"
-                    ></Btn>
+                    />
                 </v-col>
                 <!-- 排行榜 -->
                 <v-col class="pa-0">
                     <Btn
                         :icon="'mdi-script-text'"
                         :func="() => appStore.openDialog('rank')"
-                    ></Btn>
+                    />
                 </v-col>
                 <!-- 商店 -->
                 <v-col class="pa-0">
                     <Btn
                         :icon="'mdi-cart'"
                         :func="() => appStore.openDialog('shop')"
-                    ></Btn>
+                    />
                 </v-col>
             </v-row>
         </v-col>

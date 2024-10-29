@@ -5,7 +5,7 @@
             class="pa-1 d-flex align-center ga-1"
             :class="`text-${color}`"
         >
-            <IconCoin></IconCoin>
+            <IconCoin/>
             {{ player.backpack.coin }}
         </v-col>
         <v-col
@@ -13,7 +13,7 @@
             class="pa-1 d-flex align-center ga-1"
             :class="`text-${color}`"
         >
-            <IconBackpack></IconBackpack>
+            <IconBackpack/>
             {{ currentBackpackItems }}/{{ player.character.backpackLimit }}
         </v-col>
     </v-row>

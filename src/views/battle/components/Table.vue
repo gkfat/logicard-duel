@@ -15,7 +15,7 @@
                 <Countdown
                     v-if="isShowCountdown"
                     :remain-seconds="remainSeconds"
-                ></Countdown>
+                />
             </v-card-text>
 
             <!-- 牌 -->
@@ -28,7 +28,7 @@
                             :is-card-back="!shouldDuel"
                             :show-detail="false"
                             :show-rarity="false"
-                        ></Card>
+                        />
 
                         <v-card
                             v-else
@@ -54,8 +54,7 @@
                                 :card="table.playerCard"
                                 :show-detail="false"
                                 :show-rarity="false"
-                            >
-                            </Card>
+                            />
                         </v-btn>
 
                         <v-card
@@ -130,7 +129,7 @@
                 right: '10px',
                 top: '10px',
             }"
-        ></div>
+        />
 
         <!-- 牌堆 -->
         <div
@@ -140,7 +139,7 @@
                 bottom: '-15px',
             }"
         >
-            <CardStack></CardStack>
+            <CardStack/>
         </div>
     </div>
 </template>

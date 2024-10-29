@@ -22,7 +22,7 @@
                             <em class="text-caption">{{ bootingPercent }} %</em>
                         </p>
 
-                        <v-spacer class="my-3"></v-spacer>
+                        <v-spacer class="my-3"/>
 
                         <v-progress-linear
                             class="w-100 rounded-xl"

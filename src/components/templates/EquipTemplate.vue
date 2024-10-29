@@ -18,7 +18,7 @@
             >
                 <v-row class="ma-0 justify-center align-center fill-height">
                     <v-col cols="auto">
-                        <Icon :size="40" :url="getTemplate.icon"></Icon>
+                        <Icon :size="40" :url="getTemplate.icon"/>
                     </v-col>
                 </v-row>
             </v-card>
@@ -39,18 +39,18 @@
                             label
                             color="amber"
                             :text="t(`equip_position.${getTemplate.position}`)"
-                        ></v-chip>
+                        />
                     </v-col>
 
                     <!-- 效果 -->
                     <v-col cols="auto" class="ml-auto">
-                        <Effect :effect="getTemplate.effect"></Effect>
+                        <Effect :effect="getTemplate.effect"/>
                     </v-col>
                 </v-row>
 
                 <v-row class="justify-center">
                     <v-col cols="auto">
-                        <Icon :size="60" :url="getTemplate.icon"></Icon>
+                        <Icon :size="60" :url="getTemplate.icon"/>
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -66,7 +66,7 @@
             <v-card-text>
                 <v-row v-for="(rarity, i) in rarityValues" :key="i">
                     <v-col>
-                        <Rarity :rarity="rarity"></Rarity>
+                        <Rarity :rarity="rarity"/>
                     </v-col>
                     <v-col>
                         {{

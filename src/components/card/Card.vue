@@ -39,7 +39,7 @@
                                 <Icon
                                     :size="getIconSize"
                                     :url="card.template.icon"
-                                ></Icon>
+                                />
                                 <div
                                     class="position-absolute"
                                     style="
@@ -70,7 +70,7 @@
         </v-col>
 
         <v-col cols="auto" class="pa-0 text-center" v-if="showRarity">
-            <Rarity :rarity="card.info.rarity"></Rarity>
+            <Rarity :rarity="card.info.rarity"/>
             <!-- 稀有度 -->
         </v-col>
     </v-row>
@@ -86,7 +86,7 @@
                 <v-row class="align-center">
                     <!-- 效果 -->
                     <v-col cols="auto" class="ml-auto">
-                        <Effect :effect="card.template.effect"></Effect>
+                        <Effect :effect="card.template.effect"/>
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -110,7 +110,7 @@
                                     <Icon
                                         :size="50"
                                         :url="card.template.icon"
-                                    ></Icon>
+                                    />
                                 </v-col>
                                 <v-col cols="12" class="pa-0 text-center">
                                     {{ card.template.name }}
@@ -122,7 +122,7 @@
             </v-card-text>
 
             <!-- 稀有度 -->
-            <Rarity :rarity="card.info.rarity"></Rarity>
+            <Rarity :rarity="card.info.rarity"/>
 
             <v-card-title class="text-center">
                 {{ card.template.name }}
@@ -143,7 +143,7 @@
             </v-card-text>
 
             <v-card-actions v-if="$slots.actions">
-                <slot name="actions"></slot>
+                <slot name="actions"/>
             </v-card-actions>
         </v-card>
     </v-dialog>

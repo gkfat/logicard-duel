@@ -17,7 +17,7 @@
                 class="position-relative"
                 @click="confirmBoxRef?.show()"
             >
-                <Icon :size="24" :url="getTemplate.icon"></Icon>
+                <Icon :size="24" :url="getTemplate.icon"/>
 
                 <div
                     class="position-absolute"
@@ -37,14 +37,14 @@
         </v-row>
     </v-card>
     <div>
-        <Rarity :rarity="equip.info.rarity"></Rarity>
+        <Rarity :rarity="equip.info.rarity"/>
     </div>
 
     <ConfirmBox
         ref="confirmBoxRef"
         :message="'是否更換裝備？'"
         :func="changeEquipment"
-    ></ConfirmBox>
+    />
 </template>
 <script lang="ts" setup>
 import {

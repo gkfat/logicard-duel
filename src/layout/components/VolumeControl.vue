@@ -11,8 +11,7 @@
         <v-icon
             :icon="soundStore.muteMode ? 'mdi-volume-off' : 'mdi-volume-high'"
             size="22"
-        >
-        </v-icon>
+        />
     </v-btn>
 </template>
 <script lang="ts" setup>

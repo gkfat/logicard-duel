@@ -5,10 +5,10 @@
     >
         <v-row class="ma-0 fill-height justify-center align-center">
             <v-col cols="auto" class="pa-1">
-                <slot name="item"></slot>
+                <slot name="item"/>
             </v-col>
             <v-col cols="auto" class="pa-1" v-if="$slots.price">
-                <slot name="price"></slot>
+                <slot name="price"/>
             </v-col>
         </v-row>
     </div>

@@ -14,7 +14,7 @@
                     >
                         <PlayerAvatar
                             :character="player.character"
-                        ></PlayerAvatar>
+                        />
                     </v-col>
 
                     <!-- 狀態值 -->
@@ -60,7 +60,7 @@
                             cols="auto"
                             class="pa-0 d-flex align-center ga-1"
                         >
-                            <IconAttack></IconAttack>
+                            <IconAttack/>
                             {{ player.status.attack }}
                             <em
                                 class="text-darkamber"
@@ -75,7 +75,7 @@
                             cols="auto"
                             class="pa-0 d-flex align-center ga-1"
                         >
-                            <IconDefense></IconDefense>
+                            <IconDefense/>
                             {{ player.status.defense }}
                             <em
                                 class="text-darkamber"
@@ -90,7 +90,7 @@
                             cols="auto"
                             class="pa-0 d-flex align-center ga-1"
                         >
-                            <IconPokerCard></IconPokerCard>
+                            <IconPokerCard/>
                             {{ player.backpack.cards.length }}
                         </v-col>
 
@@ -107,7 +107,7 @@
                                     :show-rarity="false"
                                     :show-detail="false"
                                     :size="'x-small'"
-                                ></Equip>
+                                />
                             </v-col>
 
                             <!-- 主武器 -->
@@ -123,7 +123,7 @@
                                     :show-rarity="false"
                                     :show-detail="false"
                                     :size="'x-small'"
-                                ></Equip>
+                                />
                             </v-col>
 
                             <!-- 副武器 -->
@@ -139,7 +139,7 @@
                                     :show-rarity="false"
                                     :show-detail="false"
                                     :size="'x-small'"
-                                ></Equip>
+                                />
                             </v-col>
 
                             <!-- 身體 -->
@@ -153,7 +153,7 @@
                                     :show-rarity="false"
                                     :show-detail="false"
                                     :size="'x-small'"
-                                ></Equip>
+                                />
                             </v-col>
 
                             <!-- 褲子 -->
@@ -169,7 +169,7 @@
                                     :show-rarity="false"
                                     :show-detail="false"
                                     :size="'x-small'"
-                                ></Equip>
+                                />
                             </v-col>
                             <!-- 鞋子 -->
                             <v-col cols="auto" class="pa-0">
@@ -184,7 +184,7 @@
                                     :show-rarity="false"
                                     :show-detail="false"
                                     :size="'x-small'"
-                                ></Equip>
+                                />
                             </v-col>
                         </v-col>
                     </v-col>
@@ -192,7 +192,7 @@
             </v-row>
         </v-card-text>
 
-        <MumbleBubble :mumble-content="mumbleContent"></MumbleBubble>
+        <MumbleBubble :mumble-content="mumbleContent"/>
     </v-card>
 </template>
 

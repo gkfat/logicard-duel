@@ -28,7 +28,7 @@
                 <v-col cols="auto" class="pa-1">
                     <PlayerAvatar
                         :character="data.player.character"
-                    ></PlayerAvatar>
+                    />
                 </v-col>
 
                 <v-col cols="auto" class="flex-grow-1 pa-1">
@@ -37,7 +37,7 @@
                             class="py-0 d-flex align-center ga-1"
                             cols="auto"
                         >
-                            <IconHeal></IconHeal>
+                            <IconHeal/>
                             {{ data.player.status.health }}/{{
                                 data.player.status.maxHealth
                             }}
@@ -46,7 +46,7 @@
                             class="py-0 d-flex align-center ga-1"
                             cols="auto"
                         >
-                            <IconAttack></IconAttack>
+                            <IconAttack/>
                             {{ data.player.status.attack }}
                             <em
                                 class="text-darkamber"
@@ -59,7 +59,7 @@
                             class="py-0 d-flex align-center ga-1"
                             cols="auto"
                         >
-                            <IconDefense></IconDefense>
+                            <IconDefense/>
                             {{ data.player.status.defense }}
                             <em
                                 class="text-darkamber"
@@ -75,7 +75,7 @@
                             class="py-0 d-flex align-center ga-1"
                             cols="auto"
                         >
-                            <IconCoin></IconCoin>
+                            <IconCoin/>
                             {{ thousands(data.player.backpack.coin) }}
                         </v-col>
                         <!-- 背包數量 -->
@@ -83,7 +83,7 @@
                             class="py-0 d-flex align-center ga-1"
                             cols="auto"
                         >
-                            <IconBackpack></IconBackpack>
+                            <IconBackpack/>
                             {{ currentBackpackItems }}/{{
                                 data.player.character.backpackLimit
                             }}
@@ -93,7 +93,7 @@
                             class="py-0 d-flex align-center ga-1"
                             cols="auto"
                         >
-                            <IconPokerCard></IconPokerCard>
+                            <IconPokerCard/>
                             {{ data.player.backpack.cards.length }}
                         </v-col>
                     </v-row>
@@ -107,7 +107,7 @@
                         :position="enumEquipPosition.Head"
                         :show-rarity="true"
                         :size="'x-small'"
-                    ></Equip>
+                    />
                 </v-col>
                 <v-col cols="auto" class="pa-0">
                     <Equip
@@ -115,7 +115,7 @@
                         :position="enumEquipPosition.PrimaryHand"
                         :show-rarity="true"
                         :size="'x-small'"
-                    ></Equip>
+                    />
                 </v-col>
                 <v-col cols="auto" class="pa-0">
                     <Equip
@@ -123,7 +123,7 @@
                         :position="enumEquipPosition.SecondaryHand"
                         :show-rarity="true"
                         :size="'x-small'"
-                    ></Equip>
+                    />
                 </v-col>
                 <v-col cols="auto" class="pa-0">
                     <Equip
@@ -131,7 +131,7 @@
                         :position="enumEquipPosition.Body"
                         :show-rarity="true"
                         :size="'x-small'"
-                    ></Equip>
+                    />
                 </v-col>
                 <v-col cols="auto" class="pa-0">
                     <Equip
@@ -139,7 +139,7 @@
                         :position="enumEquipPosition.Pants"
                         :show-rarity="true"
                         :size="'x-small'"
-                    ></Equip>
+                    />
                 </v-col>
                 <v-col cols="auto" class="pa-0">
                     <Equip
@@ -147,13 +147,13 @@
                         :position="enumEquipPosition.Shoes"
                         :show-rarity="true"
                         :size="'x-small'"
-                    ></Equip>
+                    />
                 </v-col>
             </v-row>
         </v-card-text>
 
         <v-card-text class="py-1">
-            <v-divider></v-divider>
+            <v-divider/>
             <v-row class="ma-0">
                 <v-col
                     v-if="!data.player.records.length"
@@ -169,7 +169,7 @@
                     class="pa-0 py-1 flex-grow-1"
                     v-if="data.player.records.length"
                 >
-                    <Summary :summary="summary"></Summary>
+                    <Summary :summary="summary"/>
                 </v-col>
 
                 <v-col cols="auto" class="pa-0 ml-auto">
@@ -179,7 +179,7 @@
                         class="d-flex justify-center align-center ga-1 opacity-100"
                         @click="toggleDialog"
                     >
-                        <IconScroll></IconScroll>
+                        <IconScroll/>
                         <span class="text-amber">{{
                             data.player.records.length
                         }}</span>
@@ -200,7 +200,7 @@
                     v-for="(record, i) in data.player.records"
                     :key="i"
                     :record="record"
-                ></Record>
+                />
             </v-card-text>
         </v-card>
     </v-dialog>
