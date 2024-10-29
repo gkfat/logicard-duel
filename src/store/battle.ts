@@ -23,20 +23,12 @@ export const useBattleStore = defineStore('battle', () => {
 
     /** 玩家傾向 */
     const playerAttempt = computed(() => {
-        if (playerStore.tableCard?.template.effect === enumEffect.Defense) {
-            return enumEffect.Defense;
-        }
-
-        return enumEffect.Harm;
+        return playerStore.tableCard?.template.effect ?? enumEffect.Harm;
     });
 
     /** 敵人傾向 */
     const opponentAttempt = computed(() => {
-        if (opponentStore.tableCard?.template.effect === enumEffect.Defense) {
-            return enumEffect.Defense;
-        }
-
-        return enumEffect.Harm;
+        return opponentStore.tableCard?.template.effect ?? enumEffect.Harm;
     });
 
     /** 用過的牌堆 */

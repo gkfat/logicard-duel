@@ -18,6 +18,11 @@ export const useSoundEffect = () => {
         await soundStore.playSound(soundStore.sounds.effect.pop);
     };
 
+    /** 治療聲 */
+    const soundHeal = async() => {
+        await soundStore.playSound(soundStore.sounds.effect.heal);
+    };
+
     const soundPlayerHurt = async() => {
         await soundStore.playSound(soundStore.sounds.effect.playerHurt);
     };
@@ -68,6 +73,7 @@ export const useSoundEffect = () => {
         soundOpponentHurt,
         soundWin,
         soundCoin,
+        soundHeal,
 
         bgmPrologue,
         bgmBattle,

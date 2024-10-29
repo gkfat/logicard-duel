@@ -26,6 +26,13 @@ class Factory {
         player: 0,
     };
 
+    private rarityWeights = {
+        [enumRarity.Normal]: 50,
+        [enumRarity.Rare]: 30,
+        [enumRarity.SR]: 15,
+        [enumRarity.SSR]: 5,
+    };
+
     /**
      * 產生稀有度
      */
@@ -54,14 +61,18 @@ class Factory {
             (v) => v.type === equipType,
         )!;
 
-        const { potentials, position } = findTemplate;
+        const {
+            potentials, position,
+        } = findTemplate;
 
         // 產生稀有度
         const rarity = this.randomRarity(
             Object.keys(potentials) as RarityValue[],
         );
 
-        const { pointRange, priceRange } = potentials[rarity]!;
+        const {
+            pointRange, priceRange,
+        } = potentials[rarity]!;
 
         const instace: Equip = {
             id: this.getAutoIncrementId('equip'),
@@ -92,7 +103,9 @@ class Factory {
             Object.keys(potentials) as RarityValue[],
         );
 
-        const { pointRange, priceRange } = potentials[rarity]!;
+        const {
+            pointRange, priceRange,
+        } = potentials[rarity]!;
 
         const instace: Card = {
             id: this.getAutoIncrementId('card'),

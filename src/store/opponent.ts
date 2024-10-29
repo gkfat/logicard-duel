@@ -30,7 +30,9 @@ import { useBattleStore } from './battle';
 export const useOpponentStore = defineStore('opponent', () => {
     const appStore = useAppStore();
     const battleStore = useBattleStore();
-    const { soundPlaceCard, soundPop, soundOpponentHurt } = useSoundEffect();
+    const {
+        soundPlaceCard, soundPop, soundOpponentHurt, soundHeal,
+    } = useSoundEffect();
 
     /** 被擊敗的敵人 */
     const defeatedOpponents = ref<Player[]>([]);
@@ -88,12 +90,16 @@ export const useOpponentStore = defineStore('opponent', () => {
     }
 
     /** 補血 */
-    function increaseHealth(point: number) {
-        const { health, maxHealth } = currentOpponent.value!.status;
+    async function increaseHealth(point: number) {
+        const {
+            health, maxHealth,
+        } = currentOpponent.value!.status;
 
         // 不得超過血量上限
         const mutatedHealth =
             health + point > maxHealth ? maxHealth : health + point;
+
+        await soundHeal();
 
         currentOpponent.value!.status.health = mutatedHealth;
     }
@@ -140,9 +146,13 @@ export const useOpponentStore = defineStore('opponent', () => {
         if (tableCard.value === undefined) {
             await soundPlaceCard();
 
-            handCards.value = handCards.value.filter((v) => v.id !== card.id);
+            const findCardIndex = handCards.value.findIndex((v) => v.id === card.id);
 
-            tableCard.value = { ...card };
+            if (findCardIndex) {
+                handCards.value.splice(findCardIndex, 1);
+            }
+
+            tableCard.value = card;
         }
     }
 

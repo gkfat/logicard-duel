@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - 增加治療類卡牌
+- 增加使用治療類卡牌機制
 
 ### Fixed
 

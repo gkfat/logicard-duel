@@ -24,6 +24,10 @@
                 <span>，總受到傷害</span>
                 <span class="text-amber mx-1">{{ record.damaged }}</span>
             </v-col>
+            <v-col cols="12" class="pa-0">
+                <span>總治療量</span>
+                <span class="text-amber mx-1">{{ record.heal }}</span>
+            </v-col>
         </v-row>
 
         <v-divider/>
@@ -34,7 +38,10 @@ import { computed } from 'vue';
 
 import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
 import { GameRecord } from '@/types/player';
-import { createDate, humanReadableSeconds } from '@/utils/time';
+import {
+    createDate,
+    humanReadableSeconds,
+} from '@/utils/time';
 
 const { record } = defineProps<{
     record: GameRecord;

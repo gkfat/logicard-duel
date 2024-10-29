@@ -206,7 +206,10 @@
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
 import Equip from '@/components/equip/Equip.vue';
@@ -275,6 +278,7 @@ const summary = computed(() => {
         totalHarm: records.reduce((acc, b) => acc + b.harm, 0),
         totalDamaged: records.reduce((acc, b) => acc + b.damaged, 0),
         totalDefense: records.reduce((acc, b) => acc + b.defense, 0),
+        totalHeal: records.reduce((acc, b) => acc + b.heal, 0),
         totalCardsUsed: records.reduce((acc, b) => acc + b.cardsUsed, 0),
     };
 });

@@ -31,7 +31,9 @@ import { useAppStore } from './app';
 
 export const usePlayerStore = defineStore('player', () => {
     const appStore = useAppStore();
-    const { soundPlaceCard, soundEquip, soundPop, soundPlayerHurt, soundCoin } =
+    const {
+        soundPlaceCard, soundEquip, soundPop, soundPlayerHurt, soundCoin, soundHeal,
+    } =
         useSoundEffect();
 
     const currentPlayer = ref<Player>();
@@ -142,12 +144,16 @@ export const usePlayerStore = defineStore('player', () => {
     }
 
     /** 補血 */
-    function increaseHealth(point: number) {
-        const { health, maxHealth } = currentPlayer.value!.status;
+    async function increaseHealth(point: number) {
+        const {
+            health, maxHealth,
+        } = currentPlayer.value!.status;
 
         // 不得超過血量上限
         const mutatedHealth =
             health + point > maxHealth ? maxHealth : health + point;
+
+        await soundHeal();
 
         currentPlayer.value!.status.health = mutatedHealth;
     }

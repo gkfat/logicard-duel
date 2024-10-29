@@ -43,10 +43,22 @@ export default [
             quotes: ['error', 'single'],
             semi: 'error',
             'comma-dangle': ['error', 'always-multiline'],
-            'no-multiple-empty-lines': ['error', { max: 1 }],
+            'no-multiple-empty-lines': [
+                'error', {
+                    max: 1,
+                },
+            ],
             'space-before-function-paren': ['error', 'never'],
-            'object-curly-newline': ['error', { consistent: true }],
-            'array-bracket-newline': ['error', { multiline: true, minItems: 3 }],
+            'object-curly-newline': [
+                'error', {
+                    multiline: true, minProperties: 2,
+                },
+            ],
+            'array-bracket-newline': [
+                'error', {
+                    multiline: true, minItems: 3,
+                },
+            ],
             'array-element-newline': [
                 'error', {
                     minItems: 3,

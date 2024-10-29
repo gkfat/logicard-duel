@@ -70,7 +70,9 @@ const opponentStore = useOpponentStore();
 const appStore = useAppStore();
 const battleStore = useBattleStore();
 
-const { soundCountdown, soundWin } = useSoundEffect();
+const {
+    soundCountdown, soundWin,
+} = useSoundEffect();
 
 const player = computed(() => playerStore.currentPlayer!);
 const playerExtraStatus = computed(() => playerStore.extraStatus);
@@ -213,12 +215,26 @@ const settle = async() => {
 
 /** 開牌 */
 const duel = async() => {
-    // 若玩家為攻擊狀態則先攻, 否則跳過
-    if (
-        player.value.status.health > 0 &&
-        playerAttempt.value === enumEffect.Harm &&
-        roundPhase.value === enumRoundPhase.Duel
-    ) {
+    // 敵人補血
+    if (opponentAttempt.value === enumEffect.Heal) {
+        const healPoint = opponentTableCard.value!.info.point;
+        await opponentStore.increaseHealth(healPoint);
+        await sleepSeconds(1);
+    }
+
+    // 玩家補血
+    if (playerAttempt.value === enumEffect.Heal) {
+        const healPoint = playerTableCard.value!.info.point;
+        await playerStore.increaseHealth(healPoint);
+
+        // 紀錄補血量
+        battleRecord.value.heal += healPoint;
+
+        await sleepSeconds(1);
+    }
+
+    // 玩家攻擊
+    if (playerAttempt.value === enumEffect.Harm) {
         // 玩家攻擊力 - 敵人防禦力
         const opponentDeduction =
             playerRoundStatus.value.attack - opponentRoundStatus.value.defense;
@@ -235,16 +251,12 @@ const duel = async() => {
             await sleepSeconds(0.5);
             await settle();
         }
+
+        await sleepSeconds(1);
     }
 
-    await sleepSeconds(1);
-
     // 敵人攻擊
-    if (
-        opponent.value.status.health > 0 &&
-        opponentAttempt.value === enumEffect.Harm &&
-        roundPhase.value === enumRoundPhase.Duel
-    ) {
+    if (opponentAttempt.value === enumEffect.Harm) {
         // 敵人攻擊力 - 玩家防禦力
         const playerDeduction =
             opponentRoundStatus.value.attack - playerRoundStatus.value.defense;

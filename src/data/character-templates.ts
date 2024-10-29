@@ -33,7 +33,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
             healthRange: [40, 50],
             attackRange: [5, 10],
             defenseRange: [3, 5],
-            cards: [...baseCards],
+            cards: [...baseCards, enumCard.Battery],
             equips: [],
             coin: 0,
         },
