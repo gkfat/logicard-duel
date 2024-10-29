@@ -58,7 +58,7 @@ import { useSoundStore } from '@/store/sound';
 
 const { t } = useI18n();
 const appStore = useAppStore();
-const soundStore = useSoundStore()
+const soundStore = useSoundStore();
 const { soundClick } = useSoundEffect();
 
 const openGithub = async () => {

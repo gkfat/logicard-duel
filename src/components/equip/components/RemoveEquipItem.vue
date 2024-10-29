@@ -53,22 +53,22 @@ const getPositionPlaceholder = computed(() => {
     let placeholder = ImageDataList.icon.placeholderHead;
 
     switch (props.position) {
-        case enumEquipPosition.Head:
-            placeholder = ImageDataList.icon.placeholderHead;
-            break;
-        case enumEquipPosition.PrimaryHand:
-        case enumEquipPosition.SecondaryHand:
-            placeholder = ImageDataList.icon.placeholderHand;
-            break;
-        case enumEquipPosition.Body:
-            placeholder = ImageDataList.icon.placeholderBody;
-            break;
-        case enumEquipPosition.Pants:
-            placeholder = ImageDataList.icon.placeholderPants;
-            break;
-        case enumEquipPosition.Shoes:
-            placeholder = ImageDataList.icon.placeholderShoes;
-            break;
+    case enumEquipPosition.Head:
+        placeholder = ImageDataList.icon.placeholderHead;
+        break;
+    case enumEquipPosition.PrimaryHand:
+    case enumEquipPosition.SecondaryHand:
+        placeholder = ImageDataList.icon.placeholderHand;
+        break;
+    case enumEquipPosition.Body:
+        placeholder = ImageDataList.icon.placeholderBody;
+        break;
+    case enumEquipPosition.Pants:
+        placeholder = ImageDataList.icon.placeholderPants;
+        break;
+    case enumEquipPosition.Shoes:
+        placeholder = ImageDataList.icon.placeholderShoes;
+        break;
     }
 
     return placeholder;

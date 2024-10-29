@@ -20,18 +20,16 @@
                     :style="{ minHeight: '0', maxHeight: '60%' }"
                 >
                     <ItemBox
-                        v-for="(, index) in player.character.backpackLimit"
+                        v-for="(_, index) in player.character.backpackLimit"
                         :key="index"
                         class="bg-bluegrey rounded d-flex justify-center align-center"
                     >
-                        <template
-                            v-if="
-                                backpackItems[index] &&
-                                backpackItems[index].type === 'equip'
-                            "
-                            #item
-                        >
+                        <template #item>
                             <Equip
+                                v-if="
+                                    backpackItems[index] &&
+                                    backpackItems[index].type === 'equip'
+                                "
                                 :equip="(backpackItems[index].item as EquipType)"
                                 :ref="(el) => (itemRefs[index] = el)"
                                 :size="'small'"
@@ -43,13 +41,7 @@
                                         <v-col class="pa-0">
                                             <Btn
                                                 :text="'裝備'"
-                                                :func="
-                                                    () =>
-                                                        openConfirmBox(
-                                                            'changeEquip',
-                                                            index
-                                                        )
-                                                "
+                                                :func="() => openConfirmBox('changeEquip', index)"
                                             />
                                         </v-col>
                                         <v-col class="pa-0">
@@ -57,27 +49,17 @@
                                                 :text="`賣出 ($ ${getSalePrice(
                                                     backpackItems[index].item
                                                 )})`"
-                                                :func="
-                                                    () =>
-                                                        openConfirmBox(
-                                                            'sell',
-                                                            index
-                                                        )
-                                                "
+                                                :func="() => openConfirmBox('sell', index)"
                                             />
                                         </v-col>
                                     </v-row>
                                 </template>
                             </Equip>
-                        </template>
-                        <template
-                            v-if="
-                                backpackItems[index] &&
-                                backpackItems[index].type === 'card'
-                            "
-                            #item
-                        >
                             <Card
+                                v-if="
+                                    backpackItems[index] &&
+                                    backpackItems[index].type === 'card'
+                                "
                                 :card="(backpackItems[index].item as CardType)"
                                 :ref="(el) => (itemRefs[index] = el)"
                                 :size="'small'"
@@ -87,9 +69,7 @@
                                         :text="`賣出 ($ ${getSalePrice(
                                             backpackItems[index].item
                                         )})`"
-                                        :func="
-                                            () => openConfirmBox('sell', index)
-                                        "
+                                        :func=" () => openConfirmBox('sell', index)"
                                     />
                                 </template>
                             </Card>

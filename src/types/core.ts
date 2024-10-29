@@ -1,7 +1,9 @@
-/* eslint-disable no-unused-vars */
 import { enumCard } from '@/enums/card';
 import { enumEffect } from '@/enums/effect';
-import { enumEquip, enumEquipPosition } from '@/enums/equip';
+import {
+    enumEquip,
+    enumEquipPosition,
+} from '@/enums/equip';
 import { enumRarity } from '@/enums/rarity';
 
 interface BaseTemplate {

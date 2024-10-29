@@ -1,51 +1,48 @@
-import pluginVue from "eslint-plugin-vue";
-import globals from "globals";
-import tsEslint from "typescript-eslint";
-import vueParser from "vue-eslint-parser";
+import pluginVue from 'eslint-plugin-vue';
+import globals from 'globals';
+import tsEslint from 'typescript-eslint';
+import vueParser from 'vue-eslint-parser';
 
-import eslintJs from "@eslint/js";
+import eslintJs from '@eslint/js';
 
 export default [
-  eslintJs.configs.recommended,
-  // general
-  {
-    files: ["src/**/*.{js,jsx,tsx}"],
-    languageOptions: {
-      parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
-        globals: {
-          ...globals.browser,
-          ...globals.node,
+    // syntax rules
+    eslintJs.configs.recommended,
+    ...tsEslint.configs.recommended,
+    ...pluginVue.configs['flat/essential'],
+    // config parsers
+    {
+        files: ['src/**/*.{js,mjs,cjs,ts,mts,jsx,tsx}'],
+        rules: {
+            indent: ['error', 4],
+            quotes: ['error', 'single'],
+            semi: 'error',
         },
-      },
     },
-    rules: {
-      indent: ["error", 4],
-      quotes: ["error", "single"],
-      "import/prefer-default-export": "off",
-      camelcase: "off",
+    {
+        files: ['*.vue', '**/*.vue'],
+        languageOptions: {
+            parser: vueParser,
+            parserOptions: {
+                parser: tsEslint.parser, // parse TS inside VUE
+            },
+        },
+        rules: {
+            'vue/multi-word-component-names': ['off'],
+            indent: ['error', 4],
+            quotes: ['error', 'single'],
+            'import/prefer-default-export': 'off',
+            camelcase: 'off',
+            semi: 'error',
+        },
     },
-  },
-  // typescript
-  {
-    files: ["src/**/*.{ts,tsx,vue}"],
-    languageOptions: {
-      parser: tsEslint.parser,
+    // config envs
+    {
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+                ...globals.node,
+            },
+        }
     },
-  },
-  // vue
-  ...pluginVue.configs["flat/essential"],
-  {
-    files: ["src/**/*.vue"],
-    languageOptions: {
-      parser: vueParser,
-      parserOptions: {
-        parser: tsEslint.parser, // parse TS inside VUE
-      },
-    },
-    rules: {
-      "vue/multi-word-component-names": ["off"],
-    },
-  },
 ];

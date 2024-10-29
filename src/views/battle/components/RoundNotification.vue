@@ -32,7 +32,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import {
+    computed,
+    ref,
+    watch,
+} from 'vue';
 
 import { enumRoundPhase } from '@/enums/battle';
 import { useBattleStore } from '@/store/battle';
@@ -55,22 +59,22 @@ watch(
     () => roundPhase.value,
     async () => {
         switch (roundPhase.value) {
-            case enumRoundPhase.RoundStart: // 開始
-                message.value = '回合開始';
-                isVisible.value = true;
-                break;
-            case enumRoundPhase.Main: // 出牌
-                message.value = '開始出牌';
-                isVisible.value = true;
-                // 倒數計時
-                break;
-            case enumRoundPhase.Duel: // 開牌
-                message.value = '停止出牌';
-                isVisible.value = true;
-                break;
-            default:
-                message.value = '';
-                break;
+        case enumRoundPhase.RoundStart: // 開始
+            message.value = '回合開始';
+            isVisible.value = true;
+            break;
+        case enumRoundPhase.Main: // 出牌
+            message.value = '開始出牌';
+            isVisible.value = true;
+            // 倒數計時
+            break;
+        case enumRoundPhase.Duel: // 開牌
+            message.value = '停止出牌';
+            isVisible.value = true;
+            break;
+        default:
+            message.value = '';
+            break;
         }
 
         isShow.value = true;

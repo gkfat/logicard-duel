@@ -34,20 +34,20 @@ watch(
     () => appStore.gameState,
     async () => {
         switch (appStore.gameState) {
-            case enumGameState.ChooseCharacter:
-                bgmPrologue();
-                break;
-            case enumGameState.Rest:
-                bgmRest();
-                break;
-            case enumGameState.ChooseOpponent:
-                bgmBattle();
-                break;
-            case enumGameState.GameOver:
-                bgmEnd();
-                break;
-            default:
-                break;
+        case enumGameState.ChooseCharacter:
+            bgmPrologue();
+            break;
+        case enumGameState.Rest:
+            bgmRest();
+            break;
+        case enumGameState.ChooseOpponent:
+            bgmBattle();
+            break;
+        case enumGameState.GameOver:
+            bgmEnd();
+            break;
+        default:
+            break;
         }
     }
 );

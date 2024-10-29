@@ -45,7 +45,11 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, onMounted, ref } from 'vue';
+import {
+    onBeforeMount,
+    onMounted,
+    ref,
+} from 'vue';
 
 import { useI18n } from 'vue-i18n';
 

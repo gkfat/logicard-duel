@@ -109,12 +109,12 @@ const playerRoundStatus = computed(() => {
     if (playerTableCard.value) {
         const { point } = playerTableCard.value.info;
         switch (playerTableCard.value.template.effect) {
-            case enumEffect.Harm:
-                attack += point;
-                break;
-            case enumEffect.Defense:
-                defense += point;
-                break;
+        case enumEffect.Harm:
+            attack += point;
+            break;
+        case enumEffect.Defense:
+            defense += point;
+            break;
         }
     }
 
@@ -132,12 +132,12 @@ const opponentRoundStatus = computed(() => {
     if (opponentTableCard.value) {
         const { point } = opponentTableCard.value.info;
         switch (opponentTableCard.value.template.effect) {
-            case enumEffect.Harm:
-                attack += point;
-                break;
-            case enumEffect.Defense:
-                defense += point;
-                break;
+        case enumEffect.Harm:
+            attack += point;
+            break;
+        case enumEffect.Defense:
+            defense += point;
+            break;
         }
     }
 
@@ -291,60 +291,60 @@ watch(
     () => roundPhase.value,
     async () => {
         switch (roundPhase.value) {
-            case enumRoundPhase.BeforeRound: // 局未開始, 不處理
-                break;
-            case enumRoundPhase.RoundStart: // 開始
-                // 開始喃喃自語
-                playerStore.startMumble();
-                opponentStore.startMumble();
+        case enumRoundPhase.BeforeRound: // 局未開始, 不處理
+            break;
+        case enumRoundPhase.RoundStart: // 開始
+            // 開始喃喃自語
+            playerStore.startMumble();
+            opponentStore.startMumble();
 
-                await sleepSeconds(2);
-                battleStore.changeRoundPhase(enumRoundPhase.Draw);
-                break;
-            case enumRoundPhase.Draw: // 發牌
-                await sleepSeconds(1);
+            await sleepSeconds(2);
+            battleStore.changeRoundPhase(enumRoundPhase.Draw);
+            break;
+        case enumRoundPhase.Draw: // 發牌
+            await sleepSeconds(1);
 
-                // 從背包補充手牌
-                playerStore.drawCard();
-                opponentStore.drawCard();
+            // 從背包補充手牌
+            playerStore.drawCard();
+            opponentStore.drawCard();
 
-                await sleepSeconds(2);
-                battleStore.changeRoundPhase(enumRoundPhase.Main);
-                break;
-            case enumRoundPhase.Main: // 出牌
-                await sleepSeconds(2);
+            await sleepSeconds(2);
+            battleStore.changeRoundPhase(enumRoundPhase.Main);
+            break;
+        case enumRoundPhase.Main: // 出牌
+            await sleepSeconds(2);
 
-                // 倒數計時
-                startCountdown();
+            // 倒數計時
+            startCountdown();
 
-                // 對手出牌
-                opponentStore.logicPlaceCard();
-                break;
-            case enumRoundPhase.Duel: // 開牌
-                playerStore.stopMumble();
-                opponentStore.stopMumble();
+            // 對手出牌
+            opponentStore.logicPlaceCard();
+            break;
+        case enumRoundPhase.Duel: // 開牌
+            playerStore.stopMumble();
+            opponentStore.stopMumble();
 
-                await sleepSeconds(2);
+            await sleepSeconds(2);
 
-                await duel();
+            await duel();
 
-                await sleepSeconds(2);
-                battleStore.changeRoundPhase(enumRoundPhase.Settle);
-                break;
-            case enumRoundPhase.Settle: // 結算
-                // 紀錄使用牌數
-                if (playerTableCard.value) {
-                    battleRecord.value.cardsUsed += 1;
-                }
+            await sleepSeconds(2);
+            battleStore.changeRoundPhase(enumRoundPhase.Settle);
+            break;
+        case enumRoundPhase.Settle: // 結算
+            // 紀錄使用牌數
+            if (playerTableCard.value) {
+                battleRecord.value.cardsUsed += 1;
+            }
 
-                await battleStore.clearTable();
-                await sleepSeconds(1);
-                battleStore.changeRoundPhase(enumRoundPhase.RoundEnd);
-                break;
-            case enumRoundPhase.RoundEnd: // 局結束
-                await sleepSeconds(1);
-                battleStore.changeRoundPhase(enumRoundPhase.RoundStart);
-                break;
+            await battleStore.clearTable();
+            await sleepSeconds(1);
+            battleStore.changeRoundPhase(enumRoundPhase.RoundEnd);
+            break;
+        case enumRoundPhase.RoundEnd: // 局結束
+            await sleepSeconds(1);
+            battleStore.changeRoundPhase(enumRoundPhase.RoundStart);
+            break;
         }
     }
 );

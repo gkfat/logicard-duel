@@ -1,8 +1,10 @@
-/* eslint-disable no-unused-vars */
 import { enumEquipPosition } from '@/enums/equip';
 
 import { CharacterTemplate } from './character';
-import { Card, Equip } from './core';
+import {
+    Card,
+    Equip,
+} from './core';
 
 export interface GameRecord {
     id: number;

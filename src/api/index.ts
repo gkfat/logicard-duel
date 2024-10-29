@@ -31,7 +31,6 @@ const updateData = async (data: Rank): Promise<{ data: string[][] }> => {
     const mutatedData: { [key: string]: string } = {};
 
     Object.keys(data).forEach((key) => {
-        // @ts-ignore
         mutatedData[key] = JSON.stringify(data[key]);
     });
 
