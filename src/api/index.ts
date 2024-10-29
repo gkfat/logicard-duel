@@ -7,7 +7,7 @@ const baseUrl =
         ? import.meta.env.VITE_API_URL
         : '/api';
 
-const errorHandler = async (error: AxiosError) => {
+const errorHandler = async(error: AxiosError) => {
     if (error.isAxiosError) {
         console.error('axios error: \n', error);
     }
@@ -18,7 +18,7 @@ const errorHandler = async (error: AxiosError) => {
 axios.interceptors.response.use((response) => response, errorHandler);
 
 /** 取得 sheet 資料 */
-const getData = async (): Promise<{ data: string[][] }> => {
+const getData = async(): Promise<{ data: string[][] }> => {
     return await axios({
         baseURL: baseUrl,
         method: 'get',
@@ -27,7 +27,7 @@ const getData = async (): Promise<{ data: string[][] }> => {
 };
 
 /** 更新 sheet 資料 */
-const updateData = async (data: Rank): Promise<{ data: string[][] }> => {
+const updateData = async(data: Rank): Promise<{ data: string[][] }> => {
     const mutatedData: { [key: string]: string } = {};
 
     Object.keys(data).forEach((key) => {

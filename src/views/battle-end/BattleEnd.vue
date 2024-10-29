@@ -55,7 +55,7 @@ const { soundClick } = useSoundEffect();
 
 const dialogs = DialogDataList[enumDialog.BattleEnd];
 
-const goRest = async () => {
+const goRest = async() => {
     await soundClick();
     appStore.changeGameState(enumGameState.Rest);
 };

@@ -119,7 +119,7 @@ export const useSoundStore = defineStore('sound', () => {
         nowPlaying.value = sounds.bgm.prologue;
     };
 
-    const playSound = async (audio: HTMLAudioElement | null) => {
+    const playSound = async(audio: HTMLAudioElement | null) => {
         if (isVisible.value && !muteMode.value && audio) {
             audio.currentTime = 0;
             audio.volume = 1;
@@ -133,7 +133,7 @@ export const useSoundStore = defineStore('sound', () => {
         }
     };
 
-    const playBGM = async (audio: HTMLAudioElement | null) => {
+    const playBGM = async(audio: HTMLAudioElement | null) => {
         if (nowPlaying.value) {
             pause(nowPlaying.value);
         }
@@ -158,7 +158,7 @@ export const useSoundStore = defineStore('sound', () => {
         }
     };
 
-    const resume = async () => {
+    const resume = async() => {
         if (!muteMode.value && nowPlaying.value) {
             await nowPlaying.value.play();
         }
@@ -186,11 +186,11 @@ export const useSoundStore = defineStore('sound', () => {
         });
     };
 
-    const playAllInMute = async () => {
+    const playAllInMute = async() => {
         const soundEffectKeys = Object.keys(urls.effect).filter((v) => v !== 'click');
         const soundBgmKeys = Object.keys(urls.bgm).filter((v) => v !== 'prologue');
 
-        soundEffectKeys.forEach(async (key) => {
+        soundEffectKeys.forEach(async(key) => {
             const audio: HTMLAudioElement | null = sounds.effect[key];
             if (audio) {
                 audio.volume = 0;
@@ -202,9 +202,9 @@ export const useSoundStore = defineStore('sound', () => {
                     audio.muted = false;
                 }, 10);
             }
-        })
+        });
 
-        soundBgmKeys.forEach(async (key) => {
+        soundBgmKeys.forEach(async(key) => {
             const audio: HTMLAudioElement | null = sounds.bgm[key];
             if (audio) {
                 audio.volume = 0;
@@ -216,8 +216,8 @@ export const useSoundStore = defineStore('sound', () => {
                     audio.muted = false;
                 }, 10);
             }
-        })
-    }
+        });
+    };
 
     /** 初始化 */
     const init = () => {

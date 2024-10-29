@@ -103,14 +103,14 @@ const props = defineProps<{
 }>();
 
 const getTemplate = computed(
-    () => EquipTemplateList.find((v) => v.type === props.equipType)!
+    () => EquipTemplateList.find((v) => v.type === props.equipType)!,
 );
 
 const rarityValues = computed(
-    () => Object.keys(getTemplate.value.potentials) as RarityValue[]
+    () => Object.keys(getTemplate.value.potentials) as RarityValue[],
 );
 
-const openDialog = async () => {
+const openDialog = async() => {
     await soundClick();
     isDialogOpen.value = true;
 };

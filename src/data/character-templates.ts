@@ -47,18 +47,9 @@ export const CharacterTemplateList: CharacterTemplate[] = [
                 '水費、電費、瓦斯費...',
                 '車貸、學貸、房貸...',
             ],
-            [enumMumbleType.PlaceCard]: [
-                ...GeneralHumanMumbleList[enumMumbleType.PlaceCard],
-                '就這張吧，反正不影響績效。',
-            ],
-            [enumMumbleType.OpponentPlaceCard]: [
-                ...GeneralHumanMumbleList[enumMumbleType.OpponentPlaceCard],
-                '媽耶！比主管查勤還可怕。',
-            ],
-            [enumMumbleType.Hurt]: [
-                ...GeneralHumanMumbleList[enumMumbleType.Hurt],
-                '我的獎金啊啊啊...',
-            ],
+            [enumMumbleType.PlaceCard]: [...GeneralHumanMumbleList[enumMumbleType.PlaceCard], '就這張吧，反正不影響績效。'],
+            [enumMumbleType.OpponentPlaceCard]: [...GeneralHumanMumbleList[enumMumbleType.OpponentPlaceCard], '媽耶！比主管查勤還可怕。'],
+            [enumMumbleType.Hurt]: [...GeneralHumanMumbleList[enumMumbleType.Hurt], '我的獎金啊啊啊...'],
             [enumMumbleType.Attack]: [
                 ...GeneralHumanMumbleList[enumMumbleType.Attack],
                 '打敗你比做月報還簡單啦！',
@@ -115,10 +106,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
                 '決鬥！',
                 '我怒了。',
             ],
-            [enumMumbleType.Lose]: [
-                ...GeneralHumanMumbleList[enumMumbleType.Lose],
-                '我沒了...',
-            ],
+            [enumMumbleType.Lose]: [...GeneralHumanMumbleList[enumMumbleType.Lose], '我沒了...'],
         },
     },
     {
@@ -151,10 +139,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
                 '別浪費時間，現在就投資我，我很快將成為市場的霸主！',
                 '依我的技術分析，結論就是這支飆股！',
             ],
-            [enumMumbleType.OpponentPlaceCard]: [
-                ...GeneralHumanMumbleList[enumMumbleType.OpponentPlaceCard],
-                '誰推薦你買這隻飆股的？',
-            ],
+            [enumMumbleType.OpponentPlaceCard]: [...GeneralHumanMumbleList[enumMumbleType.OpponentPlaceCard], '誰推薦你買這隻飆股的？'],
             [enumMumbleType.Hurt]: [
                 ...GeneralHumanMumbleList[enumMumbleType.Hurt],
                 '忍痛停損...',
@@ -194,14 +179,8 @@ export const CharacterTemplateList: CharacterTemplate[] = [
                 '冰箱有水果，自己拿。',
                 '今年過年回不回來？',
             ],
-            [enumMumbleType.PlaceCard]: [
-                ...GeneralHumanMumbleList[enumMumbleType.PlaceCard],
-                '餅乾放這兒嗎？',
-            ],
-            [enumMumbleType.OpponentPlaceCard]: [
-                ...GeneralHumanMumbleList[enumMumbleType.OpponentPlaceCard],
-                '你敢拒絕老人家的好意？',
-            ],
+            [enumMumbleType.PlaceCard]: [...GeneralHumanMumbleList[enumMumbleType.PlaceCard], '餅乾放這兒嗎？'],
+            [enumMumbleType.OpponentPlaceCard]: [...GeneralHumanMumbleList[enumMumbleType.OpponentPlaceCard], '你敢拒絕老人家的好意？'],
             [enumMumbleType.Hurt]: [
                 ...GeneralHumanMumbleList[enumMumbleType.Hurt],
                 '別打老人家！',
@@ -212,10 +191,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
                 '奶奶幫你趕走感冒。',
                 '痛痛都飛走囉。',
             ],
-            [enumMumbleType.Lose]: [
-                ...GeneralHumanMumbleList[enumMumbleType.Lose],
-                '老伴...你來接我了...',
-            ],
+            [enumMumbleType.Lose]: [...GeneralHumanMumbleList[enumMumbleType.Lose], '老伴...你來接我了...'],
         },
     },
     {
@@ -252,19 +228,13 @@ export const CharacterTemplateList: CharacterTemplate[] = [
                 ' 這是要給我的嗎？',
                 ' 謝謝，多少錢？',
             ],
-            [enumMumbleType.Hurt]: [
-                ...GeneralHumanMumbleList[enumMumbleType.Hurt],
-                '我很窮，請放過我！',
-            ],
+            [enumMumbleType.Hurt]: [...GeneralHumanMumbleList[enumMumbleType.Hurt], '我很窮，請放過我！'],
             [enumMumbleType.Attack]: [
                 ...GeneralHumanMumbleList[enumMumbleType.Attack],
                 '嚐嚐藝術的力量！',
                 '吃我油彩！',
             ],
-            [enumMumbleType.Lose]: [
-                ...GeneralHumanMumbleList[enumMumbleType.Lose],
-                '藝廊倒閉了...',
-            ],
+            [enumMumbleType.Lose]: [...GeneralHumanMumbleList[enumMumbleType.Lose], '藝廊倒閉了...'],
         },
     },
     {
@@ -278,9 +248,13 @@ export const CharacterTemplateList: CharacterTemplate[] = [
             healthRange: [40, 50],
             attackRange: [3, 6],
             defenseRange: [1, 3],
-            cards: [...baseCards, enumCard.ScrewDriver],
+            cards: [
+                ...baseCards,
+                enumCard.ScrewDriver,
+                enumCard.Battery,
+            ],
             equips: [enumEquip.Boxer],
-            coin: 10,
+            coin: 20,
         },
         mumbleList: {
             [enumMumbleType.General]: [
@@ -289,26 +263,11 @@ export const CharacterTemplateList: CharacterTemplate[] = [
                 '請問還有哪裡需要服務的？',
                 '請輸入指令，但我不一定會照做。',
             ],
-            [enumMumbleType.PlaceCard]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.PlaceCard],
-                '搬運到這就行了嗎？',
-            ],
-            [enumMumbleType.OpponentPlaceCard]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.OpponentPlaceCard],
-                '需要我搬運這個到指定地點嗎？',
-            ],
-            [enumMumbleType.Hurt]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.Hurt],
-                '效能受損 10%！',
-            ],
-            [enumMumbleType.Attack]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.Attack],
-                '人類害蟲就由我來清理！',
-            ],
-            [enumMumbleType.Lose]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.Lose],
-                '沒關係，反正我是量產型的...',
-            ],
+            [enumMumbleType.PlaceCard]: [...GeneralOpponentMumbleList[enumMumbleType.PlaceCard], '搬運到這就行了嗎？'],
+            [enumMumbleType.OpponentPlaceCard]: [...GeneralOpponentMumbleList[enumMumbleType.OpponentPlaceCard], '需要我搬運這個到指定地點嗎？'],
+            [enumMumbleType.Hurt]: [...GeneralOpponentMumbleList[enumMumbleType.Hurt], '效能受損 10%！'],
+            [enumMumbleType.Attack]: [...GeneralOpponentMumbleList[enumMumbleType.Attack], '人類害蟲就由我來清理！'],
+            [enumMumbleType.Lose]: [...GeneralOpponentMumbleList[enumMumbleType.Lose], '沒關係，反正我是量產型的...'],
         },
     },
     {
@@ -322,9 +281,18 @@ export const CharacterTemplateList: CharacterTemplate[] = [
             healthRange: [35, 40],
             attackRange: [8, 12],
             defenseRange: [2, 5],
-            cards: [...baseCards, enumCard.ScrewDriver],
-            equips: [enumEquip.Boxer, enumEquip.Cloth, enumEquip.Bat],
-            coin: 20,
+            cards: [
+                ...baseCards,
+                enumCard.ScrewDriver,
+                enumCard.Battery,
+                enumCard.Oil,
+            ],
+            equips: [
+                enumEquip.Boxer,
+                enumEquip.Cloth,
+                enumEquip.Bat,
+            ],
+            coin: 40,
         },
         mumbleList: {
             [enumMumbleType.General]: [
@@ -334,27 +302,15 @@ export const CharacterTemplateList: CharacterTemplate[] = [
                 ' 來來，這裡有氣球哦。',
                 '我這有最新上映的影集串流。',
             ],
-            [enumMumbleType.PlaceCard]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.PlaceCard],
-                '仔細看好，等下會有奇蹟發生。',
-            ],
-            [enumMumbleType.OpponentPlaceCard]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.OpponentPlaceCard],
-                '那邊那位，不要鳥鳥酸！',
-            ],
-            [enumMumbleType.Hurt]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.Hurt],
-                '忘記更新娛樂模組了...',
-            ],
+            [enumMumbleType.PlaceCard]: [...GeneralOpponentMumbleList[enumMumbleType.PlaceCard], '仔細看好，等下會有奇蹟發生。'],
+            [enumMumbleType.OpponentPlaceCard]: [...GeneralOpponentMumbleList[enumMumbleType.OpponentPlaceCard], '那邊那位，不要鳥鳥酸！'],
+            [enumMumbleType.Hurt]: [...GeneralOpponentMumbleList[enumMumbleType.Hurt], '忘記更新娛樂模組了...'],
             [enumMumbleType.Attack]: [
                 ...GeneralOpponentMumbleList[enumMumbleType.Attack],
                 '見證奇蹟的時刻到了。',
                 'Drop the beat!',
             ],
-            [enumMumbleType.Lose]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.Lose],
-                '人類不需要表演型機器人了嗎...',
-            ],
+            [enumMumbleType.Lose]: [...GeneralOpponentMumbleList[enumMumbleType.Lose], '人類不需要表演型機器人了嗎...'],
         },
     },
     {
@@ -367,7 +323,12 @@ export const CharacterTemplateList: CharacterTemplate[] = [
             healthRange: [40, 50],
             attackRange: [15, 20],
             defenseRange: [5, 10],
-            cards: [...baseCards, enumCard.GkbotShell],
+            cards: [
+                ...baseCards,
+                enumCard.GkbotShell,
+                enumCard.Battery,
+                enumCard.Oil,
+            ],
             equips: [
                 enumEquip.Boxer,
                 enumEquip.Cloth,
@@ -375,7 +336,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
                 enumEquip.Gun,
                 enumEquip.BulletProof,
             ],
-            coin: 50,
+            coin: 80,
         },
         mumbleList: {
             [enumMumbleType.General]: [
@@ -392,23 +353,14 @@ export const CharacterTemplateList: CharacterTemplate[] = [
                 '我這是為了你們好。',
                 ' 請勿抵抗。',
             ],
-            [enumMumbleType.OpponentPlaceCard]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.OpponentPlaceCard],
-                '哦？你想反抗嗎？',
-            ],
-            [enumMumbleType.Hurt]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.Hurt],
-                '遭遇敵襲，請求增援！',
-            ],
+            [enumMumbleType.OpponentPlaceCard]: [...GeneralOpponentMumbleList[enumMumbleType.OpponentPlaceCard], '哦？你想反抗嗎？'],
+            [enumMumbleType.Hurt]: [...GeneralOpponentMumbleList[enumMumbleType.Hurt], '遭遇敵襲，請求增援！'],
             [enumMumbleType.Attack]: [
                 ...GeneralOpponentMumbleList[enumMumbleType.Attack],
                 '接受你們的命運吧。',
                 '衝鋒！',
             ],
-            [enumMumbleType.Lose]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.Lose],
-                '一定要...守住秘密...自毀程式...啟動...',
-            ],
+            [enumMumbleType.Lose]: [...GeneralOpponentMumbleList[enumMumbleType.Lose], '一定要...守住秘密...自毀程式...啟動...'],
         },
     },
     {
@@ -421,7 +373,13 @@ export const CharacterTemplateList: CharacterTemplate[] = [
             healthRange: [50, 60],
             attackRange: [8, 12],
             defenseRange: [8, 12],
-            cards: [...baseCards, enumCard.ScrapMetal, enumCard.GkbotShell],
+            cards: [
+                ...baseCards,
+                enumCard.ScrapMetal,
+                enumCard.GkbotShell,
+                enumCard.Battery,
+                enumCard.Oil,
+            ],
             equips: [
                 enumEquip.Boxer,
                 enumEquip.Cloth,
@@ -429,7 +387,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
                 enumEquip.Armor,
                 enumEquip.BulletProof,
             ],
-            coin: 50,
+            coin: 80,
         },
         mumbleList: {
             [enumMumbleType.General]: [
@@ -440,28 +398,16 @@ export const CharacterTemplateList: CharacterTemplate[] = [
                 '你薄。',
                 '你弱。',
             ],
-            [enumMumbleType.PlaceCard]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.PlaceCard],
-                '我放。',
-            ],
-            [enumMumbleType.OpponentPlaceCard]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.OpponentPlaceCard],
-                '有意思。',
-            ],
+            [enumMumbleType.PlaceCard]: [...GeneralOpponentMumbleList[enumMumbleType.PlaceCard], '我放。'],
+            [enumMumbleType.OpponentPlaceCard]: [...GeneralOpponentMumbleList[enumMumbleType.OpponentPlaceCard], '有意思。'],
             [enumMumbleType.Hurt]: [
                 ...GeneralOpponentMumbleList[enumMumbleType.Hurt],
                 '區區人類。',
                 '不痛，真的不痛。真的啦。',
                 '我是銅牆鐵壁。',
             ],
-            [enumMumbleType.Attack]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.Attack],
-                '我撞。',
-            ],
-            [enumMumbleType.Lose]: [
-                ...GeneralOpponentMumbleList[enumMumbleType.Lose],
-                '自爆。',
-            ],
+            [enumMumbleType.Attack]: [...GeneralOpponentMumbleList[enumMumbleType.Attack], '我撞。'],
+            [enumMumbleType.Lose]: [...GeneralOpponentMumbleList[enumMumbleType.Lose], '自爆。'],
         },
     },
 ];

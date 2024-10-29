@@ -83,14 +83,14 @@ const BREATHE_INTERVAL_MILISECONDS = 150;
 // eslint-disable-next-line no-undef
 const intervalChangingBackground = ref<NodeJS.Timeout>();
 
-const goOut = async () => {
+const goOut = async() => {
     await soundClick();
 
     appStore.changeGameState(enumGameState.ChooseOpponent);
 };
 
 const increaseOpacity = () => {
-    intervalChangingBackground.value = setInterval(async () => {
+    intervalChangingBackground.value = setInterval(async() => {
         if (!decreasing.value) {
             opacity.value.current += 0.1;
 
@@ -109,7 +109,7 @@ const increaseOpacity = () => {
 };
 
 const decreaseOpacity = () => {
-    intervalChangingBackground.value = setInterval(async () => {
+    intervalChangingBackground.value = setInterval(async() => {
         if (decreasing.value) {
             opacity.value.current -= 0.1;
 
@@ -127,7 +127,7 @@ const decreaseOpacity = () => {
     }, BREATHE_INTERVAL_MILISECONDS);
 };
 
-onMounted(async () => {
+onMounted(async() => {
     await sleepSeconds(3);
 
     decreaseOpacity();

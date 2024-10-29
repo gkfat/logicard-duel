@@ -56,12 +56,12 @@ const dialogs = DialogDataList[enumDialog.ChooseOpponent];
 /** 選擇的敵人 index */
 const currentOpponentIndex = ref(0);
 
-const onOpponentSelected = async (index: number) => {
+const onOpponentSelected = async(index: number) => {
     await soundClick();
     currentOpponentIndex.value = index;
 };
 
-const startBattle = async () => {
+const startBattle = async() => {
     await soundClick();
 
     // 決定敵人
@@ -71,7 +71,7 @@ const startBattle = async () => {
     appStore.changeGameState(enumGameState.Battle);
 };
 
-onMounted(async () => {
+onMounted(async() => {
     await opponentStore.clearOpponent();
 
     // 檢查若 pool 少於 3 隻則生成

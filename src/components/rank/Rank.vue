@@ -58,7 +58,7 @@ const dialogs = DialogDataList[enumDialog.Rank];
 const rankData = computed(() => rankStore.rankData);
 
 // 關閉排行榜
-const closeRank = async () => {
+const closeRank = async() => {
     appStore.closeDialog();
 };
 </script>

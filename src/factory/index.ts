@@ -51,14 +51,14 @@ class Factory {
      */
     public createEquip(equipType: enumEquip) {
         const findTemplate = EquipTemplateList.find(
-            (v) => v.type === equipType
+            (v) => v.type === equipType,
         )!;
 
         const { potentials, position } = findTemplate;
 
         // 產生稀有度
         const rarity = this.randomRarity(
-            Object.keys(potentials) as RarityValue[]
+            Object.keys(potentials) as RarityValue[],
         );
 
         const { pointRange, priceRange } = potentials[rarity]!;
@@ -89,7 +89,7 @@ class Factory {
 
         // 產生稀有度
         const rarity = this.randomRarity(
-            Object.keys(potentials) as RarityValue[]
+            Object.keys(potentials) as RarityValue[],
         );
 
         const { pointRange, priceRange } = potentials[rarity]!;
@@ -113,7 +113,7 @@ class Factory {
      */
     public createPlayer(character: enumCharacter) {
         const findTemplate = CharacterTemplateList.find(
-            (v) => v.type === character
+            (v) => v.type === character,
         )!;
 
         const {
@@ -157,7 +157,7 @@ class Factory {
 
         Object.values(enumEquipPosition).forEach((position) => {
             const findEquip = instace.backpack.equips.find(
-                (v) => v.position === position
+                (v) => v.position === position,
             );
 
             if (findEquip) {

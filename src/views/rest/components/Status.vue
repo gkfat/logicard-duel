@@ -182,7 +182,7 @@ const equipment = computed(() => ({
     secondaryHand: player.value.equipment[enumEquipPosition.SecondaryHand],
     body: player.value.equipment[enumEquipPosition.Body],
     pants: player.value.equipment[enumEquipPosition.Pants],
-    shoes: player.value.equipment[enumEquipPosition.Shoes]
+    shoes: player.value.equipment[enumEquipPosition.Shoes],
 }));
 
 const currentBackpackItems = computed(() => {

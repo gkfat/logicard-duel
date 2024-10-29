@@ -164,7 +164,7 @@ const cards = computed(() => shopStore.repository.cards);
 const playerCoin = computed(() => playerStore.currentPlayer!.backpack.coin);
 const displayType = ref(0);
 
-const closeBackpack = async () => {
+const closeBackpack = async() => {
     appStore.closeDialog();
 };
 
@@ -172,7 +172,7 @@ const afordable = (price: number) => {
     return playerCoin.value >= price;
 };
 
-const buyEquip = async (index: number) => {
+const buyEquip = async(index: number) => {
     const equip = equips.value[index];
     const getCardComponent = equipRefs.value[index];
 
@@ -183,7 +183,7 @@ const buyEquip = async (index: number) => {
     }
 };
 
-const buyCard = async (index: number) => {
+const buyCard = async(index: number) => {
     const card = cards.value[index];
     const getCardComponent = cardRefs.value[index];
 

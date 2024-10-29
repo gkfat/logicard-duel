@@ -11,8 +11,7 @@ const routes: RouteRecordRaw[] = [
                 component: () => import('@/views/GameView.vue'),
             },
         ],
-    },
-    {
+    }, {
         path: '/:catchAll(.*)*',
         component: () => import('@/layout/AppLayout.vue'),
         children: [

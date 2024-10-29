@@ -32,7 +32,7 @@ const restart = () => {
     router.push('/');
 };
 
-onMounted(async () => {
+onMounted(async() => {
     appStore.switchSpinner(false);
 });
 </script>

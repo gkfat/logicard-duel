@@ -57,7 +57,7 @@ const resetPosition = () => {
 
 watch(
     () => roundPhase.value,
-    async () => {
+    async() => {
         switch (roundPhase.value) {
         case enumRoundPhase.RoundStart: // 開始
             message.value = '回合開始';
@@ -100,7 +100,7 @@ watch(
                 resetPosition();
             }, 2000);
         }
-    }
+    },
 );
 </script>
 

@@ -97,7 +97,7 @@ export const useShopStore = defineStore('shop', () => {
         // 重置倒數計時
         resetRemainSeconds();
 
-        const countdownInterval = setInterval(async () => {
+        const countdownInterval = setInterval(async() => {
             if (remainSeconds.value > 0) {
                 remainSeconds.value -= 1;
             } else {
@@ -122,6 +122,6 @@ export const useShopStore = defineStore('shop', () => {
         remainSeconds,
         init,
         soldCard,
-        soldEquip
+        soldEquip,
     };
 });

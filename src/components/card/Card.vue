@@ -181,7 +181,7 @@ const {
 }>();
 
 const theme = computed(() =>
-    card.template.effect === enumEffect.Harm ? 'red' : 'blue'
+    card.template.effect === enumEffect.Harm ? 'red' : 'blue',
 );
 
 const toggleDialog = (target: boolean) => {

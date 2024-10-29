@@ -160,7 +160,7 @@ const backpackItems = computed(() => {
     return items;
 });
 
-const closeBackpack = async () => {
+const closeBackpack = async() => {
     appStore.closeDialog();
 };
 
@@ -185,7 +185,7 @@ const changeEquipment = () => {
 };
 
 /** 賣出裝備或卡牌 */
-const sellItem = async () => {
+const sellItem = async() => {
     const findItem = backpackItems.value[selectedItemIndex.value!];
 
     const { item, type } = findItem;

@@ -32,7 +32,7 @@ const { bgmBattle, bgmEnd, bgmPrologue, bgmRest } = useSoundEffect();
 
 watch(
     () => appStore.gameState,
-    async () => {
+    async() => {
         switch (appStore.gameState) {
         case enumGameState.ChooseCharacter:
             bgmPrologue();
@@ -49,7 +49,7 @@ watch(
         default:
             break;
         }
-    }
+    },
 );
 </script>
 

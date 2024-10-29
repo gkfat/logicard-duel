@@ -59,16 +59,13 @@ const appStore = useAppStore();
 const { soundClick } = useSoundEffect();
 const { t } = useI18n();
 
-const dialogs = [
-    DialogDataList[enumDialog.Opening],
-    ...DialogDataList[enumDialog.GameStart],
-];
+const dialogs = [DialogDataList[enumDialog.Opening], ...DialogDataList[enumDialog.GameStart]];
 const lastIndex = dialogs.length - 1;
 const currentIndex = ref(0);
 const isDialogEnd = computed(() => currentIndex.value === lastIndex);
 
 /** 下一頁 */
-const dialogNext = async () => {
+const dialogNext = async() => {
     if (currentIndex.value < lastIndex) {
         await soundClick();
         currentIndex.value += 1;
@@ -76,7 +73,7 @@ const dialogNext = async () => {
 };
 
 /** 跳過 */
-const dialogNextToEnd = async () => {
+const dialogNextToEnd = async() => {
     await soundClick();
     currentIndex.value = lastIndex;
 };
@@ -91,19 +88,19 @@ const availableCharacterTypes = [
 
 /** 可選角色清單 */
 const characterList = CharacterTemplateList.filter((c) =>
-    availableCharacterTypes.includes(c.type)
+    availableCharacterTypes.includes(c.type),
 );
 
 /** 選擇的角色 index */
 const currentCharacterIndex = ref(0);
 
-const onCharacterSelected = async (index: number) => {
+const onCharacterSelected = async(index: number) => {
     await soundClick();
 
     currentCharacterIndex.value = index;
 };
 
-const confirmCharacter = async () => {
+const confirmCharacter = async() => {
     await soundClick();
 
     const character = characterList[currentCharacterIndex.value];

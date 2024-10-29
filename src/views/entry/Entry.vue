@@ -61,12 +61,12 @@ const appStore = useAppStore();
 const soundStore = useSoundStore();
 const { soundClick } = useSoundEffect();
 
-const openGithub = async () => {
+const openGithub = async() => {
     await soundClick();
     window.open('https://github.com/gkfat/logicard-duel/', '_blank');
 };
 
-const start = async () => {
+const start = async() => {
     appStore.switchSpinner(true);
     await soundStore.playAllInMute();
 

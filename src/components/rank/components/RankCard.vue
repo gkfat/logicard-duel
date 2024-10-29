@@ -244,7 +244,7 @@ const equipment = ref({
 });
 
 const currentBackpackItems = ref(
-    data.player.backpack.cards.length + data.player.backpack.equips.length
+    data.player.backpack.cards.length + data.player.backpack.equips.length,
 );
 
 const extraStatus = computed(() => {
@@ -252,10 +252,10 @@ const extraStatus = computed(() => {
     const findEquips = data.player.backpack.equips.filter((v) => v.is_equiped);
 
     const findWeapons = findEquips.filter(
-        (v) => v.template.effect === enumEffect.Harm
+        (v) => v.template.effect === enumEffect.Harm,
     );
     const findArmors = findEquips.filter(
-        (v) => v.template.effect === enumEffect.Defense
+        (v) => v.template.effect === enumEffect.Defense,
     );
 
     const calcPoint = (equips: EquipType[]) =>

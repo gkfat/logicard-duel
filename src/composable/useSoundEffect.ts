@@ -4,57 +4,57 @@ export const useSoundEffect = () => {
     const soundStore = useSoundStore();
 
     /** 點擊聲 */
-    const soundClick = async () => {
+    const soundClick = async() => {
         await soundStore.playSound(soundStore.sounds.effect.click);
     };
 
     /** 裝備聲 */
-    const soundEquip = async () => {
+    const soundEquip = async() => {
         await soundStore.playSound(soundStore.sounds.effect.equip);
     };
 
     /** 波聲 */
-    const soundPop = async () => {
+    const soundPop = async() => {
         await soundStore.playSound(soundStore.sounds.effect.pop);
     };
 
-    const soundPlayerHurt = async () => {
+    const soundPlayerHurt = async() => {
         await soundStore.playSound(soundStore.sounds.effect.playerHurt);
     };
 
-    const soundOpponentHurt = async () => {
+    const soundOpponentHurt = async() => {
         await soundStore.playSound(soundStore.sounds.effect.opponentHurt);
     };
 
-    const soundPlaceCard = async () => {
+    const soundPlaceCard = async() => {
         await soundStore.playSound(soundStore.sounds.effect.placeCard);
     };
 
-    const soundCountdown = async () => {
+    const soundCountdown = async() => {
         await soundStore.playSound(soundStore.sounds.effect.countdown);
     };
 
-    const soundWin = async () => {
+    const soundWin = async() => {
         await soundStore.playSound(soundStore.sounds.effect.win);
     };
 
-    const soundCoin = async () => {
+    const soundCoin = async() => {
         await soundStore.playSound(soundStore.sounds.effect.coin);
     };
 
-    const bgmPrologue = async () => {
+    const bgmPrologue = async() => {
         await soundStore.playBGM(soundStore.sounds.bgm.prologue);
     };
 
-    const bgmRest = async () => {
+    const bgmRest = async() => {
         await soundStore.playBGM(soundStore.sounds.bgm.rest);
     };
 
-    const bgmEnd = async () => {
+    const bgmEnd = async() => {
         await soundStore.playBGM(soundStore.sounds.bgm.end);
     };
 
-    const bgmBattle = async () => {
+    const bgmBattle = async() => {
         await soundStore.playBGM(soundStore.sounds.bgm.battle);
     };
 

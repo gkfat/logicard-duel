@@ -77,16 +77,16 @@ const playerExtraStatus = computed(() => playerStore.extraStatus);
 const playerAttempt = computed(() => battleStore.playerAttempt);
 const playerTableCard = computed(() => playerStore.tableCard);
 const playerBaseAttack = computed(
-    () => player.value.status.attack + playerExtraStatus.value.attack
+    () => player.value.status.attack + playerExtraStatus.value.attack,
 );
 const playerBaseDefense = computed(
-    () => player.value.status.defense + playerExtraStatus.value.defense
+    () => player.value.status.defense + playerExtraStatus.value.defense,
 );
 
 /** 本局戰鬥紀錄 */
 const battleRecord = computed(() => {
     return player.value.records.find(
-        (v) => v.opponent.id === opponent.value.id
+        (v) => v.opponent.id === opponent.value.id,
     )!;
 });
 
@@ -95,10 +95,10 @@ const opponentExtraStatus = computed(() => opponentStore.extraStatus);
 const opponentAttempt = computed(() => battleStore.opponentAttempt);
 const opponentTableCard = computed(() => opponentStore.tableCard);
 const opponentBaseAttack = computed(
-    () => opponent.value.status.attack + opponentExtraStatus.value.attack
+    () => opponent.value.status.attack + opponentExtraStatus.value.attack,
 );
 const opponentBaseDefense = computed(
-    () => opponent.value.status.defense + opponentExtraStatus.value.defense
+    () => opponent.value.status.defense + opponentExtraStatus.value.defense,
 );
 
 /** 玩家本局數值 */
@@ -167,7 +167,7 @@ const startCountdown = () => {
     // 重置倒數計時
     battleStore.resetRemainSeconds();
 
-    const countdownInterval = setInterval(async () => {
+    const countdownInterval = setInterval(async() => {
         if (remainSeconds.value > 0) {
             battleStore.remainSeconds -= 1;
             if (remainSeconds.value === 3) {
@@ -181,7 +181,7 @@ const startCountdown = () => {
 };
 
 /** 結束戰鬥 */
-const endBattle = async () => {
+const endBattle = async() => {
     // 紀錄時間
     battleRecord.value.battleEndAt = createDate().toDate();
 
@@ -191,7 +191,7 @@ const endBattle = async () => {
 };
 
 /** 結算 */
-const settle = async () => {
+const settle = async() => {
     if (player.value.status.health === 0) {
         // 玩家沒血, game over
         playerStore.randomMumble(enumMumbleType.Lose, true);
@@ -212,7 +212,7 @@ const settle = async () => {
 };
 
 /** 開牌 */
-const duel = async () => {
+const duel = async() => {
     // 若玩家為攻擊狀態則先攻, 否則跳過
     if (
         player.value.status.health > 0 &&
@@ -276,20 +276,20 @@ const duel = async () => {
 /** 倒數計時結束後轉換局狀態 */
 watch(
     () => isCountingDown.value,
-    async () => {
+    async() => {
         if (
             roundPhase.value === enumRoundPhase.Main &&
             isCountingDown.value === false
         ) {
             battleStore.changeRoundPhase(enumRoundPhase.Duel);
         }
-    }
+    },
 );
 
 /** 階段 control flow */
 watch(
     () => roundPhase.value,
-    async () => {
+    async() => {
         switch (roundPhase.value) {
         case enumRoundPhase.BeforeRound: // 局未開始, 不處理
             break;
@@ -346,10 +346,10 @@ watch(
             battleStore.changeRoundPhase(enumRoundPhase.RoundStart);
             break;
         }
-    }
+    },
 );
 
-onMounted(async () => {
+onMounted(async() => {
     await sleepSeconds(3);
 
     playerStore.createRecord(opponent.value);

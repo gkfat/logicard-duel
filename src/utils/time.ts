@@ -27,7 +27,7 @@ export const createDate = (time?: ConfigType, keepLocalTime: boolean = false) =>
 
 export const humanReadable = (
     time: ConfigType,
-    format: string = 'YYYY-MM-DD HH:mm:ss'
+    format: string = 'YYYY-MM-DD HH:mm:ss',
 ): string => {
     if (dayjs.isDayjs(time)) {
         return dayjs(time).format(format);

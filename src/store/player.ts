@@ -42,14 +42,14 @@ export const usePlayerStore = defineStore('player', () => {
     const extraStatus = computed(() => {
         // 找到已裝備的裝備
         const findEquips = currentPlayer.value!.backpack.equips.filter(
-            (v) => v.is_equiped
+            (v) => v.is_equiped,
         );
 
         const findWeapons = findEquips.filter(
-            (v) => v.template.effect === enumEffect.Harm
+            (v) => v.template.effect === enumEffect.Harm,
         );
         const findArmors = findEquips.filter(
-            (v) => v.template.effect === enumEffect.Defense
+            (v) => v.template.effect === enumEffect.Defense,
         );
 
         const calcPoint = (equips: Equip[]) =>
@@ -82,7 +82,7 @@ export const usePlayerStore = defineStore('player', () => {
     /** 產生一句喃喃自語 */
     async function randomMumble(
         mumbleType: enumMumbleType,
-        force: boolean = false
+        force: boolean = false,
     ) {
         // 決定是否要喃喃自語
         const isGoingToMumble = force || drawLots();
@@ -174,7 +174,7 @@ export const usePlayerStore = defineStore('player', () => {
             const getCurrentEquipment =
                 currentPlayer.value.equipment[equip.position];
             const findEquip = currentPlayer.value.backpack.equips.find(
-                (v) => v.id === equip.id
+                (v) => v.id === equip.id,
             );
 
             if (findEquip) {
@@ -246,10 +246,7 @@ export const usePlayerStore = defineStore('player', () => {
     /** 將桌上手牌清理乾淨 */
     async function clearTableCards() {
         if (currentPlayer.value) {
-            currentPlayer.value.backpack.cards = [
-                ...currentPlayer.value.backpack.cards,
-                ...handCards.value,
-            ];
+            currentPlayer.value.backpack.cards = [...currentPlayer.value.backpack.cards, ...handCards.value];
 
             handCards.value = [];
         }
@@ -337,7 +334,7 @@ export const usePlayerStore = defineStore('player', () => {
                     : currentPlayer.value.backpack.cards;
 
             const findIndex = pool.findIndex(
-                (v) => v.id === id
+                (v) => v.id === id,
             );
 
             pool.splice(findIndex, 1);

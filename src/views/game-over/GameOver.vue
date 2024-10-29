@@ -102,7 +102,7 @@ const onLastWordsChange = () => {
     }
 };
 
-const restart = async () => {
+const restart = async() => {
     const data: Rank = {
         endDate: createDate().toISOString(),
         playerName:

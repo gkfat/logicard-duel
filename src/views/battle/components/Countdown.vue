@@ -19,6 +19,6 @@ const { remainSeconds } = defineProps<{
 }>();
 
 const percent = computed(() =>
-    Math.floor((remainSeconds / appStore.ENV.countdownSeconds) * 100)
+    Math.floor((remainSeconds / appStore.ENV.countdownSeconds) * 100),
 );
 </script>

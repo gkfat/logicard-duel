@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+ 
 export enum enumMumbleType {
     General = 'general',
     PlaceCard = 'place_card',

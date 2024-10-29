@@ -108,25 +108,38 @@ export const CardTemplateList: CardTemplate[] = [
             },
         },
     },
-    // FIXME: item system
-    // {
-    //     type: enumCard.Battery,
-    //     effect: enumEffect.Heal,
-    //     name: '3 號電池',
-    //     description: '有股想把它吃下去的衝動...',
-    //     pointRange: [5, 10],
-    //     priceRange: [50, 80],
-    //     icon: ImageDataList.icon.heal,
-    //     rarityRange: enumRarity.SR,
-    // },
-    // {
-    //     type: enumCard.Oil,
-    //     effect: enumEffect.Heal,
-    //     name: '機油',
-    //     description: '要不要喝下去看看呢...',
-    //     pointRange: [10, 18],
-    //     priceRange: [100, 150],
-    //     icon: ImageDataList.icon.heal,
-    //     rarityRange: enumRarity.SR,
-    // },
+    {
+        type: enumCard.Battery,
+        effect: enumEffect.Heal,
+        name: '3 號電池',
+        description: '有股想把它吃下去的衝動...',
+        icon: ImageDataList.icon.heal,
+        potentials: {
+            [enumRarity.Normal]: {
+                pointRange: [5, 10],
+                priceRange: [50, 80],
+            },
+            [enumRarity.Rare]: {
+                pointRange: [10, 18],
+                priceRange: [80, 120],
+            },
+        },
+    },
+    {
+        type: enumCard.Oil,
+        effect: enumEffect.Heal,
+        name: '機油',
+        description: '要不然喝看看吧？',
+        icon: ImageDataList.icon.heal,
+        potentials: {
+            [enumRarity.Normal]: {
+                pointRange: [15, 25],
+                priceRange: [100, 150],
+            },
+            [enumRarity.Rare]: {
+                pointRange: [30, 50],
+                priceRange: [120, 200],
+            },
+        },
+    },
 ];

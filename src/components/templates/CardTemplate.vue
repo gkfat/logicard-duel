@@ -136,18 +136,18 @@ const props = defineProps<{
 }>();
 
 const card = computed(
-    () => CardTemplateList.find((v) => v.type === props.cardType)!
+    () => CardTemplateList.find((v) => v.type === props.cardType)!,
 );
 
 const theme = computed(() =>
-    card.value.effect === enumEffect.Harm ? 'red' : 'blue'
+    card.value.effect === enumEffect.Harm ? 'red' : 'blue',
 );
 
 const rarityValues = computed(
-    () => Object.keys(card.value.potentials) as RarityValue[]
+    () => Object.keys(card.value.potentials) as RarityValue[],
 );
 
-const openDialog = async () => {
+const openDialog = async() => {
     await soundClick();
     isDialogOpen.value = true;
 };

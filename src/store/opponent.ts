@@ -47,14 +47,14 @@ export const useOpponentStore = defineStore('opponent', () => {
     const extraStatus = computed(() => {
         // 找到已裝備的裝備
         const findEquips = currentOpponent.value!.backpack.equips.filter(
-            (v) => v.is_equiped
+            (v) => v.is_equiped,
         );
 
         const findWeapons = findEquips.filter(
-            (v) => v.template.effect === enumEffect.Harm
+            (v) => v.template.effect === enumEffect.Harm,
         );
         const findArmors = findEquips.filter(
-            (v) => v.template.effect === enumEffect.Defense
+            (v) => v.template.effect === enumEffect.Defense,
         );
 
         const calcPoint = (equips: Equip[]) =>
@@ -161,10 +161,7 @@ export const useOpponentStore = defineStore('opponent', () => {
     /** 將桌上手牌清理乾淨 */
     async function clearTableCards() {
         if (currentOpponent.value) {
-            currentOpponent.value.backpack.cards = [
-                ...currentOpponent.value.backpack.cards,
-                ...handCards.value,
-            ];
+            currentOpponent.value.backpack.cards = [...currentOpponent.value.backpack.cards, ...handCards.value];
 
             handCards.value = [];
         }
@@ -187,10 +184,7 @@ export const useOpponentStore = defineStore('opponent', () => {
             if (shouldRePlaceCard) {
                 await recallCard();
 
-                const randomThinkingSeconds = getRandomInt([
-                    0,
-                    battleStore.remainSeconds,
-                ]);
+                const randomThinkingSeconds = getRandomInt([0, battleStore.remainSeconds]);
                 await sleepSeconds(randomThinkingSeconds);
 
                 await logicPlaceCard();
@@ -205,7 +199,7 @@ export const useOpponentStore = defineStore('opponent', () => {
     /** 產生一句喃喃自語 */
     async function randomMumble(
         mumbleType: enumMumbleType,
-        force: boolean = false
+        force: boolean = false,
     ) {
         // 決定是否要喃喃自語
         const isGoingToMumble = force || getRandomInt([1, 2]) === 1;
@@ -270,7 +264,7 @@ export const useOpponentStore = defineStore('opponent', () => {
     async function dropCard(card: Card) {
         if (currentOpponent.value) {
             const findIndex = currentOpponent.value.backpack.cards.findIndex(
-                (item) => item.id === card.id
+                (item) => item.id === card.id,
             );
 
             if (findIndex !== -1) {
@@ -283,7 +277,7 @@ export const useOpponentStore = defineStore('opponent', () => {
     async function dropEquip(equip: Equip) {
         if (currentOpponent.value) {
             const findIndex = currentOpponent.value.backpack.equips.findIndex(
-                (item) => item.id === equip.id
+                (item) => item.id === equip.id,
             );
 
             if (findIndex !== -1) {
@@ -296,7 +290,7 @@ export const useOpponentStore = defineStore('opponent', () => {
     async function clearOpponent() {
         if (currentOpponent.value) {
             const findIndex = pool.value.findIndex(
-                (v) => v.id === currentOpponent.value?.id
+                (v) => v.id === currentOpponent.value?.id,
             );
             if (findIndex !== -1) {
                 defeatedOpponents.value.push(currentOpponent.value);
@@ -310,7 +304,7 @@ export const useOpponentStore = defineStore('opponent', () => {
     function init() {
         // 初始化一定有工作型
         const workerTypeOpponent = factory.createPlayer(
-            enumCharacter.GkbotWorker
+            enumCharacter.GkbotWorker,
         );
         pool.value.push(workerTypeOpponent);
 

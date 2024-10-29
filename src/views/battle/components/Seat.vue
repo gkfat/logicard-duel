@@ -217,7 +217,7 @@ const { player, mumbleContent, extraStatus } = defineProps<{
 }>();
 
 const currentHealthPercent = computed(
-    () => (player.status.health / player.status.maxHealth) * 100
+    () => (player.status.health / player.status.maxHealth) * 100,
 );
 
 /** 上一次變化的後血量 */
@@ -229,14 +229,14 @@ const mutatedHealth = ref(0);
 /** 播放扣血動畫 */
 watch(
     () => player.status.health,
-    async () => {
+    async() => {
         mutatedHealth.value = player.status.health - lastHealth.value;
 
         await sleepSeconds(1);
 
         lastHealth.value = player.status.health;
         mutatedHealth.value = 0;
-    }
+    },
 );
 </script>
 

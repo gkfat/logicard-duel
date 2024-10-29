@@ -34,7 +34,7 @@ interface BaseInstance {
 /** 卡牌模板 */
 export interface CardTemplate extends BaseTemplate {
     type: enumCard;
-    effect: enumEffect.Harm | enumEffect.Defense;
+    effect: enumEffect.Harm | enumEffect.Defense | enumEffect.Heal;
 }
 
 /** 卡牌實體 */

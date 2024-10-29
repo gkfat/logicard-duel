@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- 增加治療類卡牌
+
+### Fixed
+
+- 修正機率產生器，現在會包含 max 值
+
+
 ## [v0.3.3] - 2024-10-28
 
 ### Changed

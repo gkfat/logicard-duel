@@ -78,7 +78,7 @@ const {
 const isAbleToPlaceCard = computed(
     () =>
         roundPhase.value === enumRoundPhase.Main &&
-        battleStore.remainSeconds > 0
+        battleStore.remainSeconds > 0,
 );
 
 /** 計算弧形排列 */

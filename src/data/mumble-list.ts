@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+ 
 import { enumMumbleType } from '@/enums/mumble';
 
 export const GeneralHumanMumbleList: { [key in enumMumbleType]: string[] } = {
@@ -14,11 +14,13 @@ export const GeneralHumanMumbleList: { [key in enumMumbleType]: string[] } = {
         '這真的有用嗎...',
         '請問是放這嗎？',
     ],
-    [enumMumbleType.OpponentPlaceCard]: [
-        '機器人出牌為什麼看起來那麼恐怖啊？',
-        '嚇死我了。',
+    [enumMumbleType.OpponentPlaceCard]: ['機器人出牌為什麼看起來那麼恐怖啊？', '嚇死我了。'],
+    [enumMumbleType.Hurt]: [
+        '啊...血流不止了...',
+        '欸...',
+        '痛啊...',
+        'Ouch!',
     ],
-    [enumMumbleType.Hurt]: ['啊...血流不止了...', '欸...', '痛啊...', 'Ouch!'],
     [enumMumbleType.Attack]: [
         '攻擊！攻擊！攻擊！',
         '為什麼這樣可以傷到機器人？',
@@ -61,10 +63,7 @@ export const GeneralOpponentMumbleList: { [key in enumMumbleType]: string[] } =
             '這附近有充電樁嗎...',
             '我掉螺絲了！',
         ],
-        [enumMumbleType.Attack]: [
-            '你完蛋了，準備漏機油吧！',
-            '不愧是人類，有夠愚蠢。',
-        ],
+        [enumMumbleType.Attack]: ['你完蛋了，準備漏機油吧！', '不愧是人類，有夠愚蠢。'],
         [enumMumbleType.Lose]: [
             '嗄嗄...GK 博士...',
             '毀滅一個我，還有千千萬萬個我...走著瞧吧，人類！',

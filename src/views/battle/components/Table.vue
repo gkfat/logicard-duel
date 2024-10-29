@@ -182,16 +182,16 @@ const playerAttempt = computed(() => battleStore.playerAttempt);
 const opponentAttempt = computed(() => battleStore.opponentAttempt);
 
 const playerDeduction = computed(
-    () => opponentRoundStatus.attack - playerRoundStatus.defense
+    () => opponentRoundStatus.attack - playerRoundStatus.defense,
 );
 
 const opponentDeduction = computed(
-    () => playerRoundStatus.attack - opponentRoundStatus.defense
+    () => playerRoundStatus.attack - opponentRoundStatus.defense,
 );
 
 /** 是否顯示倒數計時器 */
 const isShowCountdown = computed(
-    () => roundPhase.value === enumRoundPhase.Main
+    () => roundPhase.value === enumRoundPhase.Main,
 );
 const remainSeconds = computed(() => battleStore.remainSeconds);
 
@@ -217,7 +217,7 @@ const table = computed(() => {
 
 watch(
     () => roundPhase.value,
-    async () => {
+    async() => {
         if (roundPhase.value === enumRoundPhase.Duel) {
             await sleepSeconds(2.5);
             shouldDuel.value = true;
@@ -226,6 +226,6 @@ watch(
         if (roundPhase.value === enumRoundPhase.Settle) {
             shouldDuel.value = false;
         }
-    }
+    },
 );
 </script>

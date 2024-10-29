@@ -1,6 +1,8 @@
 {
   "editor.insertSpaces": true,
   "editor.formatOnSave": true,
+  "editor.wordWrap": "off",
+  "editor.wordWrapColumn": 100,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },

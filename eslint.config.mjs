@@ -13,11 +13,6 @@ export default [
     // config parsers
     {
         files: ['src/**/*.{js,mjs,cjs,ts,mts,jsx,tsx}'],
-        rules: {
-            indent: ['error', 4],
-            quotes: ['error', 'single'],
-            semi: 'error',
-        },
     },
     {
         files: ['*.vue', '**/*.vue'],
@@ -29,11 +24,23 @@ export default [
         },
         rules: {
             'vue/multi-word-component-names': ['off'],
+        },
+    },
+    {
+        rules: {
             indent: ['error', 4],
             quotes: ['error', 'single'],
-            'import/prefer-default-export': 'off',
-            camelcase: 'off',
             semi: 'error',
+            'comma-dangle': ['error', 'always-multiline'],
+            'no-multiple-empty-lines': ['error', { max: 1 }],
+            'space-before-function-paren': ['error', 'never'],
+            'object-curly-newline': ['error', { consistent: true }],
+            'array-bracket-newline': ['error', { multiline: true, minItems: 3 }],
+            'array-element-newline': [
+                'error', {
+                    minItems: 3,
+                },
+            ],
         },
     },
     // config envs
@@ -43,6 +50,6 @@ export default [
                 ...globals.browser,
                 ...globals.node,
             },
-        }
+        },
     },
 ];
