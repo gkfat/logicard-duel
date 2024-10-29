@@ -68,7 +68,7 @@ const openGithub = async () => {
 
 const start = async () => {
     appStore.switchSpinner(true);
-    soundStore.playAllInMute();
+    await soundStore.playAllInMute();
 
     await soundClick();
 

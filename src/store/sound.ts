@@ -186,35 +186,35 @@ export const useSoundStore = defineStore('sound', () => {
         });
     };
 
-    const playAllInMute = () => {
-        const soundEffectKeys = Object.keys(urls.effect);
-        const soundBgmKeys = Object.keys(urls.bgm);
+    const playAllInMute = async () => {
+        const soundEffectKeys = Object.keys(urls.effect).filter((v) => v !== 'click');
+        const soundBgmKeys = Object.keys(urls.bgm).filter((v) => v !== 'prologue');
 
-        soundEffectKeys.forEach((key) => {
+        soundEffectKeys.forEach(async (key) => {
             const audio: HTMLAudioElement | null = sounds.effect[key];
             if (audio) {
                 audio.volume = 0;
                 audio.muted = true;
-                audio.play();
+                await audio.play();
                 setTimeout(() => {
                     audio.pause();
                     audio.volume = 1;
                     audio.muted = false;
-                }, 5);
+                }, 10);
             }
         })
 
-        soundBgmKeys.forEach((key) => {
+        soundBgmKeys.forEach(async (key) => {
             const audio: HTMLAudioElement | null = sounds.bgm[key];
             if (audio) {
                 audio.volume = 0;
                 audio.muted = true;
-                audio.play();
+                await audio.play();
                 setTimeout(() => {
                     audio.pause();
                     audio.volume = 0.5;
                     audio.muted = false;
-                }, 5);
+                }, 10);
             }
         })
     }

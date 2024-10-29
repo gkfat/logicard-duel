@@ -177,6 +177,7 @@ const buyEquip = async (index: number) => {
     const getCardComponent = equipRefs.value[index];
 
     if (playerCoin.value >= equip.info.price) {
+        await shopStore.soldEquip(equip);
         await playerStore.buyEquip(equip);
         getCardComponent?.toggleDialog(false);
     }
@@ -187,6 +188,7 @@ const buyCard = async (index: number) => {
     const getCardComponent = cardRefs.value[index];
 
     if (playerCoin.value >= card.info.price) {
+        await shopStore.soldCard(card);
         await playerStore.buyCard(card);
         getCardComponent?.toggleDialog(false);
     }

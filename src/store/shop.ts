@@ -65,6 +65,28 @@ export const useShopStore = defineStore('shop', () => {
         console.log('shop refreshed');
     }
 
+    /**
+     * 賣出道具
+     */
+    async function soldEquip(equip: Equip) {
+        const findIndex = repository.value.equips.findIndex((v) => v.id === equip.id);
+
+        if (findIndex) {
+            repository.value.equips.splice(findIndex, 1);
+        }
+    }
+
+    /**
+     * 賣出道具
+     */
+    async function soldCard(card: Card) {
+        const findIndex = repository.value.cards.findIndex((v) => v.id === card.id);
+
+        if (findIndex) {
+            repository.value.cards.splice(findIndex, 1);
+        }
+    }
+
     /** 重置倒數時間 */
     function resetRemainSeconds() {
         remainSeconds.value = appStore.ENV.shopRefreshMinutes * 60;
@@ -99,5 +121,7 @@ export const useShopStore = defineStore('shop', () => {
         repository,
         remainSeconds,
         init,
+        soldCard,
+        soldEquip
     };
 });
