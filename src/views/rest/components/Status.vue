@@ -133,7 +133,7 @@
                     <Btn
                         :text="'自盡'"
                         :size="'small'"
-                        :func="() => openConfirmBox"
+                        :func="() => openConfirmBox()"
                     />
                 </v-col>
             </v-row>
