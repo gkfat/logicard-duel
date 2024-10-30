@@ -26,20 +26,47 @@ class Factory {
         player: 0,
     };
 
-    private rarityWeights = {
-        [enumRarity.Normal]: 50,
-        [enumRarity.Rare]: 30,
-        [enumRarity.SR]: 15,
-        [enumRarity.SSR]: 5,
-    };
+    /**
+     * 稀有度池
+     * 依照稀有度權重比例塞入稀有度值, 抽籤時隨機數抽取一個 index, 以該 index 為稀有度
+     */
+    private rarityPools: RarityValue[] = [];
+
+    /**
+     * 初始化稀有度池
+     */
+    private initRarityPools() {
+        const rarityWeights: { [key in RarityValue]: number } = {
+            [enumRarity.None]: 0,
+            [enumRarity.Normal]: 50,
+            [enumRarity.Rare]: 30,
+            [enumRarity.SR]: 15,
+            [enumRarity.SSR]: 5,
+        };
+
+        Object.keys(rarityWeights).forEach((rarity) => {
+            const weights = rarityWeights[rarity as RarityValue];
+
+            for(let i = 0; i < weights; i ++) {
+                this.rarityPools.push(rarity as RarityValue);
+            }
+        });
+    }
+
+    constructor() {
+        this.initRarityPools();
+    }
 
     /**
      * 產生稀有度
      */
     private randomRarity(range: RarityValue[]): enumRarity {
-        const getIndex = getRandomInt([0, range.length - 1]);
+        // 淺拷貝並篩掉 range 以外的 raritys
+        const filterdPool = this.rarityPools.slice().filter((rarity) => range.includes(rarity));
+        const getIndex = getRandomInt([0, filterdPool.length - 1]);
+        const rarity = filterdPool[getIndex];
 
-        return range[getIndex];
+        return rarity;
     }
 
     /**

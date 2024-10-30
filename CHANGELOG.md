@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - 增加治療類卡牌
 - 增加使用治療類卡牌機制
+- 依照稀有度權重生成道具機制
 
 ### Fixed
 
