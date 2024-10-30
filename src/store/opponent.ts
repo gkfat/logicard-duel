@@ -143,15 +143,12 @@ export const useOpponentStore = defineStore('opponent', () => {
             tableCard.value = undefined;
         }
 
-        if (tableCard.value === undefined) {
-            await soundPlaceCard();
+        await soundPlaceCard();
 
-            const findCardIndex = handCards.value.findIndex((v) => v.id === card.id);
+        const findCardIndex = handCards.value.findIndex((v) => v.id === card.id);
 
-            if (findCardIndex) {
-                handCards.value.splice(findCardIndex, 1);
-            }
-
+        if (findCardIndex) {
+            handCards.value.splice(findCardIndex, 1);
             tableCard.value = card;
         }
     }
@@ -184,14 +181,17 @@ export const useOpponentStore = defineStore('opponent', () => {
 
         // 若還有手牌就隨機出一張
         if (handCards.value.length > 0) {
-            const randomCardIndex = getRandomInt([0, handCards.value.length]);
+            const randomCardIndex = getRandomInt([0, handCards.value.length - 1]);
             const getCard = handCards.value[randomCardIndex];
 
             placeCard(getCard);
 
             const shouldRePlaceCard =
                 battleStore.remainSeconds > 3 && drawLots();
+
             if (shouldRePlaceCard) {
+                await sleepSeconds(0.5);
+
                 await recallCard();
 
                 const randomThinkingSeconds = getRandomInt([0, battleStore.remainSeconds]);

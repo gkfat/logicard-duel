@@ -103,9 +103,6 @@ const placeCard = (index: number) => {
     if (playerType === 'player') {
         playerStore.placeCard(getCard);
         getCardComponent?.toggleDialog(false);
-    } else if (playerType === 'opponent') {
-        opponentStore.placeCard(getCard);
-        getCardComponent?.toggleDialog(false);
     }
 };
 </script>

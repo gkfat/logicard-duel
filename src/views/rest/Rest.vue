@@ -13,7 +13,7 @@
 
         <!-- 功能列 -->
         <v-col cols="auto" class="pa-0 mt-auto">
-            <v-row class="ma-0 ga-3 justify-center mt-auto">
+            <v-row class="ma-0 ga-3 justify-center flex-nowrap mt-auto">
                 <!-- 背包 -->
                 <v-col class="pa-0">
                     <Btn

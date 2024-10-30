@@ -70,7 +70,7 @@
 
             <!-- 裝備 -->
             <v-row
-                class="align-center px-3 ma-0 ga-2 flex-nowrap overflow-x-auto"
+                class="align-center px-3 ma-0 mb-5 ga-2 flex-nowrap overflow-x-auto"
             >
                 <v-col class="pa-0">
                     <Equip
@@ -128,7 +128,7 @@
                 </v-col>
             </v-row>
 
-            <v-row class="align-center px-3 pt-3 ma-0">
+            <v-row class="align-center px-3 ma-0">
                 <v-col cols="12" class="pa-0">
                     <Btn
                         :text="'自盡'"

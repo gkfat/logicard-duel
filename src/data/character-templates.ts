@@ -250,8 +250,6 @@ export const CharacterTemplateList: CharacterTemplate[] = [
             defenseRange: [1, 3],
             cards: [
                 ...baseCards,
-                enumCard.ScrewDriver,
-                enumCard.Battery,
             ],
             equips: [enumEquip.Boxer],
             coin: 20,
