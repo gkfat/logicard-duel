@@ -28,7 +28,9 @@ import Rest from '@/views/rest/Rest.vue';
 import ChooseOpponent from './choose-opponent/ChooseOpponent.vue';
 
 const appStore = useAppStore();
-const { bgmBattle, bgmEnd, bgmPrologue, bgmRest } = useSoundEffect();
+const {
+    bgmBattle, bgmEnd, bgmPrologue, bgmRest, 
+} = useSoundEffect();
 
 watch(
     () => appStore.gameState,

@@ -197,7 +197,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import {
+    computed,
+    ref,
+    watch,
+} from 'vue';
 
 import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
 import Equip from '@/components/equip/Equip.vue';
@@ -210,7 +214,9 @@ import { sleepSeconds } from '@/utils/common';
 
 import MumbleBubble from '../components/MumbleBubble.vue';
 
-const { player, mumbleContent, extraStatus } = defineProps<{
+const {
+    player, mumbleContent, extraStatus, 
+} = defineProps<{
     player: Player;
     mumbleContent: string;
     extraStatus: { attack: number; defense: number };

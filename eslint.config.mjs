@@ -1,26 +1,22 @@
-import pluginVue from 'eslint-plugin-vue';
+import vueLint from 'eslint-plugin-vue';
 import globals from 'globals';
-import tsEslint from 'typescript-eslint';
+import tslint from 'typescript-eslint';
 import vueParser from 'vue-eslint-parser';
 
-import eslintJs from '@eslint/js';
+import jsLint from '@eslint/js';
 
 export default [
-    // syntax rules
-    eslintJs.configs.recommended,
-    ...tsEslint.configs.recommended,
-    ...pluginVue.configs['flat/essential'],
-    // config parsers
-    {
-        files: ['src/**/*.{js,mjs,cjs,ts,mts,jsx,tsx}'],
-    },
+    // preset configs
+    jsLint.configs.recommended,
+    ...tslint.configs.recommended,
+    ...vueLint.configs['flat/essential'],
+
+    // vue
     {
         files: ['*.vue', '**/*.vue'],
         languageOptions: {
             parser: vueParser,
-            parserOptions: {
-                parser: tsEslint.parser, // parse TS inside VUE
-            },
+            parserOptions: { parser: tslint.parser },
         },
         rules: {
             'vue/multi-word-component-names': ['off'],
@@ -37,18 +33,16 @@ export default [
             ],
         },
     },
+
+    // all files
     {
         rules: {
             indent: ['error', 4],
             quotes: ['error', 'single'],
             semi: 'error',
             'comma-dangle': ['error', 'always-multiline'],
-            'no-multiple-empty-lines': [
-                'error', {
-                    max: 1,
-                },
-            ],
-            'space-before-function-paren': ['error', 'never'],
+            'no-multiple-empty-lines': ['error', { max: 1 }],
+            'object-curly-spacing': ['error', 'always'],
             'object-curly-newline': [
                 'error', {
                     multiline: true, minProperties: 2,
@@ -59,13 +53,10 @@ export default [
                     multiline: true, minItems: 3,
                 },
             ],
-            'array-element-newline': [
-                'error', {
-                    minItems: 3,
-                },
-            ],
+            'array-element-newline': ['error', { minItems: 3 }],
         },
     },
+
     // config envs
     {
         languageOptions: {

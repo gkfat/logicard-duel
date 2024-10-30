@@ -83,7 +83,7 @@ const BREATHE_INTERVAL_MILISECONDS = 150;
 // eslint-disable-next-line no-undef
 const intervalChangingBackground = ref<NodeJS.Timeout>();
 
-const goOut = async() => {
+const goOut = async () => {
     await soundClick();
 
     appStore.changeGameState(enumGameState.ChooseOpponent);
