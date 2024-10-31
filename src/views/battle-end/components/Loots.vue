@@ -6,6 +6,16 @@
             maxHeight: '150px',
         }"
     >
+
+        <!-- 經驗值 -->
+        <ItemBox :size="'x-small'">
+            <template #item>
+                <p class="text-center">
+                    Exp. {{ gainExp }}
+                </p>
+            </template>
+        </ItemBox>
+
         <!-- 螺絲釘 -->
         <ItemBox :size="'x-small'">
             <template #item>
@@ -62,6 +72,7 @@ import Equip from '@/components/equip/Equip.vue';
 import Btn from '@/components/system/Btn.vue';
 import { useOpponentStore } from '@/store/opponent';
 import { usePlayerStore } from '@/store/player';
+import { calcGainExp } from '@/utils/common';
 
 const opponentStore = useOpponentStore();
 const playerStore = usePlayerStore();
@@ -69,6 +80,8 @@ const backpack = computed(() => opponentStore.currentOpponent!.backpack);
 
 const cardRefs = ref<(InstanceType<typeof Card> | null)[]>([]);
 const equipRefs = ref<(InstanceType<typeof Equip> | null)[]>([]);
+
+const gainExp = computed(() => calcGainExp(opponentStore.currentOpponent!));
 
 const collectCard = (index: number) => {
     const getCard = backpack.value.cards[index];

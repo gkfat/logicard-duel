@@ -15,7 +15,7 @@
                 >
                     <OpponentCard
                         :is-selected="currentOpponentIndex === index"
-                        :character="opponent.character"
+                        :opponent="opponent"
                     />
                 </v-col>
             </v-row>
@@ -31,7 +31,6 @@
 import {
     onMounted,
     ref,
-    watch,
 } from 'vue';
 
 import { useI18n } from 'vue-i18n';
@@ -76,7 +75,7 @@ onMounted(async() => {
 
     // 檢查若 pool 少於 3 隻則生成
     if (opponentStore.pool.length < 3) {
-        opponentStore.refillPool();
+        await opponentStore.refillPool();
     }
 });
 </script>

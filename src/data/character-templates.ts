@@ -29,6 +29,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         description: '沒什麼特別的，就是個平凡的上班族（aka you）。',
         avatar: ImageDataList.avatar.man,
         backpackLimit: 30,
+        releaseExp: 0,
         init: {
             healthRange: [40, 50],
             attackRange: [5, 10],
@@ -69,6 +70,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
             '因為體力不太好沒辦法背太多東西，很重。擁有比較厚的脂肪層，比較不容易受傷。',
         avatar: ImageDataList.avatar.fat,
         backpackLimit: 20,
+        releaseExp: 0,
         init: {
             healthRange: [50, 70],
             attackRange: [5, 8],
@@ -115,6 +117,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         description: '末日後依然堅持從事金融交易，深諳致富之道。',
         avatar: ImageDataList.avatar.broker,
         backpackLimit: 35,
+        releaseExp: 0,
         init: {
             healthRange: [35, 60],
             attackRange: [7, 12],
@@ -163,6 +166,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         description: '年事已高的外婆，口袋很深。',
         avatar: ImageDataList.avatar.grandma,
         backpackLimit: 20,
+        releaseExp: 0,
         init: {
             healthRange: [20, 25],
             attackRange: [5, 10],
@@ -200,6 +204,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         description: '穿著獨特的大衣，口袋很多。因為有低血糖，比較虛弱。',
         avatar: ImageDataList.avatar.artist,
         backpackLimit: 40,
+        releaseExp: 0,
         init: {
             healthRange: [30, 35],
             attackRange: [7, 9],
@@ -244,15 +249,16 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         description:
             '被生產來做一些基本的事務，例如清潔、搬運、量產等。特色是平板的聲音線。',
         backpackLimit: 999,
+        releaseExp: 60,
         init: {
-            healthRange: [40, 50],
+            healthRange: [25, 35],
             attackRange: [3, 6],
             defenseRange: [1, 3],
             cards: [
                 ...baseCards,
             ],
             equips: [enumEquip.Boxer],
-            coin: 20,
+            coin: 30,
         },
         mumbleList: {
             [enumMumbleType.General]: [
@@ -273,11 +279,12 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         name: 'GkBot 表演型',
         avatar: ImageDataList.avatar.gkbotPerform,
         backpackLimit: 999,
+        releaseExp: 80,
         description:
             '被生產來與人互動，多作為看護或保姆，有安裝 DLC 的版本甚至能擔任教師。特色是能模擬人類的情感，有時會講笑話或唱歌。',
         init: {
-            healthRange: [35, 40],
-            attackRange: [8, 12],
+            healthRange: [25, 35],
+            attackRange: [6, 10],
             defenseRange: [2, 5],
             cards: [
                 ...baseCards,
@@ -317,9 +324,10 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         avatar: ImageDataList.avatar.gkbotAttack,
         description: '被生產來進行軍事行動的型號，行動敏捷，知曉一些秘密。',
         backpackLimit: 8,
+        releaseExp: 150,
         init: {
-            healthRange: [40, 50],
-            attackRange: [15, 20],
+            healthRange: [30, 40],
+            attackRange: [12, 15],
             defenseRange: [5, 10],
             cards: [
                 ...baseCards,
@@ -367,9 +375,10 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         avatar: ImageDataList.avatar.gkbotDefense,
         description: '外殼特別堅硬，能夠更有效地防禦攻擊，話很少。',
         backpackLimit: 8,
+        releaseExp: 130,
         init: {
-            healthRange: [50, 60],
-            attackRange: [8, 12],
+            healthRange: [45, 55],
+            attackRange: [6, 10],
             defenseRange: [8, 12],
             cards: [
                 ...baseCards,

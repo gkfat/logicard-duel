@@ -122,7 +122,7 @@ const restart = async() => {
     await rankStore.updateRankData(data);
 
     appStore.switchSpinner(false);
-    // window.location.reload();
+    window.location.reload();
 };
 </script>
 

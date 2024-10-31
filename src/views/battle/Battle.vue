@@ -157,6 +157,9 @@ const remainSeconds = computed(() => battleStore.remainSeconds);
 
 const isCountingDown = ref(false);
 
+/** 戰鬥中 */
+const isInBattle = computed(() => appStore.gameState === enumGameState.Battle);
+
 /** 倒數計時結束 */
 const endCountdown = () => {
     isCountingDown.value = false;
@@ -194,12 +197,17 @@ const endBattle = async() => {
 
 /** 結算 */
 const settle = async() => {
+    if (!isInBattle.value) {
+        return;
+    }
+
     if (player.value.status.health === 0) {
         // 玩家沒血, game over
         playerStore.randomMumble(enumMumbleType.Lose, true);
 
         await sleepSeconds(3);
         await endBattle();
+
         appStore.changeGameState(enumGameState.GameOver);
     } else if (opponent.value.status.health === 0) {
         // 敵人沒血, battle end
@@ -209,6 +217,7 @@ const settle = async() => {
         await soundWin();
         await sleepSeconds(1);
         await endBattle();
+
         appStore.changeGameState(enumGameState.BattleEnd);
     }
 };
@@ -216,14 +225,14 @@ const settle = async() => {
 /** 開牌 */
 const duel = async() => {
     // 敵人補血
-    if (opponentAttempt.value === enumEffect.Heal) {
+    if (isInBattle.value && opponentAttempt.value === enumEffect.Heal) {
         const healPoint = opponentTableCard.value!.info.point;
         await opponentStore.increaseHealth(healPoint);
         await sleepSeconds(1);
     }
 
     // 玩家補血
-    if (playerAttempt.value === enumEffect.Heal) {
+    if (isInBattle.value && playerAttempt.value === enumEffect.Heal) {
         const healPoint = playerTableCard.value!.info.point;
         await playerStore.increaseHealth(healPoint);
 
@@ -234,7 +243,7 @@ const duel = async() => {
     }
 
     // 玩家攻擊
-    if (playerAttempt.value === enumEffect.Harm) {
+    if (isInBattle.value && playerAttempt.value === enumEffect.Harm) {
         // 玩家攻擊力 - 敵人防禦力
         const opponentDeduction =
             playerRoundStatus.value.attack - opponentRoundStatus.value.defense;
@@ -256,7 +265,7 @@ const duel = async() => {
     }
 
     // 敵人攻擊
-    if (opponentAttempt.value === enumEffect.Harm) {
+    if (isInBattle.value && opponentAttempt.value === enumEffect.Harm) {
         // 敵人攻擊力 - 玩家防禦力
         const playerDeduction =
             opponentRoundStatus.value.attack - playerRoundStatus.value.defense;
@@ -367,6 +376,7 @@ onMounted(async() => {
     playerStore.createRecord(opponent.value);
 
     battleStore.resetBattle();
+
     battleStore.changeRoundPhase(enumRoundPhase.RoundStart);
 });
 </script>

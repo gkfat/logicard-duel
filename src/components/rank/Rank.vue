@@ -9,10 +9,18 @@
                     <Dialog :max-height="120" :dialogs="dialogs" />
                 </v-col>
 
+                <v-col cols="auto" class="py-0 mb-3">
+                    <Btn
+                        :text="'要不...自盡吧？'"
+                        :size="'small'"
+                        :func="() => openConfirmBox()"
+                    />
+                </v-col>
+
                 <v-col
                     cols="auto"
                     class="w-100 py-0 flex-grow-1 overflow-y-auto"
-                    :style="{ minHeight: '0', maxHeight: '60%' }"
+                    :style="{ minHeight: '0', maxHeight: '55%' }"
                 >
                     <template v-if="rankData.length">
                         <RankCard
@@ -33,17 +41,28 @@
             </v-row>
         </v-card>
     </v-bottom-sheet>
+
+    <ConfirmBox
+        ref="confirmBoxRef"
+        :message="'確定要自盡？此路一去不回頭'"
+        :func="goGameOver"
+    />
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
 import Btn from '@/components/system/Btn.vue';
+import ConfirmBox from '@/components/system/ConfirmBox.vue';
 import Dialog from '@/components/system/Dialog.vue';
 import { DialogDataList } from '@/data/dialogs';
 import { enumDialog } from '@/enums/dialog';
+import { enumGameState } from '@/enums/game';
 import { useAppStore } from '@/store/app';
 import { useRankStore } from '@/store/rank';
 
@@ -56,9 +75,18 @@ const isOpen = computed(() => appStore.isOpen === 'rank');
 
 const dialogs = DialogDataList[enumDialog.Rank];
 const rankData = computed(() => rankStore.rankData);
+const confirmBoxRef = ref<typeof ConfirmBox>();
 
 // 關閉排行榜
 const closeRank = async() => {
     appStore.closeDialog();
+};
+
+const openConfirmBox = () => {
+    confirmBoxRef.value?.show();
+};
+
+const goGameOver = () => {
+    appStore.changeGameState(enumGameState.GameOver);
 };
 </script>

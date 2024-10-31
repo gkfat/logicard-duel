@@ -174,6 +174,9 @@ class Factory {
             createdAt: createDate().toDate(),
             character: { ...findTemplate },
             status: {
+                level: 1,
+                exp: 0,
+                expToNextLevel: 100,
                 health,
                 maxHealth: health,
                 attack: getRandomInt(attackRange),

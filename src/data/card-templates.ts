@@ -31,11 +31,11 @@ export const CardTemplateList: CardTemplate[] = [
         icon: ImageDataList.icon.logoLogicard,
         potentials: {
             [enumRarity.Normal]: {
-                pointRange: [1, 3],
+                pointRange: [3, 5],
                 priceRange: [2, 8],
             },
             [enumRarity.Rare]: {
-                pointRange: [3, 7],
+                pointRange: [5, 10],
                 priceRange: [10, 15],
             },
         },
@@ -48,11 +48,11 @@ export const CardTemplateList: CardTemplate[] = [
         icon: ImageDataList.icon.attack,
         potentials: {
             [enumRarity.Normal]: {
-                pointRange: [3, 5],
+                pointRange: [5, 9],
                 priceRange: [20, 30],
             },
             [enumRarity.Rare]: {
-                pointRange: [5, 9],
+                pointRange: [8, 14],
                 priceRange: [30, 50],
             },
         },
@@ -69,7 +69,7 @@ export const CardTemplateList: CardTemplate[] = [
                 priceRange: [35, 50],
             },
             [enumRarity.Rare]: {
-                pointRange: [10, 15],
+                pointRange: [12, 18],
                 priceRange: [60, 80],
             },
         },
@@ -82,11 +82,11 @@ export const CardTemplateList: CardTemplate[] = [
         icon: ImageDataList.icon.defense,
         potentials: {
             [enumRarity.Normal]: {
-                pointRange: [7, 10],
+                pointRange: [10, 15],
                 priceRange: [20, 30],
             },
             [enumRarity.Rare]: {
-                pointRange: [9, 12],
+                pointRange: [13, 20],
                 priceRange: [40, 55],
             },
         },
@@ -99,11 +99,11 @@ export const CardTemplateList: CardTemplate[] = [
         icon: ImageDataList.icon.defense,
         potentials: {
             [enumRarity.Normal]: {
-                pointRange: [10, 15],
+                pointRange: [18, 27],
                 priceRange: [35, 50],
             },
             [enumRarity.Rare]: {
-                pointRange: [14, 20],
+                pointRange: [25, 35],
                 priceRange: [70, 95],
             },
         },
@@ -116,11 +116,11 @@ export const CardTemplateList: CardTemplate[] = [
         icon: ImageDataList.icon.heal,
         potentials: {
             [enumRarity.Normal]: {
-                pointRange: [5, 10],
+                pointRange: [20, 40],
                 priceRange: [50, 80],
             },
             [enumRarity.Rare]: {
-                pointRange: [10, 18],
+                pointRange: [40, 70],
                 priceRange: [80, 120],
             },
         },
@@ -133,11 +133,11 @@ export const CardTemplateList: CardTemplate[] = [
         icon: ImageDataList.icon.heal,
         potentials: {
             [enumRarity.Normal]: {
-                pointRange: [15, 25],
+                pointRange: [50, 80],
                 priceRange: [100, 150],
             },
             [enumRarity.Rare]: {
-                pointRange: [30, 50],
+                pointRange: [100, 150],
                 priceRange: [120, 200],
             },
         },

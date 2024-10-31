@@ -4,22 +4,21 @@
         :color="isSelected ? 'darkgreen' : 'bluegrey'"
         class="rounded-lg border-xl cursor-pointer"
     >
-        <v-card-text class="text-center">
-            <PlayerAvatar :character="character"/>
+        <v-card-text class="pa-1 text-center">
+            <PlayerAvatar :character="opponent.character"/>
 
-            <p class="w-100 mt-3">
-                {{ character.name }}
-            </p>
+            <p class="mt-1">Lv. {{ opponent.status.level }}</p>
+            <p>{{ opponent.character.name }}</p>
         </v-card-text>
     </v-card>
 </template>
 
 <script lang="ts" setup>
 import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
-import { CharacterTemplate } from '@/types/character';
+import { Player } from '@/types/player';
 
-const { character, isSelected = false } = defineProps<{
-    character: CharacterTemplate;
+const { opponent, isSelected = false } = defineProps<{
+    opponent: Player;
     isSelected: boolean;
 }>();
 </script>

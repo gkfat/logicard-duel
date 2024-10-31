@@ -6,7 +6,7 @@
             :class="`text-${color}`"
         >
             <IconCoin/>
-            {{ player.backpack.coin }}
+            {{ thousands(player.backpack.coin) }}
         </v-col>
         <v-col
             cols="auto"
@@ -24,6 +24,8 @@ import { computed } from 'vue';
 import IconBackpack from '@/components/icons/IconBackpack.vue';
 import IconCoin from '@/components/icons/IconCoin.vue';
 import { usePlayerStore } from '@/store/player';
+
+import { thousands } from '../../utils/number';
 
 const { theme = 'light' } = defineProps<{
     theme?: 'light' | 'dark';

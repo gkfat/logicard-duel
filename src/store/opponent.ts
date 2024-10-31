@@ -26,10 +26,13 @@ import { drawLots } from '@/utils/lottery';
 
 import { useAppStore } from './app';
 import { useBattleStore } from './battle';
+import { usePlayerStore } from './player';
 
 export const useOpponentStore = defineStore('opponent', () => {
     const appStore = useAppStore();
     const battleStore = useBattleStore();
+    const playerStore = usePlayerStore();
+
     const {
         soundPlaceCard, soundPop, soundOpponentHurt, soundHeal,
     } = useSoundEffect();
@@ -104,12 +107,52 @@ export const useOpponentStore = defineStore('opponent', () => {
         currentOpponent.value!.status.health = mutatedHealth;
     }
 
+      /** 升級 */
+      async function levelUp(opponent: Player) {
+        const {status} = opponent;
+
+        status.level += 1;
+        status.maxHealth += 10;
+        status.health = status.maxHealth;
+        status.attack += 2;
+        status.defense += 2;
+
+        status.expToNextLevel *= 1.5;
+
+        return opponent;
+    }
+
+    function getRandomLevel() {
+        let result = 1;
+        const playerLevel = playerStore.currentPlayer?.status.level ?? 1;
+
+        if (playerLevel) {
+            // 取玩家等級上下一級
+            const [min, max] = [playerLevel - 1 < 1 ? 1 : playerLevel - 1, playerLevel + 1];
+
+            result = getRandomInt([min, max]);
+        }
+
+        return result;
+    }
+
     /** 補滿敵人池 */
-    function refillPool() {
-        while (pool.value.length < 3) {
+    async function refillPool() {
+        while (pool.value.length < 5) {
             const randomType =
                 OpponentValues[getRandomInt([0, OpponentValues.length - 1])];
-            const opponent = factory.createPlayer(randomType);
+
+            let opponent = factory.createPlayer(randomType);
+
+            // 依玩家當前等級調配敵人等級
+            const randomLevel = getRandomLevel();
+
+            if (randomLevel > 1) {
+                for (let i = 1; i < randomLevel; i ++) {
+                    opponent = await levelUp(opponent);
+                }
+            }
+
             pool.value.push(opponent);
         }
     }
@@ -311,14 +354,14 @@ export const useOpponentStore = defineStore('opponent', () => {
     }
 
     /** 初始化敵人池 */
-    function init() {
+    async function init() {
         // 初始化一定有工作型
         const workerTypeOpponent = factory.createPlayer(
             enumCharacter.GkbotWorker,
         );
         pool.value.push(workerTypeOpponent);
 
-        refillPool();
+        await refillPool();
 
         console.log('opponents init');
     }

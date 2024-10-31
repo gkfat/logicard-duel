@@ -24,7 +24,7 @@
         </v-card-text>
 
         <v-card-text class="py-1">
-            <v-row class="ma-0 mb-3">
+            <v-row class="ma-0 flex-nowrap mb-3">
                 <v-col cols="auto" class="pa-1">
                     <PlayerAvatar
                         :character="data.player.character"
@@ -33,6 +33,12 @@
 
                 <v-col cols="auto" class="flex-grow-1 pa-1">
                     <v-row class="ma-0 mb-3">
+                        <v-col
+                            class="py-0 d-flex align-center ga-1"
+                            cols="auto"
+                        >
+                            Lv. {{ data.player.status.level ?? 1 }}
+                        </v-col>
                         <v-col
                             class="py-0 d-flex align-center ga-1"
                             cols="auto"

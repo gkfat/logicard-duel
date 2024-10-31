@@ -9,6 +9,8 @@ export interface CharacterTemplate {
     name: string;
     description: string;
     backpackLimit: number;
+    /** 被打敗時可得到的經驗值 */
+    releaseExp: number;
     mumbleList: {
         [key in enumMumbleType]: string[];
     };

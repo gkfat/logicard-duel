@@ -32,7 +32,7 @@ import { useAppStore } from './app';
 export const usePlayerStore = defineStore('player', () => {
     const appStore = useAppStore();
     const {
-        soundPlaceCard, soundEquip, soundPop, soundPlayerHurt, soundCoin, soundHeal,
+        soundPlaceCard, soundEquip, soundPop, soundPlayerHurt, soundCoin, soundHeal, soundWin
     } =
         useSoundEffect();
 
@@ -367,6 +367,47 @@ export const usePlayerStore = defineStore('player', () => {
         }
     }
 
+    /** 升級 */
+    async function levelUp() {
+        if (currentPlayer.value) {
+            await soundWin();
+
+            const { status } = currentPlayer.value;
+
+            status.level += 1;
+            status.maxHealth += 15;
+            status.health = status.maxHealth;
+            status.attack += 5;
+            status.defense += 5;
+
+            status.exp = 0;
+            status.expToNextLevel = Math.floor(status.expToNextLevel * 1.5);
+        }
+    }
+
+    /** 獲得經驗值 */
+    async function gainExp(exp: number) {
+        if (currentPlayer.value) {
+            const {status} = currentPlayer.value;
+
+            status.exp += exp;
+            // 若累積後的經驗值達升級標準，就升級
+            const extraExp = status.exp - status.expToNextLevel;
+            if (extraExp >= 0) {
+                status.exp = status.expToNextLevel;
+
+                await sleepSeconds(0.2);
+
+                levelUp();
+
+                await sleepSeconds(0.2);
+
+                // 填入剩餘經驗值
+                status.exp = extraExp;
+            }
+        }
+    }
+
     return {
         currentPlayer,
         extraStatus,
@@ -400,5 +441,8 @@ export const usePlayerStore = defineStore('player', () => {
         collectEquip,
         dropCard,
         dropEquip,
+
+        levelUp,
+        gainExp
     };
 });

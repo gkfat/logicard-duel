@@ -7,15 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.4] - 2024-10-31
+
 ### Added
 
 - 增加治療類卡牌
 - 增加使用治療類卡牌機制
 - 依照稀有度權重生成道具機制
+- 增加等級系統
+
+### Changed
+
+- 填滿機器人池調整為 5 隻
+- 調整遊戲性：機器人血量、攻擊力與卡牌數值
 
 ### Fixed
 
 - 修正機率產生器，現在會包含 max 值
+- 修正戰鬥結束時敵人會多打一下的問題
 
 
 ## [v0.3.3] - 2024-10-28

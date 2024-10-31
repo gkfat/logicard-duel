@@ -30,6 +30,12 @@ export interface Player {
     createdAt: Date;
     character: CharacterTemplate;
     status: {
+        /** 目前等級 */
+        level: number;
+        /** 目前經驗值 */
+        exp: number;
+        /** 升到下一級所需經驗值 */
+        expToNextLevel: number;
         health: number;
         attack: number;
         defense: number;

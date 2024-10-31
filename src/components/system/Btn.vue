@@ -21,7 +21,9 @@
 
                 <!-- 按鈕文字 -->
                 <template v-if="text">
-                    <p class="text-h5">
+                    <p :class="{
+                        'text-h5': size === 'default',
+                    }">
                         {{ text }}
                     </p>
                 </template>

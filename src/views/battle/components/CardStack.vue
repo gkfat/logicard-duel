@@ -1,10 +1,10 @@
 <template>
-    <v-card
-        flat
-        color="darkgrey"
-        class="border-white border-lg rounded-lg border-opacity-75 position-relative"
-        :width="60"
-        :height="60"
+    <div
+        class="bg-darkgrey border-white border-lg rounded-lg border-opacity-75 position-relative"
+        :style="{
+            width: '60px',
+            height: '60px'
+        }"
     >
         <div
             v-for="(card, i) in cardStacks"
@@ -25,7 +25,7 @@
                 :show-rarity="false"
             />
         </div>
-    </v-card>
+    </div>
 </template>
 
 <script lang="ts" setup>

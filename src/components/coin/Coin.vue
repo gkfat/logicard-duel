@@ -11,11 +11,7 @@
                     class="ma-0 justify-center align-center justify-center fill-height ga-1 pa-1"
                 >
                     <v-col cols="12" class="text-center pa-0">
-                        <Icon
-                            :size="getIconSize"
-                            :color="'skin'"
-                            :icon="'mdi-screw-round-top'"
-                        />
+                        <IconCoin></IconCoin>
 
                         <div
                             class="position-absolute"
@@ -43,7 +39,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 
-import Icon from '@/components/common/Icon.vue';
+import IconCoin from '@/components/icons/IconCoin.vue';
 
 const { point, size = 'default' } = defineProps<{
     point: number;

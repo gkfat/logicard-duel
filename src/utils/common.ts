@@ -1,3 +1,5 @@
+import { Player } from '@/types/player';
+
 /** 取得範圍內的任一整數 */
 export const getRandomInt = (params: [number, number]) => {
     const [min, max] = params;
@@ -22,3 +24,12 @@ export const rangeToText = (range: [number, number]) => {
 
     return `${min} ~ ${max}`;
 };
+
+/** 計算打敗後會得到的經驗值 */
+export const calcGainExp = (opponent: Player) => {
+    const { status: {level}, character: { releaseExp } } = opponent;
+
+    const bonus = Math.floor(Math.log(level + 1) * 100);
+
+    return releaseExp + bonus;
+}

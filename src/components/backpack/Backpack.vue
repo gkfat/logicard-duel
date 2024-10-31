@@ -136,26 +136,38 @@ const player = computed(() => playerStore.currentPlayer!);
 
 const itemRefs = ref<(InstanceType<typeof Equip | typeof Card> | null)[]>([]);
 
+const sortFunc = (a: EquipType|CardType, b: EquipType|CardType) => {
+    const rarityCompare = b.info.rarity.localeCompare(a.info.rarity);
+    const typeCompare = b.template.type.localeCompare(a.template.type)
+
+    if (rarityCompare !== 0) {
+        return rarityCompare;
+    }
+
+    if (typeCompare !== 0) {
+        return typeCompare;
+    }
+
+    return b.info.point - a.info.point;
+}
+
 const backpackItems = computed(() => {
-    const items: { type: 'card' | 'equip'; item: CardType | EquipType }[] = [];
-
-    const equips = player.value.backpack.equips
-        .slice()
-        .sort((a, b) => b.info.rarity.localeCompare(a.info.rarity));
-
-    equips.map((equip) => {
-        items.push({
-            type: 'equip',
-            item: equip,
-        });
-    });
-
-    player.value.backpack.cards.map((card) => {
-        items.push({
-            type: 'card',
-            item: card,
-        });
-    });
+    const items = [
+        ...player.value.backpack.equips
+            .slice()
+            .sort(sortFunc)
+            .map((equip) => ({
+                type: 'equip',
+                item: equip,
+            })),
+        ...player.value.backpack.cards
+            .slice()
+            .sort(sortFunc)
+            .map((card) => ({
+                type: 'card',
+                item: card,
+            })),
+    ];
 
     return items;
 });
@@ -190,7 +202,7 @@ const sellItem = async() => {
 
     const { item, type } = findItem;
 
-    await playerStore.sellItem(type, item);
+    await playerStore.sellItem(type as 'card'|'equip', item);
     const getItemComponent = itemRefs.value[selectedItemIndex.value!];
     getItemComponent?.toggleDialog(false);
 };

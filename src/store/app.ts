@@ -113,7 +113,7 @@ export const useAppStore = defineStore('appStore', () => {
         bootProcess.value.doneTasks += 1;
 
         // init opponents pool
-        opponentStore.init();
+        await opponentStore.init();
         await sleepSeconds(0.1);
         bootProcess.value.doneTasks += 1;
 
