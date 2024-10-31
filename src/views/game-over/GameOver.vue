@@ -46,7 +46,10 @@
     </v-row>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
@@ -119,7 +122,7 @@ const restart = async() => {
     await rankStore.updateRankData(data);
 
     appStore.switchSpinner(false);
-    window.location.reload();
+    // window.location.reload();
 };
 </script>
 
