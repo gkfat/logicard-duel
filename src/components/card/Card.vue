@@ -1,6 +1,9 @@
 <template>
     <v-row class="ma-0 justify-center align-center">
-        <v-col cols="12" class="pa-0">
+        <v-col
+            cols="12"
+            class="pa-0"
+        >
             <v-card
                 flat
                 rounded="md"
@@ -15,7 +18,10 @@
             >
                 <v-row class="ma-0 pa-1 fill-height">
                     <!-- 卡背 -->
-                    <v-col v-if="isCardBack" class="pa-0 fill-height">
+                    <v-col
+                        v-if="isCardBack"
+                        class="pa-0 fill-height"
+                    >
                         <v-row
                             class="ma-0 align-center justify-center fill-height"
                         >
@@ -35,7 +41,10 @@
                         <v-row
                             class="ma-0 align-center justify-center fill-height ga-1 pa-1"
                         >
-                            <v-col cols="auto" class="pa-0">
+                            <v-col
+                                cols="auto"
+                                class="pa-0"
+                            >
                                 <Icon
                                     :size="getIconSize"
                                     :url="card.template.icon"
@@ -69,14 +78,22 @@
             </v-card>
         </v-col>
 
-        <v-col cols="auto" class="pa-0 text-center" v-if="showRarity">
-            <Rarity :rarity="card.info.rarity"/>
+        <v-col
+            v-if="showRarity"
+            cols="auto"
+            class="pa-0 text-center"
+        >
+            <Rarity :rarity="card.info.rarity" />
             <!-- 稀有度 -->
         </v-col>
     </v-row>
 
     <!-- Detail -->
-    <v-dialog v-model="isDialogOpen" :max-width="500" :min-width="300">
+    <v-dialog
+        v-model="isDialogOpen"
+        :max-width="500"
+        :min-width="300"
+    >
         <v-card
             flat
             color="bluegrey"
@@ -85,8 +102,11 @@
             <v-card-text class="pb-0">
                 <v-row class="align-center">
                     <!-- 效果 -->
-                    <v-col cols="auto" class="ml-auto">
-                        <Effect :effect="card.template.effect"/>
+                    <v-col
+                        cols="auto"
+                        class="ml-auto"
+                    >
+                        <Effect :effect="card.template.effect" />
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -106,13 +126,19 @@
                             class="pa-0 fill-height border-md rounded-lg border-opacity-50 d-flex flex-wrap"
                         >
                             <v-row class="ma-0 justify-center align-center">
-                                <v-col cols="12" class="pa-0 text-center">
+                                <v-col
+                                    cols="12"
+                                    class="pa-0 text-center"
+                                >
                                     <Icon
                                         :size="50"
                                         :url="card.template.icon"
                                     />
                                 </v-col>
-                                <v-col cols="12" class="pa-0 text-center">
+                                <v-col
+                                    cols="12"
+                                    class="pa-0 text-center"
+                                >
                                     {{ card.template.name }}
                                 </v-col>
                             </v-row>
@@ -122,7 +148,7 @@
             </v-card-text>
 
             <!-- 稀有度 -->
-            <Rarity :rarity="card.info.rarity"/>
+            <Rarity :rarity="card.info.rarity" />
 
             <v-card-title class="text-center">
                 {{ card.template.name }}
@@ -135,7 +161,10 @@
             <v-card-text>
                 <!-- 點數 -->
                 <v-row class="justify-center">
-                    <v-col cols="auto" class="text-h6">
+                    <v-col
+                        cols="auto"
+                        class="text-h6"
+                    >
                         {{ t(`effect.${card.template.effect}`) }}
                         + {{ card.info.point }}
                     </v-col>
@@ -143,13 +172,16 @@
             </v-card-text>
 
             <v-card-actions v-if="$slots.actions">
-                <slot name="actions"/>
+                <slot name="actions" />
             </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
@@ -180,9 +212,7 @@ const {
     showDetail?: boolean;
 }>();
 
-const theme = computed(() =>
-    card.template.effect === enumEffect.Harm ? 'red' : 'blue',
-);
+const theme = computed(() => (card.template.effect === enumEffect.Harm ? 'red' : 'blue'));
 
 const toggleDialog = (target: boolean) => {
     soundClick();
@@ -227,7 +257,5 @@ const getIconSize = computed(() => {
     return iconSize;
 });
 
-defineExpose({
-    toggleDialog,
-});
+defineExpose({ toggleDialog });
 </script>

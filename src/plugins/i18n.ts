@@ -7,7 +7,5 @@ export const i18n = createI18n({
     locale: 'zh',
     fallbackLocale: 'zh',
     globalInjection: true,
-    messages: {
-        zh,
-    },
+    messages: { zh },
 });

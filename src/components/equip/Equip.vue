@@ -1,6 +1,9 @@
 <template>
     <v-row class="ma-0 justify-center align-center">
-        <v-col cols="12" class="pa-0">
+        <v-col
+            cols="12"
+            class="pa-0"
+        >
             <v-card
                 flat
                 rounded="lg"
@@ -15,13 +18,19 @@
                 <v-row
                     class="ma-0 justify-center align-center fill-height position-relative"
                 >
-                    <v-col cols="auto" class="pa-0">
+                    <v-col
+                        cols="auto"
+                        class="pa-0"
+                    >
                         <!-- equip -->
                         <template v-if="displayEquip && getTemplate">
                             <v-row
                                 class="ma-0 align-center justify-center fill-height ga-1 pa-1"
                             >
-                                <v-col cols="auto" class="pa-0">
+                                <v-col
+                                    cols="auto"
+                                    class="pa-0"
+                                >
                                     <Icon
                                         :size="getIconSize"
                                         :url="getTemplate.icon"
@@ -81,16 +90,27 @@
             </v-card>
         </v-col>
 
-        <v-col cols="auto" class="pa-0 text-center" v-if="showRarity">
+        <v-col
+            v-if="showRarity"
+            cols="auto"
+            class="pa-0 text-center"
+        >
             <Rarity
                 v-if="displayEquip && getTemplate"
                 :rarity="displayEquip.info.rarity"
             />
-            <Rarity v-else :rarity="enumRarity.None"/>
+            <Rarity
+                v-else
+                :rarity="enumRarity.None"
+            />
         </v-col>
     </v-row>
 
-    <v-dialog v-model="isDialogOpen" :max-width="500" :min-width="300">
+    <v-dialog
+        v-model="isDialogOpen"
+        :max-width="500"
+        :min-width="300"
+    >
         <v-card
             flat
             color="bluegrey"
@@ -112,21 +132,27 @@
                         </v-col>
 
                         <!-- 效果 -->
-                        <v-col cols="auto" class="ml-auto">
-                            <Effect :effect="getTemplate.effect"/>
+                        <v-col
+                            cols="auto"
+                            class="ml-auto"
+                        >
+                            <Effect :effect="getTemplate.effect" />
                         </v-col>
                     </v-row>
 
                     <!-- Icon -->
                     <v-row class="justify-center">
                         <v-col cols="auto">
-                            <Icon :size="36" :url="getTemplate.icon"/>
+                            <Icon
+                                :size="36"
+                                :url="getTemplate.icon"
+                            />
                         </v-col>
                     </v-row>
                 </v-card-text>
 
                 <!-- 稀有度 -->
-                <Rarity :rarity="displayEquip.info.rarity"/>
+                <Rarity :rarity="displayEquip.info.rarity" />
 
                 <v-card-title class="text-center">
                     {{ getTemplate.name }}
@@ -139,7 +165,10 @@
                 <v-card-text>
                     <!-- 點數 -->
                     <v-row class="justify-center">
-                        <v-col cols="auto" class="text-h6">
+                        <v-col
+                            cols="auto"
+                            class="text-h6"
+                        >
                             {{ t(`effect.${getTemplate.effect}`) }}
                             + {{ displayEquip.info.point }}
                         </v-col>
@@ -175,18 +204,23 @@
                     沒穿任何東西。
                 </v-card-subtitle>
 
-                <v-card-text/>
+                <v-card-text />
             </template>
 
             <v-card-text v-if="isPlayerEquip">
-                <p class="mb-1">可裝備列表</p>
+                <p class="mb-1">
+                    可裝備列表
+                </p>
                 <v-row
                     v-if="getPositionEquips.length"
                     class="ma-0 align-center flex-nowrap overflow-x-auto ga-3"
                 >
                     <!-- 脫下裝備 -->
-                    <v-col cols="auto" class="pa-0">
-                        <RemoveEquipItem :position="position"/>
+                    <v-col
+                        cols="auto"
+                        class="pa-0"
+                    >
+                        <RemoveEquipItem :position="position" />
                     </v-col>
 
                     <v-col
@@ -195,15 +229,18 @@
                         class="pa-0"
                         cols="auto"
                     >
-                        <BackpackEquipItem :equip="item"/>
+                        <BackpackEquipItem :equip="item" />
                     </v-col>
                 </v-row>
 
-                <em class="text-secondary" v-else>沒有裝備，真慘。</em>
+                <em
+                    v-else
+                    class="text-secondary"
+                >沒有裝備，真慘。</em>
             </v-card-text>
 
             <v-card-actions v-if="$slots.actions">
-                <slot name="actions"/>
+                <slot name="actions" />
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -371,7 +408,5 @@ const getPositionEquips = computed(() => {
         .sort((a, b) => Number(b.is_equiped) - Number(a.is_equiped));
 });
 
-defineExpose({
-    toggleDialog,
-});
+defineExpose({ toggleDialog });
 </script>

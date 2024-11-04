@@ -5,9 +5,11 @@
         class="rounded-lg border-xl cursor-pointer"
     >
         <v-card-text class="pa-1 text-center">
-            <PlayerAvatar :character="opponent.character"/>
+            <PlayerAvatar :character="opponent.character" />
 
-            <p class="mt-1">Lv. {{ opponent.status.level }}</p>
+            <p class="mt-1">
+                Lv. {{ opponent.status.level }}
+            </p>
             <p>{{ opponent.character.name }}</p>
         </v-card-text>
     </v-card>
@@ -17,7 +19,9 @@
 import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
 import { Player } from '@/types/player';
 
-const { opponent, isSelected = false } = defineProps<{
+const {
+    opponent, isSelected = false, 
+} = defineProps<{
     opponent: Player;
     isSelected: boolean;
 }>();

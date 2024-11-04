@@ -1,5 +1,8 @@
 import { enumEffect } from '@/enums/effect';
-import { enumEquip, enumEquipPosition } from '@/enums/equip';
+import {
+    enumEquip,
+    enumEquipPosition,
+} from '@/enums/equip';
 import { enumRarity } from '@/enums/rarity';
 import { EquipTemplate } from '@/types/core';
 

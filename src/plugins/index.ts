@@ -1,4 +1,4 @@
-import type { App } from 'vue';
+import { App } from 'vue';
 
 import router from '@/router';
 
@@ -7,9 +7,5 @@ import { pinia } from './pinia';
 import { vuetify } from './vuetify';
 
 export const registerPlugins = (app: App) => {
-    app
-        .use(i18n)
-        .use(vuetify)
-        .use(pinia)
-        .use(router);
+    app.use(i18n).use(vuetify).use(pinia).use(router);
 };

@@ -1,11 +1,17 @@
 <template>
     <v-row class="ma-0 justify-center align-center ga-1">
-        <v-col cols="12" class="pa-0 text-center">
-            <IconAttack v-if="effect === enumEffect.Harm"/>
-            <IconDefense v-if="effect === enumEffect.Defense"/>
-            <IconHeal v-if="effect === enumEffect.Heal"/>
+        <v-col
+            cols="12"
+            class="pa-0 text-center"
+        >
+            <IconAttack v-if="effect === enumEffect.Harm" />
+            <IconDefense v-if="effect === enumEffect.Defense" />
+            <IconHeal v-if="effect === enumEffect.Heal" />
         </v-col>
-        <v-col cols="12" class="pa-0 text-center">
+        <v-col
+            cols="12"
+            class="pa-0 text-center"
+        >
             {{ t(`effect.${effect}`) }}
         </v-col>
     </v-row>

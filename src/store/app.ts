@@ -74,29 +74,30 @@ export const useAppStore = defineStore('appStore', () => {
     }
 
     function setEnv() {
+        const {
+            VITE_APP_TITLE,
+            VITE_APP_VERSION,
+            VITE_APP_DESCRIPTION,
+            VITE_APP_OG_TITLE,
+            VITE_APP_OG_IMAGE,
+            VITE_APP_OG_DESCRIPTION,
+            VITE_COUNTDOWN_SECONDS,
+            VITE_HANDCARD_MAX_LIMIT,
+            VITE_SHOP_REFRESH_MINUTES,
+            VITE_API_URL,
+        } = import.meta.env;
+
         ENV.value = {
-            appTitle: import.meta.env.VITE_APP_TITLE ?? 'Logicard Duel!',
-            appVersion: import.meta.env.VITE_APP_VERSION ?? 'unreleased',
-            appDescription:
-                import.meta.env.VITE_APP_DESCRIPTION ??
-                '你能在反叛機器人 GkBot 的肆虐下生存多久？',
-            ogTitle: import.meta.env.VITE_APP_OG_TITLE ?? 'Logicard Duel!',
-            ogImage:
-                import.meta.env.VITE_APP_OG_IMAGE ??
-                'https://logicard-duel.pages.dev/ogimage.png',
-            ogDescription:
-                import.meta.env.VITE_APP_OG_DESCRIPTION ??
-                '你能在反叛機器人 GkBot 的肆虐下生存多久？',
-            countdownSeconds:
-                Number(import.meta.env.VITE_COUNTDOWN_SECONDS) ?? 60,
-            handCardMaxLimit:
-                Number(import.meta.env.VITE_HANDCARD_MAX_LIMIT) ?? 7,
-            shopRefreshMinutes:
-                Number(import.meta.env.VITE_SHOP_REFRESH_MINUTES) ?? 10,
-            apiUrl:
-                import.meta.env.MODE === 'production'
-                    ? import.meta.env.VITE_API_URL
-                    : '/api',
+            appTitle: VITE_APP_TITLE ?? 'Logicard Duel!',
+            appVersion: VITE_APP_VERSION ?? 'unreleased',
+            appDescription: VITE_APP_DESCRIPTION ?? '你能在反叛機器人 GkBot 的肆虐下生存多久？',
+            ogTitle: VITE_APP_OG_TITLE ?? 'Logicard Duel!',
+            ogImage: VITE_APP_OG_IMAGE ?? 'https://logicard-duel.pages.dev/ogimage.png',
+            ogDescription: VITE_APP_OG_DESCRIPTION ?? '你能在反叛機器人 GkBot 的肆虐下生存多久？',
+            countdownSeconds: VITE_COUNTDOWN_SECONDS ? Number(VITE_COUNTDOWN_SECONDS) : 60,
+            handCardMaxLimit: VITE_HANDCARD_MAX_LIMIT ? Number(VITE_HANDCARD_MAX_LIMIT) : 7,
+            shopRefreshMinutes: VITE_SHOP_REFRESH_MINUTES? Number(VITE_SHOP_REFRESH_MINUTES) : 10,
+            apiUrl: import.meta.env.MODE === 'production' ? VITE_API_URL : '/api',
         };
     }
 

@@ -15,10 +15,16 @@
 
             <v-row class="ma-0">
                 <v-col class="pa-1 px-3">
-                    <Btn :icon="'mdi-close'" :func="closeDialog" />
+                    <Btn
+                        :icon="'mdi-close'"
+                        :func="closeDialog"
+                    />
                 </v-col>
                 <v-col class="pa-1 px-3">
-                    <Btn :icon="'mdi-circle-outline'" :func="executeFunction" />
+                    <Btn
+                        :icon="'mdi-circle-outline'"
+                        :func="executeFunction"
+                    />
                 </v-col>
             </v-row>
         </v-card>
@@ -32,9 +38,11 @@ import { useI18n } from 'vue-i18n';
 import Btn from '@/components/system/Btn.vue';
 import { useSoundEffect } from '@/composable/useSoundEffect';
 
-const { message, func } = defineProps<{
+const {
+    message, func, 
+} = defineProps<{
     message: string;
-    func: Function;
+    func: () => void;
 }>();
 
 const openDialog = ref(false);
@@ -47,7 +55,7 @@ const closeDialog = () => {
     openDialog.value = false;
 };
 
-const executeFunction = async() => {
+const executeFunction = async () => {
     await soundClick();
     func();
     openDialog.value = false;
@@ -57,7 +65,5 @@ const show = () => {
     openDialog.value = true;
 };
 
-defineExpose({
-    show,
-});
+defineExpose({ show });
 </script>

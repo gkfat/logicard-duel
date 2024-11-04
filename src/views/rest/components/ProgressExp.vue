@@ -1,5 +1,5 @@
 <template>
-     <v-progress-linear
+    <v-progress-linear
         class="w-100 rounded-xl"
         color="amber"
         :model-value="currentExpPercent"
@@ -18,16 +18,11 @@
 import { computed } from 'vue';
 
 import { Player } from '@/types/player';
+import { thousands } from '@/utils/number';
 
-import { thousands } from '../../../utils/number';
-
-const {
-    player
-} = defineProps<{
-    player: Player
+const { player } = defineProps<{
+    player: Player;
 }>();
 
-const currentExpPercent = computed(
-    () => (player.status.exp / player.status.expToNextLevel) * 100,
-);
+const currentExpPercent = computed(() => (player.status.exp / player.status.expToNextLevel) * 100);
 </script>

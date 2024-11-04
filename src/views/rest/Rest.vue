@@ -1,18 +1,33 @@
 <template>
-    <div class="campfire" :style="{ opacity: opacity.current }" />
+    <div
+        class="campfire"
+        :style="{ opacity: opacity.current }"
+    />
 
     <v-row class="w-100 ma-0 ga-3 flex-column pb-3">
-        <v-col cols="auto" class="pa-0">
-            <Dialog :dialogs="dialogs" :max-height="150" />
+        <v-col
+            cols="auto"
+            class="pa-0"
+        >
+            <Dialog
+                :dialogs="dialogs"
+                :max-height="150"
+            />
         </v-col>
 
         <!-- 角色 -->
-        <v-col cols="auto" class="pa-0 flex-grow-1">
-            <Status/>
+        <v-col
+            cols="auto"
+            class="pa-0 flex-grow-1"
+        >
+            <Status />
         </v-col>
 
         <!-- 功能列 -->
-        <v-col cols="auto" class="pa-0 mt-auto">
+        <v-col
+            cols="auto"
+            class="pa-0 mt-auto"
+        >
             <v-row class="ma-0 ga-3 justify-center flex-nowrap mt-auto">
                 <!-- 背包 -->
                 <v-col class="pa-0">
@@ -38,17 +53,21 @@
             </v-row>
         </v-col>
 
-        <v-col cols="auto" class="pa-0">
-            <Btn :text="t('button.next_battle')" :func="goOut" />
+        <v-col
+            cols="auto"
+            class="pa-0"
+        >
+            <Btn
+                :text="t('button.next_battle')"
+                :func="goOut"
+            />
         </v-col>
     </v-row>
 </template>
 
 <script setup lang="ts">
 import {
-    onBeforeMount,
-    onMounted,
-    ref,
+    onBeforeMount, onMounted, ref, 
 } from 'vue';
 
 import { useI18n } from 'vue-i18n';
@@ -70,13 +89,13 @@ const { soundClick } = useSoundEffect();
 
 const dialogs = DialogDataList[enumDialog.Rest];
 
-let opacity = ref({
+const opacity = ref({
     current: 1,
     max: 1,
     min: 0.6,
 });
 
-let decreasing = ref(true);
+const decreasing = ref(true);
 const BREATHE_SECOONDS = 1.5;
 const BREATHE_INTERVAL_MILISECONDS = 150;
 
@@ -90,7 +109,7 @@ const goOut = async () => {
 };
 
 const increaseOpacity = () => {
-    intervalChangingBackground.value = setInterval(async() => {
+    intervalChangingBackground.value = setInterval(async () => {
         if (!decreasing.value) {
             opacity.value.current += 0.1;
 
@@ -109,7 +128,7 @@ const increaseOpacity = () => {
 };
 
 const decreaseOpacity = () => {
-    intervalChangingBackground.value = setInterval(async() => {
+    intervalChangingBackground.value = setInterval(async () => {
         if (decreasing.value) {
             opacity.value.current -= 0.1;
 
@@ -127,7 +146,7 @@ const decreaseOpacity = () => {
     }, BREATHE_INTERVAL_MILISECONDS);
 };
 
-onMounted(async() => {
+onMounted(async () => {
     await sleepSeconds(3);
 
     decreaseOpacity();

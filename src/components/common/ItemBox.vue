@@ -4,11 +4,18 @@
         :style="getStyles"
     >
         <v-row class="ma-0 fill-height justify-center align-center">
-            <v-col cols="auto" class="pa-1">
-                <slot name="item"/>
+            <v-col
+                cols="auto"
+                class="pa-1"
+            >
+                <slot name="item" />
             </v-col>
-            <v-col cols="auto" class="pa-1" v-if="$slots.price">
-                <slot name="price"/>
+            <v-col
+                v-if="$slots.price"
+                cols="auto"
+                class="pa-1"
+            >
+                <slot name="price" />
             </v-col>
         </v-row>
     </div>

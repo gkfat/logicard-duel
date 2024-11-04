@@ -1,16 +1,31 @@
 <template>
-    <v-bottom-sheet v-model="isOpen" height="95vh">
-        <v-card color="skin" class="mt-auto rounded-t-xl">
+    <v-bottom-sheet
+        v-model="isOpen"
+        height="95vh"
+    >
+        <v-card
+            color="skin"
+            class="mt-auto rounded-t-xl"
+        >
             <v-row
                 class="ma-0 fill-height flex-column flex-nowrap mx-auto overflow-hidden"
                 :style="{ maxWidth: '500px', maxHeight: '95vh' }"
             >
-                <v-col cols="auto" class="w-100">
-                    <Dialog :max-height="120" :dialogs="dialogs" />
+                <v-col
+                    cols="auto"
+                    class="w-100"
+                >
+                    <Dialog
+                        :max-height="120"
+                        :dialogs="dialogs"
+                    />
                 </v-col>
 
-                <v-col cols="auto" class="py-0">
-                    <CoinStatus :theme="'dark'"/>
+                <v-col
+                    cols="auto"
+                    class="py-0"
+                >
+                    <CoinStatus :theme="'dark'" />
                 </v-col>
 
                 <!-- 背包道具 -->
@@ -28,10 +43,10 @@
                             <Equip
                                 v-if="
                                     backpackItems[index] &&
-                                    backpackItems[index].type === 'equip'
+                                        backpackItems[index].type === 'equip'
                                 "
-                                :equip="(backpackItems[index].item as EquipType)"
                                 :ref="(el) => (itemRefs[index] = el)"
+                                :equip="(backpackItems[index].item as EquipType)"
                                 :size="'small'"
                                 :position="(backpackItems[index].item as EquipType).position"
                                 :show-is-equiped="true"
@@ -58,10 +73,10 @@
                             <Card
                                 v-if="
                                     backpackItems[index] &&
-                                    backpackItems[index].type === 'card'
+                                        backpackItems[index].type === 'card'
                                 "
-                                :card="(backpackItems[index].item as CardType)"
                                 :ref="(el) => (itemRefs[index] = el)"
+                                :card="(backpackItems[index].item as CardType)"
                                 :size="'small'"
                             >
                                 <template #actions>
@@ -77,7 +92,10 @@
                     </ItemBox>
                 </v-col>
 
-                <v-col cols="auto" class="w-100 mt-auto">
+                <v-col
+                    cols="auto"
+                    class="w-100 mt-auto"
+                >
                     <Btn
                         :text="t('button.close_backpack')"
                         :func="closeBackpack"
@@ -136,9 +154,9 @@ const player = computed(() => playerStore.currentPlayer!);
 
 const itemRefs = ref<(InstanceType<typeof Equip | typeof Card> | null)[]>([]);
 
-const sortFunc = (a: EquipType|CardType, b: EquipType|CardType) => {
+const sortFunc = (a: EquipType | CardType, b: EquipType | CardType) => {
     const rarityCompare = b.info.rarity.localeCompare(a.info.rarity);
-    const typeCompare = b.template.type.localeCompare(a.template.type)
+    const typeCompare = b.template.type.localeCompare(a.template.type);
 
     if (rarityCompare !== 0) {
         return rarityCompare;
@@ -149,7 +167,7 @@ const sortFunc = (a: EquipType|CardType, b: EquipType|CardType) => {
     }
 
     return b.info.point - a.info.point;
-}
+};
 
 const backpackItems = computed(() => {
     const items = [
@@ -159,8 +177,7 @@ const backpackItems = computed(() => {
             .map((equip) => ({
                 type: 'equip',
                 item: equip,
-            })),
-        ...player.value.backpack.cards
+            })), ...player.value.backpack.cards
             .slice()
             .sort(sortFunc)
             .map((card) => ({
@@ -172,7 +189,7 @@ const backpackItems = computed(() => {
     return items;
 });
 
-const closeBackpack = async() => {
+const closeBackpack = async () => {
     appStore.closeDialog();
 };
 
@@ -197,12 +214,14 @@ const changeEquipment = () => {
 };
 
 /** 賣出裝備或卡牌 */
-const sellItem = async() => {
+const sellItem = async () => {
     const findItem = backpackItems.value[selectedItemIndex.value!];
 
-    const { item, type } = findItem;
+    const {
+        item, type, 
+    } = findItem;
 
-    await playerStore.sellItem(type as 'card'|'equip', item);
+    await playerStore.sellItem(type as 'card' | 'equip', item);
     const getItemComponent = itemRefs.value[selectedItemIndex.value!];
     getItemComponent?.toggleDialog(false);
 };

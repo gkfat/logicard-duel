@@ -16,14 +16,19 @@
                 @click="func()"
             >
                 <template v-if="icon">
-                    <v-icon :icon="icon" :size="size === 'default' ? 40 : 24" />
+                    <v-icon
+                        :icon="icon"
+                        :size="size === 'default' ? 40 : 24"
+                    />
                 </template>
 
                 <!-- 按鈕文字 -->
                 <template v-if="text">
-                    <p :class="{
-                        'text-h5': size === 'default',
-                    }">
+                    <p
+                        :class="{
+                            'text-h5': size === 'default',
+                        }"
+                    >
                         {{ text }}
                     </p>
                 </template>
@@ -41,7 +46,7 @@ const {
     disabled = false,
 } = defineProps<{
     text?: string;
-    func: Function;
+    func: () => void;
     icon?: string;
     size?: 'small' | 'default';
     disabled?: boolean;

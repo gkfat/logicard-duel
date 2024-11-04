@@ -11,12 +11,12 @@ import { createVueI18nAdapter } from 'vuetify/locale/adapters/vue-i18n';
 import { i18n } from './i18n';
 
 export const vuetify = createVuetify({
-    components: {
-        ...components,
-    },
+    components: { ...components },
     directives,
     locale: {
-        adapter: createVueI18nAdapter({ i18n, useI18n }),
+        adapter: createVueI18nAdapter({
+            i18n, useI18n, 
+        }), 
     },
     theme: {
         themes: {

@@ -18,7 +18,10 @@
             >
                 <v-row class="ma-0 justify-center align-center fill-height">
                     <v-col cols="auto">
-                        <Icon :size="40" :url="getTemplate.icon"/>
+                        <Icon
+                            :size="40"
+                            :url="getTemplate.icon"
+                        />
                     </v-col>
                 </v-row>
             </v-card>
@@ -43,14 +46,20 @@
                     </v-col>
 
                     <!-- 效果 -->
-                    <v-col cols="auto" class="ml-auto">
-                        <Effect :effect="getTemplate.effect"/>
+                    <v-col
+                        cols="auto"
+                        class="ml-auto"
+                    >
+                        <Effect :effect="getTemplate.effect" />
                     </v-col>
                 </v-row>
 
                 <v-row class="justify-center">
                     <v-col cols="auto">
-                        <Icon :size="60" :url="getTemplate.icon"/>
+                        <Icon
+                            :size="60"
+                            :url="getTemplate.icon"
+                        />
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -64,9 +73,12 @@
             </v-card-subtitle>
 
             <v-card-text>
-                <v-row v-for="(rarity, i) in rarityValues" :key="i">
+                <v-row
+                    v-for="(rarity, i) in rarityValues"
+                    :key="i"
+                >
                     <v-col>
-                        <Rarity :rarity="rarity"/>
+                        <Rarity :rarity="rarity" />
                     </v-col>
                     <v-col>
                         {{
@@ -81,7 +93,10 @@
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
@@ -102,15 +117,11 @@ const props = defineProps<{
     equipType: enumEquip;
 }>();
 
-const getTemplate = computed(
-    () => EquipTemplateList.find((v) => v.type === props.equipType)!,
-);
+const getTemplate = computed(() => EquipTemplateList.find((v) => v.type === props.equipType)!);
 
-const rarityValues = computed(
-    () => Object.keys(getTemplate.value.potentials) as RarityValue[],
-);
+const rarityValues = computed(() => Object.keys(getTemplate.value.potentials) as RarityValue[]);
 
-const openDialog = async() => {
+const openDialog = async () => {
     await soundClick();
     isDialogOpen.value = true;
 };

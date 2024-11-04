@@ -1,11 +1,14 @@
 <template>
-    <div class="battlefield"/>
+    <div class="battlefield" />
 
     <v-row class="w-100 ma-0 flex-column pb-3">
-        <v-col cols="auto" class="pa-0">
+        <v-col
+            cols="auto"
+            class="pa-0"
+        >
             <div>
                 <!-- 敵人 -->
-                <OpponentSeat/>
+                <OpponentSeat />
                 <OpponentHandCards
                     :style="{ transform: 'translateY(-20px)', height: '40px' }"
                 />
@@ -30,12 +33,12 @@
                         height: '80px',
                     }"
                 />
-                <PlayerSeat/>
+                <PlayerSeat />
             </div>
         </v-col>
     </v-row>
 
-    <RoundNotification/>
+    <RoundNotification />
 </template>
 
 <script setup lang="ts">
@@ -71,37 +74,27 @@ const appStore = useAppStore();
 const battleStore = useBattleStore();
 
 const {
-    soundCountdown, soundWin,
+    soundCountdown, soundWin, soundBell,
 } = useSoundEffect();
 
 const player = computed(() => playerStore.currentPlayer!);
 const playerExtraStatus = computed(() => playerStore.extraStatus);
 const playerAttempt = computed(() => battleStore.playerAttempt);
 const playerTableCard = computed(() => playerStore.tableCard);
-const playerBaseAttack = computed(
-    () => player.value.status.attack + playerExtraStatus.value.attack,
-);
-const playerBaseDefense = computed(
-    () => player.value.status.defense + playerExtraStatus.value.defense,
-);
+const playerBaseAttack = computed(() => player.value.status.attack + playerExtraStatus.value.attack);
+const playerBaseDefense = computed(() => player.value.status.defense + playerExtraStatus.value.defense);
 
 /** 本局戰鬥紀錄 */
 const battleRecord = computed(() => {
-    return player.value.records.find(
-        (v) => v.opponent.id === opponent.value.id,
-    )!;
+    return player.value.records.find((v) => v.opponent.id === opponent.value.id)!;
 });
 
 const opponent = computed(() => opponentStore.currentOpponent!);
 const opponentExtraStatus = computed(() => opponentStore.extraStatus);
 const opponentAttempt = computed(() => battleStore.opponentAttempt);
 const opponentTableCard = computed(() => opponentStore.tableCard);
-const opponentBaseAttack = computed(
-    () => opponent.value.status.attack + opponentExtraStatus.value.attack,
-);
-const opponentBaseDefense = computed(
-    () => opponent.value.status.defense + opponentExtraStatus.value.defense,
-);
+const opponentBaseAttack = computed(() => opponent.value.status.attack + opponentExtraStatus.value.attack);
+const opponentBaseDefense = computed(() => opponent.value.status.defense + opponentExtraStatus.value.defense);
 
 /** 玩家本局數值 */
 const playerRoundStatus = computed(() => {
@@ -172,7 +165,7 @@ const startCountdown = () => {
     // 重置倒數計時
     battleStore.resetRemainSeconds();
 
-    const countdownInterval = setInterval(async() => {
+    const countdownInterval = setInterval(async () => {
         if (remainSeconds.value > 0) {
             battleStore.remainSeconds -= 1;
             if (remainSeconds.value === 3) {
@@ -186,7 +179,7 @@ const startCountdown = () => {
 };
 
 /** 結束戰鬥 */
-const endBattle = async() => {
+const endBattle = async () => {
     // 紀錄時間
     battleRecord.value.battleEndAt = createDate().toDate();
 
@@ -196,7 +189,7 @@ const endBattle = async() => {
 };
 
 /** 結算 */
-const settle = async() => {
+const settle = async () => {
     if (!isInBattle.value) {
         return;
     }
@@ -223,7 +216,7 @@ const settle = async() => {
 };
 
 /** 開牌 */
-const duel = async() => {
+const duel = async () => {
     // 敵人補血
     if (isInBattle.value && opponentAttempt.value === enumEffect.Heal) {
         const healPoint = opponentTableCard.value!.info.point;
@@ -245,8 +238,7 @@ const duel = async() => {
     // 玩家攻擊
     if (isInBattle.value && playerAttempt.value === enumEffect.Harm) {
         // 玩家攻擊力 - 敵人防禦力
-        const opponentDeduction =
-            playerRoundStatus.value.attack - opponentRoundStatus.value.defense;
+        const opponentDeduction = playerRoundStatus.value.attack - opponentRoundStatus.value.defense;
 
         if (opponentDeduction > 0) {
             // 紀錄攻擊力
@@ -267,13 +259,10 @@ const duel = async() => {
     // 敵人攻擊
     if (isInBattle.value && opponentAttempt.value === enumEffect.Harm) {
         // 敵人攻擊力 - 玩家防禦力
-        const playerDeduction =
-            opponentRoundStatus.value.attack - playerRoundStatus.value.defense;
+        const playerDeduction = opponentRoundStatus.value.attack - playerRoundStatus.value.defense;
 
         // 紀錄防禦力
-        if (
-            playerRoundStatus.value.defense < opponentRoundStatus.value.attack
-        ) {
+        if (playerRoundStatus.value.defense < opponentRoundStatus.value.attack) {
             battleRecord.value.defense += playerRoundStatus.value.defense;
         } else {
             battleRecord.value.defense += opponentRoundStatus.value.attack;
@@ -297,11 +286,8 @@ const duel = async() => {
 /** 倒數計時結束後轉換局狀態 */
 watch(
     () => isCountingDown.value,
-    async() => {
-        if (
-            roundPhase.value === enumRoundPhase.Main &&
-            isCountingDown.value === false
-        ) {
+    async () => {
+        if (roundPhase.value === enumRoundPhase.Main && isCountingDown.value === false) {
             battleStore.changeRoundPhase(enumRoundPhase.Duel);
         }
     },
@@ -310,7 +296,7 @@ watch(
 /** 階段 control flow */
 watch(
     () => roundPhase.value,
-    async() => {
+    async () => {
         switch (roundPhase.value) {
         case enumRoundPhase.BeforeRound: // 局未開始, 不處理
             break;
@@ -333,6 +319,7 @@ watch(
             battleStore.changeRoundPhase(enumRoundPhase.Main);
             break;
         case enumRoundPhase.Main: // 出牌
+            await soundBell();
             await sleepSeconds(2);
 
             // 倒數計時
@@ -370,7 +357,7 @@ watch(
     },
 );
 
-onMounted(async() => {
+onMounted(async () => {
     await sleepSeconds(3);
 
     playerStore.createRecord(opponent.value);

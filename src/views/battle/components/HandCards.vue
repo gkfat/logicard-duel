@@ -1,5 +1,8 @@
 <template>
-    <v-card flat class="bg-transparent">
+    <v-card
+        flat
+        class="bg-transparent"
+    >
         <v-row class="ma-0 align-center flex-nowrap justify-center">
             <v-col
                 v-for="(card, i) in handCards"
@@ -47,24 +50,17 @@ import Card from '@/components/card/Card.vue';
 import Btn from '@/components/system/Btn.vue';
 import { enumRoundPhase } from '@/enums/battle';
 import { useBattleStore } from '@/store/battle';
-import { useOpponentStore } from '@/store/opponent';
 import { usePlayerStore } from '@/store/player';
 import { Card as CardType } from '@/types/core';
 
 const playerStore = usePlayerStore();
-const opponentStore = useOpponentStore();
 const battleStore = useBattleStore();
 
 const roundPhase = computed(() => battleStore.roundPhase);
 const cardRefs = ref<(InstanceType<typeof Card> | null)[]>([]);
 
 const {
-    playerType,
-    handCards,
-    cardSize,
-    isCardBack,
-    showCardDetail,
-    displayInSector,
+    playerType, handCards, cardSize, isCardBack, showCardDetail, displayInSector, 
 } = defineProps<{
     playerType: 'player' | 'opponent';
     handCards: CardType[];
@@ -75,11 +71,7 @@ const {
 }>();
 
 /** 是否可出牌 */
-const isAbleToPlaceCard = computed(
-    () =>
-        roundPhase.value === enumRoundPhase.Main &&
-        battleStore.remainSeconds > 0,
-);
+const isAbleToPlaceCard = computed(() => roundPhase.value === enumRoundPhase.Main && battleStore.remainSeconds > 0);
 
 /** 計算弧形排列 */
 const calcCardStyle = (i: number) => {

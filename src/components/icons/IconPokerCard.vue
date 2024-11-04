@@ -1,5 +1,8 @@
 <template>
-    <Icon :url="ImageDataList.icon.pokerCard" :size="18"/>
+    <Icon
+        :url="ImageDataList.icon.pokerCard"
+        :size="18"
+    />
 </template>
 <script lang="ts" setup>
 import Icon from '@/components/common/Icon.vue';

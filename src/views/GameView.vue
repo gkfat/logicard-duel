@@ -34,7 +34,7 @@ const {
 
 watch(
     () => appStore.gameState,
-    async() => {
+    async () => {
         switch (appStore.gameState) {
         case enumGameState.ChooseCharacter:
             bgmPrologue();

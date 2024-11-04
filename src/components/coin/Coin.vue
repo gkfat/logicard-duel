@@ -1,6 +1,9 @@
 <template>
     <v-row class="ma-0 justify-center align-center">
-        <v-col cols="12" class="pa-0">
+        <v-col
+            cols="12"
+            class="pa-0"
+        >
             <v-card
                 flat
                 rounded="md"
@@ -10,8 +13,11 @@
                 <v-row
                     class="ma-0 justify-center align-center justify-center fill-height ga-1 pa-1"
                 >
-                    <v-col cols="12" class="text-center pa-0">
-                        <IconCoin></IconCoin>
+                    <v-col
+                        cols="12"
+                        class="text-center pa-0"
+                    >
+                        <IconCoin />
 
                         <div
                             class="position-absolute"
@@ -41,7 +47,9 @@ import { computed } from 'vue';
 
 import IconCoin from '@/components/icons/IconCoin.vue';
 
-const { point, size = 'default' } = defineProps<{
+const {
+    point, size = 'default', 
+} = defineProps<{
     point: number;
     size?: 'x-small' | 'small' | 'default';
 }>();
@@ -68,17 +76,5 @@ const getStyles = computed(() => {
     }
 
     return styles;
-});
-
-const getIconSize = computed(() => {
-    // default
-    let iconSize = 36;
-
-    if (size === 'x-small') {
-        iconSize = 20;
-    } else if (size === 'small') {
-        iconSize = 28;
-    }
-    return iconSize;
 });
 </script>

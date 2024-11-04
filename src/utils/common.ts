@@ -12,7 +12,7 @@ export const getZeroOrOne = () => {
 };
 
 /** Sleep 效果 */
-export const sleepSeconds = async(second: number): Promise<void> => {
+export const sleepSeconds = async (second: number): Promise<void> => {
     await new Promise<void>((resolve) => {
         setTimeout(() => resolve(), second * 1000);
     });
@@ -27,9 +27,12 @@ export const rangeToText = (range: [number, number]) => {
 
 /** 計算打敗後會得到的經驗值 */
 export const calcGainExp = (opponent: Player) => {
-    const { status: {level}, character: { releaseExp } } = opponent;
+    const {
+        status: { level },
+        character: { releaseExp },
+    } = opponent;
 
     const bonus = Math.floor(Math.log(level + 1) * 100);
 
     return releaseExp + bonus;
-}
+};

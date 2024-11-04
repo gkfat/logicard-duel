@@ -1,4 +1,3 @@
- 
 export enum enumMumbleType {
     General = 'general',
     PlaceCard = 'place_card',

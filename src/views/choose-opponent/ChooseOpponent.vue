@@ -1,10 +1,16 @@
 <template>
     <v-row class="w-100 ma-0 ga-3 flex-column pb-3">
-        <v-col cols="auto" class="pa-0">
+        <v-col
+            cols="auto"
+            class="pa-0"
+        >
             <Dialog :dialogs="dialogs" />
         </v-col>
 
-        <v-col cols="auto" class="pa-0 flex-grow-1">
+        <v-col
+            cols="auto"
+            class="pa-0 flex-grow-1"
+        >
             <v-row class="ma-0 justify-center align-center fill-height ga-3">
                 <v-col
                     v-for="(opponent, index) in opponentStore.pool"
@@ -21,16 +27,21 @@
             </v-row>
         </v-col>
 
-        <v-col cols="auto" class="pa-0 mt-auto">
-            <Btn :text="t('button.battle')" :func="startBattle" />
+        <v-col
+            cols="auto"
+            class="pa-0 mt-auto"
+        >
+            <Btn
+                :text="t('button.battle')"
+                :func="startBattle"
+            />
         </v-col>
     </v-row>
 </template>
 
 <script setup lang="ts">
 import {
-    onMounted,
-    ref,
+    onMounted, ref, 
 } from 'vue';
 
 import { useI18n } from 'vue-i18n';
@@ -55,22 +66,21 @@ const dialogs = DialogDataList[enumDialog.ChooseOpponent];
 /** 選擇的敵人 index */
 const currentOpponentIndex = ref(0);
 
-const onOpponentSelected = async(index: number) => {
+const onOpponentSelected = async (index: number) => {
     await soundClick();
     currentOpponentIndex.value = index;
 };
 
-const startBattle = async() => {
+const startBattle = async () => {
     await soundClick();
 
     // 決定敵人
-    opponentStore.currentOpponent =
-        opponentStore.pool[currentOpponentIndex.value];
+    opponentStore.currentOpponent = opponentStore.pool[currentOpponentIndex.value];
 
     appStore.changeGameState(enumGameState.Battle);
 };
 
-onMounted(async() => {
+onMounted(async () => {
     await opponentStore.clearOpponent();
 
     // 檢查若 pool 少於 3 隻則生成

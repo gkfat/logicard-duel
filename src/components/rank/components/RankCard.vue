@@ -4,7 +4,10 @@
         class="bg-bluegrey rounded-lg border-white border-lg border-opacity-50 mb-3"
     >
         <v-row class="ma-0">
-            <v-col cols="auto" class="ml-auto py-1">
+            <v-col
+                cols="auto"
+                class="ml-auto py-1"
+            >
                 {{ humanReadable(data.endDate) }}
             </v-col>
         </v-row>
@@ -25,13 +28,19 @@
 
         <v-card-text class="py-1">
             <v-row class="ma-0 flex-nowrap mb-3">
-                <v-col cols="auto" class="pa-1">
+                <v-col
+                    cols="auto"
+                    class="pa-1"
+                >
                     <PlayerAvatar
                         :character="data.player.character"
                     />
                 </v-col>
 
-                <v-col cols="auto" class="flex-grow-1 pa-1">
+                <v-col
+                    cols="auto"
+                    class="flex-grow-1 pa-1"
+                >
                     <v-row class="ma-0 mb-3">
                         <v-col
                             class="py-0 d-flex align-center ga-1"
@@ -43,7 +52,7 @@
                             class="py-0 d-flex align-center ga-1"
                             cols="auto"
                         >
-                            <IconHeal/>
+                            <IconHeal />
                             {{ data.player.status.health }}/{{
                                 data.player.status.maxHealth
                             }}
@@ -52,11 +61,11 @@
                             class="py-0 d-flex align-center ga-1"
                             cols="auto"
                         >
-                            <IconAttack/>
+                            <IconAttack />
                             {{ data.player.status.attack }}
                             <em
-                                class="text-darkamber"
                                 v-if="extraStatus.attack"
+                                class="text-darkamber"
                             >
                                 (+{{ extraStatus.attack }})
                             </em>
@@ -65,11 +74,11 @@
                             class="py-0 d-flex align-center ga-1"
                             cols="auto"
                         >
-                            <IconDefense/>
+                            <IconDefense />
                             {{ data.player.status.defense }}
                             <em
-                                class="text-darkamber"
                                 v-if="extraStatus.defense"
+                                class="text-darkamber"
                             >
                                 (+{{ extraStatus.defense }})
                             </em>
@@ -81,7 +90,7 @@
                             class="py-0 d-flex align-center ga-1"
                             cols="auto"
                         >
-                            <IconCoin/>
+                            <IconCoin />
                             {{ thousands(data.player.backpack.coin) }}
                         </v-col>
                         <!-- 背包數量 -->
@@ -89,7 +98,7 @@
                             class="py-0 d-flex align-center ga-1"
                             cols="auto"
                         >
-                            <IconBackpack/>
+                            <IconBackpack />
                             {{ currentBackpackItems }}/{{
                                 data.player.character.backpackLimit
                             }}
@@ -99,7 +108,7 @@
                             class="py-0 d-flex align-center ga-1"
                             cols="auto"
                         >
-                            <IconPokerCard/>
+                            <IconPokerCard />
                             {{ data.player.backpack.cards.length }}
                         </v-col>
                     </v-row>
@@ -107,7 +116,10 @@
             </v-row>
 
             <v-row class="ma-0 flex-nowrap overflow-x-auto">
-                <v-col cols="auto" class="pa-0">
+                <v-col
+                    cols="auto"
+                    class="pa-0"
+                >
                     <Equip
                         :equip="data.player.equipment.head"
                         :position="enumEquipPosition.Head"
@@ -115,7 +127,10 @@
                         :size="'x-small'"
                     />
                 </v-col>
-                <v-col cols="auto" class="pa-0">
+                <v-col
+                    cols="auto"
+                    class="pa-0"
+                >
                     <Equip
                         :equip="equipment.primaryHand"
                         :position="enumEquipPosition.PrimaryHand"
@@ -123,7 +138,10 @@
                         :size="'x-small'"
                     />
                 </v-col>
-                <v-col cols="auto" class="pa-0">
+                <v-col
+                    cols="auto"
+                    class="pa-0"
+                >
                     <Equip
                         :equip="equipment.secondaryHand"
                         :position="enumEquipPosition.SecondaryHand"
@@ -131,7 +149,10 @@
                         :size="'x-small'"
                     />
                 </v-col>
-                <v-col cols="auto" class="pa-0">
+                <v-col
+                    cols="auto"
+                    class="pa-0"
+                >
                     <Equip
                         :equip="equipment.body"
                         :position="enumEquipPosition.Body"
@@ -139,7 +160,10 @@
                         :size="'x-small'"
                     />
                 </v-col>
-                <v-col cols="auto" class="pa-0">
+                <v-col
+                    cols="auto"
+                    class="pa-0"
+                >
                     <Equip
                         :equip="equipment.pants"
                         :position="enumEquipPosition.Pants"
@@ -147,7 +171,10 @@
                         :size="'x-small'"
                     />
                 </v-col>
-                <v-col cols="auto" class="pa-0">
+                <v-col
+                    cols="auto"
+                    class="pa-0"
+                >
                     <Equip
                         :equip="equipment.shoes"
                         :position="enumEquipPosition.Shoes"
@@ -159,7 +186,7 @@
         </v-card-text>
 
         <v-card-text class="py-1">
-            <v-divider/>
+            <v-divider />
             <v-row class="ma-0">
                 <v-col
                     v-if="!data.player.records.length"
@@ -171,21 +198,24 @@
 
                 <!-- summary -->
                 <v-col
+                    v-if="data.player.records.length"
                     cols="auto"
                     class="pa-0 py-1 flex-grow-1"
-                    v-if="data.player.records.length"
                 >
-                    <Summary :summary="summary"/>
+                    <Summary :summary="summary" />
                 </v-col>
 
-                <v-col cols="auto" class="pa-0 ml-auto">
+                <v-col
+                    cols="auto"
+                    class="pa-0 ml-auto"
+                >
                     <v-btn
                         cols="auto"
                         variant="plain"
                         class="d-flex justify-center align-center ga-1 opacity-100"
                         @click="toggleDialog"
                     >
-                        <IconScroll/>
+                        <IconScroll />
                         <span class="text-amber">{{
                             data.player.records.length
                         }}</span>
@@ -195,7 +225,11 @@
         </v-card-text>
     </v-card>
 
-    <v-dialog v-model="isDialogOpen" :max-width="500" :min-width="300">
+    <v-dialog
+        v-model="isDialogOpen"
+        :max-width="500"
+        :min-width="300"
+    >
         <v-card
             flat
             color="bluegrey"
@@ -252,23 +286,16 @@ const equipment = ref({
     shoes: data.player.equipment[enumEquipPosition.Shoes],
 });
 
-const currentBackpackItems = ref(
-    data.player.backpack.cards.length + data.player.backpack.equips.length,
-);
+const currentBackpackItems = ref(data.player.backpack.cards.length + data.player.backpack.equips.length);
 
 const extraStatus = computed(() => {
     // 找到已裝備的裝備
     const findEquips = data.player.backpack.equips.filter((v) => v.is_equiped);
 
-    const findWeapons = findEquips.filter(
-        (v) => v.template.effect === enumEffect.Harm,
-    );
-    const findArmors = findEquips.filter(
-        (v) => v.template.effect === enumEffect.Defense,
-    );
+    const findWeapons = findEquips.filter((v) => v.template.effect === enumEffect.Harm);
+    const findArmors = findEquips.filter((v) => v.template.effect === enumEffect.Defense);
 
-    const calcPoint = (equips: EquipType[]) =>
-        equips.reduce((num, equip) => num + equip.info.point, 0);
+    const calcPoint = (equips: EquipType[]) => equips.reduce((num, equip) => num + equip.info.point, 0);
 
     return {
         attack: calcPoint(findWeapons),

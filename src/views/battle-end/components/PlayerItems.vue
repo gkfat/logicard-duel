@@ -1,5 +1,7 @@
 <template>
-    <p class="text-white mb-3">背包</p>
+    <p class="text-white mb-3">
+        背包
+    </p>
     <v-row
         class="ma-0 ga-2 overflow-y-auto"
         :style="{
@@ -7,7 +9,11 @@
         }"
     >
         <!-- 卡牌 -->
-        <ItemBox v-for="(card, i) in backpack.cards" :key="i" :size="'x-small'">
+        <ItemBox
+            v-for="(card, i) in backpack.cards"
+            :key="i"
+            :size="'x-small'"
+        >
             <template #item>
                 <Card
                     :ref="(el) => /** @ts-ignore */ (cardRefs[i] = el)"
@@ -15,7 +21,10 @@
                     :size="'x-small'"
                 >
                     <template #actions>
-                        <Btn :text="'丟棄'" :func="() => dropCard(i)"/>
+                        <Btn
+                            :text="'丟棄'"
+                            :func="() => dropCard(i)"
+                        />
                     </template>
                 </Card>
             </template>
@@ -36,7 +45,10 @@
                     :show-is-equiped="true"
                 >
                     <template #actions>
-                        <Btn :text="'丟棄'" :func="() => dropEquip(i)"/>
+                        <Btn
+                            :text="'丟棄'"
+                            :func="() => dropEquip(i)"
+                        />
                     </template>
                 </Equip>
             </template>

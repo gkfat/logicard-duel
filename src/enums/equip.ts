@@ -1,4 +1,3 @@
- 
 export enum enumEquip {
     Armor = 'armor',
     Boxer = 'boxer',

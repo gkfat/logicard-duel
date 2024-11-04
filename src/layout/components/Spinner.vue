@@ -1,7 +1,15 @@
 <template>
-    <v-overlay v-model="isOpen" opacity="0.6" persistent>
+    <v-overlay
+        v-model="isOpen"
+        opacity="0.6"
+        persistent
+    >
         <v-row class="ma-0 justify-center align-center fill-height">
-            <v-progress-circular color="primary" size="50" indeterminate />
+            <v-progress-circular
+                color="primary"
+                size="50"
+                indeterminate
+            />
         </v-row>
     </v-overlay>
 </template>

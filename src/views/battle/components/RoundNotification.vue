@@ -25,8 +25,9 @@
         >
             <v-card-title
                 class="text-darkgrey font-italic text-center text-h4 text-nowrap"
-                >{{ message }}</v-card-title
             >
+                {{ message }}
+            </v-card-title>
         </v-card>
     </div>
 </template>
@@ -57,7 +58,7 @@ const resetPosition = () => {
 
 watch(
     () => roundPhase.value,
-    async() => {
+    async () => {
         switch (roundPhase.value) {
         case enumRoundPhase.RoundStart: // 開始
             message.value = '回合開始';

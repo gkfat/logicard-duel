@@ -1,22 +1,34 @@
 <template>
-    <div class="battleend"/>
+    <div class="battleend" />
 
     <v-row class="w-100 ma-0 ga-3 flex-column pb-3">
-        <v-col cols="auto" class="pa-0">
+        <v-col
+            cols="auto"
+            class="pa-0"
+        >
             <Dialog :dialogs="dialogs" />
         </v-col>
 
-        <v-col cols="auto" class="pa-0">
-            <CoinStatus/>
+        <v-col
+            cols="auto"
+            class="pa-0"
+        >
+            <CoinStatus />
         </v-col>
 
-        <v-col cols="auto" class="pa-0">
-            <Loots/>
-            <v-spacer class="my-3"/>
-            <PlayerItems/>
+        <v-col
+            cols="auto"
+            class="pa-0"
+        >
+            <Loots />
+            <v-spacer class="my-3" />
+            <PlayerItems />
         </v-col>
 
-        <v-col cols="auto" class="pa-0 mt-auto">
+        <v-col
+            cols="auto"
+            class="pa-0 mt-auto"
+        >
             <Btn
                 :disabled="isDisabledGoRest"
                 :text="isDisabledGoRest ? '背包太重了！' : '回到避難所'"
@@ -28,8 +40,7 @@
 
 <script setup lang="ts">
 import {
-    computed,
-    onMounted,
+    computed, onMounted, 
 } from 'vue';
 
 import CoinStatus from '@/components/common/CoinStatus.vue';
@@ -55,7 +66,7 @@ const { soundClick } = useSoundEffect();
 
 const dialogs = DialogDataList[enumDialog.BattleEnd];
 
-const goRest = async() => {
+const goRest = async () => {
     await soundClick();
     appStore.changeGameState(enumGameState.Rest);
 };

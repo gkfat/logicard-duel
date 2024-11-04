@@ -19,9 +19,15 @@
             </v-card-text>
 
             <!-- 牌 -->
-            <v-card-text class="py-1" :style="{ height: '130px' }">
+            <v-card-text
+                class="py-1"
+                :style="{ height: '130px' }"
+            >
                 <v-row class="ma-0 justify-center">
-                    <v-col cols="5" class="pa-0 d-flex justify-center">
+                    <v-col
+                        cols="5"
+                        class="pa-0 d-flex justify-center"
+                    >
                         <Card
                             v-if="table.opponentCard"
                             :card="table.opponentCard"
@@ -37,13 +43,16 @@
                             :width="80"
                             :height="120"
                         >
-                            <v-card-title class="text-wrap"
-                                >赤手空拳</v-card-title
-                            >
+                            <v-card-title class="text-wrap">
+                                赤手空拳
+                            </v-card-title>
                         </v-card>
                     </v-col>
 
-                    <v-col cols="5" class="pa-0 d-flex justify-center">
+                    <v-col
+                        cols="5"
+                        class="pa-0 d-flex justify-center"
+                    >
                         <v-btn
                             v-if="table.playerCard"
                             flat
@@ -64,9 +73,9 @@
                             :width="80"
                             :height="120"
                         >
-                            <v-card-title class="text-wrap"
-                                >赤手空拳</v-card-title
-                            >
+                            <v-card-title class="text-wrap">
+                                赤手空拳
+                            </v-card-title>
                         </v-card>
                     </v-col>
                 </v-row>
@@ -113,7 +122,7 @@
                     <p
                         v-if="
                             playerAttempt === enumEffect.Defense &&
-                            opponentAttempt === enumEffect.Defense
+                                opponentAttempt === enumEffect.Defense
                         "
                     >
                         本回合沒有任何人類或機器人受到傷害。
@@ -139,13 +148,15 @@
                 bottom: '-15px',
             }"
         >
-            <CardStack/>
+            <CardStack />
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import {
+    computed, ref, watch, 
+} from 'vue';
 
 import { useI18n } from 'vue-i18n';
 
@@ -172,7 +183,9 @@ interface RoundStatus {
     defense: number;
 }
 
-const { playerRoundStatus, opponentRoundStatus } = defineProps<{
+const {
+    playerRoundStatus, opponentRoundStatus, 
+} = defineProps<{
     playerRoundStatus: RoundStatus;
     opponentRoundStatus: RoundStatus;
 }>();
@@ -180,28 +193,19 @@ const { playerRoundStatus, opponentRoundStatus } = defineProps<{
 const playerAttempt = computed(() => battleStore.playerAttempt);
 const opponentAttempt = computed(() => battleStore.opponentAttempt);
 
-const playerDeduction = computed(
-    () => opponentRoundStatus.attack - playerRoundStatus.defense,
-);
+const playerDeduction = computed(() => opponentRoundStatus.attack - playerRoundStatus.defense);
 
-const opponentDeduction = computed(
-    () => playerRoundStatus.attack - opponentRoundStatus.defense,
-);
+const opponentDeduction = computed(() => playerRoundStatus.attack - opponentRoundStatus.defense);
 
 /** 是否顯示倒數計時器 */
-const isShowCountdown = computed(
-    () => roundPhase.value === enumRoundPhase.Main,
-);
+const isShowCountdown = computed(() => roundPhase.value === enumRoundPhase.Main);
 const remainSeconds = computed(() => battleStore.remainSeconds);
 
 /** 是否對決 */
 const shouldDuel = ref(false);
 
 const emptyBackpack = computed(() => {
-    return (
-        roundPhase.value === enumRoundPhase.Draw &&
-        playerStore.currentPlayer?.backpack.cards.length === 0
-    );
+    return roundPhase.value === enumRoundPhase.Draw && playerStore.currentPlayer?.backpack.cards.length === 0;
 });
 
 const table = computed(() => {
@@ -216,7 +220,7 @@ const table = computed(() => {
 
 watch(
     () => roundPhase.value,
-    async() => {
+    async () => {
         if (roundPhase.value === enumRoundPhase.Duel) {
             await sleepSeconds(2.5);
             shouldDuel.value = true;

@@ -3,11 +3,17 @@
     <div class="bg" />
 
     <v-row class="w-100 ma-0 ga-3 flex-column pb-3">
-        <v-col cols="auto" class="pa-0">
+        <v-col
+            cols="auto"
+            class="pa-0"
+        >
             <Dialog :dialogs="dialogs" />
         </v-col>
 
-        <v-col cols="auto" class="pa-0 mt-auto mb-3">
+        <v-col
+            cols="auto"
+            class="pa-0 mt-auto mb-3"
+        >
             <!-- <v-data-table
                 :headers="headers"
                 :items="[player]"
@@ -16,7 +22,9 @@
                 <template #bottom />
             </v-data-table> -->
 
-            <p class="text-white mb-3">玩家姓名(10 字內)</p>
+            <p class="text-white mb-3">
+                玩家姓名(10 字內)
+            </p>
             <v-text-field
                 v-model="playerName"
                 type="text"
@@ -28,7 +36,9 @@
                 @change="onPlayerNameChange"
             />
 
-            <p class="text-white mb-3">留下遺言(20 字內)</p>
+            <p class="text-white mb-3">
+                留下遺言(20 字內)
+            </p>
             <v-text-field
                 v-model="lastWords"
                 type="text"
@@ -40,8 +50,14 @@
             />
         </v-col>
 
-        <v-col cols="auto" class="pa-0">
-            <Btn :text="t('game_view.game_end.restart')" :func="restart" />
+        <v-col
+            cols="auto"
+            class="pa-0"
+        >
+            <Btn
+                :text="t('game_view.game_end.restart')"
+                :func="restart"
+            />
         </v-col>
     </v-row>
 </template>
@@ -60,7 +76,6 @@ import { enumDialog } from '@/enums/dialog';
 import { useAppStore } from '@/store/app';
 import { usePlayerStore } from '@/store/player';
 import { useRankStore } from '@/store/rank';
-import { Player } from '@/types/player';
 import { Rank } from '@/types/rank';
 import { createDate } from '@/utils/time';
 
@@ -71,13 +86,13 @@ const playerStore = usePlayerStore();
 const player = computed(() => playerStore.currentPlayer!);
 const rankStore = useRankStore();
 
-const headers = [
-    {
-        key: 'name',
-        title: t('game_view.game_end.name'),
-        value: (item: Player) => item.character.name,
-    },
-];
+// const headers = [
+//     {
+//         key: 'name',
+//         title: t('game_view.game_end.name'),
+//         value: (item: Player) => item.character.name,
+//     },
+// ];
 
 /**
  * 玩家留下紀錄
@@ -105,16 +120,12 @@ const onLastWordsChange = () => {
     }
 };
 
-const restart = async() => {
+const restart = async () => {
     const data: Rank = {
         endDate: createDate().toISOString(),
-        playerName:
-            playerName.value.length === 0 ? '匿名玩家' : playerName.value,
+        playerName: playerName.value.length === 0 ? '匿名玩家' : playerName.value,
         player: player.value,
-        lastWords:
-            lastWords.value.length === 0
-                ? '走的太倉促，沒有留下遺言。'
-                : lastWords.value,
+        lastWords: lastWords.value.length === 0 ? '走的太倉促，沒有留下遺言。' : lastWords.value,
     };
 
     appStore.switchSpinner(true);

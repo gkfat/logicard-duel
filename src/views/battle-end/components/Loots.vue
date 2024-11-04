@@ -1,12 +1,13 @@
 <template>
-    <p class="text-white mb-3">搜集戰利品</p>
+    <p class="text-white mb-3">
+        搜集戰利品
+    </p>
     <v-row
         class="ma-0 ga-2 overflow-y-auto"
         :style="{
             maxHeight: '150px',
         }"
     >
-
         <!-- 經驗值 -->
         <ItemBox :size="'x-small'">
             <template #item>
@@ -19,12 +20,19 @@
         <!-- 螺絲釘 -->
         <ItemBox :size="'x-small'">
             <template #item>
-                <Coin :point="backpack.coin" :size="'x-small'"/>
+                <Coin
+                    :point="backpack.coin"
+                    :size="'x-small'"
+                />
             </template>
         </ItemBox>
 
         <!-- 卡牌 -->
-        <ItemBox v-for="(card, i) in backpack.cards" :key="i" :size="'x-small'">
+        <ItemBox
+            v-for="(card, i) in backpack.cards"
+            :key="i"
+            :size="'x-small'"
+        >
             <template #item>
                 <Card
                     :ref="(el) => /** @ts-ignore */ (cardRefs[i] = el)"
@@ -32,7 +40,10 @@
                     :size="'x-small'"
                 >
                     <template #actions>
-                        <Btn :text="'搜集'" :func="() => collectCard(i)"/>
+                        <Btn
+                            :text="'搜集'"
+                            :func="() => collectCard(i)"
+                        />
                     </template>
                 </Card>
             </template>
@@ -52,7 +63,10 @@
                     :size="'x-small'"
                 >
                     <template #actions>
-                        <Btn :text="'搜集'" :func="() => collectEquip(i)"/>
+                        <Btn
+                            :text="'搜集'"
+                            :func="() => collectEquip(i)"
+                        />
                     </template>
                 </Equip>
             </template>

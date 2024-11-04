@@ -1,4 +1,3 @@
-
 export enum enumCard {
     // 攻擊類型
     LogiCardAttack = 'logicard_attack',
@@ -12,7 +11,7 @@ export enum enumCard {
 
     // 治療類型
     Battery = 'battery',
-    Oil = 'oil'
+    Oil = 'oil',
 }
 
 export const CardValues = Object.values(enumCard);

@@ -11,7 +11,11 @@
         class="bg-darkgrey border-white border-md border-opacity-25 cursor-pointer"
     >
         <v-row class="ma-0 justify-center align-center fill-height">
-            <v-col cols="auto" class="pa-0" @click="confirmBoxRef?.show()">
+            <v-col
+                cols="auto"
+                class="pa-0"
+                @click="confirmBoxRef?.show()"
+            >
                 <Icon
                     style="opacity: 0.2"
                     :size="30"

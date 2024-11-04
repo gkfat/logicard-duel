@@ -66,8 +66,7 @@ export const CharacterTemplateList: CharacterTemplate[] = [
     {
         type: enumCharacter.Nerd,
         name: '家裡蹲',
-        description:
-            '因為體力不太好沒辦法背太多東西，很重。擁有比較厚的脂肪層，比較不容易受傷。',
+        description: '因為體力不太好沒辦法背太多東西，很重。擁有比較厚的脂肪層，比較不容易受傷。',
         avatar: ImageDataList.avatar.fat,
         backpackLimit: 20,
         releaseExp: 0,
@@ -246,17 +245,14 @@ export const CharacterTemplateList: CharacterTemplate[] = [
         type: enumCharacter.GkbotWorker,
         name: 'GkBot 工作型',
         avatar: ImageDataList.avatar.gkbotWorker,
-        description:
-            '被生產來做一些基本的事務，例如清潔、搬運、量產等。特色是平板的聲音線。',
+        description: '被生產來做一些基本的事務，例如清潔、搬運、量產等。特色是平板的聲音線。',
         backpackLimit: 999,
         releaseExp: 60,
         init: {
             healthRange: [25, 35],
             attackRange: [3, 6],
             defenseRange: [1, 3],
-            cards: [
-                ...baseCards,
-            ],
+            cards: [...baseCards],
             equips: [enumEquip.Boxer],
             coin: 30,
         },

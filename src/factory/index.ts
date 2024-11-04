@@ -4,12 +4,12 @@ import { EquipTemplateList } from '@/data/equip-templates';
 import { enumCard } from '@/enums/card';
 import { enumCharacter } from '@/enums/character';
 import {
-    enumEquip,
+    type enumEquip,
     enumEquipPosition,
 } from '@/enums/equip';
 import {
     enumRarity,
-    RarityValue,
+    type RarityValue,
 } from '@/enums/rarity';
 import {
     Card,
@@ -47,7 +47,7 @@ class Factory {
         Object.keys(rarityWeights).forEach((rarity) => {
             const weights = rarityWeights[rarity as RarityValue];
 
-            for(let i = 0; i < weights; i ++) {
+            for (let i = 0; i < weights; i++) {
                 this.rarityPools.push(rarity as RarityValue);
             }
         });
@@ -84,21 +84,17 @@ class Factory {
      * 產生裝備
      */
     public createEquip(equipType: enumEquip) {
-        const findTemplate = EquipTemplateList.find(
-            (v) => v.type === equipType,
-        )!;
+        const findTemplate = EquipTemplateList.find((v) => v.type === equipType)!;
 
         const {
-            potentials, position,
+            potentials, position, 
         } = findTemplate;
 
         // 產生稀有度
-        const rarity = this.randomRarity(
-            Object.keys(potentials) as RarityValue[],
-        );
+        const rarity = this.randomRarity(Object.keys(potentials) as RarityValue[]);
 
         const {
-            pointRange, priceRange,
+            pointRange, priceRange, 
         } = potentials[rarity]!;
 
         const instace: Equip = {
@@ -126,12 +122,10 @@ class Factory {
         const { potentials } = findTemplate;
 
         // 產生稀有度
-        const rarity = this.randomRarity(
-            Object.keys(potentials) as RarityValue[],
-        );
+        const rarity = this.randomRarity(Object.keys(potentials) as RarityValue[]);
 
         const {
-            pointRange, priceRange,
+            pointRange, priceRange, 
         } = potentials[rarity]!;
 
         const instace: Card = {
@@ -152,19 +146,12 @@ class Factory {
      * 產生玩家實體
      */
     public createPlayer(character: enumCharacter) {
-        const findTemplate = CharacterTemplateList.find(
-            (v) => v.type === character,
-        )!;
+        const findTemplate = CharacterTemplateList.find((v) => v.type === character)!;
 
         const {
             init: {
-                healthRange,
-                attackRange,
-                defenseRange,
-                equips,
-                cards,
-                coin,
-            },
+                healthRange, attackRange, defenseRange, equips, cards, coin, 
+            }, 
         } = findTemplate;
 
         const health = getRandomInt(healthRange);
@@ -199,9 +186,7 @@ class Factory {
         };
 
         Object.values(enumEquipPosition).forEach((position) => {
-            const findEquip = instace.backpack.equips.find(
-                (v) => v.position === position,
-            );
+            const findEquip = instace.backpack.equips.find((v) => v.position === position);
 
             if (findEquip) {
                 findEquip.is_equiped = true;

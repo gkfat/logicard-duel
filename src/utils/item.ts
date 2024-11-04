@@ -1,6 +1,9 @@
 import BigNumber from 'bignumber.js';
 
-import { Card, Equip } from '@/types/core';
+import {
+    Card,
+    Equip,
+} from '@/types/core';
 
 /** 取得售價 (6 折) */
 export const getSalePrice = (item: Card | Equip) => {

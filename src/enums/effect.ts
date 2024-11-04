@@ -1,4 +1,3 @@
- 
 /** 效果類型 */
 export enum enumEffect {
     /** 傷害 */

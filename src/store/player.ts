@@ -32,9 +32,8 @@ import { useAppStore } from './app';
 export const usePlayerStore = defineStore('player', () => {
     const appStore = useAppStore();
     const {
-        soundPlaceCard, soundEquip, soundPop, soundPlayerHurt, soundCoin, soundHeal, soundWin
-    } =
-        useSoundEffect();
+        soundPlaceCard, soundEquip, soundPop, soundPlayerHurt, soundCoin, soundHeal, soundWin, 
+    } = useSoundEffect();
 
     const currentPlayer = ref<Player>();
 
@@ -43,19 +42,12 @@ export const usePlayerStore = defineStore('player', () => {
      */
     const extraStatus = computed(() => {
         // 找到已裝備的裝備
-        const findEquips = currentPlayer.value!.backpack.equips.filter(
-            (v) => v.is_equiped,
-        );
+        const findEquips = currentPlayer.value!.backpack.equips.filter((v) => v.is_equiped);
 
-        const findWeapons = findEquips.filter(
-            (v) => v.template.effect === enumEffect.Harm,
-        );
-        const findArmors = findEquips.filter(
-            (v) => v.template.effect === enumEffect.Defense,
-        );
+        const findWeapons = findEquips.filter((v) => v.template.effect === enumEffect.Harm);
+        const findArmors = findEquips.filter((v) => v.template.effect === enumEffect.Defense);
 
-        const calcPoint = (equips: Equip[]) =>
-            equips.reduce((num, equip) => num + equip.info.point, 0);
+        const calcPoint = (equips: Equip[]) => equips.reduce((num, equip) => num + equip.info.point, 0);
 
         return {
             attack: calcPoint(findWeapons),
@@ -82,10 +74,7 @@ export const usePlayerStore = defineStore('player', () => {
     };
 
     /** 產生一句喃喃自語 */
-    async function randomMumble(
-        mumbleType: enumMumbleType,
-        force: boolean = false,
-    ) {
+    async function randomMumble(mumbleType: enumMumbleType, force = false) {
         // 決定是否要喃喃自語
         const isGoingToMumble = force || drawLots();
 
@@ -95,8 +84,7 @@ export const usePlayerStore = defineStore('player', () => {
                 await sleepSeconds(1);
             }
 
-            const mumbleList =
-                currentPlayer.value!.character.mumbleList[mumbleType];
+            const mumbleList = currentPlayer.value!.character.mumbleList[mumbleType];
 
             if (mumbleList.length > 0) {
                 soundPop();
@@ -146,12 +134,11 @@ export const usePlayerStore = defineStore('player', () => {
     /** 補血 */
     async function increaseHealth(point: number) {
         const {
-            health, maxHealth,
+            health, maxHealth, 
         } = currentPlayer.value!.status;
 
         // 不得超過血量上限
-        const mutatedHealth =
-            health + point > maxHealth ? maxHealth : health + point;
+        const mutatedHealth = health + point > maxHealth ? maxHealth : health + point;
 
         await soundHeal();
 
@@ -177,11 +164,8 @@ export const usePlayerStore = defineStore('player', () => {
     /** 更換裝備 */
     function changeEquipment(equip: Equip) {
         if (currentPlayer.value) {
-            const getCurrentEquipment =
-                currentPlayer.value.equipment[equip.position];
-            const findEquip = currentPlayer.value.backpack.equips.find(
-                (v) => v.id === equip.id,
-            );
+            const getCurrentEquipment = currentPlayer.value.equipment[equip.position];
+            const findEquip = currentPlayer.value.backpack.equips.find((v) => v.id === equip.id);
 
             if (findEquip) {
                 if (getCurrentEquipment) {
@@ -334,14 +318,9 @@ export const usePlayerStore = defineStore('player', () => {
         const { id } = item;
 
         if (currentPlayer.value) {
-            const pool =
-                type === 'equip'
-                    ? currentPlayer.value.backpack.equips
-                    : currentPlayer.value.backpack.cards;
+            const pool = type === 'equip' ? currentPlayer.value.backpack.equips : currentPlayer.value.backpack.cards;
 
-            const findIndex = pool.findIndex(
-                (v) => v.id === id,
-            );
+            const findIndex = pool.findIndex((v) => v.id === id);
 
             pool.splice(findIndex, 1);
             await soundCoin();
@@ -388,7 +367,7 @@ export const usePlayerStore = defineStore('player', () => {
     /** 獲得經驗值 */
     async function gainExp(exp: number) {
         if (currentPlayer.value) {
-            const {status} = currentPlayer.value;
+            const { status } = currentPlayer.value;
 
             status.exp += exp;
             // 若累積後的經驗值達升級標準，就升級
@@ -443,6 +422,6 @@ export const usePlayerStore = defineStore('player', () => {
         dropEquip,
 
         levelUp,
-        gainExp
+        gainExp,
     };
 });

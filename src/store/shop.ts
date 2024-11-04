@@ -35,15 +35,12 @@ export const useShopStore = defineStore('shop', () => {
     /** 更新商店 */
     function refreshShop() {
         const shopMaxLength = 5;
-        const shouldRefillCardsLength =
-            shopMaxLength - repository.value.cards.length;
-        const shouldRefillEquipsLength =
-            shopMaxLength - repository.value.equips.length;
+        const shouldRefillCardsLength = shopMaxLength - repository.value.cards.length;
+        const shouldRefillEquipsLength = shopMaxLength - repository.value.equips.length;
 
         // 補充卡牌
         Array.from({ length: shouldRefillCardsLength }).forEach(() => {
-            const randomCardType =
-                CardValues[getRandomInt([0, CardValues.length - 1])];
+            const randomCardType = CardValues[getRandomInt([0, CardValues.length - 1])];
             const card = factory.createCard(randomCardType);
 
             repository.value.cards.push(card);
@@ -51,8 +48,7 @@ export const useShopStore = defineStore('shop', () => {
 
         // 補充裝備
         Array.from({ length: shouldRefillEquipsLength }).forEach(() => {
-            const randomEquipType =
-                EquipValues[getRandomInt([0, EquipValues.length - 1])];
+            const randomEquipType = EquipValues[getRandomInt([0, EquipValues.length - 1])];
             const equip = factory.createEquip(randomEquipType);
 
             repository.value.equips.push(equip);
@@ -97,7 +93,7 @@ export const useShopStore = defineStore('shop', () => {
         // 重置倒數計時
         resetRemainSeconds();
 
-        const countdownInterval = setInterval(async() => {
+        const countdownInterval = setInterval(async () => {
             if (remainSeconds.value > 0) {
                 remainSeconds.value -= 1;
             } else {

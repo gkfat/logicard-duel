@@ -9,7 +9,11 @@
     >
         <!-- 載入動畫 -->
         <template v-if="isBooting">
-            <v-card flat color="darkgrey" class="w-100 fill-height">
+            <v-card
+                flat
+                color="darkgrey"
+                class="w-100 fill-height"
+            >
                 <v-row
                     class="ma-0 align-center fill-height mx-auto"
                     :style="{
@@ -22,7 +26,7 @@
                             <em class="text-caption">{{ bootingPercent }} %</em>
                         </p>
 
-                        <v-spacer class="my-3"/>
+                        <v-spacer class="my-3" />
 
                         <v-progress-linear
                             class="w-100 rounded-xl"
@@ -41,8 +45,14 @@
     </v-app>
 
     <!-- 背景動畫 -->
-    <ul class="blocks" v-if="isDisplayBackground">
-        <li v-for="i in 10" :key="i" />
+    <ul
+        v-if="isDisplayBackground"
+        class="blocks"
+    >
+        <li
+            v-for="i in 10"
+            :key="i"
+        />
     </ul>
 </template>
 
@@ -56,7 +66,9 @@ const appStore = useAppStore();
 const isBooting = computed(() => appStore.gameState === enumGameState.Booting);
 const bootProcess = computed(() => appStore.bootProcess);
 const bootingPercent = computed(() => {
-    const { totalTasks, doneTasks } = bootProcess.value;
+    const {
+        totalTasks, doneTasks, 
+    } = bootProcess.value;
     return (doneTasks / totalTasks) * 100;
 });
 
@@ -65,7 +77,9 @@ const isDisplayBackground = computed(() => {
         enumGameState.Initialized,
         enumGameState.ChooseCharacter,
         enumGameState.ChooseOpponent,
-    ].includes(appStore.gameState);
+    ].includes(
+        appStore.gameState,
+    );
 });
 </script>
 <style lang="scss">

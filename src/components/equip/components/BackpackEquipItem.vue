@@ -17,7 +17,10 @@
                 class="position-relative"
                 @click="confirmBoxRef?.show()"
             >
-                <Icon :size="24" :url="getTemplate.icon"/>
+                <Icon
+                    :size="24"
+                    :url="getTemplate.icon"
+                />
 
                 <div
                     class="position-absolute"
@@ -37,7 +40,7 @@
         </v-row>
     </v-card>
     <div>
-        <Rarity :rarity="equip.info.rarity"/>
+        <Rarity :rarity="equip.info.rarity" />
     </div>
 
     <ConfirmBox

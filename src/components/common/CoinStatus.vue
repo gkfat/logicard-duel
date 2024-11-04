@@ -5,7 +5,7 @@
             class="pa-1 d-flex align-center ga-1"
             :class="`text-${color}`"
         >
-            <IconCoin/>
+            <IconCoin />
             {{ thousands(player.backpack.coin) }}
         </v-col>
         <v-col
@@ -13,7 +13,7 @@
             class="pa-1 d-flex align-center ga-1"
             :class="`text-${color}`"
         >
-            <IconBackpack/>
+            <IconBackpack />
             {{ currentBackpackItems }}/{{ player.character.backpackLimit }}
         </v-col>
     </v-row>
@@ -38,9 +38,7 @@ const playerStore = usePlayerStore();
 const player = computed(() => playerStore.currentPlayer!);
 
 const currentBackpackItems = computed(() => {
-    const result =
-        player.value.backpack.cards.length +
-        player.value.backpack.equips.length;
+    const result = player.value.backpack.cards.length + player.value.backpack.equips.length;
 
     return result;
 });

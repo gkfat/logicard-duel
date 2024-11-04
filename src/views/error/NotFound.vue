@@ -1,11 +1,20 @@
 <template>
     <v-row class="w-100 ma-0 ga-3 flex-column">
-        <v-col cols="auto" class="pa-0">
+        <v-col
+            cols="auto"
+            class="pa-0"
+        >
             <Dialog :dialogs="dialogs" />
         </v-col>
 
-        <v-col cols="auto" class="pa-0 mt-auto">
-            <Btn :text="t('button.restart')" :func="restart" />
+        <v-col
+            cols="auto"
+            class="pa-0 mt-auto"
+        >
+            <Btn
+                :text="t('button.restart')"
+                :func="restart"
+            />
         </v-col>
     </v-row>
 </template>
@@ -32,7 +41,7 @@ const restart = () => {
     router.push('/');
 };
 
-onMounted(async() => {
+onMounted(async () => {
     appStore.switchSpinner(false);
 });
 </script>

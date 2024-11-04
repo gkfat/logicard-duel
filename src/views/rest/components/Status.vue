@@ -6,53 +6,77 @@
     >
         <v-card-text class="pa-3">
             <v-row class="ma-0 ga-3 mb-3">
-                <v-col cols="auto" class="pa-0 d-flex ga-3 align-center">
-                    <PlayerAvatar :character="player.character"/>
+                <v-col
+                    cols="auto"
+                    class="pa-0 d-flex ga-3 align-center"
+                >
+                    <PlayerAvatar :character="player.character" />
                     <p>Lv. <span class="text-darkamber text-h6">{{ player.status.level }}</span></p>
                 </v-col>
 
-                <v-col cols="auto" class="pa-0 ml-auto">
+                <v-col
+                    cols="auto"
+                    class="pa-0 ml-auto"
+                >
                     <!-- 錢 -->
                     <div class="d-flex align-center ga-1">
-                        <IconCoin/>
+                        <IconCoin />
                         {{ thousands(player.backpack.coin) }}
                     </div>
                     <!-- 背包數量 -->
                     <div class="d-flex align-center ga-1">
-                        <IconBackpack/>
+                        <IconBackpack />
                         {{ currentBackpackItems }}/{{
                             player.character.backpackLimit
                         }}
                     </div>
                     <!-- 卡牌數量 -->
                     <div class="d-flex align-center ga-1">
-                        <IconPokerCard/>
+                        <IconPokerCard />
                         {{ player.backpack.cards.length }}
                     </div>
                 </v-col>
 
-                <v-col cols="12" class="pa-0 d-flex align-center ga-1">
-                    Exp. <ProgressExp :player="player"></ProgressExp>
+                <v-col
+                    cols="12"
+                    class="pa-0 d-flex align-center ga-1"
+                >
+                    Exp. <ProgressExp :player="player" />
                 </v-col>
             </v-row>
 
             <!-- 狀態值 -->
             <v-row class="ma-0 mb-3 ga-3">
-                <v-col class="pa-0 d-flex align-center ga-1" cols="auto">
-                    <IconHeal/>
+                <v-col
+                    class="pa-0 d-flex align-center ga-1"
+                    cols="auto"
+                >
+                    <IconHeal />
                     {{ thousands(player.status.health) }}/{{ thousands(player.status.maxHealth) }}
                 </v-col>
-                <v-col class="pa-0 d-flex align-center ga-1" cols="auto">
-                    <IconAttack/>
+                <v-col
+                    class="pa-0 d-flex align-center ga-1"
+                    cols="auto"
+                >
+                    <IconAttack />
                     {{ player.status.attack }}
-                    <em class="text-darkamber" v-if="extraStatus.attack">
+                    <em
+                        v-if="extraStatus.attack"
+                        class="text-darkamber"
+                    >
                         (+{{ extraStatus.attack }})
                     </em>
                 </v-col>
-                <v-col class="pa-0 d-flex align-center ga-1" cols="auto">
-                    <IconDefense/>
+                <v-col
+                    class="pa-0 d-flex align-center ga-1"
+                    cols="auto"
+                >
+                    <IconDefense />
                     {{ player.status.defense }}
-                    <em class="text-darkamber" v-if="extraStatus.defense">
+                    <em
+                        v-if="extraStatus.defense"
+                        class="text-darkamber"
+                    >
                         (+{{ extraStatus.defense }})
                     </em>
                 </v-col>
@@ -125,7 +149,6 @@
 import {
     computed,
     onMounted,
-    ref,
 } from 'vue';
 
 import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
@@ -160,9 +183,7 @@ const equipment = computed(() => ({
 }));
 
 const currentBackpackItems = computed(() => {
-    const result =
-        player.value.backpack.cards.length +
-        player.value.backpack.equips.length;
+    const result = player.value.backpack.cards.length + player.value.backpack.equips.length;
 
     return result;
 });
@@ -174,5 +195,5 @@ onMounted(async () => {
         const exp = calcGainExp(getOpponent);
         await playerStore.gainExp(exp);
     }
-})
+});
 </script>

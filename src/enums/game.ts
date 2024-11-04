@@ -1,12 +1,11 @@
- 
 export enum enumGameState {
-    Booting,
-    Initialized,
-    ChooseCharacter,
-    Rest,
-    ChooseOpponent,
+    Booting = 0,
+    Initialized = 1,
+    ChooseCharacter = 2,
+    Rest = 3,
+    ChooseOpponent = 4,
     // BattleStart,
-    Battle,
-    BattleEnd,
-    GameOver,
+    Battle = 5,
+    BattleEnd = 6,
+    GameOver = 7,
 }

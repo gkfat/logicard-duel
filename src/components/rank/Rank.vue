@@ -1,15 +1,30 @@
 <template>
-    <v-bottom-sheet v-model="isOpen" height="90vh">
-        <v-card color="skin" class="fill-height rounded-t-xl">
+    <v-bottom-sheet
+        v-model="isOpen"
+        height="90vh"
+    >
+        <v-card
+            color="skin"
+            class="fill-height rounded-t-xl"
+        >
             <v-row
                 class="ma-0 fill-height flex-column flex-nowrap mx-auto overflow-hidden"
                 :style="{ maxWidth: '500px', maxHeight: '95vh' }"
             >
-                <v-col cols="auto" class="w-100">
-                    <Dialog :max-height="120" :dialogs="dialogs" />
+                <v-col
+                    cols="auto"
+                    class="w-100"
+                >
+                    <Dialog
+                        :max-height="120"
+                        :dialogs="dialogs"
+                    />
                 </v-col>
 
-                <v-col cols="auto" class="py-0 mb-3">
+                <v-col
+                    cols="auto"
+                    class="py-0 mb-3"
+                >
                     <Btn
                         :text="'要不...自盡吧？'"
                         :size="'small'"
@@ -31,12 +46,20 @@
                     </template>
 
                     <template v-else>
-                        <p class="text-center">目前還沒有人留下遺言。</p>
+                        <p class="text-center">
+                            目前還沒有人留下遺言。
+                        </p>
                     </template>
                 </v-col>
 
-                <v-col cols="auto" class="w-100 mt-auto">
-                    <Btn :text="t('button.close_rank')" :func="closeRank" />
+                <v-col
+                    cols="auto"
+                    class="w-100 mt-auto"
+                >
+                    <Btn
+                        :text="t('button.close_rank')"
+                        :func="closeRank"
+                    />
                 </v-col>
             </v-row>
         </v-card>
@@ -78,7 +101,7 @@ const rankData = computed(() => rankStore.rankData);
 const confirmBoxRef = ref<typeof ConfirmBox>();
 
 // 關閉排行榜
-const closeRank = async() => {
+const closeRank = async () => {
     appStore.closeDialog();
 };
 

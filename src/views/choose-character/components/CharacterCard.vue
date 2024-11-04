@@ -5,15 +5,23 @@
         class="rounded-lg border-xl cursor-pointer"
     >
         <v-row class="ma-0">
-            <v-col cols="auto" class="py-1 d-flex align-center">
-                <PlayerAvatar :character="character"/>
+            <v-col
+                cols="auto"
+                class="py-1 d-flex align-center"
+            >
+                <PlayerAvatar :character="character" />
             </v-col>
 
             <v-col class="py-1 d-flex align-center">
-                <p class="text-body-1">{{ character.name }}</p>
+                <p class="text-body-1">
+                    {{ character.name }}
+                </p>
             </v-col>
 
-            <v-col cols="auto" class="pa-1 px-3 d-flex align-center">
+            <v-col
+                cols="auto"
+                class="pa-1 px-3 d-flex align-center"
+            >
                 <Btn
                     :icon="'mdi-eye'"
                     :size="'small'"
@@ -30,7 +38,7 @@
             class="rounded-lg border-lg w-100 overflow-y-auto"
         >
             <v-card-title class="text-center">
-                <PlayerAvatar :character="character"/>
+                <PlayerAvatar :character="character" />
             </v-card-title>
 
             <v-card-title class="text-center">
@@ -42,72 +50,99 @@
             </v-card-subtitle>
 
             <v-card-text class="overflow-y-auto">
-                <p class="text-caption">能力值範圍</p>
+                <p class="text-caption">
+                    能力值範圍
+                </p>
 
                 <v-row class="ma-0">
-                    <v-col class="pa-1" cols="12">
-                        <IconHeal/>
+                    <v-col
+                        class="pa-1"
+                        cols="12"
+                    >
+                        <IconHeal />
                         {{ rangeToText(character.init.healthRange) }}
                     </v-col>
-                    <v-col class="pa-1" cols="6">
-                        <IconAttack/>
+                    <v-col
+                        class="pa-1"
+                        cols="6"
+                    >
+                        <IconAttack />
                         {{ rangeToText(character.init.attackRange) }}
                     </v-col>
-                    <v-col class="pa-1" cols="6">
-                        <IconDefense/>
+                    <v-col
+                        class="pa-1"
+                        cols="6"
+                    >
+                        <IconDefense />
                         {{ rangeToText(character.init.defenseRange) }}
                     </v-col>
                 </v-row>
                 <v-row class="ma-0">
-                    <v-col class="pa-1" cols="6">
-                        <IconCoin/>
+                    <v-col
+                        class="pa-1"
+                        cols="6"
+                    >
+                        <IconCoin />
                         {{ character.init.coin }}
                     </v-col>
-                    <v-col class="pa-1" cols="6">
-                        <IconBackpack/>
+                    <v-col
+                        class="pa-1"
+                        cols="6"
+                    >
+                        <IconBackpack />
                         {{ character.backpackLimit }}
                     </v-col>
                 </v-row>
 
-                <v-divider class="my-3"/>
+                <v-divider class="my-3" />
 
-                <p class="text-caption">初始卡牌</p>
+                <p class="text-caption">
+                    初始卡牌
+                </p>
 
                 <v-row
                     v-if="character.init.cards.length"
                     class="ma-0 flex-nowrap overflow-x-auto"
                 >
                     <v-col
-                        cols="auto"
-                        class="pa-1"
                         v-for="(cardType, i) in character.init.cards"
                         :key="i"
+                        cols="auto"
+                        class="pa-1"
                     >
-                        <CardTemplate :card-type="cardType"/>
+                        <CardTemplate :card-type="cardType" />
                     </v-col>
                 </v-row>
 
-                <em class="text-secondary" v-else>沒有初始卡牌，真可憐。</em>
+                <em
+                    v-else
+                    class="text-secondary"
+                >沒有初始卡牌，真可憐。</em>
 
-                <v-divider class="my-3"/>
+                <v-divider class="my-3" />
 
-                <p class="text-caption">初始裝備</p>
+                <p class="text-caption">
+                    初始裝備
+                </p>
 
                 <v-row
                     v-if="character.init.equips.length"
                     class="ma-0 flex-nowrap overflow-x-auto"
                 >
                     <v-col
-                        cols="auto"
-                        class="pa-1"
                         v-for="(equipType, i) in character.init.equips"
                         :key="i"
+                        cols="auto"
+                        class="pa-1"
                     >
-                        <EquipTemplate :equip-type="equipType"/>
+                        <EquipTemplate :equip-type="equipType" />
                     </v-col>
                 </v-row>
 
-                <em class="text-secondary" v-else>沒有初始裝備，真慘。</em>
+                <em
+                    v-else
+                    class="text-secondary"
+                >沒有初始裝備，真慘。</em>
             </v-card-text>
 
             <v-card-actions>
@@ -147,7 +182,9 @@ const toggleDialog = (target: boolean) => {
     isOpenDialog.value = target;
 };
 
-const { character, isSelected = false } = defineProps<{
+const {
+    character, isSelected = false, 
+} = defineProps<{
     character: CharacterTemplate;
     isSelected: boolean;
 }>();

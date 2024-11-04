@@ -10,7 +10,9 @@
         :max-width="250"
         :min-width="100"
     >
-        <p class="text-caption">{{ mumbleContent }}</p>
+        <p class="text-caption">
+            {{ mumbleContent }}
+        </p>
     </v-snackbar>
 </template>
 <script lang="ts" setup>

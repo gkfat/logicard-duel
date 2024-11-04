@@ -3,15 +3,24 @@
         class="py-0 px-3 d-flex align-center justify-center"
         :class="{ 'text-white': isUseWhiteText }"
     >
-        <v-col cols="auto" class="pa-0 mr-auto">
+        <v-col
+            cols="auto"
+            class="pa-0 mr-auto"
+        >
             v {{ appStore.ENV.appVersion }}
         </v-col>
 
-        <v-col cols="auto" class="pa-0 text-center font-weight-bold">
+        <v-col
+            cols="auto"
+            class="pa-0 text-center font-weight-bold"
+        >
             {{ appStore.ENV.appTitle }}
         </v-col>
 
-        <v-col cols="auto" class="pa-0 ml-auto">
+        <v-col
+            cols="auto"
+            class="pa-0 ml-auto"
+        >
             <VolumeControl />
         </v-col>
     </v-container>

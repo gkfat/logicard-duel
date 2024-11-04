@@ -10,6 +10,9 @@ export default [
     jsLint.configs.recommended,
     ...tslint.configs.recommended,
     ...vueLint.configs['flat/essential'],
+    ...vueLint.configs['flat/recommended'],
+
+    { ignores: ['dist/*', '**/*.d.ts'] },
 
     // vue
     {
@@ -19,16 +22,24 @@ export default [
             parserOptions: { parser: tslint.parser },
         },
         rules: {
+            'vue/html-indent': [
+                'error',
+                4,
+                {
+                    'attribute': 1,
+                    'alignAttributesVertically': true,
+                },
+            ],
             'vue/multi-word-component-names': ['off'],
             'vue/html-self-closing': [
                 'error', {
-                    'html': {
-                        'void': 'never',
-                        'normal': 'always',
-                        'component': 'always',
+                    html: {
+                        void: 'never',
+                        normal: 'always',
+                        component: 'always',
                     },
-                    'svg': 'always',
-                    'math': 'always',
+                    svg: 'always',
+                    math: 'always',
                 },
             ],
         },

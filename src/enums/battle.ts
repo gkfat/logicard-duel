@@ -1,17 +1,16 @@
-
 export enum enumRoundPhase {
     /** 0: 準備階段 */
-    BeforeRound,
+    BeforeRound = 0,
     /** 1: 局開始 */
-    RoundStart,
+    RoundStart = 1,
     /** 2: 發牌 */
-    Draw,
+    Draw = 2,
     /** 3: 出牌 */
-    Main,
+    Main = 3,
     /** 4: 開牌 */
-    Duel,
+    Duel = 4,
     /** 5: 結算 */
-    Settle,
+    Settle = 5,
     /** 6: 局結束 */
-    RoundEnd,
+    RoundEnd = 6,
 }

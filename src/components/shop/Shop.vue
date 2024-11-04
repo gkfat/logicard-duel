@@ -1,12 +1,24 @@
 <template>
-    <v-bottom-sheet v-model="isOpen" height="95vh">
-        <v-card color="skin" class="mt-auto rounded-t-xl">
+    <v-bottom-sheet
+        v-model="isOpen"
+        height="95vh"
+    >
+        <v-card
+            color="skin"
+            class="mt-auto rounded-t-xl"
+        >
             <v-row
                 class="ma-0 fill-height flex-column flex-nowrap mx-auto overflow-hidden"
                 :style="{ maxWidth: '500px', maxHeight: '95vh' }"
             >
-                <v-col cols="auto" class="w-100">
-                    <Dialog :max-height="120" :dialogs="dialogs" />
+                <v-col
+                    cols="auto"
+                    class="w-100"
+                >
+                    <Dialog
+                        :max-height="120"
+                        :dialogs="dialogs"
+                    />
                 </v-col>
 
                 <v-col
@@ -18,7 +30,7 @@
                             humanReadableSeconds(shopStore.remainSeconds)
                         }}
                     </p>
-                    <CoinStatus :theme="'dark'"/>
+                    <CoinStatus :theme="'dark'" />
                 </v-col>
 
                 <v-col
@@ -30,7 +42,10 @@
                         <!-- 裝備 -->
                         <v-tabs-window-item value="0">
                             <v-row class="ma-0 justify-center ga-1">
-                                <ItemBox v-for="(equip, i) in equips" :key="i">
+                                <ItemBox
+                                    v-for="(equip, i) in equips"
+                                    :key="i"
+                                >
                                     <template #item>
                                         <Equip
                                             :ref="(el) => (equipRefs[i] = el)"
@@ -69,7 +84,10 @@
                         <!-- 卡牌 -->
                         <v-tabs-window-item value="1">
                             <v-row class="ma-0 justify-center ga-1">
-                                <ItemBox v-for="(card, i) in cards" :key="i">
+                                <ItemBox
+                                    v-for="(card, i) in cards"
+                                    :key="i"
+                                >
                                     <template #item>
                                         <Card
                                             :ref="(el) => (cardRefs[i] = el)"
@@ -106,8 +124,14 @@
                     </v-tabs-window>
                 </v-col>
 
-                <v-col cols="auto" class="w-100 pb-0 mt-auto">
-                    <v-tabs v-model="displayType" grow>
+                <v-col
+                    cols="auto"
+                    class="w-100 pb-0 mt-auto"
+                >
+                    <v-tabs
+                        v-model="displayType"
+                        grow
+                    >
                         <v-tab value="0">
                             {{ t('equip') }}
                         </v-tab>
@@ -117,8 +141,14 @@
                     </v-tabs>
                 </v-col>
 
-                <v-col cols="auto" class="w-100 mt-auto">
-                    <Btn :text="t('button.leave')" :func="closeBackpack" />
+                <v-col
+                    cols="auto"
+                    class="w-100 mt-auto"
+                >
+                    <Btn
+                        :text="t('button.leave')"
+                        :func="closeBackpack"
+                    />
                 </v-col>
             </v-row>
         </v-card>
@@ -164,7 +194,7 @@ const cards = computed(() => shopStore.repository.cards);
 const playerCoin = computed(() => playerStore.currentPlayer!.backpack.coin);
 const displayType = ref(0);
 
-const closeBackpack = async() => {
+const closeBackpack = async () => {
     appStore.closeDialog();
 };
 
@@ -172,7 +202,7 @@ const afordable = (price: number) => {
     return playerCoin.value >= price;
 };
 
-const buyEquip = async(index: number) => {
+const buyEquip = async (index: number) => {
     const equip = equips.value[index];
     const getCardComponent = equipRefs.value[index];
 
@@ -183,7 +213,7 @@ const buyEquip = async(index: number) => {
     }
 };
 
-const buyCard = async(index: number) => {
+const buyCard = async (index: number) => {
     const card = cards.value[index];
     const getCardComponent = cardRefs.value[index];
 

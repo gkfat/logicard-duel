@@ -1,24 +1,21 @@
 {
-  "editor.insertSpaces": true,
-  "editor.formatOnSave": true,
-  "editor.wordWrap": "off",
-  "editor.wordWrapColumn": 100,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
-  },
-  "eslint.codeActionsOnSave.mode": "all",
-  "eslint.format.enable": true,
-  "eslint.validate": [
-    "vue",
-    "javascript",
-    "typescript",
-  ],
-  "[vue]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
-  "i18n-ally.localesPaths": [
-    "src/locales"
-  ],
-  "i18n-ally.keystyle": "nested",
-  "i18n-ally.sortKeys": true
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit"
+    },
+    "eslint.codeActionsOnSave.mode": "all",
+    "eslint.format.enable": true,
+    "eslint.validate": [
+        "vue",
+        "javascript",
+        "typescript",
+    ],
+    "[vue]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "i18n-ally.localesPaths": [
+        "src/locales"
+    ],
+    "i18n-ally.keystyle": "nested",
+    "i18n-ally.sortKeys": true
 }

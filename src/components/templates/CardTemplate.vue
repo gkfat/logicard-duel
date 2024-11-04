@@ -22,8 +22,14 @@
                         <v-row
                             class="ma-0 align-center justify-center fill-height ga-1 pa-1"
                         >
-                            <v-col cols="auto" class="pa-0">
-                                <Icon :size="24" :url="card.icon"/>
+                            <v-col
+                                cols="auto"
+                                class="pa-0"
+                            >
+                                <Icon
+                                    :size="24"
+                                    :url="card.icon"
+                                />
                             </v-col>
 
                             <v-col
@@ -51,7 +57,7 @@
             <v-card-text>
                 <v-row class="justify-end">
                     <v-col cols="auto">
-                        <Effect :effect="card.effect"/>
+                        <Effect :effect="card.effect" />
                     </v-col>
                 </v-row>
                 <v-row class="justify-center">
@@ -103,9 +109,12 @@
             </v-card-subtitle>
 
             <v-card-text>
-                <v-row v-for="(rarity, i) in rarityValues" :key="i">
+                <v-row
+                    v-for="(rarity, i) in rarityValues"
+                    :key="i"
+                >
                     <v-col>
-                        <Rarity :rarity="rarity"/>
+                        <Rarity :rarity="rarity" />
                     </v-col>
                     <v-col>
                         {{ rangeToText(card.potentials[rarity]!.pointRange) }}
@@ -116,7 +125,10 @@
     </v-dialog>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import {
+    computed,
+    ref,
+} from 'vue';
 
 import Effect from '@/components/common/Effect.vue';
 import Icon from '@/components/common/Icon.vue';
@@ -135,19 +147,13 @@ const props = defineProps<{
     cardType: enumCard;
 }>();
 
-const card = computed(
-    () => CardTemplateList.find((v) => v.type === props.cardType)!,
-);
+const card = computed(() => CardTemplateList.find((v) => v.type === props.cardType)!);
 
-const theme = computed(() =>
-    card.value.effect === enumEffect.Harm ? 'red' : 'blue',
-);
+const theme = computed(() => (card.value.effect === enumEffect.Harm ? 'red' : 'blue'));
 
-const rarityValues = computed(
-    () => Object.keys(card.value.potentials) as RarityValue[],
-);
+const rarityValues = computed(() => Object.keys(card.value.potentials) as RarityValue[]);
 
-const openDialog = async() => {
+const openDialog = async () => {
     await soundClick();
     isDialogOpen.value = true;
 };

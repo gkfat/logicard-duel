@@ -6,7 +6,10 @@
     >
         <v-card-text>
             <v-row class="ma-0 ga-3">
-                <v-col cols="12" class="pa-0 d-flex align-center ga-5">
+                <v-col
+                    cols="12"
+                    class="pa-0 d-flex align-center ga-5"
+                >
                     <!-- Avatar -->
                     <v-col
                         cols="auto"
@@ -22,7 +25,10 @@
                         class="pa-0 d-flex align-center flex-wrap flex-grow-1 ga-3"
                     >
                         <!-- 生命值 -->
-                        <v-col cols="12" class="pa-0 position-relative">
+                        <v-col
+                            cols="12"
+                            class="pa-0 position-relative"
+                        >
                             <v-progress-linear
                                 class="w-100 rounded-xl"
                                 color="red"
@@ -60,11 +66,11 @@
                             cols="auto"
                             class="pa-0 d-flex align-center ga-1"
                         >
-                            <IconAttack/>
+                            <IconAttack />
                             {{ player.status.attack }}
                             <em
-                                class="text-darkamber"
                                 v-if="extraStatus.attack"
+                                class="text-darkamber"
                             >
                                 (+{{ extraStatus.attack }})
                             </em>
@@ -75,11 +81,11 @@
                             cols="auto"
                             class="pa-0 d-flex align-center ga-1"
                         >
-                            <IconDefense/>
+                            <IconDefense />
                             {{ player.status.defense }}
                             <em
-                                class="text-darkamber"
                                 v-if="extraStatus.defense"
+                                class="text-darkamber"
                             >
                                 (+{{ extraStatus.defense }})
                             </em>
@@ -90,14 +96,20 @@
                             cols="auto"
                             class="pa-0 d-flex align-center ga-1"
                         >
-                            <IconPokerCard/>
+                            <IconPokerCard />
                             {{ player.backpack.cards.length }}
                         </v-col>
 
                         <!-- 裝備 -->
-                        <v-col cols="12" class="pa-0 d-flex align-center ga-1">
+                        <v-col
+                            cols="12"
+                            class="pa-0 d-flex align-center ga-1"
+                        >
                             <!-- 頭 -->
-                            <v-col cols="auto" class="pa-0">
+                            <v-col
+                                cols="auto"
+                                class="pa-0"
+                            >
                                 <Equip
                                     :equip="
                                         player.equipment[enumEquipPosition.Head]
@@ -111,7 +123,10 @@
                             </v-col>
 
                             <!-- 主武器 -->
-                            <v-col cols="auto" class="pa-0">
+                            <v-col
+                                cols="auto"
+                                class="pa-0"
+                            >
                                 <Equip
                                     :equip="
                                         player.equipment[
@@ -127,7 +142,10 @@
                             </v-col>
 
                             <!-- 副武器 -->
-                            <v-col cols="auto" class="pa-0">
+                            <v-col
+                                cols="auto"
+                                class="pa-0"
+                            >
                                 <Equip
                                     :equip="
                                         player.equipment[
@@ -143,7 +161,10 @@
                             </v-col>
 
                             <!-- 身體 -->
-                            <v-col cols="auto" class="pa-0">
+                            <v-col
+                                cols="auto"
+                                class="pa-0"
+                            >
                                 <Equip
                                     :equip="
                                         player.equipment[enumEquipPosition.Body]
@@ -157,7 +178,10 @@
                             </v-col>
 
                             <!-- 褲子 -->
-                            <v-col cols="auto" class="pa-0">
+                            <v-col
+                                cols="auto"
+                                class="pa-0"
+                            >
                                 <Equip
                                     :equip="
                                         player.equipment[
@@ -172,7 +196,10 @@
                                 />
                             </v-col>
                             <!-- 鞋子 -->
-                            <v-col cols="auto" class="pa-0">
+                            <v-col
+                                cols="auto"
+                                class="pa-0"
+                            >
                                 <Equip
                                     :equip="
                                         player.equipment[
@@ -192,7 +219,7 @@
             </v-row>
         </v-card-text>
 
-        <MumbleBubble :mumble-content="mumbleContent"/>
+        <MumbleBubble :mumble-content="mumbleContent" />
     </v-card>
 </template>
 
@@ -222,9 +249,7 @@ const {
     extraStatus: { attack: number; defense: number };
 }>();
 
-const currentHealthPercent = computed(
-    () => (player.status.health / player.status.maxHealth) * 100,
-);
+const currentHealthPercent = computed(() => (player.status.health / player.status.maxHealth) * 100);
 
 /** 上一次變化的後血量 */
 const lastHealth = ref(player.status.health);
@@ -235,7 +260,7 @@ const mutatedHealth = ref(0);
 /** 播放扣血動畫 */
 watch(
     () => player.status.health,
-    async() => {
+    async () => {
         mutatedHealth.value = player.status.health - lastHealth.value;
 
         await sleepSeconds(1);

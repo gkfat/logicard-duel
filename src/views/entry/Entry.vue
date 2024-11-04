@@ -13,8 +13,9 @@
                 :style="{
                     paddingRight: '80px !important',
                 }"
-                >Logicard</v-col
             >
+                Logicard
+            </v-col>
             <v-col
                 cols="12"
                 class="pa-0 text-center mb-auto text-h2 font-weight-bold font-italic"
@@ -24,16 +25,29 @@
                 :style="{
                     paddingLeft: '120px !important',
                 }"
-                >Duel!</v-col
             >
+                Duel!
+            </v-col>
         </v-col>
 
-        <v-col cols="auto" class="mt-auto pa-0">
+        <v-col
+            cols="auto"
+            class="mt-auto pa-0"
+        >
             <v-row class="justify-center ma-0 ga-3">
-                <v-col cols="auto" class="pa-0">
-                    <Btn :icon="'mdi-github'" :func="openGithub" />
+                <v-col
+                    cols="auto"
+                    class="pa-0"
+                >
+                    <Btn
+                        :icon="'mdi-github'"
+                        :func="openGithub"
+                    />
                 </v-col>
-                <v-col cols="auto" class="pa-0">
+                <v-col
+                    cols="auto"
+                    class="pa-0"
+                >
                     <Btn
                         :icon="'mdi-script-text'"
                         :func="() => appStore.openDialog('rank')"
@@ -42,8 +56,14 @@
             </v-row>
         </v-col>
 
-        <v-col cols="auto" class="pa-0">
-            <Btn :text="t('game_view.start')" :func="start" />
+        <v-col
+            cols="auto"
+            class="pa-0"
+        >
+            <Btn
+                :text="t('game_view.start')"
+                :func="start"
+            />
         </v-col>
     </v-row>
 </template>
@@ -61,12 +81,12 @@ const appStore = useAppStore();
 const soundStore = useSoundStore();
 const { soundClick } = useSoundEffect();
 
-const openGithub = async() => {
+const openGithub = async () => {
     await soundClick();
     window.open('https://github.com/gkfat/logicard-duel/', '_blank');
 };
 
-const start = async() => {
+const start = async () => {
     appStore.switchSpinner(true);
     await soundStore.playAllInMute();
 

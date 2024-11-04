@@ -34,7 +34,7 @@ export const useOpponentStore = defineStore('opponent', () => {
     const playerStore = usePlayerStore();
 
     const {
-        soundPlaceCard, soundPop, soundOpponentHurt, soundHeal,
+        soundPlaceCard, soundPop, soundOpponentHurt, soundHeal, 
     } = useSoundEffect();
 
     /** 被擊敗的敵人 */
@@ -51,19 +51,12 @@ export const useOpponentStore = defineStore('opponent', () => {
      */
     const extraStatus = computed(() => {
         // 找到已裝備的裝備
-        const findEquips = currentOpponent.value!.backpack.equips.filter(
-            (v) => v.is_equiped,
-        );
+        const findEquips = currentOpponent.value!.backpack.equips.filter((v) => v.is_equiped);
 
-        const findWeapons = findEquips.filter(
-            (v) => v.template.effect === enumEffect.Harm,
-        );
-        const findArmors = findEquips.filter(
-            (v) => v.template.effect === enumEffect.Defense,
-        );
+        const findWeapons = findEquips.filter((v) => v.template.effect === enumEffect.Harm);
+        const findArmors = findEquips.filter((v) => v.template.effect === enumEffect.Defense);
 
-        const calcPoint = (equips: Equip[]) =>
-            equips.reduce((num, equip) => num + equip.info.point, 0);
+        const calcPoint = (equips: Equip[]) => equips.reduce((num, equip) => num + equip.info.point, 0);
 
         return {
             attack: calcPoint(findWeapons),
@@ -95,21 +88,20 @@ export const useOpponentStore = defineStore('opponent', () => {
     /** 補血 */
     async function increaseHealth(point: number) {
         const {
-            health, maxHealth,
+            health, maxHealth, 
         } = currentOpponent.value!.status;
 
         // 不得超過血量上限
-        const mutatedHealth =
-            health + point > maxHealth ? maxHealth : health + point;
+        const mutatedHealth = health + point > maxHealth ? maxHealth : health + point;
 
         await soundHeal();
 
         currentOpponent.value!.status.health = mutatedHealth;
     }
 
-      /** 升級 */
-      async function levelUp(opponent: Player) {
-        const {status} = opponent;
+    /** 升級 */
+    async function levelUp(opponent: Player) {
+        const { status } = opponent;
 
         status.level += 1;
         status.maxHealth += 10;
@@ -139,8 +131,7 @@ export const useOpponentStore = defineStore('opponent', () => {
     /** 補滿敵人池 */
     async function refillPool() {
         while (pool.value.length < 5) {
-            const randomType =
-                OpponentValues[getRandomInt([0, OpponentValues.length - 1])];
+            const randomType = OpponentValues[getRandomInt([0, OpponentValues.length - 1])];
 
             let opponent = factory.createPlayer(randomType);
 
@@ -148,7 +139,7 @@ export const useOpponentStore = defineStore('opponent', () => {
             const randomLevel = getRandomLevel();
 
             if (randomLevel > 1) {
-                for (let i = 1; i < randomLevel; i ++) {
+                for (let i = 1; i < randomLevel; i++) {
                     opponent = await levelUp(opponent);
                 }
             }
@@ -229,8 +220,7 @@ export const useOpponentStore = defineStore('opponent', () => {
 
             placeCard(getCard);
 
-            const shouldRePlaceCard =
-                battleStore.remainSeconds > 3 && drawLots();
+            const shouldRePlaceCard = battleStore.remainSeconds > 3 && drawLots();
 
             if (shouldRePlaceCard) {
                 await sleepSeconds(0.5);
@@ -250,10 +240,7 @@ export const useOpponentStore = defineStore('opponent', () => {
     };
 
     /** 產生一句喃喃自語 */
-    async function randomMumble(
-        mumbleType: enumMumbleType,
-        force: boolean = false,
-    ) {
+    async function randomMumble(mumbleType: enumMumbleType, force = false) {
         // 決定是否要喃喃自語
         const isGoingToMumble = force || getRandomInt([1, 2]) === 1;
 
@@ -263,8 +250,7 @@ export const useOpponentStore = defineStore('opponent', () => {
                 await sleepSeconds(1);
             }
 
-            const mumbleList =
-                currentOpponent.value!.character.mumbleList[mumbleType];
+            const mumbleList = currentOpponent.value!.character.mumbleList[mumbleType];
 
             if (mumbleList.length > 0) {
                 soundPop();
@@ -316,9 +302,7 @@ export const useOpponentStore = defineStore('opponent', () => {
     /** 丟棄戰利品卡牌 */
     async function dropCard(card: Card) {
         if (currentOpponent.value) {
-            const findIndex = currentOpponent.value.backpack.cards.findIndex(
-                (item) => item.id === card.id,
-            );
+            const findIndex = currentOpponent.value.backpack.cards.findIndex((item) => item.id === card.id);
 
             if (findIndex !== -1) {
                 currentOpponent.value.backpack.cards.splice(findIndex, 1);
@@ -329,9 +313,7 @@ export const useOpponentStore = defineStore('opponent', () => {
     /** 丟棄戰利品裝備 */
     async function dropEquip(equip: Equip) {
         if (currentOpponent.value) {
-            const findIndex = currentOpponent.value.backpack.equips.findIndex(
-                (item) => item.id === equip.id,
-            );
+            const findIndex = currentOpponent.value.backpack.equips.findIndex((item) => item.id === equip.id);
 
             if (findIndex !== -1) {
                 currentOpponent.value.backpack.equips.splice(findIndex, 1);
@@ -342,9 +324,7 @@ export const useOpponentStore = defineStore('opponent', () => {
     /** 清理目前的敵人 */
     async function clearOpponent() {
         if (currentOpponent.value) {
-            const findIndex = pool.value.findIndex(
-                (v) => v.id === currentOpponent.value?.id,
-            );
+            const findIndex = pool.value.findIndex((v) => v.id === currentOpponent.value?.id);
             if (findIndex !== -1) {
                 defeatedOpponents.value.push(currentOpponent.value);
                 pool.value.splice(findIndex, 1);
@@ -356,9 +336,7 @@ export const useOpponentStore = defineStore('opponent', () => {
     /** 初始化敵人池 */
     async function init() {
         // 初始化一定有工作型
-        const workerTypeOpponent = factory.createPlayer(
-            enumCharacter.GkbotWorker,
-        );
+        const workerTypeOpponent = factory.createPlayer(enumCharacter.GkbotWorker);
         pool.value.push(workerTypeOpponent);
 
         await refillPool();

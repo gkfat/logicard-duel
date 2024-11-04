@@ -1,4 +1,3 @@
- 
 export enum enumCharacter {
     Man = 'man',
     Nerd = 'nerd',

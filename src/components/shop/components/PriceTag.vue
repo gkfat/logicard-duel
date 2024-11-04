@@ -7,7 +7,7 @@
         label
     >
         <template #prepend>
-            <IconCoin></IconCoin>
+            <IconCoin />
         </template>
         {{ thousands(price) }}
     </v-chip>
