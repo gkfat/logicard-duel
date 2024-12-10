@@ -1,8 +1,11 @@
 import axios, { type AxiosError } from 'axios';
 
+import { db } from '@/types/database';
 import { Rank } from '@/types/rank';
+import { createClient } from '@supabase/supabase-js';
 
-const baseUrl = import.meta.env.MODE === 'production' ? import.meta.env.VITE_API_URL : '/api';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY;
 
 const errorHandler = async (error: AxiosError) => {
     if (error.isAxiosError) {
@@ -15,28 +18,35 @@ const errorHandler = async (error: AxiosError) => {
 axios.interceptors.response.use((response) => response, errorHandler);
 
 /** 取得 sheet 資料 */
-const getData = async (): Promise<{ data: string[][] }> => {
-    return await axios({
-        baseURL: baseUrl,
-        method: 'get',
-        timeout: 60000,
-    });
+const getData = async () => {
+    const client = createClient<db.Record>(SUPABASE_URL, SUPABASE_KEY);
+
+    try {
+        const { data } = await client.from('records').select('*');
+
+        return data as db.Record[];
+    } catch (err) {
+        console.error(err);
+    }
+
+    return [];
 };
 
 /** 更新 sheet 資料 */
-const updateData = async (data: Rank): Promise<{ data: string[][] }> => {
-    const mutatedData: { [key: string]: string } = {};
+const updateData = async (data: Rank) => {
+    const client = createClient<db.Record>(SUPABASE_URL, SUPABASE_KEY);
 
-    Object.keys(data).forEach((key) => {
-        mutatedData[key] = JSON.stringify(data[key]);
-    });
+    try {
+        const res = await client.from('records').insert({
+            player_name: data.playerName,
+            player_data: JSON.stringify(data.player),
+            last_words: data.lastWords,
+        });
 
-    return await axios({
-        baseURL: baseUrl,
-        method: 'post',
-        timeout: 60000,
-        data: mutatedData,
-    });
+        return res;
+    } catch (err) {
+        console.error(err);
+    }
 };
 
 export default {

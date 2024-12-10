@@ -22,6 +22,7 @@
                 </v-col>
 
                 <v-col
+                    v-if="playserStore.currentPlayer"
                     cols="auto"
                     class="py-0 mb-3"
                 >
@@ -87,12 +88,14 @@ import { DialogDataList } from '@/data/dialogs';
 import { enumDialog } from '@/enums/dialog';
 import { enumGameState } from '@/enums/game';
 import { useAppStore } from '@/store/app';
+import { usePlayerStore } from '@/store/player';
 import { useRankStore } from '@/store/rank';
 
 import RankCard from './components/RankCard.vue';
 
 const { t } = useI18n();
 const appStore = useAppStore();
+const playserStore = usePlayerStore();
 const rankStore = useRankStore();
 const isOpen = computed(() => appStore.isOpen === 'rank');
 
@@ -110,6 +113,7 @@ const openConfirmBox = () => {
 };
 
 const goGameOver = () => {
+    appStore.closeDialog();
     appStore.changeGameState(enumGameState.GameOver);
 };
 </script>

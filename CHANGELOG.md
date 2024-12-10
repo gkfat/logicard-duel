@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [v0.3.5] - 2024-12-10
+
+### Fixed
+
+- Database 改為使用 Supabase
+
 ## [v0.3.4] - 2024-10-31
 
 ### Added
