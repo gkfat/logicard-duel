@@ -1,3 +1,7 @@
 import bootApp from 'boot';
 
-export default bootApp()
+const app = bootApp()
+
+export default {
+    fetch: (await app).fetch,
+}

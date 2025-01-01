@@ -22,8 +22,6 @@ interface EnvironmentVariables {
     readonly handCardMaxLimit: number;
     readonly shopRefreshMinutes: number;
     readonly apiUrl: string;
-    readonly supabaseUrl: string;
-    readonly supabaseKey: string;
 }
 
 export const useAppStore = defineStore('appStore', () => {
@@ -38,8 +36,6 @@ export const useAppStore = defineStore('appStore', () => {
         handCardMaxLimit: 0,
         shopRefreshMinutes: 0,
         apiUrl: '',
-        supabaseUrl: '',
-        supabaseKey: '',
     });
 
     const gameState = ref(enumGameState.Booting);
@@ -89,8 +85,6 @@ export const useAppStore = defineStore('appStore', () => {
             VITE_HANDCARD_MAX_LIMIT,
             VITE_SHOP_REFRESH_MINUTES,
             VITE_API_URL,
-            VITE_SUPABASE_URL,
-            VITE_SUPABASE_KEY,
         } = import.meta.env;
 
         ENV.value = {
@@ -104,8 +98,6 @@ export const useAppStore = defineStore('appStore', () => {
             handCardMaxLimit: VITE_HANDCARD_MAX_LIMIT ? Number(VITE_HANDCARD_MAX_LIMIT) : 7,
             shopRefreshMinutes: VITE_SHOP_REFRESH_MINUTES? Number(VITE_SHOP_REFRESH_MINUTES) : 10,
             apiUrl: import.meta.env.MODE === 'production' ? VITE_API_URL : '/api',
-            supabaseUrl: VITE_SUPABASE_URL,
-            supabaseKey: VITE_SUPABASE_KEY,
         };
     }
 

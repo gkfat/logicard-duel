@@ -2,6 +2,9 @@
     "name": "logicard-duel",
     "version": "0.3.5",
     "private": true,
+    "engines": {
+        "node": ">=20"
+    },
     "scripts": {
         "dev": "vite",
         "build": "vite build",
@@ -11,7 +14,6 @@
     },
     "dependencies": {
         "@mdi/font": "^7.4.47",
-        "@supabase/supabase-js": "^2.47.3",
         "axios": "^1.7.7",
         "bignumber.js": "^9.1.2",
         "pinia": "^2.2.2",

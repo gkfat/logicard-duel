@@ -15,17 +15,20 @@ datasource db {
 }
 
 model Account {
-  id Int @id @default(autoincrement())
-  email String @unique
-  name String
-  last_login_at DateTime
-  createdAt DateTime @default(now())
-  auths AccountAuth[]
+  id            Int @id @default(autoincrement())
+  email         String @unique
+  name          String
+  enabled       Boolean
+  last_login_at DateTime @default(now())
+  created_at    DateTime @default(now())
+  auths         AccountAuth[]
 }
 
 model AccountAuth {
-  id Int @id @default(autoincrement())
-  identifier String
-  account_id Int
-  account Account @relation(fields: [account_id], references: [id])
+  id            Int @id @default(autoincrement())
+  account_id    Int
+  type          String
+  identifier    String
+  credential    String?
+  account       Account @relation(fields: [account_id], references: [id])
 }

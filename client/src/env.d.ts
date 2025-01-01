@@ -11,8 +11,6 @@ interface ImportMetaEnv {
     readonly VITE_HANDCARD_MAX_LIMIT: number;
     readonly VITE_SHOP_REFRESH_MINUTES: number;
     readonly VITE_API_URL: string;
-    readonly VITE_SUPABASE_URL: string;
-    readonly VITE_SUPABASE_KEY: string;
 }
 
 interface ImportMeta {
