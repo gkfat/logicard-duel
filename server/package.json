@@ -1,0 +1,29 @@
+{
+	"name": "logicard-duel-server",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"dev": "wrangler dev",
+		"deploy": "wrangler deploy",
+		"start": "wrangler dev",
+		"migrate:local": "wrangler d1 migrations apply logicard-duel-db --local",
+		"migrate:remote": "wrangler d1 migrations apply logicard-duel-db --remote",
+		"cf-typegen": "wrangler types",
+		"lint:fix": "biome check --write"
+	},
+	"dependencies": {
+		"@prisma/adapter-d1": "^6.1.0",
+		"@prisma/client": "^6.1.0",
+		"chanfana": "^2.0.2",
+		"hono": "^4.4.7",
+		"prisma": "^6.1.0",
+		"zod": "^3.23.8"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@cloudflare/workers-types": "^4.20241230.0",
+		"@types/node": "20.8.3",
+		"@types/service-worker-mock": "^2.0.1",
+		"wrangler": "^3.60.3"
+	}
+}
