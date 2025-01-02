@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import type { Auth } from 'types/auth';
 
 /** 密碼組成規則: 6~10 位英數字 */

@@ -23,8 +23,10 @@ database_name = "logicard-duel-db"
 database_id = "634c8fef-b30c-4f22-8d45-490122dd9d6c"
 
 [vars]
-DATABASE_URL="file:./dev.db"
 UPSTASH_REDIS_REST_URL = "https://accurate-bee-21311.upstash.io"
 GOOGLE_CLIENT_ID="1096330040476-a58jjdcpjfs6dedmjb2mp7pohcdi6fe8.apps.googleusercontent.com"
 GOOGLE_REDIRECT_URI="http://localhost:5173"
 JWT_EXPIRES_IN="1d"
+
+[env.dev]
+DATABASE_URL="file:./dev.db"

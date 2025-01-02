@@ -13,7 +13,11 @@ export class AccountController {
     async listAccounts(ctx: Context) {
         try {
             const prisma = ctx.get('$prisma') as PrismaClient;
-            const accounts = await prisma.account.findMany()
+            const accounts = await prisma.account.findMany({
+                include: {
+                    roles: true
+                }
+            })
         
             return ctx.json(accounts)
         } catch(error) {

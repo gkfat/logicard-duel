@@ -8,7 +8,7 @@ export namespace Auth {
         identifier: string;
         credential?: string;
     }
-
+    
     export interface LoginRequest {
         type: EnumLoginType;
         email: string;

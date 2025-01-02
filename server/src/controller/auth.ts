@@ -10,10 +10,7 @@ import authService from '../service/auth';
 
 export class AuthController {
     constructor(app:Hono) {
-        app.post(
-            '/auth',
-            this.login
-        )
+        app.post('/auth', this.login)
     }
 
     async login(ctx: Context) {
@@ -25,6 +22,9 @@ export class AuthController {
         const account = await prisma.account.findFirst({
             where: {
                 id
+            },
+            include: {
+                auths: true
             }
         })
 

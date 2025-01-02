@@ -22,6 +22,7 @@ model Account {
   last_login_at DateTime @default(now())
   created_at    DateTime @default(now())
   auths         AccountAuth[]
+  roles         Role[]  @relation("AccountRoles")
 }
 
 model AccountAuth {
@@ -31,4 +32,10 @@ model AccountAuth {
   identifier    String
   credential    String?
   account       Account @relation(fields: [account_id], references: [id])
+}
+
+model Role {
+  id            Int @id @default(autoincrement())
+  role          String @unique
+  accounts      Account[] @relation("AccountRoles")
 }
