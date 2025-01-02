@@ -1,6 +1,6 @@
 {
-    "name": "logicard-duel",
-    "version": "0.3.5",
+    "name": "logicard-duel-client",
+    "version": "0.3.6",
     "private": true,
     "engines": {
         "node": ">=20"

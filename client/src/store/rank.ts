@@ -11,30 +11,32 @@ export const useRankStore = defineStore('rank', () => {
 
     /** 獲取排行榜資料 */
     const getRankData = async () => {
-        const data = await apiService.getData();
+        const data = await apiService.getRanks();
 
-        rankData.value = data.map((_data) => {
+        rankData.value = data
+        .sort((a, b) => new Date(b.end_date).getTime() - new Date(a.end_date).getTime())
+        .map((_data) => {
             const {
                 id,
-                created_at,
-                player_data,
+                end_date,
+                player,
                 player_name,
                 last_words,
             }= _data;
 
             return {
                 id,
-                endDate: humanReadable(created_at),
-                playerName: player_name,
-                player: JSON.parse(player_data),
-                lastWords: last_words,
+                end_date: humanReadable(end_date),
+                player_name: player_name,
+                player: JSON.parse(player),
+                last_words: last_words,
             };
         });
     };
 
     /** 更新排行榜資料 */
     const updateRankData = async (req: Rank) => {
-        await apiService.updateData(req);
+        await apiService.createRank(req);
     };
 
     /** 初始化 */

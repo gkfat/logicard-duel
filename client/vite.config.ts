@@ -1,5 +1,6 @@
 import {
-    URL, fileURLToPath, 
+  fileURLToPath,
+  URL,
 } from 'node:url';
 
 import { defineConfig } from 'vite';
@@ -31,14 +32,5 @@ export default defineConfig({
             '.tsx',
             '.vue',
         ],
-    },
-    server: {
-        proxy: {
-            '/api': {
-                target: 'https://script.google.com/macros/s/AKfycbxxYhVKAzrI7aYZ4PSC7_8q9QeXSkmmicVXRaJV5JjCz43C8DhjlMsL5c2kCaLNSjCguw/exec',
-                changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, ''),
-            },
-        },
     },
 });

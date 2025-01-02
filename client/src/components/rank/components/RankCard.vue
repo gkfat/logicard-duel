@@ -8,21 +8,21 @@
                 cols="auto"
                 class="ml-auto py-1"
             >
-                {{ humanReadable(data.endDate) }}
+                {{ humanReadable(data.end_date) }}
             </v-col>
         </v-row>
 
         <v-card-text class="py-1">
             <span>玩家</span>
             <span class="text-body-1 mx-2 text-amber">{{
-                data.playerName
+                data.player_name
             }}</span>
         </v-card-text>
 
         <v-card-text class="py-1">
             <span>留下了遺言</span>
             <span class="text-body-1 mx-2 text-amber">{{
-                data.lastWords
+                data.last_words
             }}</span>
         </v-card-text>
 
@@ -247,8 +247,8 @@
 </template>
 <script lang="ts" setup>
 import {
-    computed,
-    ref,
+  computed,
+  ref,
 } from 'vue';
 
 import PlayerAvatar from '@/components/common/PlayerAvatar.vue';

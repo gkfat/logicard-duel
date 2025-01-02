@@ -63,8 +63,8 @@
 </template>
 <script lang="ts" setup>
 import {
-    computed,
-    ref,
+  computed,
+  ref,
 } from 'vue';
 
 import { useI18n } from 'vue-i18n';
@@ -122,10 +122,10 @@ const onLastWordsChange = () => {
 
 const restart = async () => {
     const data: Rank = {
-        endDate: createDate().toISOString(),
-        playerName: playerName.value.length === 0 ? '匿名玩家' : playerName.value,
-        player: player.value,
-        lastWords: lastWords.value.length === 0 ? '走的太倉促，沒有留下遺言。' : lastWords.value,
+        end_date: createDate().toISOString(),
+        player_name: playerName.value.length === 0 ? '匿名玩家' : playerName.value,
+        player: JSON.stringify(player.value),
+        last_words: lastWords.value.length === 0 ? '走的太倉促，沒有留下遺言。' : lastWords.value,
     };
 
     appStore.switchSpinner(true);

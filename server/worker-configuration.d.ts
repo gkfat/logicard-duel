@@ -4,11 +4,4 @@ import type { D1Database } from '@cloudflare/workers-types';
 
 interface Env {
 	DB: D1Database;
-	UPSTASH_REDIS_REST_URL: string;
-	UPSTASH_REDIS_REST_TOKEN: string;
-	GOOGLE_CLIENT_ID: string;
-	GOOGLE_CLIENT_SECRET: string;
-	GOOGLE_REDIRECT_URI: string;
-	JWT_SECRET: string;
-	JWT_EXPIRES_IN: string;
 }

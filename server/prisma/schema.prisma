@@ -14,28 +14,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Account {
+model Rank {
   id            Int @id @default(autoincrement())
-  email         String @unique
-  name          String
-  enabled       Boolean
-  last_login_at DateTime @default(now())
-  created_at    DateTime @default(now())
-  auths         AccountAuth[]
-  roles         Role[]  @relation("AccountRoles")
-}
-
-model AccountAuth {
-  id            Int @id @default(autoincrement())
-  account_id    Int
-  type          String
-  identifier    String
-  credential    String?
-  account       Account @relation(fields: [account_id], references: [id])
-}
-
-model Role {
-  id            Int @id @default(autoincrement())
-  role          String @unique
-  accounts      Account[] @relation("AccountRoles")
+  end_date      DateTime
+  player_name   String
+  player        String
+  last_words    String
 }

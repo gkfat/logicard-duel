@@ -12,14 +12,17 @@ const errorHandler = async (error: AxiosError) => {
 
 axios.interceptors.response.use((response) => response, errorHandler);
 
-/** 取得 sheet 資料 */
-const getData = async () => {
-    const client = createClient<db.Record>(SUPABASE_URL, SUPABASE_KEY);
+const baseURL = 'https://logicard-duel-server.gkgkdesign.workers.dev'
 
+const getRanks = async () => {
     try {
-        const { data } = await client.from('records').select('*');
+        const { data } = await axios({
+            baseURL,
+            method: 'GET',
+            url: '/ranks',
+        })
 
-        return data as db.Record[];
+        return data as Rank[];
     } catch (err) {
         console.error(err);
     }
@@ -27,16 +30,14 @@ const getData = async () => {
     return [];
 };
 
-/** 更新 sheet 資料 */
-const updateData = async (data: Rank) => {
-    const client = createClient<db.Record>(SUPABASE_URL, SUPABASE_KEY);
-
+const createRank = async (data: Rank) => {
     try {
-        const res = await client.from('records').insert({
-            player_name: data.playerName,
-            player_data: JSON.stringify(data.player),
-            last_words: data.lastWords,
-        });
+        const res = await axios({
+            baseURL,
+            method: 'POST',
+            url: '/ranks/create',
+            data
+        })
 
         return res;
     } catch (err) {
@@ -45,6 +46,6 @@ const updateData = async (data: Rank) => {
 };
 
 export default {
-    getData,
-    updateData,
+    getRanks,
+    createRank,
 };

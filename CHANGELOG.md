@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.6] - 2025-01-02
+
+### Fixed
+
+- 建立 server, 使用 cloudflare worker 串接 D1 database
 
 ## [v0.3.5] - 2024-12-10
 

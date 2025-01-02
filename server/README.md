@@ -4,8 +4,6 @@ Build with Hono & cloudflare worker & D1 database.
 
 ## Env
 
-Prepare `.dev.vars` as local env file
-
 ## generate prisma client
 
 ```sh
@@ -16,4 +14,10 @@ pnpm prisma:generate
 
 ```sh
 npx prisma migrate dev
+```
+
+## Deploy
+
+```sh
+npx wrangler deploy
 ```
