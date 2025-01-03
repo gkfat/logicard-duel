@@ -1,9 +1,9 @@
 <template>
     <v-app
         full-height
-        :style="{
-            width: '100vw',
-            height: '100vh',
+        :styles="{
+            height,
+            width
         }"
         class="bg-transparent overflow-hidden"
     >
@@ -59,8 +59,14 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
+import { useWindowSize } from '@vueuse/core';
+
 import { enumGameState } from './enums/game';
 import { useAppStore } from './store/app';
+
+const {
+    height, width, 
+} = useWindowSize();
 
 const appStore = useAppStore();
 const isBooting = computed(() => appStore.gameState === enumGameState.Booting);

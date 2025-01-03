@@ -1,31 +1,29 @@
 <template>
-    <div
-        class="fill-height d-flex flex-column align-center mx-auto"
+    <AppHeader />
+    <AppSettingDrawer />
+    
+    <v-main
         :style="{
-            width: '100%',
-            height: '100%',
-            maxWidth: '500px',
-            maxHeight: '700px',
+            maxWidth: '500px'
         }"
+        class="overflow-hidden mx-auto"
     >
-        <AppHeader />
-
-        <v-container class="fill-height py-0 d-flex flex-column flex-nowrap">
-            <router-view class="flex-grow-1" />
+        <v-container
+            class="fill-height d-flex flex-column flex-nowrap overflow-y-auto"
+            fluid
+        >
+            <router-view />
         </v-container>
-    </div>
 
-    <Rank />
-    <Backpack />
-    <Shop />
+        <AppControlPanel />
+    </v-main>
+
     <Spinner />
 </template>
 
-<script setup>
-import Backpack from '@/components/backpack/Backpack.vue';
-import Rank from '@/components/rank/Rank.vue';
-import Shop from '@/components/shop/Shop.vue';
-
+<script setup lang="ts">
+import AppControlPanel from './AppControlPanel/AppControlPanel.vue';
+import AppSettingDrawer from './AppSettingDrawer/AppSettingDrawer.vue';
 import AppHeader from './components/AppHeader.vue';
 import Spinner from './components/Spinner.vue';
 </script>

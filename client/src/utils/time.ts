@@ -24,7 +24,7 @@ export const setTimezoneOffset = (offset: number): number => {
 export const createDate = (time?: ConfigType, keepLocalTime = false) =>
     dayjs(time).utcOffset(timezoneOffset, keepLocalTime);
 
-export const humanReadable = (time: ConfigType, format = 'YYYY-MM-DD HH:mm:ss'): string => {
+export const humanReadable = (time: ConfigType, format = 'YYYY-MM-DD HH:mm'): string => {
     if (dayjs.isDayjs(time)) {
         return dayjs(time).format(format);
     }

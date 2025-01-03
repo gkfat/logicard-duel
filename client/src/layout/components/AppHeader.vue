@@ -1,7 +1,7 @@
 <template>
-    <v-container
-        class="py-0 px-3 d-flex align-center justify-center"
-        :class="{ 'text-white': isUseWhiteText }"
+    <v-system-bar
+        theme="dark"
+        window
     >
         <v-col
             cols="auto"
@@ -21,25 +21,22 @@
             cols="auto"
             class="pa-0 ml-auto"
         >
-            <VolumeControl />
+            <v-btn
+                icon="mdi-cog"
+                flat
+                variant="text"
+                :ripple="false"
+                @click="toggleDrawer"
+            />
         </v-col>
-    </v-container>
+    </v-system-bar>
 </template>
 <script lang="ts" setup>
-import { computed } from 'vue';
-
-import { enumGameState } from '@/enums/game';
 import { useAppStore } from '@/store/app';
-
-import VolumeControl from './VolumeControl.vue';
 
 const appStore = useAppStore();
 
-const isUseWhiteText = computed(() => {
-    return [
-        enumGameState.Rest,
-        enumGameState.Battle,
-        enumGameState.GameOver,
-    ].includes(appStore.gameState);
-});
+const toggleDrawer = () => {
+    appStore.isSettingDrawerOpen = !appStore.isSettingDrawerOpen;
+};
 </script>

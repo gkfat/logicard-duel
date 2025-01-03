@@ -2,8 +2,8 @@ import { ref } from 'vue';
 
 import { defineStore } from 'pinia';
 
-import { useSoundEffect } from '@/composable/useSoundEffect';
 import { enumGameState } from '@/enums/game';
+import { enumViewLocation } from '@/enums/view-location';
 import { sleepSeconds } from '@/utils/common';
 
 import { useOpponentStore } from './opponent';
@@ -38,10 +38,10 @@ export const useAppStore = defineStore('appStore', () => {
         apiUrl: '',
     });
 
+    const viewLocation = ref(enumViewLocation.Status);
     const gameState = ref(enumGameState.Booting);
     const spinnerOpen = ref(false);
-    const isOpen = ref<'rank' | 'backpack' | 'shop' | null>(null);
-    const { soundClick } = useSoundEffect();
+    const isSettingDrawerOpen = ref(false);
     const shopStore = useShopStore();
     const rankStore = useRankStore();
     const opponentStore = useOpponentStore();
@@ -61,16 +61,6 @@ export const useAppStore = defineStore('appStore', () => {
     /** 開關 Spinner */
     function switchSpinner(target: boolean) {
         spinnerOpen.value = target;
-    }
-
-    function openDialog(target: 'rank' | 'backpack' | 'shop') {
-        soundClick();
-        isOpen.value = target;
-    }
-
-    function closeDialog() {
-        soundClick();
-        isOpen.value = null;
     }
 
     function setEnv() {
@@ -136,12 +126,11 @@ export const useAppStore = defineStore('appStore', () => {
         bootGame,
         bootProcess,
         ENV,
+        viewLocation,
         gameState,
         changeGameState,
         spinnerOpen,
         switchSpinner,
-        isOpen,
-        openDialog,
-        closeDialog,
+        isSettingDrawerOpen,
     };
 });

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.7] - 2025-01-03
+
+### Changed
+
+- 調整 UI
+- 增加天地 bar, 側邊欄, 作者資訊
+
 ## [v0.3.6] - 2025-01-02
 
 ### Fixed

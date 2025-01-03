@@ -4,90 +4,39 @@
         :style="{ opacity: opacity.current }"
     />
 
-    <v-row class="w-100 ma-0 ga-3 flex-column pb-3">
-        <v-col
-            cols="auto"
-            class="pa-0"
-        >
-            <Dialog
-                :dialogs="dialogs"
-                :max-height="150"
-            />
-        </v-col>
-
-        <!-- 角色 -->
-        <v-col
-            cols="auto"
-            class="pa-0 flex-grow-1"
-        >
-            <Status />
-        </v-col>
-
-        <!-- 功能列 -->
-        <v-col
-            cols="auto"
-            class="pa-0 mt-auto"
-        >
-            <v-row class="ma-0 ga-3 justify-center flex-nowrap mt-auto">
-                <!-- 背包 -->
-                <v-col class="pa-0">
-                    <Btn
-                        :icon="'mdi-bag-personal'"
-                        :func="() => appStore.openDialog('backpack')"
-                    />
-                </v-col>
-                <!-- 排行榜 -->
-                <v-col class="pa-0">
-                    <Btn
-                        :icon="'mdi-script-text'"
-                        :func="() => appStore.openDialog('rank')"
-                    />
-                </v-col>
-                <!-- 商店 -->
-                <v-col class="pa-0">
-                    <Btn
-                        :icon="'mdi-cart'"
-                        :func="() => appStore.openDialog('shop')"
-                    />
-                </v-col>
-            </v-row>
-        </v-col>
-
-        <v-col
-            cols="auto"
-            class="pa-0"
-        >
-            <Btn
-                :text="t('button.next_battle')"
-                :func="goOut"
-            />
-        </v-col>
-    </v-row>
+    <Status v-if="appStore.viewLocation === enumViewLocation.Status" />
+    <Backpack v-if="appStore.viewLocation === enumViewLocation.Backpack" />
+    <Shop v-if="appStore.viewLocation === enumViewLocation.Shop" />
+    <Rank v-if="appStore.viewLocation === enumViewLocation.Rank" />
 </template>
-
-<script setup lang="ts">
+<script lang="ts" setup>
 import {
-    onBeforeMount, onMounted, ref, 
+    onBeforeMount,
+    onMounted,
+    ref,
+    watch,
 } from 'vue';
 
-import { useI18n } from 'vue-i18n';
-
-import Btn from '@/components/system/Btn.vue';
-import Dialog from '@/components/system/Dialog.vue';
 import { useSoundEffect } from '@/composable/useSoundEffect';
-import { DialogDataList } from '@/data/dialogs';
-import { enumDialog } from '@/enums/dialog';
-import { enumGameState } from '@/enums/game';
+import { enumViewLocation } from '@/enums/view-location';
 import { useAppStore } from '@/store/app';
 import { sleepSeconds } from '@/utils/common';
 
-import Status from './components/Status.vue';
+import Backpack from './backpack/Backpack.vue';
+import Rank from './rank/Rank.vue';
+import Shop from './shop/Shop.vue';
+import Status from './status/Status.vue';
 
 const appStore = useAppStore();
-const { t } = useI18n();
 const { soundClick } = useSoundEffect();
 
-const dialogs = DialogDataList[enumDialog.Rest];
+watch(
+    () => appStore.viewLocation,
+    () => {
+        window.scrollTo({ top: 0 });
+        soundClick();
+    },
+);
 
 const opacity = ref({
     current: 1,
@@ -101,12 +50,6 @@ const BREATHE_INTERVAL_MILISECONDS = 150;
 
 // eslint-disable-next-line no-undef
 const intervalChangingBackground = ref<NodeJS.Timeout>();
-
-const goOut = async () => {
-    await soundClick();
-
-    appStore.changeGameState(enumGameState.ChooseOpponent);
-};
 
 const increaseOpacity = () => {
     intervalChangingBackground.value = setInterval(async () => {
@@ -156,7 +99,6 @@ onBeforeMount(() => {
     clearInterval(intervalChangingBackground.value);
 });
 </script>
-
 <style lang="scss" scoped>
 .campfire {
     position: fixed;

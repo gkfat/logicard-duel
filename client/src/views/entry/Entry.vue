@@ -32,28 +32,12 @@
 
         <v-col
             cols="auto"
-            class="mt-auto pa-0"
+            class="pa-0"
         >
-            <v-row class="justify-center ma-0 ga-3">
-                <v-col
-                    cols="auto"
-                    class="pa-0"
-                >
-                    <Btn
-                        :icon="'mdi-github'"
-                        :func="openGithub"
-                    />
-                </v-col>
-                <v-col
-                    cols="auto"
-                    class="pa-0"
-                >
-                    <Btn
-                        :icon="'mdi-script-text'"
-                        :func="() => appStore.openDialog('rank')"
-                    />
-                </v-col>
-            </v-row>
+            <Btn
+                :icon="'mdi-github'"
+                :func="openGithub"
+            />
         </v-col>
 
         <v-col

@@ -25,7 +25,7 @@ const props = defineProps<{
 const textColor = computed(() => {
     switch (props.rarity) {
     case enumRarity.Normal:
-        return '';
+        return 'text-white';
     case enumRarity.Rare:
         return 'text-secondary';
     case enumRarity.SR:
@@ -33,7 +33,7 @@ const textColor = computed(() => {
     case enumRarity.SSR:
         return 'text-darkamber';
     default:
-        return '';
+        return 'text-white';
     }
 });
 </script>
