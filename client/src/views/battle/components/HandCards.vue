@@ -15,7 +15,7 @@
                 :style="displayInSector ? calcCardStyle(i) : ''"
             >
                 <Card
-                    :ref="(el) => /** @ts-ignore */ (cardRefs[i] = el)"
+                    :ref="(el) => (cardRefs[i] = el)"
                     :card="card"
                     :size="cardSize"
                     :is-card-back="isCardBack"

@@ -247,8 +247,8 @@
 </template>
 <script lang="ts" setup>
 import {
-  computed,
-  ref,
+    computed,
+    ref,
 } from 'vue';
 
 import PlayerAvatar from '@/components/common/PlayerAvatar.vue';

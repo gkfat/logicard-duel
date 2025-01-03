@@ -1,6 +1,6 @@
 import {
-  fileURLToPath,
-  URL,
+    fileURLToPath,
+    URL,
 } from 'node:url';
 
 import { defineConfig } from 'vite';

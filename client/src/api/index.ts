@@ -12,7 +12,7 @@ const errorHandler = async (error: AxiosError) => {
 
 axios.interceptors.response.use((response) => response, errorHandler);
 
-const baseURL = 'https://logicard-duel-server.gkgkdesign.workers.dev'
+const baseURL = 'https://logicard-duel-server.gkgkdesign.workers.dev';
 
 const getRanks = async () => {
     try {
@@ -20,7 +20,7 @@ const getRanks = async () => {
             baseURL,
             method: 'GET',
             url: '/ranks',
-        })
+        });
 
         return data as Rank[];
     } catch (err) {
@@ -36,8 +36,8 @@ const createRank = async (data: Rank) => {
             baseURL,
             method: 'POST',
             url: '/ranks/create',
-            data
-        })
+            data,
+        });
 
         return res;
     } catch (err) {

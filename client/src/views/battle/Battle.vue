@@ -43,10 +43,10 @@
 
 <script setup lang="ts">
 import {
-  computed,
-  onMounted,
-  ref,
-  watch,
+    computed,
+    onMounted,
+    ref,
+    watch,
 } from 'vue';
 
 import { useSoundEffect } from '@/composable/useSoundEffect';

@@ -4,7 +4,9 @@
         color="bluegrey"
         class="border-white border-lg rounded-lg border-opacity-75 position-relative"
     >
-        <v-row class="ma-0 align-center">
+        <v-row
+            class="ma-0 align-center"
+        >
             <!-- Avatar -->
             <v-col
                 cols="auto"
@@ -16,45 +18,55 @@
                     :width="6"
                     :size="70"
                 >
-                    <template #default>
+                    <template
+                        #default
+                    >
                         <PlayerAvatar
                             :character="player.character"
                         />
                     </template>
                 </v-progress-circular>
 
-                    <!-- 血量變化動畫 -->
-                    <div
-                        v-if="mutatedHealth !== 0"
-                        class="position-absolute"
-                        :class="{
-                            'health-change': mutatedHealth !== 0,
-                            'text-red': mutatedHealth < 0,
-                            'text-green': mutatedHealth > 0,
-                        }"
-                        :style="{
-                            top: 0,
-                            right: 0,
-                        }"
-                    >
-                        {{ mutatedHealth }}
-                    </div>
+                <!-- 血量變化動畫 -->
+                <div
+                    v-if="mutatedHealth !== 0"
+                    class="position-absolute"
+                    :class="{
+                        'health-change': mutatedHealth !== 0,
+                        'text-red': mutatedHealth < 0,
+                        'text-green': mutatedHealth > 0,
+                    }"
+                    :style="{
+                        top: 0,
+                        right: 0,
+                    }"
+                >
+                    {{
+                        mutatedHealth
+                    }}
+                </div>
             </v-col>
 
             <!-- 狀態值 -->
-            <v-col class="d-flex align-center flex-wrap flex-grow-1 ga-3">
+            <v-col
+                class="d-flex align-center flex-wrap flex-grow-1 ga-3"
+            >
                 <!-- 攻擊 -->
                 <v-col
                     cols="auto"
                     class="pa-0 d-flex align-center ga-1"
                 >
                     <IconAttack />
-                    {{ player.status.attack }}
+                    {{
+                        player.status.attack
+                    }}
                     <em
                         v-if="extraStatus.attack"
                         class="text-darkamber"
                     >
-                        (+{{ extraStatus.attack }})
+                        (+{{
+                            extraStatus.attack
+                        }})
                     </em>
                 </v-col>
 
@@ -64,12 +76,16 @@
                     class="pa-0 d-flex align-center ga-1"
                 >
                     <IconDefense />
-                    {{ player.status.defense }}
+                    {{
+                        player.status.defense
+                    }}
                     <em
                         v-if="extraStatus.defense"
                         class="text-darkamber"
                     >
-                        (+{{ extraStatus.defense }})
+                        (+{{
+                            extraStatus.defense
+                        }})
                     </em>
                 </v-col>
 
@@ -79,7 +95,9 @@
                     class="pa-0 d-flex align-center ga-1"
                 >
                     <IconPokerCard />
-                    {{ player.backpack.cards.length }}
+                    {{
+                        player.backpack.cards.length
+                    }}
                 </v-col>
 
                 <!-- 裝備 -->
@@ -93,8 +111,7 @@
                         class="pa-0"
                     >
                         <Equip
-                            :equip="
-                                player.equipment[enumEquipPosition.Head]
+                            :equip="player.equipment[enumEquipPosition.Head]
                             "
                             :position="enumEquipPosition.Head"
                             :is-player-equip="false"
@@ -110,10 +127,9 @@
                         class="pa-0"
                     >
                         <Equip
-                            :equip="
-                                player.equipment[
-                                    enumEquipPosition.PrimaryHand
-                                ]
+                            :equip="player.equipment[
+                                enumEquipPosition.PrimaryHand
+                            ]
                             "
                             :position="enumEquipPosition.PrimaryHand"
                             :is-player-equip="false"
@@ -129,10 +145,9 @@
                         class="pa-0"
                     >
                         <Equip
-                            :equip="
-                                player.equipment[
-                                    enumEquipPosition.SecondaryHand
-                                ]
+                            :equip="player.equipment[
+                                enumEquipPosition.SecondaryHand
+                            ]
                             "
                             :position="enumEquipPosition.SecondaryHand"
                             :is-player-equip="false"
@@ -148,8 +163,7 @@
                         class="pa-0"
                     >
                         <Equip
-                            :equip="
-                                player.equipment[enumEquipPosition.Body]
+                            :equip="player.equipment[enumEquipPosition.Body]
                             "
                             :position="enumEquipPosition.Body"
                             :is-player-equip="false"
@@ -165,10 +179,9 @@
                         class="pa-0"
                     >
                         <Equip
-                            :equip="
-                                player.equipment[
-                                    enumEquipPosition.Pants
-                                ]
+                            :equip="player.equipment[
+                                enumEquipPosition.Pants
+                            ]
                             "
                             :position="enumEquipPosition.Pants"
                             :is-player-equip="false"
@@ -183,10 +196,9 @@
                         class="pa-0"
                     >
                         <Equip
-                            :equip="
-                                player.equipment[
-                                    enumEquipPosition.Shoes
-                                ]
+                            :equip="player.equipment[
+                                enumEquipPosition.Shoes
+                            ]
                             "
                             :position="enumEquipPosition.Shoes"
                             :is-player-equip="false"
@@ -199,15 +211,17 @@
             </v-col>
         </v-row>
 
-        <MumbleBubble :mumble-content="mumbleContent" />
+        <MumbleBubble
+            :mumble-content="mumbleContent"
+        />
     </v-card>
 </template>
 
 <script lang="ts" setup>
 import {
-  computed,
-  ref,
-  watch,
+    computed,
+    ref,
+    watch,
 } from 'vue';
 
 import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
@@ -222,12 +236,12 @@ import { sleepSeconds } from '@/utils/common';
 import MumbleBubble from '../components/MumbleBubble.vue';
 
 const {
-    player, mumbleContent, extraStatus, 
+    player, mumbleContent, extraStatus,
 } = defineProps<{
-    player: Player;
-    mumbleContent: string;
-    extraStatus: { attack: number; defense: number };
-}>();
+        player: Player;
+        mumbleContent: string;
+        extraStatus: { attack: number; defense: number };
+    }>();
 
 const currentHealthPercent = computed(() => (player.status.health / player.status.maxHealth) * 100);
 
@@ -261,6 +275,7 @@ watch(
     0% {
         transform: translateY(0);
     }
+
     100% {
         transform: translateY(-20px);
     }

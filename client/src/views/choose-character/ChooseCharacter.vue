@@ -1,10 +1,14 @@
 <template>
-    <v-row class="w-100 ma-0 ga-3 flex-column pb-3">
+    <v-row
+        class="w-100 ma-0 ga-3 flex-column pb-3"
+    >
         <v-col
             cols="auto"
             class="pa-0 flex-grow-1"
         >
-            <Dialog :dialogs="dialogs[currentIndex]" />
+            <Dialog
+                :dialogs="dialogs[currentIndex]"
+            />
         </v-col>
 
         <v-col
@@ -16,7 +20,9 @@
                 :text="t('button.skip')"
                 :func="dialogNextToEnd"
             />
-            <v-spacer class="mb-3" />
+            <v-spacer
+                class="mb-3"
+            />
             <Btn
                 :text="t('button.next')"
                 :func="dialogNext"
@@ -29,7 +35,9 @@
             cols="auto"
             class="pa-0"
         >
-            <v-row class="ma-0">
+            <v-row
+                class="ma-0"
+            >
                 <v-col
                     v-for="(character, index) in characterList"
                     :key="index"
@@ -50,7 +58,9 @@
             cols="auto"
             class="pa-0 mt-auto"
         >
-            <v-spacer class="mb-3" />
+            <v-spacer
+                class="mb-3"
+            />
             <Btn
                 :text="t('button.confirm')"
                 :func="confirmCharacter"
@@ -59,10 +69,13 @@
     </v-row>
 </template>
 
-<script setup lang="ts">
+<script
+    setup
+    lang="ts"
+>
 import {
-  computed,
-  ref,
+    computed,
+    ref,
 } from 'vue';
 
 import { useI18n } from 'vue-i18n';

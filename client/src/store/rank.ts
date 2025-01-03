@@ -14,24 +14,24 @@ export const useRankStore = defineStore('rank', () => {
         const data = await apiService.getRanks();
 
         rankData.value = data
-        .sort((a, b) => new Date(b.end_date).getTime() - new Date(a.end_date).getTime())
-        .map((_data) => {
-            const {
-                id,
-                end_date,
-                player,
-                player_name,
-                last_words,
-            }= _data;
+            .sort((a, b) => new Date(b.end_date).getTime() - new Date(a.end_date).getTime())
+            .map((_data) => {
+                const {
+                    id,
+                    end_date,
+                    player,
+                    player_name,
+                    last_words,
+                }= _data;
 
-            return {
-                id,
-                end_date: humanReadable(end_date),
-                player_name: player_name,
-                player: JSON.parse(player),
-                last_words: last_words,
-            };
-        });
+                return {
+                    id,
+                    end_date: humanReadable(end_date),
+                    player_name: player_name,
+                    player: JSON.parse(player),
+                    last_words: last_words,
+                };
+            });
     };
 
     /** 更新排行榜資料 */
