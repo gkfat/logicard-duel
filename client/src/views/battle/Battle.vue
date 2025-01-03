@@ -10,12 +10,12 @@
                 <!-- 敵人 -->
                 <OpponentSeat />
                 <OpponentHandCards
-                    :style="{ transform: 'translateY(-20px)', height: '40px' }"
+                    :style="{ transform: 'translateY(-10px)', height: '40px' }"
                 />
             </div>
 
             <!-- 牌桌 -->
-            <div :style="{ transform: 'translateY(-20px)' }">
+            <div :style="{ transform: 'translateY(-10px)' }">
                 <Table
                     :player-round-status="playerRoundStatus"
                     :opponent-round-status="opponentRoundStatus"
@@ -25,12 +25,12 @@
             <!-- 玩家 -->
             <div
                 :style="{
-                    transform: 'translateY(-40px)',
+                    transform: 'translateY(-30px)',
                 }"
             >
                 <PlayerHandCards
                     :style="{
-                        height: '80px',
+                        height: '90px',
                     }"
                 />
                 <PlayerSeat />
@@ -43,10 +43,10 @@
 
 <script setup lang="ts">
 import {
-    computed,
-    onMounted,
-    ref,
-    watch,
+  computed,
+  onMounted,
+  ref,
+  watch,
 } from 'vue';
 
 import { useSoundEffect } from '@/composable/useSoundEffect';

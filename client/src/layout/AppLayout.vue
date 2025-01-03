@@ -4,6 +4,7 @@
     
     <v-main
         :style="{
+            width: '100%',
             maxWidth: '500px'
         }"
         class="overflow-hidden mx-auto"

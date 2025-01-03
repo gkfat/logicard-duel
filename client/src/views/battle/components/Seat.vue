@@ -4,220 +4,200 @@
         color="bluegrey"
         class="border-white border-lg rounded-lg border-opacity-75 position-relative"
     >
-        <v-card-text>
-            <v-row class="ma-0 ga-3">
-                <v-col
-                    cols="12"
-                    class="pa-0 d-flex align-center ga-5"
+        <v-row class="ma-0 align-center">
+            <!-- Avatar -->
+            <v-col
+                cols="auto"
+                class="d-flex justify-center align-center position-relative"
+            >
+                <v-progress-circular
+                    color="red"
+                    :model-value="currentHealthPercent"
+                    :width="6"
+                    :size="70"
                 >
-                    <!-- Avatar -->
-                    <v-col
-                        cols="auto"
-                        class="pa-1 d-flex justify-center align-center position-relative"
-                    >
+                    <template #default>
                         <PlayerAvatar
                             :character="player.character"
                         />
+                    </template>
+                </v-progress-circular>
+
+                    <!-- 血量變化動畫 -->
+                    <div
+                        v-if="mutatedHealth !== 0"
+                        class="position-absolute"
+                        :class="{
+                            'health-change': mutatedHealth !== 0,
+                            'text-red': mutatedHealth < 0,
+                            'text-green': mutatedHealth > 0,
+                        }"
+                        :style="{
+                            top: 0,
+                            right: 0,
+                        }"
+                    >
+                        {{ mutatedHealth }}
+                    </div>
+            </v-col>
+
+            <!-- 狀態值 -->
+            <v-col class="d-flex align-center flex-wrap flex-grow-1 ga-3">
+                <!-- 攻擊 -->
+                <v-col
+                    cols="auto"
+                    class="pa-0 d-flex align-center ga-1"
+                >
+                    <IconAttack />
+                    {{ player.status.attack }}
+                    <em
+                        v-if="extraStatus.attack"
+                        class="text-darkamber"
+                    >
+                        (+{{ extraStatus.attack }})
+                    </em>
+                </v-col>
+
+                <!-- 防禦 -->
+                <v-col
+                    cols="auto"
+                    class="pa-0 d-flex align-center ga-1"
+                >
+                    <IconDefense />
+                    {{ player.status.defense }}
+                    <em
+                        v-if="extraStatus.defense"
+                        class="text-darkamber"
+                    >
+                        (+{{ extraStatus.defense }})
+                    </em>
+                </v-col>
+
+                <!-- 背包剩餘牌 -->
+                <v-col
+                    cols="auto"
+                    class="pa-0 d-flex align-center ga-1"
+                >
+                    <IconPokerCard />
+                    {{ player.backpack.cards.length }}
+                </v-col>
+
+                <!-- 裝備 -->
+                <v-col
+                    cols="12"
+                    class="pa-0 d-flex align-center ga-1"
+                >
+                    <!-- 頭 -->
+                    <v-col
+                        cols="auto"
+                        class="pa-0"
+                    >
+                        <Equip
+                            :equip="
+                                player.equipment[enumEquipPosition.Head]
+                            "
+                            :position="enumEquipPosition.Head"
+                            :is-player-equip="false"
+                            :show-rarity="false"
+                            :show-detail="false"
+                            :size="'x-small'"
+                        />
                     </v-col>
 
-                    <!-- 狀態值 -->
+                    <!-- 主武器 -->
                     <v-col
-                        class="pa-0 d-flex align-center flex-wrap flex-grow-1 ga-3"
+                        cols="auto"
+                        class="pa-0"
                     >
-                        <!-- 生命值 -->
-                        <v-col
-                            cols="12"
-                            class="pa-0 position-relative"
-                        >
-                            <v-progress-linear
-                                class="w-100 rounded-xl"
-                                color="red"
-                                :model-value="currentHealthPercent"
-                                :height="14"
-                            >
-                                <template #default>
-                                    <p>
-                                        {{ player.status.health }} /
-                                        {{ player.status.maxHealth }}
-                                    </p>
-                                </template>
-                            </v-progress-linear>
+                        <Equip
+                            :equip="
+                                player.equipment[
+                                    enumEquipPosition.PrimaryHand
+                                ]
+                            "
+                            :position="enumEquipPosition.PrimaryHand"
+                            :is-player-equip="false"
+                            :show-rarity="false"
+                            :show-detail="false"
+                            :size="'x-small'"
+                        />
+                    </v-col>
 
-                            <!-- 血量變化動畫 -->
-                            <div
-                                v-if="mutatedHealth !== 0"
-                                class="position-absolute"
-                                :class="{
-                                    'health-change': mutatedHealth !== 0,
-                                    'text-red': mutatedHealth < 0,
-                                    'text-green': mutatedHealth > 0,
-                                }"
-                                :style="{
-                                    top: 0,
-                                    right: 0,
-                                }"
-                            >
-                                {{ mutatedHealth }}
-                            </div>
-                        </v-col>
+                    <!-- 副武器 -->
+                    <v-col
+                        cols="auto"
+                        class="pa-0"
+                    >
+                        <Equip
+                            :equip="
+                                player.equipment[
+                                    enumEquipPosition.SecondaryHand
+                                ]
+                            "
+                            :position="enumEquipPosition.SecondaryHand"
+                            :is-player-equip="false"
+                            :show-rarity="false"
+                            :show-detail="false"
+                            :size="'x-small'"
+                        />
+                    </v-col>
 
-                        <!-- 攻擊 -->
-                        <v-col
-                            cols="auto"
-                            class="pa-0 d-flex align-center ga-1"
-                        >
-                            <IconAttack />
-                            {{ player.status.attack }}
-                            <em
-                                v-if="extraStatus.attack"
-                                class="text-darkamber"
-                            >
-                                (+{{ extraStatus.attack }})
-                            </em>
-                        </v-col>
+                    <!-- 身體 -->
+                    <v-col
+                        cols="auto"
+                        class="pa-0"
+                    >
+                        <Equip
+                            :equip="
+                                player.equipment[enumEquipPosition.Body]
+                            "
+                            :position="enumEquipPosition.Body"
+                            :is-player-equip="false"
+                            :show-rarity="false"
+                            :show-detail="false"
+                            :size="'x-small'"
+                        />
+                    </v-col>
 
-                        <!-- 防禦 -->
-                        <v-col
-                            cols="auto"
-                            class="pa-0 d-flex align-center ga-1"
-                        >
-                            <IconDefense />
-                            {{ player.status.defense }}
-                            <em
-                                v-if="extraStatus.defense"
-                                class="text-darkamber"
-                            >
-                                (+{{ extraStatus.defense }})
-                            </em>
-                        </v-col>
-
-                        <!-- 背包剩餘牌 -->
-                        <v-col
-                            cols="auto"
-                            class="pa-0 d-flex align-center ga-1"
-                        >
-                            <IconPokerCard />
-                            {{ player.backpack.cards.length }}
-                        </v-col>
-
-                        <!-- 裝備 -->
-                        <v-col
-                            cols="12"
-                            class="pa-0 d-flex align-center ga-1"
-                        >
-                            <!-- 頭 -->
-                            <v-col
-                                cols="auto"
-                                class="pa-0"
-                            >
-                                <Equip
-                                    :equip="
-                                        player.equipment[enumEquipPosition.Head]
-                                    "
-                                    :position="enumEquipPosition.Head"
-                                    :is-player-equip="false"
-                                    :show-rarity="false"
-                                    :show-detail="false"
-                                    :size="'x-small'"
-                                />
-                            </v-col>
-
-                            <!-- 主武器 -->
-                            <v-col
-                                cols="auto"
-                                class="pa-0"
-                            >
-                                <Equip
-                                    :equip="
-                                        player.equipment[
-                                            enumEquipPosition.PrimaryHand
-                                        ]
-                                    "
-                                    :position="enumEquipPosition.PrimaryHand"
-                                    :is-player-equip="false"
-                                    :show-rarity="false"
-                                    :show-detail="false"
-                                    :size="'x-small'"
-                                />
-                            </v-col>
-
-                            <!-- 副武器 -->
-                            <v-col
-                                cols="auto"
-                                class="pa-0"
-                            >
-                                <Equip
-                                    :equip="
-                                        player.equipment[
-                                            enumEquipPosition.SecondaryHand
-                                        ]
-                                    "
-                                    :position="enumEquipPosition.SecondaryHand"
-                                    :is-player-equip="false"
-                                    :show-rarity="false"
-                                    :show-detail="false"
-                                    :size="'x-small'"
-                                />
-                            </v-col>
-
-                            <!-- 身體 -->
-                            <v-col
-                                cols="auto"
-                                class="pa-0"
-                            >
-                                <Equip
-                                    :equip="
-                                        player.equipment[enumEquipPosition.Body]
-                                    "
-                                    :position="enumEquipPosition.Body"
-                                    :is-player-equip="false"
-                                    :show-rarity="false"
-                                    :show-detail="false"
-                                    :size="'x-small'"
-                                />
-                            </v-col>
-
-                            <!-- 褲子 -->
-                            <v-col
-                                cols="auto"
-                                class="pa-0"
-                            >
-                                <Equip
-                                    :equip="
-                                        player.equipment[
-                                            enumEquipPosition.Pants
-                                        ]
-                                    "
-                                    :position="enumEquipPosition.Pants"
-                                    :is-player-equip="false"
-                                    :show-rarity="false"
-                                    :show-detail="false"
-                                    :size="'x-small'"
-                                />
-                            </v-col>
-                            <!-- 鞋子 -->
-                            <v-col
-                                cols="auto"
-                                class="pa-0"
-                            >
-                                <Equip
-                                    :equip="
-                                        player.equipment[
-                                            enumEquipPosition.Shoes
-                                        ]
-                                    "
-                                    :position="enumEquipPosition.Shoes"
-                                    :is-player-equip="false"
-                                    :show-rarity="false"
-                                    :show-detail="false"
-                                    :size="'x-small'"
-                                />
-                            </v-col>
-                        </v-col>
+                    <!-- 褲子 -->
+                    <v-col
+                        cols="auto"
+                        class="pa-0"
+                    >
+                        <Equip
+                            :equip="
+                                player.equipment[
+                                    enumEquipPosition.Pants
+                                ]
+                            "
+                            :position="enumEquipPosition.Pants"
+                            :is-player-equip="false"
+                            :show-rarity="false"
+                            :show-detail="false"
+                            :size="'x-small'"
+                        />
+                    </v-col>
+                    <!-- 鞋子 -->
+                    <v-col
+                        cols="auto"
+                        class="pa-0"
+                    >
+                        <Equip
+                            :equip="
+                                player.equipment[
+                                    enumEquipPosition.Shoes
+                                ]
+                            "
+                            :position="enumEquipPosition.Shoes"
+                            :is-player-equip="false"
+                            :show-rarity="false"
+                            :show-detail="false"
+                            :size="'x-small'"
+                        />
                     </v-col>
                 </v-col>
-            </v-row>
-        </v-card-text>
+            </v-col>
+        </v-row>
 
         <MumbleBubble :mumble-content="mumbleContent" />
     </v-card>
@@ -225,9 +205,9 @@
 
 <script lang="ts" setup>
 import {
-    computed,
-    ref,
-    watch,
+  computed,
+  ref,
+  watch,
 } from 'vue';
 
 import PlayerAvatar from '@/components/common/PlayerAvatar.vue';
