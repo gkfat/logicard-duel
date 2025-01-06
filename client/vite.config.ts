@@ -12,7 +12,7 @@ export default defineConfig({
     plugins: [
         vue({ template: { transformAssetUrls } }), vuetify({
             autoImport: true,
-            styles: { configFile: 'src/styles/index.scss' },
+            styles: { configFile: 'src/assets/styles/index.scss' },
         }),
     ],
     define: { 'process.env': {} },

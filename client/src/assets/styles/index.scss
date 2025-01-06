@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'LiFangTi';
+  src: url('@/assets/fonts/Cubic_11.woff2') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --font-general: "LiFangTi", monospace;
+  --v-layout-bottom: 0;
+}
+
+* {
+  font-family: var(--font-general) !important;
+  font-size: 14px;
+  box-sizing: border-box;
+}

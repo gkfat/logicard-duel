@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- 調整字體為 [俐方體 11](https://github.com/ACh-K/Cubic-11)
+
 ## [v0.3.7] - 2025-01-03
 
 ### Changed

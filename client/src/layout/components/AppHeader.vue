@@ -12,7 +12,10 @@
 
         <v-col
             cols="auto"
-            class="pa-0 text-center font-weight-bold"
+            class="pa-0 text-center font-italic"
+            :style="{
+                letterSpacing: '1px'
+            }"
         >
             {{ appStore.ENV.appTitle }}
         </v-col>

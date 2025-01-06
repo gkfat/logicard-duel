@@ -4,6 +4,7 @@
             <v-btn
                 v-bind="props"
                 variant="plain"
+                class="text-none"
                 :class="{
                     'bg-green opacity-100': true,
                     'text-green bg-darkgreen': disabled,
