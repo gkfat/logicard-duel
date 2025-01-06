@@ -16,7 +16,6 @@ interface EnvironmentVariables {
     readonly appVersion: string;
     readonly appDescription: string;
     readonly ogTitle: string;
-    readonly ogImage: string;
     readonly ogDescription: string;
     readonly countdownSeconds: number;
     readonly handCardMaxLimit: number;
@@ -69,7 +68,6 @@ export const useAppStore = defineStore('appStore', () => {
             VITE_APP_VERSION,
             VITE_APP_DESCRIPTION,
             VITE_APP_OG_TITLE,
-            VITE_APP_OG_IMAGE,
             VITE_APP_OG_DESCRIPTION,
             VITE_COUNTDOWN_SECONDS,
             VITE_HANDCARD_MAX_LIMIT,
@@ -82,7 +80,6 @@ export const useAppStore = defineStore('appStore', () => {
             appVersion: VITE_APP_VERSION ?? 'unreleased',
             appDescription: VITE_APP_DESCRIPTION ?? '你能在反叛機器人 GkBot 的肆虐下生存多久？',
             ogTitle: VITE_APP_OG_TITLE ?? 'Logicard Duel!',
-            ogImage: VITE_APP_OG_IMAGE ?? 'https://logicard-duel.pages.dev/ogimage.png',
             ogDescription: VITE_APP_OG_DESCRIPTION ?? '你能在反叛機器人 GkBot 的肆虐下生存多久？',
             countdownSeconds: VITE_COUNTDOWN_SECONDS ? Number(VITE_COUNTDOWN_SECONDS) : 60,
             handCardMaxLimit: VITE_HANDCARD_MAX_LIMIT ? Number(VITE_HANDCARD_MAX_LIMIT) : 7,
