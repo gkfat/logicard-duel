@@ -1,6 +1,7 @@
 export enum enumViewLocation {
-    Status,
     Backpack,
+    Status,
+    Battle,
     Rank,
     Shop
 }

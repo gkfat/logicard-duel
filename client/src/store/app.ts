@@ -29,7 +29,6 @@ export const useAppStore = defineStore('appStore', () => {
         appVersion: '',
         appDescription: '',
         ogTitle: '',
-        ogImage: '',
         ogDescription: '',
         countdownSeconds: 0,
         handCardMaxLimit: 0,
@@ -113,7 +112,7 @@ export const useAppStore = defineStore('appStore', () => {
         // init rank
         await rankStore.init();
         bootProcess.value.doneTasks += 1;
-        await sleepSeconds(0.5);
+        await sleepSeconds(0.3);
 
         changeGameState(enumGameState.Initialized);
         console.log('boot success');

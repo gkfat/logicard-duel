@@ -3,21 +3,37 @@ name = "logicard-duel-server"
 main = "src/index.ts"
 compatibility_date = "2024-12-30"
 
-# Workers Logs
-# Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
-# Configuration: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
 [observability]
 enabled = true
 
-# Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
-# Docs:
-# - https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
-# Note: Use secrets to store sensitive data.
-# - https://developers.cloudflare.com/workers/configuration/secrets/
-# [vars]
-# MY_VARIABLE = "production_value"
+[env.dev]
+name = "logicard-duel-server-dev"
+
+[env.dev.define]
+ENVIRONMENT="dev"
+UPSTASH_REDIS_REST_URL="http://localhost:6379"
+UPSTASH_REDIS_REST_TOKEN=""
+GOOGLE_CLIENT_ID="xxx"
+GOOGLE_CLIENT_SECRET="xxx"
+GOOGLE_REDIRECT_URI="http://localhost:5173"
+JWT_SECRET="xxx"
+JWT_EXPIRES_IN="1d"
+APP_ROOT_EMAIL="admin@logicarduel.com"
+APP_ROOT_PASSWORD="admin"
 
 [[d1_databases]]
+binding = "DB"
+database_name = "logicard-duel-db"
+database_id = "634c8fef-b30c-4f22-8d45-490122dd9d6c"
+
+[env.production]
+name = "logicard-duel-server"
+
+[env.production.define]
+ENVIRONMENT="production"
+
+
+[[env.production.d1_databases]]
 binding = "DB"
 database_name = "logicard-duel-db"
 database_id = "634c8fef-b30c-4f22-8d45-490122dd9d6c"

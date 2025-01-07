@@ -6,7 +6,7 @@
         location-strategy="connected"
         target="parent"
         :location="'top left'"
-        :offset="[-40, 10]"
+        :offset="[-10, 10]"
         :max-width="250"
         :min-width="100"
     >

@@ -1,33 +1,52 @@
 <template>
     <v-bottom-navigation
         v-if="appStore.gameState === enumGameState.Rest"
+        v-model="appStore.viewLocation"
+        :height="70"
         class="bg-bluegrey"
+        color="amber"
+        active
+        madatory
     >
+        <v-btn :value="enumViewLocation.Backpack">
+            <v-icon
+                class="mb-1"
+                icon="mdi-bag-personal"
+            />
+            <span>背包</span>
+        </v-btn>
+        <v-btn :value="enumViewLocation.Status">
+            <v-icon
+                class="mb-1"
+                icon="mdi-home"
+            />
+            <span>角色</span>
+        </v-btn>
         <v-btn
-            icon="mdi-bag-personal"
-            @click="appStore.viewLocation = enumViewLocation.Backpack"
-        />
-        <v-btn
-            icon="mdi-home"
-            @click="appStore.viewLocation = enumViewLocation.Status"
-        />
-        <v-btn
-            icon="mdi-sword-cross"
+            :value="enumViewLocation.Battle"
             @click="battle"
         >
             <v-icon
                 icon="mdi-sword-cross"
                 size="40"
+                class="mb-1"
             />
+            <span>戰鬥</span>
         </v-btn>
-        <v-btn
-            icon="mdi-cart"
-            @click="appStore.viewLocation = enumViewLocation.Shop"
-        />
-        <v-btn
-            icon="mdi-script-text"
-            @click="appStore.viewLocation = enumViewLocation.Rank"
-        />
+        <v-btn :value="enumViewLocation.Shop">
+            <v-icon
+                class="mb-1"
+                icon="mdi-cart"
+            />
+            <span>商店</span>
+        </v-btn>
+        <v-btn :value="enumViewLocation.Rank">
+            <v-icon
+                class="mb-1"
+                icon="mdi-script-text"
+            />
+            <span>排行</span>
+        </v-btn>
     </v-bottom-navigation>
 </template>
 <script lang="ts" setup>

@@ -93,7 +93,10 @@
 
                 <!-- 決鬥 -->
                 <template v-if="shouldDuel">
-                    <p v-if="playerAttempt === enumEffect.Harm">
+                    <p
+                        v-if="playerAttempt === enumEffect.Harm"
+                        :style="{fontSize: '0.7rem'}"
+                    >
                         你發起
                         <em class="text-amber">{{
                             playerRoundStatus.attack
@@ -102,11 +105,17 @@
                         <em class="text-amber">{{ opponentDeduction }}</em>
                         點傷害。
                     </p>
-                    <p v-if="opponentAttempt === enumEffect.Defense">
+                    <p
+                        v-if="opponentAttempt === enumEffect.Defense"
+                        :style="{fontSize: '0.7rem'}"
+                    >
                         敵人採取防禦。
                     </p>
 
-                    <p v-if="opponentAttempt === enumEffect.Harm">
+                    <p
+                        v-if="opponentAttempt === enumEffect.Harm" 
+                        :style="{fontSize: '0.7rem'}"
+                    >
                         敵人發起
                         <em class="text-amber">{{
                             opponentRoundStatus.attack
@@ -115,7 +124,10 @@
                         <em class="text-amber">{{ playerDeduction }}</em>
                         點傷害。
                     </p>
-                    <p v-if="playerAttempt === enumEffect.Defense">
+                    <p
+                        v-if="playerAttempt === enumEffect.Defense"
+                        :style="{fontSize: '0.7rem'}"
+                    >
                         你採取防禦。
                     </p>
 
@@ -124,6 +136,7 @@
                             playerAttempt === enumEffect.Defense &&
                                 opponentAttempt === enumEffect.Defense
                         "
+                        :style="{fontSize: '0.7rem'}"
                     >
                         本回合沒有任何人類或機器人受到傷害。
                     </p>

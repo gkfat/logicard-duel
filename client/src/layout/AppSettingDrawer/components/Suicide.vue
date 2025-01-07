@@ -33,7 +33,7 @@ const openConfirmBox = () => {
 };
 
 const goGameOver = () => {
-    appStore.closeDialog();
+    appStore.isSettingDrawerOpen = false;
     appStore.changeGameState(enumGameState.GameOver);
 };
 

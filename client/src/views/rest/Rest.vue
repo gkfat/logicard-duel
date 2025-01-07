@@ -11,6 +11,7 @@
 </template>
 <script lang="ts" setup>
 import {
+    onActivated,
     onBeforeMount,
     onMounted,
     ref,
@@ -97,6 +98,10 @@ onMounted(async () => {
 
 onBeforeMount(() => {
     clearInterval(intervalChangingBackground.value);
+});
+
+onActivated(() => {
+    appStore.viewLocation = enumViewLocation.Status;
 });
 </script>
 <style lang="scss" scoped>

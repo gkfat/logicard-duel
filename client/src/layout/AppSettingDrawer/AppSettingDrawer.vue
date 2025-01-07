@@ -9,7 +9,7 @@
         <v-list>
             <Volume />
 
-            <template v-if="appStore.gameState >= enumGameState.Rest">
+            <template v-if="appStore.gameState === enumGameState.Rest">
                 <v-divider />
     
                 <Suicide />
